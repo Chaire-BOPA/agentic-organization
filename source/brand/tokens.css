@@ -13,6 +13,7 @@
   --color-line: #e3e0da;        /* hairlines, borders */
   --color-accent: #1a3a2e;      /* links, emphasis, primary buttons */
   --color-accent-ink: #faf9f7;  /* text on accent */
+  --color-red-test: #c0392b;    /* temporary: collaboration test, safe to remove */
 
   /* Type */
   --font-display: ui-serif, Georgia, serif;
