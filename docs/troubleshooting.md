@@ -93,6 +93,26 @@ Pages project; don't nest it as a subfolder of an existing one. If you're unsure
 something is a new project or a variant of the current one, ask Claude — the `new-project` skill
 exists exactly for that call.
 
+## A second person's local folder isn't touching the real site
+
+If you're joining a project someone else already set up, don't assume "clone the template" or an
+old local folder is the right one — check `git remote -v` against the org's actual repo (ask the
+first owner for the exact `github.com/OWNER/REPO` URL, or check the org on GitHub). A folder
+cloned from the bare template (or from your own account instead of the org's repo) will look
+identical in structure but have none of the real content, and `source/brief.md` will still read
+as placeholders. Fix: `git remote set-url origin <the real repo URL>`, then `git fetch origin`
+and `git reset --hard origin/main` (safe as long as the folder had no unique work of its own —
+check `git status`/`git log` first).
+
+Separately, a brand-new machine has no git identity yet: a first `git commit` fails with `Author
+identity unknown`. Set it once, locally to this repo (not `--global`, so it doesn't overwrite
+identity used in other projects) — `git config user.name "..."` and `git config user.email
+"..."`.
+
+Being listed as a collaborator on GitHub (check `gh api repos/OWNER/REPO/collaborators`) doesn't
+by itself mean your local folder is wired to the right place — both things need to be true before
+a push actually reaches the live site.
+
 ## Still stuck?
 
 Paste the exact error message to Claude and ask it to diagnose step by step. And if your problem
