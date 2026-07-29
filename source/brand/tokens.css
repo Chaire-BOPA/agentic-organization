@@ -61,6 +61,7 @@
 
   /* Shape and layout */
   --radius: 4px;
+  --radius-md: 10px;
   --radius-lg: 20px;
   --max-width: 68rem;
 }
