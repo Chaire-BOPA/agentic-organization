@@ -1,5 +1,17 @@
 ---
 import Base from '../layouts/Base.astro';
+
+const partnerLogos = [
+  { src: '/logos/partenaires/logo-aphp.png', alt: 'AP-HP — Assistance Publique-Hôpitaux de Paris' },
+  { src: '/logos/partenaires/logo-imt.png', alt: 'Institut Mines-Télécom' },
+  { src: '/logos/partenaires/logo-upsaclay.png', alt: 'Université Paris-Saclay' },
+  { src: '/logos/partenaires/logo-faphp.png', alt: 'Fondation AP-HP' },
+  { src: '/logos/partenaires/logo-fondation-imt.png', alt: 'Fondation Mines-Télécom' },
+  { src: '/logos/partenaires/logo-fondation-upsaclay.png', alt: "Fondation de l'Université Paris-Saclay" },
+  { src: '/logos/partenaires/logo-relyens.png', alt: 'Relyens' },
+  { src: '/logos/partenaires/logo-vermon.png', alt: 'Vermon' },
+  { src: '/logos/partenaires/logo-toys-films.png', alt: 'Toys Films' },
+];
 ---
 
 <Base
@@ -8,90 +20,59 @@ import Base from '../layouts/Base.astro';
 >
   <section id="accueil" class="section-block dark hero">
     <div class="wrap">
-      <img class="hero-badge" src="/logos/bopa.png" alt="BOPA — Bloc Opératoire Augmenté" width="220" height="220" />
-      <h1>BOPA</h1>
+      <span class="kicker">Chaire Innovation BOPA</span>
+      <h1>Le bloc opératoire, augmenté.</h1>
       <p class="lede">
-        La chaire qui invente la chirurgie hépato-bilio-pancréatique de demain,
-        au sein de l'hôpital Paul-Brousse — AP-HP.
+        La Chaire BOPA invente la chirurgie hépato-bilio-pancréatique de
+        demain, au sein de l'hôpital Paul-Brousse — AP-HP.
       </p>
     </div>
+    <a href="#mission" class="scroll-cue" aria-label="Découvrir la suite">
+      <span>Découvrir</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d="M8 1v13M2 8l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </a>
   </section>
 
   <section id="mission" class="section-block">
-    <div class="wrap">
-      <span class="kicker">La Chaire</span>
-      <h2>Notre mission</h2>
-      <p class="lede">
-        Les chirurgies du foie et du pancréas comptent parmi les plus complexes
-        de la médecine, avec un risque important de complications post-opératoires.
-        C'est pour relever ce défi qu'est née la Chaire Innovation BOPA.
-      </p>
-      <p>
-        Portée par trois membres fondateurs — l'AP-HP, l'Institut Mines-Télécom
-        et l'Université Paris-Saclay — la Chaire mène une recherche orientée
-        « preuve de concept » pour développer des innovations au bloc opératoire,
-        spécifiquement pour la chirurgie hépato-bilio-pancréatique.
-      </p>
-      <p>
-        Installée à l'hôpital Paul-Brousse, à proximité directe du Centre
-        Hépato-Biliaire — pionnier de la transplantation hépatique en France —
-        la Chaire dispose d'un espace de 158 m², incluant un bloc opératoire
-        factice, pour tester ses innovations avant leur validation clinique.
-      </p>
+    <div class="wrap split-grid">
+      <div>
+        <span class="kicker">La Chaire</span>
+        <h2>Notre approche</h2>
+        <p>
+          La Chaire Innovation BOPA identifie les besoins et les points
+          d'amélioration à chaque étape du parcours patient, pour les
+          transformer en défis pour les acteurs de l'innovation.
+        </p>
+        <p>
+          Méthodes d'innovation, données, financements, terrain
+          d'expérimentation et expertise de haut niveau : la Chaire
+          accompagne le passage de l'idée à l'innovation, et de
+          l'innovation au progrès.
+        </p>
+        <div class="phase-row">
+          <span class="phase-tag">Pré-opératoire</span>
+          <span class="phase-tag">Per-opératoire</span>
+          <span class="phase-tag">Post-opératoire</span>
+        </div>
+      </div>
+      <div class="placeholder-media"><span>Photo à venir</span></div>
     </div>
   </section>
 
-  <section id="equipe" class="section-block">
+  <section id="equipe" class="section-block compact">
     <div class="wrap">
       <span class="kicker">La Chaire</span>
-      <h2>Notre équipe</h2>
+      <h2>BOPA 2 — Horizon 2030</h2>
       <p class="lede">
-        La Chaire rassemble des compétences en santé, en data science, en
-        développement, en mathématiques, en design et en sciences humaines.
+        Portée par ses membres fondateurs — l'AP-HP, l'Institut
+        Mines-Télécom et l'Université Paris-Saclay — la Chaire poursuit son
+        développement avec le programme BOPA 2, horizon 2030, porté par des
+        équipes fondatrice, opérationnelle et scientifique aux compétences
+        complémentaires : santé, data science, développement, mathématiques,
+        design et sciences humaines.
       </p>
-      <div class="card-grid">
-        <div class="card">
-          <h3>Équipe fondatrice</h3>
-          <p>AP-HP, Institut Mines-Télécom et Université Paris-Saclay.</p>
-        </div>
-        <div class="card">
-          <h3>Équipe opérationnelle</h3>
-          <p>Portraits et présentation à venir.</p>
-        </div>
-        <div class="card">
-          <h3>Équipe scientifique</h3>
-          <p>Portraits et présentation à venir.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="partenaires" class="section-block">
-    <div class="wrap">
-      <span class="kicker">La Chaire</span>
-      <h2>Nos partenaires</h2>
-      <p class="lede">
-        La Chaire bénéficie du soutien des fondations rattachées à ses trois
-        membres fondateurs, ainsi que de la générosité d'entreprises mécènes
-        partenaires.
-      </p>
-
-      <h3>Les membres fondateurs</h3>
-      <div class="logo-grid">
-        <img src="/logos/partenaires/logo-aphp.png" alt="AP-HP — Assistance Publique-Hôpitaux de Paris" />
-        <img src="/logos/partenaires/logo-imt.png" alt="Institut Mines-Télécom" />
-        <img src="/logos/partenaires/logo-upsaclay.png" alt="Université Paris-Saclay" />
-      </div>
-
-      <h3>Ils nous soutiennent</h3>
-      <div class="logo-grid">
-        <img src="/logos/partenaires/logo-faphp.png" alt="Fondation AP-HP" />
-        <img src="/logos/partenaires/logo-fondation-imt.png" alt="Fondation Mines-Télécom" />
-        <img src="/logos/partenaires/logo-fondation-upsaclay.png" alt="Fondation de l'Université Paris-Saclay" />
-        <img src="/logos/partenaires/logo-relyens.png" alt="Relyens" />
-        <img src="/logos/partenaires/logo-vermon.png" alt="Vermon" />
-        <img src="/logos/partenaires/logo-toys-films.png" alt="Toys Films" />
-      </div>
     </div>
   </section>
 
@@ -101,22 +82,61 @@ import Base from '../layouts/Base.astro';
       <h2>Nos projets</h2>
       <p class="lede">
         Les idées se transforment en solutions : nos projets s'attaquent
-        directement aux défis du bloc opératoire pour améliorer la pratique
-        des soignants et l'expérience des patients.
+        directement aux défis du bloc opératoire, à chaque étape du parcours
+        patient.
       </p>
-      <div class="card-grid">
-        <div class="card">
-          <h3>LiverSight</h3>
-          <p>Application.</p>
+
+      <div class="carousel-wrap">
+        <div class="carousel" id="projects-carousel">
+          <article class="carousel-card">
+            <div class="placeholder-media"><span>Photo à venir</span></div>
+            <div class="card-body">
+              <span class="phase-tag">Pré-opératoire</span>
+              <h3>LiverSight</h3>
+              <p>
+                Un outil de communication médecin-patient en 3D immersive
+                pour expliquer la maladie et le geste chirurgical avant
+                l'opération.
+              </p>
+            </div>
+          </article>
+          <article class="carousel-card">
+            <div class="placeholder-media"><span>Photo à venir</span></div>
+            <div class="card-body">
+              <span class="phase-tag">Per-opératoire</span>
+              <h3>Anyo</h3>
+              <p>
+                Un algorithme qui optimise la répartition des gardes des
+                chirurgiens, pour un bloc mieux organisé et des gestes plus
+                sûrs.
+              </p>
+            </div>
+          </article>
+          <article class="carousel-card">
+            <div class="placeholder-media"><span>Photo à venir</span></div>
+            <div class="card-body">
+              <span class="phase-tag">Post-opératoire</span>
+              <h3>Colette</h3>
+              <p>
+                Un chatbot disponible 24h/24 pour accompagner les patients
+                transplantés du foie après leur opération.
+              </p>
+            </div>
+          </article>
         </div>
-        <div class="card">
-          <h3>Colette</h3>
-          <p>Chatbot.</p>
+        <div class="carousel-nav">
+          <button type="button" data-carousel-prev aria-label="Projet précédent">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 2 4 8l6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
+          <button type="button" data-carousel-next aria-label="Projet suivant">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 2l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+          </button>
         </div>
-        <div class="card">
-          <h3>Anyo</h3>
-          <p>Algorithme.</p>
-        </div>
+      </div>
+
+      <div class="btn-row">
+        <a class="btn" href="/projets">Découvrir nos projets</a>
+        <a class="btn btn-outline" href="#publications">Voir nos publications</a>
       </div>
     </div>
   </section>
@@ -158,41 +178,138 @@ import Base from '../layouts/Base.astro';
       </p>
     </div>
   </section>
+
+  <section id="partenaires" class="section-block">
+    <div class="wrap">
+      <span class="kicker">La Chaire</span>
+      <h2>Nos partenaires</h2>
+      <p class="lede">
+        La Chaire bénéficie du soutien de ses membres fondateurs, des
+        fondations qui leur sont rattachées, et de la générosité
+        d'entreprises mécènes partenaires.
+      </p>
+    </div>
+    <div class="logo-marquee">
+      <div class="logo-marquee-track">
+        {partnerLogos.map((logo) => <img src={logo.src} alt={logo.alt} loading="lazy" />)}
+        {partnerLogos.map((logo) => <img src={logo.src} alt="" aria-hidden="true" loading="lazy" />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block dark donate">
+    <div class="wrap">
+      <h2>Soutenir la Chaire BOPA</h2>
+      <p class="lede">
+        Chaque don accélère la recherche et l'innovation au bloc opératoire.
+      </p>
+      <div class="btn-row">
+        <a class="btn" href="https://soutenir.fondationaphp.fr/BOPA/" target="_blank" rel="noopener">Faire un don</a>
+        <a class="btn btn-outline" href="/contact">Nous contacter</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const carousel = document.getElementById('projects-carousel');
+    const card = carousel?.querySelector('.carousel-card');
+    const step = () => (card ? card.getBoundingClientRect().width + 24 : 320);
+
+    document.querySelector('[data-carousel-prev]')?.addEventListener('click', () => {
+      carousel?.scrollBy({ left: -step(), behavior: 'smooth' });
+    });
+    document.querySelector('[data-carousel-next]')?.addEventListener('click', () => {
+      carousel?.scrollBy({ left: step(), behavior: 'smooth' });
+    });
+  </script>
 </Base>
 
 <style>
   .hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
     text-align: center;
+    background:
+      radial-gradient(60% 60% at 50% 30%, rgba(3, 162, 218, 0.35), transparent),
+      linear-gradient(160deg, var(--color-dark), #021831 70%);
   }
 
   .hero .wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .hero-badge {
-    width: 220px;
-    height: 220px;
-    margin-bottom: var(--space-4);
+    margin: 0 auto;
   }
 
   .hero h1 {
-    font-size: 4rem;
+    font-size: clamp(2.75rem, 6vw, 5rem);
+    max-width: 40rem;
+    margin: 0 auto;
   }
 
   .hero .lede {
-    margin-top: var(--space-3);
-    max-width: 36rem;
+    margin: var(--space-3) auto 0;
+    max-width: 34rem;
   }
 
-  h3 {
+  .scroll-cue {
+    position: absolute;
+    bottom: var(--space-4);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-dark-ink);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    opacity: 0.85;
+    animation: bob 2s ease-in-out infinite;
+  }
+
+  @keyframes bob {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 8px); }
+  }
+
+  .split-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .phase-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
     margin-top: var(--space-4);
-    margin-bottom: var(--space-2);
   }
 
-  .card-grid,
-  .logo-grid {
-    margin-top: var(--space-3);
+  .section-block.compact {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+  }
+
+  .donate {
+    text-align: center;
+  }
+
+  .donate .lede {
+    margin: var(--space-2) auto 0;
+  }
+
+  .donate .btn-row {
+    justify-content: center;
+  }
+
+  @media (max-width: 48rem) {
+    .split-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .split-grid .placeholder-media {
+      order: -1;
+    }
   }
 </style>
