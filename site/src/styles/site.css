@@ -134,7 +134,7 @@ button {
   gap: 2px;
   white-space: nowrap;
   background: var(--color-surface);
-  border-radius: 12px;
+  border-radius: var(--radius-lg);
   box-shadow: 0 16px 40px rgba(4, 35, 56, 0.16);
   padding: var(--space-2);
   min-width: 14rem;
@@ -246,6 +246,7 @@ button {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  border-radius: var(--radius-lg);
   overflow: hidden;
 }
 
@@ -276,62 +277,149 @@ button {
 
 .card {
   background: var(--color-surface);
-  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 2px rgba(4, 35, 56, 0.04), 0 12px 28px rgba(4, 35, 56, 0.06);
   padding: var(--space-4);
 }
 
-/* Horizontally scrolling project carousel. */
-.carousel-wrap {
+/* Step pipeline: pré/per/post-opératoire, one color per step, connected by
+   arrows. Used on the mission section. */
+.pipeline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-5);
+}
+
+.pipeline-step {
   position: relative;
+  text-align: center;
 }
 
-.carousel {
-  display: flex;
-  gap: var(--space-4);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  padding: var(--space-2) 0 var(--space-3);
-  scrollbar-width: thin;
+.pipeline-step::after {
+  content: '';
+  position: absolute;
+  top: 1.75rem;
+  left: calc(50% + 2.5rem);
+  width: calc(100% - 5rem);
+  height: 2px;
+  background: linear-gradient(90deg, var(--step-color), var(--color-line));
 }
 
-.carousel-card {
-  scroll-snap-align: start;
-  flex: 0 0 min(22rem, 82vw);
-  background: var(--color-surface);
-  border: 1px solid var(--color-line);
-  overflow: hidden;
+.pipeline-step:last-child::after {
+  display: none;
 }
 
-.carousel-card .placeholder-media {
-  aspect-ratio: 16 / 10;
-}
-
-.carousel-card .card-body {
-  padding: var(--space-3);
-}
-
-.carousel-nav {
-  display: flex;
-  gap: var(--space-2);
-  margin-top: var(--space-3);
-}
-
-.carousel-nav button {
-  width: 2.5rem;
-  height: 2.5rem;
+.pipeline-step .pipeline-dot {
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0 auto var(--space-3);
   border-radius: 999px;
-  border: 1px solid var(--color-line);
-  color: var(--color-ink);
+  background: var(--step-color);
+  color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-lg);
 }
 
-.carousel-nav button:hover {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-  color: var(--color-accent-ink);
+.pipeline-step h3 {
+  font-size: var(--text-base);
+}
+
+.pipeline-step p {
+  color: var(--color-muted);
+  font-size: var(--text-sm);
+  margin-top: var(--space-1);
+}
+
+/* Big-image auto-advancing project slider. */
+.projects-layout {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: var(--space-5);
+  align-items: center;
+  margin-top: var(--space-4);
+}
+
+.project-slider {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.project-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease;
+}
+
+.project-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.project-slide .placeholder-media {
+  position: absolute;
+  inset: 0;
+  border-radius: 0;
+}
+
+.project-slide::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top, rgba(4, 20, 33, 0.75), transparent 55%);
+}
+
+.project-slide .phase-tag {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  z-index: 2;
+  margin: 0;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.project-slide-info {
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: var(--space-3);
+  z-index: 2;
+  color: #ffffff;
+}
+
+.project-slide-info h3 {
+  color: #ffffff;
+}
+
+.project-slider-dots {
+  position: absolute;
+  bottom: var(--space-3);
+  right: var(--space-3);
+  z-index: 3;
+  display: flex;
+  gap: 0.4rem;
+}
+
+.project-slider-dots button {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.45);
+  transition: width 0.2s ease, background-color 0.2s ease;
+}
+
+.project-slider-dots button.is-active {
+  width: 1.5rem;
+  background: #ffffff;
 }
 
 /* Stat row, used by the publications section. */
@@ -373,7 +461,7 @@ button {
   align-items: center;
   width: max-content;
   gap: var(--space-6);
-  animation: marquee 32s linear infinite;
+  animation: marquee 70s linear infinite;
 }
 
 .logo-marquee:hover .logo-marquee-track {
@@ -444,4 +532,23 @@ button {
   flex-wrap: wrap;
   gap: var(--space-3);
   margin-top: var(--space-4);
+}
+
+@media (max-width: 48rem) {
+  .pipeline {
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+  }
+
+  .pipeline-step::after {
+    display: none;
+  }
+
+  .projects-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .projects-layout .project-slider {
+    order: -1;
+  }
 }

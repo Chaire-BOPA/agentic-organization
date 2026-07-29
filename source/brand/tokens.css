@@ -22,6 +22,14 @@
   --color-dark: #04264d;        /* full-bleed emphasis sections */
   --color-dark-ink: #f4f8fb;    /* text on dark sections */
 
+  /* Secondary accents, one per pré/per/post-opératoire step (pipeline
+     diagram, phase tags) — approved by the owner alongside a mockup that
+     moved past a blue-only palette. --color-accent (blue) stays primary
+     everywhere else: nav, links, main buttons. */
+  --color-step-1: #0ea86c;      /* pré-opératoire: teal/green */
+  --color-step-2: #03529c;      /* per-opératoire: brand blue */
+  --color-step-3: #7c5cff;      /* post-opératoire: purple */
+
   /* Raw brand palette, for reference / non-standard uses. */
   --bopa-blue-1: #03529c;
   --bopa-blue-2: #1875ba;
@@ -50,5 +58,6 @@
 
   /* Shape and layout */
   --radius: 4px;
+  --radius-lg: 20px;
   --max-width: 68rem;
 }
