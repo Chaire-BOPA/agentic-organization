@@ -103,9 +103,9 @@ button {
   cursor: pointer;
 }
 
-/* Header and footer stay in the constrained container; page sections
-   manage their own full-bleed background via .section-block. */
-.site-header,
+/* Footer stays in the constrained container; page sections manage their
+   own full-bleed background via .section-block. The header is full-bleed
+   (see below) with its own inner wrap for the same max-width alignment. */
 .site-footer {
   width: 100%;
   max-width: var(--max-width);
@@ -114,15 +114,21 @@ button {
 }
 
 .site-header {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 10;
+}
+
+.site-header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  position: sticky;
-  top: 0;
-  background: color-mix(in srgb, var(--color-bg) 88%, transparent);
-  backdrop-filter: blur(8px);
-  z-index: 10;
 }
 
 .site-header .wordmark {
@@ -633,6 +639,55 @@ button {
   flex-wrap: wrap;
   gap: var(--space-3);
   margin-top: var(--space-4);
+}
+
+/* Simple contact-style forms (collaboration request, etc.). */
+.contact-form {
+  max-width: 34rem;
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.form-field label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.form-field input,
+.form-field textarea {
+  font: inherit;
+  font-size: var(--text-base);
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+}
+
+.form-field input:focus,
+.form-field textarea:focus {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+.contact-form .btn {
+  align-self: flex-start;
+  border: none;
+  cursor: pointer;
+}
+
+.form-note {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
 }
 
 @media (max-width: 48rem) {

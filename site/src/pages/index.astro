@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 
 const partnerLogos = [
-  { src: '/logos/partenaires/logo-aphp.png', alt: 'AP-HP — Assistance Publique-Hôpitaux de Paris' },
+  { src: '/logos/partenaires/logo-aphp.png', alt: 'AP-HP - Assistance Publique-Hôpitaux de Paris' },
   { src: '/logos/partenaires/logo-imt.png', alt: 'Institut Mines-Télécom' },
   { src: '/logos/partenaires/logo-upsaclay.png', alt: 'Université Paris-Saclay' },
   { src: '/logos/partenaires/logo-faphp.png', alt: 'Fondation AP-HP' },
@@ -15,17 +15,23 @@ const partnerLogos = [
 ---
 
 <Base
-  title="BOPA — Chaire Innovation Bloc OPératoire Augmenté"
+  title="BOPA - Chaire Innovation Bloc OPératoire Augmenté"
   description="La Chaire Innovation BOPA invente la chirurgie hépato-bilio-pancréatique de demain, au sein de l'hôpital Paul-Brousse AP-HP."
 >
   <section id="accueil" class="section-block dark hero">
     <div class="wrap" data-reveal>
       <span class="kicker">Chaire Innovation BOPA</span>
-      <h1>Le bloc opératoire, augmenté.</h1>
+      <h1>Nous façonnons la chirurgie numérique de demain.</h1>
       <p class="lede">
-        La Chaire BOPA invente la chirurgie hépato-bilio-pancréatique de
-        demain, au sein de l'hôpital Paul-Brousse — AP-HP.
+        La Chaire Innovation BOPA développe des solutions numériques
+        innovantes pour améliorer la qualité, la sécurité et l'expérience
+        des patients en chirurgie hépato-bilio-pancréatique.
       </p>
+      <div class="btn-row hero-actions">
+        <a class="btn" href="/projets">Découvrez nos projets</a>
+        <a class="btn" href="/collaborer">Collaborer avec nous</a>
+        <a class="btn" href="https://soutenir.fondationaphp.fr/BOPA/" target="_blank" rel="noopener">Nous soutenir</a>
+      </div>
     </div>
     <a href="#mission" class="scroll-cue" aria-label="Découvrir la suite">
       <span>Découvrir</span>
@@ -75,10 +81,10 @@ const partnerLogos = [
   <section id="equipe" class="section-block compact">
     <div class="wrap" data-reveal>
       <span class="kicker">La Chaire</span>
-      <h2>BOPA 2 — Horizon 2030</h2>
+      <h2>BOPA 2 - Horizon 2030</h2>
       <p class="lede">
-        Portée par ses membres fondateurs — l'AP-HP, l'Institut
-        Mines-Télécom et l'Université Paris-Saclay — la Chaire poursuit son
+        Portée par ses membres fondateurs - l'AP-HP, l'Institut
+        Mines-Télécom et l'Université Paris-Saclay - la Chaire poursuit son
         développement avec le programme BOPA 2, horizon 2030, porté par des
         équipes fondatrice, opérationnelle et scientifique aux compétences
         complémentaires : santé, data science, développement, mathématiques,
@@ -287,6 +293,22 @@ const partnerLogos = [
   .hero .lede {
     margin: var(--space-3) auto 0;
     max-width: 34rem;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-actions .btn {
+    background: transparent;
+    color: #fff;
+    box-shadow: inset 0 0 0 1.5px #fff;
+  }
+
+  .hero-actions .btn:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    box-shadow: inset 0 0 0 1.5px var(--color-accent);
   }
 
   .scroll-cue {
