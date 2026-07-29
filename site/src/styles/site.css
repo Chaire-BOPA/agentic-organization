@@ -193,9 +193,9 @@ button {
 .site-header nav > a.nav-cta {
   margin-left: var(--space-5);
   background: transparent;
-  color: var(--color-accent);
+  color: var(--bopa-blue-4);
   font-weight: 700;
-  box-shadow: inset 0 0 0 1px var(--color-accent);
+  box-shadow: inset 0 0 0 1px var(--bopa-blue-4);
   border-radius: var(--radius-md);
 }
 
