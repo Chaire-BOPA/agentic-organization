@@ -9,7 +9,7 @@
      neutral system. Inspired by owkin.com and whitelabgx.com: confident,
      restrained, generous whitespace, a couple of full-bleed dark blocks
      for emphasis rather than color everywhere. */
-  --color-bg: #f4f8fb;          /* page background */
+  --color-bg: #ffffff;          /* page background */
   --color-surface: #ffffff;     /* cards, raised areas */
   --color-ink: #0d2338;         /* body text: deep navy, not pure black */
   --color-muted: #55697d;       /* secondary text, captions */

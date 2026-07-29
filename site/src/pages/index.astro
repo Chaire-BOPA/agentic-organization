@@ -19,7 +19,7 @@ const partnerLogos = [
   description="La Chaire Innovation BOPA invente la chirurgie hépato-bilio-pancréatique de demain, au sein de l'hôpital Paul-Brousse AP-HP."
 >
   <section id="accueil" class="section-block dark hero">
-    <div class="wrap">
+    <div class="wrap" data-reveal>
       <span class="kicker">Chaire Innovation BOPA</span>
       <h1>Le bloc opératoire, augmenté.</h1>
       <p class="lede">
@@ -37,7 +37,7 @@ const partnerLogos = [
 
   <section id="mission" class="section-block">
     <div class="wrap split-grid">
-      <div>
+      <div data-reveal>
         <span class="kicker">La Chaire</span>
         <h2>Notre approche</h2>
         <p>
@@ -52,19 +52,19 @@ const partnerLogos = [
           l'innovation au progrès.
         </p>
       </div>
-      <div class="placeholder-media mission-media"><span>Photo à venir</span></div>
+      <div class="placeholder-media mission-media" data-reveal style="--reveal-delay: 0.15s"><span>Photo à venir</span></div>
     </div>
     <div class="wrap">
       <div class="pipeline">
-        <div class="pipeline-step" style="--step-color: var(--color-step-1)">
+        <div class="pipeline-step" data-reveal style="--step-color: var(--color-step-1); --reveal-delay: 0s">
           <div class="pipeline-dot">1</div>
           <h3>Pré-opératoire</h3>
         </div>
-        <div class="pipeline-step" style="--step-color: var(--color-step-2)">
+        <div class="pipeline-step" data-reveal style="--step-color: var(--color-step-2); --reveal-delay: 0.1s">
           <div class="pipeline-dot">2</div>
           <h3>Per-opératoire</h3>
         </div>
-        <div class="pipeline-step" style="--step-color: var(--color-step-3)">
+        <div class="pipeline-step" data-reveal style="--step-color: var(--color-step-3); --reveal-delay: 0.2s">
           <div class="pipeline-dot">3</div>
           <h3>Post-opératoire</h3>
         </div>
@@ -73,7 +73,7 @@ const partnerLogos = [
   </section>
 
   <section id="equipe" class="section-block compact">
-    <div class="wrap">
+    <div class="wrap" data-reveal>
       <span class="kicker">La Chaire</span>
       <h2>BOPA 2 — Horizon 2030</h2>
       <p class="lede">
@@ -89,7 +89,7 @@ const partnerLogos = [
 
   <section id="projets" class="section-block">
     <div class="wrap projects-layout">
-      <div class="project-slider" id="project-slider">
+      <div class="project-slider" id="project-slider" data-reveal>
         <div class="project-slide is-active">
           <div class="placeholder-media"><span>Photo à venir</span></div>
           <span class="phase-tag" style="--step-color: var(--color-step-1)">Pré-opératoire</span>
@@ -139,7 +139,7 @@ const partnerLogos = [
         </div>
       </div>
 
-      <div class="projects-side">
+      <div class="projects-side" data-reveal style="--reveal-delay: 0.15s">
         <span class="kicker">Innovations</span>
         <h2>Nos projets</h2>
         <p class="lede">
@@ -161,15 +161,15 @@ const partnerLogos = [
       <h2>Publications</h2>
       <div class="stat-row">
         <div class="stat">
-          <span class="stat-value">46</span>
+          <span class="stat-value" data-reveal>46</span>
           <span class="stat-label">Articles scientifiques</span>
         </div>
         <div class="stat">
-          <span class="stat-value">48</span>
+          <span class="stat-value" data-reveal style="--reveal-delay: 0.1s">48</span>
           <span class="stat-label">Présentations en congrès</span>
         </div>
         <div class="stat">
-          <span class="stat-value">3</span>
+          <span class="stat-value" data-reveal style="--reveal-delay: 0.2s">3</span>
           <span class="stat-label">Axes de recherche</span>
         </div>
       </div>
@@ -183,7 +183,7 @@ const partnerLogos = [
   </section>
 
   <section id="partenaires" class="section-block">
-    <div class="wrap">
+    <div class="wrap" data-reveal>
       <span class="kicker">La Chaire</span>
       <h2>Nos partenaires</h2>
       <p class="lede partenaires-lede">
@@ -201,7 +201,7 @@ const partnerLogos = [
   </section>
 
   <section class="section-block dark donate">
-    <div class="wrap">
+    <div class="wrap" data-reveal>
       <h2>Soutenir la Chaire BOPA</h2>
       <p class="lede">
         Chaque don accélère la recherche et l'innovation au bloc opératoire.
@@ -232,10 +232,17 @@ const partnerLogos = [
         dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
       };
 
+      const stop = () => timer && clearInterval(timer);
+
+      // Idempotent: always clears any running timer first. Without this,
+      // a mouseleave/focusout firing without a matching prior
+      // mouseenter/focusin (reachable if the pointer is already resting
+      // over the slider when the page loads) stacked a second interval,
+      // which is what made the slider appear to skip a slide.
       const start = () => {
+        stop();
         timer = setInterval(() => show(index + 1), 4500);
       };
-      const stop = () => timer && clearInterval(timer);
 
       dots.forEach((dot, i) => {
         dot.addEventListener('click', () => {

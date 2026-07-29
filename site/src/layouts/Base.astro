@@ -53,7 +53,12 @@ const nav: NavItem[] = [
   <body>
     <header class="site-header">
       <a class="wordmark" href="/">
-        <img src="/logos/bopa-wordmark.png" alt={siteName} width="900" height="415" />
+        <img
+          src="/logos/bopa-lockup.png"
+          alt="BOPA — Bloc Opératoire Augmenté, AP-HP, Institut Mines-Télécom, Université Paris-Saclay"
+          width="900"
+          height="578"
+        />
       </a>
       <nav>
         {nav.map((item) =>
@@ -113,6 +118,57 @@ const nav: NavItem[] = [
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') closeAll();
       });
+    </script>
+    <script>
+      // Scroll-reveal: fade/slide [data-reveal] elements up as they enter
+      // the viewport, once each. Stat numbers additionally count up from 0.
+      // Skips straight to the revealed state for prefers-reduced-motion.
+      const revealables = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const countUp = (el: HTMLElement) => {
+        const target = parseInt(el.textContent ?? '', 10);
+        if (Number.isNaN(target)) return;
+        const suffix = (el.textContent ?? '').replace(/^[0-9]+/, '');
+        const duration = 1000;
+        const start = performance.now();
+        const step = (now: number) => {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (progress < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      };
+
+      const revealAll = () => revealables.forEach((el) => el.classList.add('is-revealed'));
+
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        revealAll();
+      } else {
+        const observer = new IntersectionObserver(
+          (entries, obs) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+              const el = entry.target as HTMLElement;
+              el.classList.add('is-revealed');
+              if (el.classList.contains('stat-value')) countUp(el);
+              obs.unobserve(el);
+            });
+          },
+          { threshold: 0.2, rootMargin: '0px 0px -10% 0px' }
+        );
+        revealables.forEach((el) => observer.observe(el));
+
+        // Safety net: a backgrounded/prerendered tab or an odd browser can
+        // delay or skip intersection callbacks entirely. Content must never
+        // stay invisible because of a decorative animation, so force it
+        // visible after a few seconds regardless.
+        setTimeout(() => {
+          observer.disconnect();
+          revealAll();
+        }, 3000);
+      }
     </script>
   </body>
 </html>
