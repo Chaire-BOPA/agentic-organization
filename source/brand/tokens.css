@@ -13,7 +13,13 @@
   --color-line: #e3e0da;        /* hairlines, borders */
   --color-accent: #1a3a2e;      /* links, emphasis, primary buttons */
   --color-accent-ink: #faf9f7;  /* text on accent */
-  --color-red-test: #c0392b;    /* temporary: collaboration test, safe to remove */
+
+  /* BOPA brand palette, from the logo. Not wired into the tokens above yet —
+     assign these to --color-accent etc. during the styling pass. */
+  --bopa-blue-1: #03529c;
+  --bopa-blue-2: #1875ba;
+  --bopa-blue-3: #03a2da;
+  --bopa-blue-4: #2db9e3;
 
   /* Type */
   --font-display: ui-serif, Georgia, serif;

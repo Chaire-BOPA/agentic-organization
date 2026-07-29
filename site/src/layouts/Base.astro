@@ -13,13 +13,35 @@ const { title, description } = Astro.props;
 
 // Personalized during setup.
 const siteName = 'BOPA';
-const nav: { href: string; label: string }[] = [
-  // { href: '/', label: 'Home' },
+
+type NavLink = { href: string; label: string };
+type NavItem = NavLink | { label: string; children: NavLink[] };
+
+// Nav lives here and only here. Each dropdown's children anchor to sections
+// on the home page; add/rename a section there and update its href here.
+const nav: NavItem[] = [
+  {
+    label: 'La Chaire',
+    children: [
+      { href: '/#mission', label: 'Notre mission' },
+      { href: '/#equipe', label: 'Notre équipe' },
+      { href: '/#partenaires', label: 'Nos partenaires' },
+    ],
+  },
+  {
+    label: 'Innovations',
+    children: [
+      { href: '/#projets', label: 'Nos projets' },
+      { href: '/#boptech', label: 'Plateforme BOPtech' },
+      { href: '/#publications', label: 'Publications' },
+    ],
+  },
+  { href: '/contact', label: 'Contact' },
 ];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,15 +52,24 @@ const nav: { href: string; label: string }[] = [
   <body>
     <header class="site-header">
       <a class="wordmark" href="/">{siteName}</a>
-      {nav.length > 0 && (
-        <nav>
-          {nav.map((item) => (
+      <nav>
+        {nav.map((item) =>
+          'children' in item ? (
+            <details class="nav-dropdown">
+              <summary>{item.label}</summary>
+              <div class="nav-dropdown-panel">
+                {item.children.map((child) => (
+                  <a href={child.href}>{child.label}</a>
+                ))}
+              </div>
+            </details>
+          ) : (
             <a href={item.href} aria-current={Astro.url.pathname === item.href ? 'page' : undefined}>
               {item.label}
             </a>
-          ))}
-        </nav>
-      )}
+          )
+        )}
+      </nav>
     </header>
     <main>
       <slot />

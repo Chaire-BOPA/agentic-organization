@@ -2,19 +2,43 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="BOPA" description="BOPA.">
-  <section class="hero">
+<Base title="BOPA" description="Chaire BOPA.">
+  <section id="accueil" class="hero">
     <h1>BOPA</h1>
-    <p>Hello Charles</p>
+  </section>
+
+  <section id="mission">
+    <h2>Notre mission</h2>
+  </section>
+
+  <section id="equipe">
+    <h2>Notre équipe</h2>
+  </section>
+
+  <section id="partenaires">
+    <h2>Nos partenaires</h2>
+  </section>
+
+  <section id="projets">
+    <h2>Nos projets</h2>
+  </section>
+
+  <section id="boptech">
+    <h2>Plateforme BOPtech</h2>
+  </section>
+
+  <section id="publications">
+    <h2>Publications</h2>
   </section>
 </Base>
 
 <style>
-  .hero {
+  section {
     max-width: 44rem;
+    scroll-margin-top: var(--space-4);
   }
 
-  .hero h1 {
-    color: var(--color-red-test);
+  section + section {
+    margin-top: var(--space-6);
   }
 </style>
