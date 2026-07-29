@@ -268,11 +268,26 @@ button {
   z-index: 1;
 }
 
-/* Card grid, used by the team section. */
+/* Card grid, used by the team and projects pages. */
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   gap: var(--space-4);
+}
+
+/* Static, labeled logo row — used on the dedicated partners page. The
+   home page uses .logo-marquee instead for a lighter, decorative pass. */
+.logo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-5);
+  margin-top: var(--space-3);
+}
+
+.logo-grid img {
+  max-height: 3rem;
+  width: auto;
 }
 
 .card {

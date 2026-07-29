@@ -17,23 +17,24 @@ const siteName = 'BOPA';
 type NavLink = { href: string; label: string };
 type NavItem = NavLink | { label: string; children: NavLink[] };
 
-// Nav lives here and only here. Each dropdown's children anchor to sections
-// on the home page; add/rename a section there and update its href here.
+// Nav lives here and only here. Each dropdown's children link to their own
+// dedicated page (the home page also covers the same topics as a single
+// scrollable overview — the two aren't kept in sync automatically).
 const nav: NavItem[] = [
   {
     label: 'La Chaire',
     children: [
-      { href: '/#mission', label: 'Notre mission' },
-      { href: '/#equipe', label: 'Notre équipe' },
-      { href: '/#partenaires', label: 'Nos partenaires' },
+      { href: '/mission', label: 'Notre mission' },
+      { href: '/equipe', label: 'Notre équipe' },
+      { href: '/partenaires', label: 'Nos partenaires' },
     ],
   },
   {
     label: 'Innovations',
     children: [
-      { href: '/#projets', label: 'Nos projets' },
-      { href: '/#boptech', label: 'Plateforme BOPtech' },
-      { href: '/#publications', label: 'Publications' },
+      { href: '/projets', label: 'Nos projets' },
+      { href: '/boptech', label: 'Plateforme BOPtech' },
+      { href: '/publications', label: 'Publications' },
     ],
   },
   { href: '/contact', label: 'Contact' },
