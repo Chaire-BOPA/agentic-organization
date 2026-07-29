@@ -543,14 +543,6 @@ button {
 .logo-marquee img {
   max-height: 2.75rem;
   width: auto;
-  filter: grayscale(1);
-  opacity: 0.75;
-  transition: filter 0.15s ease, opacity 0.15s ease;
-}
-
-.logo-marquee img:hover {
-  filter: grayscale(0);
-  opacity: 1;
 }
 
 @keyframes marquee {
