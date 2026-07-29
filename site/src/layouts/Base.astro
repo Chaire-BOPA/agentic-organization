@@ -15,31 +15,17 @@ const { title, description } = Astro.props;
 const siteName = 'BOPA';
 
 type NavLink = { href: string; label: string };
-type NavItem = NavLink | { label: string; children: NavLink[] };
 
-// Nav lives here and only here. Each dropdown's children link to their own
-// dedicated page (the home page also covers the same topics as a single
-// scrollable overview — the two aren't kept in sync automatically).
-const nav: NavItem[] = [
-  {
-    label: 'La Chaire',
-    children: [
-      { href: '/mission', label: 'Notre mission' },
-      { href: '/equipe', label: 'Notre équipe' },
-      { href: '/partenaires', label: 'Nos partenaires' },
-    ],
-  },
-  {
-    label: 'Innovations',
-    children: [
-      { href: '/projets', label: 'Nos projets' },
-      { href: '/boptech', label: 'Plateforme BOPtech' },
-      { href: '/publications', label: 'Publications' },
-    ],
-  },
-  { href: '/collaborer', label: 'Collaborer' },
+// Nav lives here and only here.
+const nav: NavLink[] = [
+  { href: '/mission', label: 'La Chaire' },
+  { href: '/projets', label: 'Le Projet' },
+  { href: '/#mission', label: 'La méthode BOPA' },
+  { href: '/boptech', label: 'Les innovations BOPA' },
   { href: '/contact', label: 'Contact' },
 ];
+
+const navCta = { href: 'https://soutenir.fondationaphp.fr/BOPA/', label: 'Nous soutenir' };
 ---
 
 <!doctype html>
@@ -61,26 +47,20 @@ const nav: NavItem[] = [
             width="352"
             height="400"
           />
+          <span class="wordmark-text">
+            <span>Chaire Innovation</span>
+            <span>Bloc Opératoire Augmenté</span>
+          </span>
         </a>
         <nav>
-          {nav.map((item) =>
-            'children' in item ? (
-              <div class="nav-dropdown">
-                <button type="button" class="nav-dropdown-trigger" aria-expanded="false">
-                  {item.label}
-                </button>
-                <div class="nav-dropdown-panel">
-                  {item.children.map((child) => (
-                    <a href={child.href}>{child.label}</a>
-                  ))}
-                </div>
-              </div>
-            ) : (
-              <a href={item.href} aria-current={Astro.url.pathname === item.href ? 'page' : undefined}>
-                {item.label}
-              </a>
-            )
-          )}
+          {nav.map((item) => (
+            <a href={item.href} aria-current={Astro.url.pathname === item.href ? 'page' : undefined}>
+              {item.label}
+            </a>
+          ))}
+          <a class="nav-cta" href={navCta.href} target="_blank" rel="noopener">
+            {navCta.label}
+          </a>
         </nav>
       </div>
     </header>
@@ -90,38 +70,6 @@ const nav: NavItem[] = [
     <footer class="site-footer">
       <p>© {new Date().getFullYear()} {siteName}</p>
     </footer>
-    <script>
-      // Click-to-open nav dropdowns: closes on outside click, Escape, or
-      // when a link inside is chosen. Deliberately not <details> — native
-      // disclosure widgets don't let more than one close automatically,
-      // which read as buggy with two independent dropdowns side by side.
-      const dropdowns = document.querySelectorAll<HTMLElement>('.nav-dropdown');
-
-      function closeAll() {
-        dropdowns.forEach((d) => {
-          d.classList.remove('is-open');
-          d.querySelector('.nav-dropdown-trigger')?.setAttribute('aria-expanded', 'false');
-        });
-      }
-
-      dropdowns.forEach((dropdown) => {
-        const trigger = dropdown.querySelector('.nav-dropdown-trigger');
-        trigger?.addEventListener('click', (event) => {
-          event.stopPropagation();
-          const isOpen = dropdown.classList.contains('is-open');
-          closeAll();
-          if (!isOpen) {
-            dropdown.classList.add('is-open');
-            trigger.setAttribute('aria-expanded', 'true');
-          }
-        });
-      });
-
-      document.addEventListener('click', closeAll);
-      document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') closeAll();
-      });
-    </script>
     <script>
       // Scroll-reveal: fade/slide [data-reveal] elements up as they enter
       // the viewport, once each. Stat numbers additionally count up from 0.
