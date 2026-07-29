@@ -273,7 +273,7 @@ const partnerLogos = [
     position: relative;
     overflow: hidden;
     min-height: 60vh;
-    padding-top: var(--space-6);
+    padding-top: calc(var(--space-6) + var(--space-4));
     display: flex;
     align-items: flex-end;
     text-align: left;
@@ -316,12 +316,13 @@ const partnerLogos = [
   }
 
   .hero h1 {
-    font-size: clamp(2.75rem, 6vw, 5rem);
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
     max-width: 56rem;
     margin: 0;
   }
 
   .hero .lede {
+    font-size: 1.2rem;
     margin: var(--space-3) 0 0;
     max-width: 34rem;
   }
