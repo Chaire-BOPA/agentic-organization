@@ -175,23 +175,24 @@ button {
 .site-header nav > a {
   display: inline-flex;
   align-items: center;
-  color: var(--color-ink);
+  color: var(--bopa-blue-4);
   text-decoration: none;
-  font-size: var(--text-sm);
+  font-size: 0.95rem;
   font-weight: 600;
   padding: var(--space-2) var(--space-3);
   border-radius: 999px;
+  box-shadow: inset 0 0 0 1px var(--bopa-blue-4);
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .site-header nav > a:hover,
 .site-header nav > a[aria-current="page"] {
-  background: var(--color-accent);
-  color: var(--color-accent-ink);
+  background: var(--bopa-blue-4);
+  color: #fff;
 }
 
 .site-header nav > a.nav-cta {
-  margin-left: var(--space-4);
+  margin-left: var(--space-5);
   background: transparent;
   color: var(--color-accent);
   font-weight: 700;
