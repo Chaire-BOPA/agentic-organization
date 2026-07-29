@@ -59,17 +59,14 @@ const partnerLogos = [
         <div class="pipeline-step" style="--step-color: var(--color-step-1)">
           <div class="pipeline-dot">1</div>
           <h3>Pré-opératoire</h3>
-          <p>LiverSight</p>
         </div>
         <div class="pipeline-step" style="--step-color: var(--color-step-2)">
           <div class="pipeline-dot">2</div>
           <h3>Per-opératoire</h3>
-          <p>Anyo</p>
         </div>
         <div class="pipeline-step" style="--step-color: var(--color-step-3)">
           <div class="pipeline-dot">3</div>
           <h3>Post-opératoire</h3>
-          <p>Colette</p>
         </div>
       </div>
     </div>
@@ -158,17 +155,6 @@ const partnerLogos = [
     </div>
   </section>
 
-  <section id="boptech" class="section-block dark">
-    <div class="wrap">
-      <span class="kicker">Innovations</span>
-      <h2>Plateforme BOPtech</h2>
-      <p class="lede">
-        BOPtech est la plateforme numérique de la Chaire BOPA. Présentation
-        détaillée à venir.
-      </p>
-    </div>
-  </section>
-
   <section id="publications" class="section-block">
     <div class="wrap">
       <span class="kicker">Innovations</span>
@@ -200,7 +186,7 @@ const partnerLogos = [
     <div class="wrap">
       <span class="kicker">La Chaire</span>
       <h2>Nos partenaires</h2>
-      <p class="lede">
+      <p class="lede partenaires-lede">
         La Chaire bénéficie du soutien de ses membres fondateurs, des
         fondations qui leur sont rattachées, et de la générosité
         d'entreprises mécènes partenaires.
@@ -229,12 +215,12 @@ const partnerLogos = [
 
   <script>
     // Auto-advancing project slider: one project at a time, restarts its
-    // timer on manual dot clicks, pauses on hover/focus and for anyone who
-    // asked the OS for reduced motion.
+    // timer on manual dot clicks, pauses on hover/focus. Keeps advancing
+    // even with reduced motion requested — .project-slide's transition is
+    // dropped in that case (see site.css) so slides cut instead of fade.
     const slider = document.getElementById('project-slider');
     const slides = slider?.querySelectorAll<HTMLElement>('.project-slide');
     const dots = slider?.querySelectorAll<HTMLButtonElement>('.project-slider-dots button');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (slider && slides && dots && slides.length > 0) {
       let index = 0;
@@ -247,7 +233,6 @@ const partnerLogos = [
       };
 
       const start = () => {
-        if (reduceMotion) return;
         timer = setInterval(() => show(index + 1), 4500);
       };
       const stop = () => timer && clearInterval(timer);
@@ -363,6 +348,11 @@ const partnerLogos = [
   .donate .btn:not(.btn-outline) {
     background: #ffffff;
     color: var(--color-accent);
+  }
+
+  .partenaires-lede {
+    max-width: none;
+    margin-bottom: var(--space-5);
   }
 
   @media (max-width: 48rem) {

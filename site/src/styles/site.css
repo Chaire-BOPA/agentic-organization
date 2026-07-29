@@ -565,6 +565,9 @@ button {
   html {
     scroll-behavior: auto;
   }
+  .project-slide {
+    transition: none;
+  }
 }
 
 /* Pill call-to-action button. */
