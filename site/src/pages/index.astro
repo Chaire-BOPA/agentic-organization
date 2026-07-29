@@ -52,7 +52,7 @@ const partnerLogos = [
           l'innovation au progrès.
         </p>
       </div>
-      <div class="placeholder-media"><span>Photo à venir</span></div>
+      <div class="placeholder-media mission-media"><span>Photo à venir</span></div>
     </div>
     <div class="wrap">
       <div class="pipeline">
@@ -95,7 +95,7 @@ const partnerLogos = [
       <div class="project-slider" id="project-slider">
         <div class="project-slide is-active">
           <div class="placeholder-media"><span>Photo à venir</span></div>
-          <span class="phase-tag">Pré-opératoire</span>
+          <span class="phase-tag" style="--step-color: var(--color-step-1)">Pré-opératoire</span>
           <div class="project-slide-info">
             <h3>LiverSight</h3>
             <p>Communication médecin-patient en 3D avant l'opération.</p>
@@ -103,7 +103,7 @@ const partnerLogos = [
         </div>
         <div class="project-slide">
           <div class="placeholder-media"><span>Photo à venir</span></div>
-          <span class="phase-tag">Per-opératoire</span>
+          <span class="phase-tag" style="--step-color: var(--color-step-2)">Per-opératoire</span>
           <div class="project-slide-info">
             <h3>Anyo</h3>
             <p>Optimisation de la répartition des gardes des chirurgiens.</p>
@@ -111,7 +111,7 @@ const partnerLogos = [
         </div>
         <div class="project-slide">
           <div class="placeholder-media"><span>Photo à venir</span></div>
-          <span class="phase-tag">Post-opératoire</span>
+          <span class="phase-tag" style="--step-color: var(--color-step-3)">Post-opératoire</span>
           <div class="project-slide-info">
             <h3>Colette</h3>
             <p>Chatbot d'accompagnement des patients transplantés du foie.</p>
@@ -320,9 +320,16 @@ const partnerLogos = [
 
   .split-grid {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
+    grid-template-columns: 1.3fr 0.7fr;
     gap: var(--space-5);
     align-items: center;
+  }
+
+  .mission-media {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    max-width: 22rem;
+    margin-left: auto;
   }
 
   .section-block.compact {
@@ -358,8 +365,10 @@ const partnerLogos = [
       grid-template-columns: 1fr;
     }
 
-    .split-grid .placeholder-media {
+    .mission-media {
       order: -1;
+      max-width: 100%;
+      margin-left: 0;
     }
   }
 </style>

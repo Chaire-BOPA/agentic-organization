@@ -36,9 +36,12 @@
   --bopa-blue-3: #03a2da;
   --bopa-blue-4: #2db9e3;
 
-  /* Type */
-  --font-display: system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-text: system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Type: self-hosted (site/public/fonts/, declared in site.css), system
+     stack as fallback while a font loads or if it fails. Space Grotesk for
+     headings reads more "innovation lab" than the system default; Inter
+     for body text stays highly legible at small sizes. */
+  --font-display: "Space Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-text: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
   --tracking-tight: -0.02em;
 
   /* Type scale (rem). One scale for the whole site. */

@@ -2,6 +2,42 @@
    Base.astro before this file. Page-specific styling stays in each page's
    own <style> block. */
 
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: optional;
+  src: url("/fonts/inter-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: optional;
+  src: url("/fonts/inter-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: optional;
+  src: url("/fonts/space-grotesk-latin-ext.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: optional;
+  src: url("/fonts/space-grotesk-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -35,6 +71,7 @@ h1, h2, h3 {
   line-height: 1.05;
   font-weight: 700;
   letter-spacing: var(--tracking-tight);
+  margin-bottom: var(--space-3);
 }
 
 h1 { font-size: var(--text-2xl); }
@@ -42,6 +79,11 @@ h2 { font-size: var(--text-xl); }
 h3 { font-size: var(--text-lg); }
 
 p + p { margin-top: var(--space-3); }
+
+.card-grid,
+.stat-row {
+  margin-top: var(--space-4);
+}
 
 a {
   color: var(--color-accent);
@@ -84,12 +126,13 @@ button {
 }
 
 .site-header .wordmark {
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  font-weight: 700;
-  letter-spacing: var(--tracking-tight);
-  color: var(--color-ink);
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.site-header .wordmark img {
+  height: 3rem;
+  width: auto;
 }
 
 .site-header nav {
@@ -212,13 +255,15 @@ button {
   max-width: 44rem;
 }
 
-/* Small rounded label, used to tag pré/per/post-opératoire content. */
+/* Small rounded label, used to tag pré/per/post-opératoire content. Set
+   --step-color inline (see .pipeline-step) to tint a specific tag;
+   defaults to brand blue when no step applies. */
 .phase-tag {
   display: inline-block;
   padding: 0.3em 0.8em;
   border-radius: 999px;
-  background: var(--color-bg);
-  color: var(--color-accent);
+  background: color-mix(in srgb, var(--step-color, var(--color-accent)) 14%, white);
+  color: var(--step-color, var(--color-accent));
   font-size: var(--text-sm);
   font-weight: 700;
   text-transform: uppercase;
@@ -227,7 +272,7 @@ button {
 }
 
 .section-block.dark .phase-tag {
-  background: rgba(255, 255, 255, 0.12);
+  background: color-mix(in srgb, var(--step-color, var(--color-accent-2)) 35%, transparent);
   color: var(--color-dark-ink);
 }
 
@@ -293,9 +338,14 @@ button {
 .card {
   background: var(--color-surface);
   border-radius: var(--radius-lg);
+  border-top: 3px solid var(--color-step-2);
   box-shadow: 0 1px 2px rgba(4, 35, 56, 0.04), 0 12px 28px rgba(4, 35, 56, 0.06);
   padding: var(--space-4);
 }
+
+.card-grid .card:nth-child(3n+1) { border-top-color: var(--color-step-1); }
+.card-grid .card:nth-child(3n+2) { border-top-color: var(--color-step-2); }
+.card-grid .card:nth-child(3n+3) { border-top-color: var(--color-step-3); }
 
 /* Step pipeline: pré/per/post-opératoire, one color per step, connected by
    arrows. Used on the mission section. */
@@ -342,6 +392,7 @@ button {
 
 .pipeline-step h3 {
   font-size: var(--text-base);
+  margin-bottom: 0;
 }
 
 .pipeline-step p {
@@ -413,6 +464,7 @@ button {
 
 .project-slide-info h3 {
   color: #ffffff;
+  margin-bottom: var(--space-1);
 }
 
 .project-slider-dots {
@@ -449,7 +501,12 @@ button {
   font-size: var(--text-2xl);
   font-weight: 700;
   line-height: 1;
+  color: var(--color-accent);
 }
+
+.stat-row .stat:nth-child(3n+1) .stat-value { color: var(--color-step-1); }
+.stat-row .stat:nth-child(3n+2) .stat-value { color: var(--color-step-2); }
+.stat-row .stat:nth-child(3n+3) .stat-value { color: var(--color-step-3); }
 
 .stat-row .stat-label {
   display: block;
