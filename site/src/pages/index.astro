@@ -2,43 +2,197 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="BOPA" description="Chaire BOPA.">
-  <section id="accueil" class="hero">
-    <h1>BOPA</h1>
+<Base
+  title="BOPA — Chaire Innovation Bloc OPératoire Augmenté"
+  description="La Chaire Innovation BOPA invente la chirurgie hépato-bilio-pancréatique de demain, au sein de l'hôpital Paul-Brousse AP-HP."
+>
+  <section id="accueil" class="section-block dark hero">
+    <div class="wrap">
+      <img class="hero-badge" src="/logos/bopa.png" alt="BOPA — Bloc Opératoire Augmenté" width="220" height="220" />
+      <h1>BOPA</h1>
+      <p class="lede">
+        La chaire qui invente la chirurgie hépato-bilio-pancréatique de demain,
+        au sein de l'hôpital Paul-Brousse — AP-HP.
+      </p>
+    </div>
   </section>
 
-  <section id="mission">
-    <h2>Notre mission</h2>
+  <section id="mission" class="section-block">
+    <div class="wrap">
+      <span class="kicker">La Chaire</span>
+      <h2>Notre mission</h2>
+      <p class="lede">
+        Les chirurgies du foie et du pancréas comptent parmi les plus complexes
+        de la médecine, avec un risque important de complications post-opératoires.
+        C'est pour relever ce défi qu'est née la Chaire Innovation BOPA.
+      </p>
+      <p>
+        Portée par trois membres fondateurs — l'AP-HP, l'Institut Mines-Télécom
+        et l'Université Paris-Saclay — la Chaire mène une recherche orientée
+        « preuve de concept » pour développer des innovations au bloc opératoire,
+        spécifiquement pour la chirurgie hépato-bilio-pancréatique.
+      </p>
+      <p>
+        Installée à l'hôpital Paul-Brousse, à proximité directe du Centre
+        Hépato-Biliaire — pionnier de la transplantation hépatique en France —
+        la Chaire dispose d'un espace de 158 m², incluant un bloc opératoire
+        factice, pour tester ses innovations avant leur validation clinique.
+      </p>
+    </div>
   </section>
 
-  <section id="equipe">
-    <h2>Notre équipe</h2>
+  <section id="equipe" class="section-block">
+    <div class="wrap">
+      <span class="kicker">La Chaire</span>
+      <h2>Notre équipe</h2>
+      <p class="lede">
+        La Chaire rassemble des compétences en santé, en data science, en
+        développement, en mathématiques, en design et en sciences humaines.
+      </p>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Équipe fondatrice</h3>
+          <p>AP-HP, Institut Mines-Télécom et Université Paris-Saclay.</p>
+        </div>
+        <div class="card">
+          <h3>Équipe opérationnelle</h3>
+          <p>Portraits et présentation à venir.</p>
+        </div>
+        <div class="card">
+          <h3>Équipe scientifique</h3>
+          <p>Portraits et présentation à venir.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="partenaires">
-    <h2>Nos partenaires</h2>
+  <section id="partenaires" class="section-block">
+    <div class="wrap">
+      <span class="kicker">La Chaire</span>
+      <h2>Nos partenaires</h2>
+      <p class="lede">
+        La Chaire bénéficie du soutien des fondations rattachées à ses trois
+        membres fondateurs, ainsi que de la générosité d'entreprises mécènes
+        partenaires.
+      </p>
+
+      <h3>Les membres fondateurs</h3>
+      <div class="logo-grid">
+        <img src="/logos/partenaires/logo-aphp.png" alt="AP-HP — Assistance Publique-Hôpitaux de Paris" />
+        <img src="/logos/partenaires/logo-imt.png" alt="Institut Mines-Télécom" />
+        <img src="/logos/partenaires/logo-upsaclay.png" alt="Université Paris-Saclay" />
+      </div>
+
+      <h3>Ils nous soutiennent</h3>
+      <div class="logo-grid">
+        <img src="/logos/partenaires/logo-faphp.png" alt="Fondation AP-HP" />
+        <img src="/logos/partenaires/logo-fondation-imt.png" alt="Fondation Mines-Télécom" />
+        <img src="/logos/partenaires/logo-fondation-upsaclay.png" alt="Fondation de l'Université Paris-Saclay" />
+        <img src="/logos/partenaires/logo-relyens.png" alt="Relyens" />
+        <img src="/logos/partenaires/logo-vermon.png" alt="Vermon" />
+        <img src="/logos/partenaires/logo-toys-films.png" alt="Toys Films" />
+      </div>
+    </div>
   </section>
 
-  <section id="projets">
-    <h2>Nos projets</h2>
+  <section id="projets" class="section-block">
+    <div class="wrap">
+      <span class="kicker">Innovations</span>
+      <h2>Nos projets</h2>
+      <p class="lede">
+        Les idées se transforment en solutions : nos projets s'attaquent
+        directement aux défis du bloc opératoire pour améliorer la pratique
+        des soignants et l'expérience des patients.
+      </p>
+      <div class="card-grid">
+        <div class="card">
+          <h3>LiverSight</h3>
+          <p>Application.</p>
+        </div>
+        <div class="card">
+          <h3>Colette</h3>
+          <p>Chatbot.</p>
+        </div>
+        <div class="card">
+          <h3>Anyo</h3>
+          <p>Algorithme.</p>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section id="boptech">
-    <h2>Plateforme BOPtech</h2>
+  <section id="boptech" class="section-block dark">
+    <div class="wrap">
+      <span class="kicker">Innovations</span>
+      <h2>Plateforme BOPtech</h2>
+      <p class="lede">
+        BOPtech est la plateforme numérique de la Chaire BOPA. Présentation
+        détaillée à venir.
+      </p>
+    </div>
   </section>
 
-  <section id="publications">
-    <h2>Publications</h2>
+  <section id="publications" class="section-block">
+    <div class="wrap">
+      <span class="kicker">Innovations</span>
+      <h2>Publications</h2>
+      <div class="stat-row">
+        <div class="stat">
+          <span class="stat-value">46</span>
+          <span class="stat-label">Articles scientifiques</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">48</span>
+          <span class="stat-label">Présentations en congrès</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value">3</span>
+          <span class="stat-label">Axes de recherche</span>
+        </div>
+      </div>
+      <p>
+        Les recherches menées au sein de la Chaire s'organisent autour de
+        trois axes : les données du bloc opératoire, les jumeaux numériques
+        anatomiques et hémodynamiques, et les sciences humaines appliquées à
+        la collaboration entre soignants et machines.
+      </p>
+    </div>
   </section>
 </Base>
 
 <style>
-  section {
-    max-width: 44rem;
-    scroll-margin-top: var(--space-4);
+  .hero {
+    text-align: center;
   }
 
-  section + section {
-    margin-top: var(--space-6);
+  .hero .wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero-badge {
+    width: 220px;
+    height: 220px;
+    margin-bottom: var(--space-4);
+  }
+
+  .hero h1 {
+    font-size: 4rem;
+  }
+
+  .hero .lede {
+    margin-top: var(--space-3);
+    max-width: 36rem;
+  }
+
+  h3 {
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-2);
+  }
+
+  .card-grid,
+  .logo-grid {
+    margin-top: var(--space-3);
   }
 </style>

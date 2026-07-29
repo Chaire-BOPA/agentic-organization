@@ -5,32 +5,40 @@
    and never let a hex value or font name live anywhere else. */
 
 :root {
-  /* Color. Neutral starter palette; the setup session replaces it. */
-  --color-bg: #faf9f7;          /* page background */
+  /* Color: BOPA brand blues (from the logo), on a light, clinical-clean
+     neutral system. Inspired by owkin.com and whitelabgx.com: confident,
+     restrained, generous whitespace, a couple of full-bleed dark blocks
+     for emphasis rather than color everywhere. */
+  --color-bg: #f4f8fb;          /* page background */
   --color-surface: #ffffff;     /* cards, raised areas */
-  --color-ink: #1a1a1a;         /* body text */
-  --color-muted: #6b6b6b;       /* secondary text, captions */
-  --color-line: #e3e0da;        /* hairlines, borders */
-  --color-accent: #1a3a2e;      /* links, emphasis, primary buttons */
-  --color-accent-ink: #faf9f7;  /* text on accent */
+  --color-ink: #0d2338;         /* body text: deep navy, not pure black */
+  --color-muted: #55697d;       /* secondary text, captions */
+  --color-line: #dbe4ec;        /* hairlines, borders */
 
-  /* BOPA brand palette, from the logo. Not wired into the tokens above yet —
-     assign these to --color-accent etc. during the styling pass. */
+  --color-accent: #03529c;      /* links, emphasis, primary buttons */
+  --color-accent-2: #03a2da;    /* secondary accent, links on dark */
+  --color-accent-ink: #ffffff;  /* text on accent */
+
+  --color-dark: #04264d;        /* full-bleed emphasis sections */
+  --color-dark-ink: #f4f8fb;    /* text on dark sections */
+
+  /* Raw brand palette, for reference / non-standard uses. */
   --bopa-blue-1: #03529c;
   --bopa-blue-2: #1875ba;
   --bopa-blue-3: #03a2da;
   --bopa-blue-4: #2db9e3;
 
   /* Type */
-  --font-display: ui-serif, Georgia, serif;
+  --font-display: system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-text: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --tracking-tight: -0.02em;
 
   /* Type scale (rem). One scale for the whole site. */
   --text-sm: 0.875rem;
   --text-base: 1.0625rem;
   --text-lg: 1.375rem;
   --text-xl: 1.875rem;
-  --text-2xl: 2.75rem;
+  --text-2xl: 3.25rem;
 
   /* Spacing scale (rem) */
   --space-1: 0.25rem;
