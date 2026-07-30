@@ -139,7 +139,7 @@ button {
 }
 
 .site-header .wordmark > img {
-  height: 4rem;
+  height: 4.5rem;
   width: auto;
   max-width: none;
 }
@@ -168,8 +168,8 @@ button {
 }
 
 .wordmark-liver {
-  width: 5.5rem;
-  height: 5.5rem;
+  width: 6.25rem;
+  height: 6.25rem;
   flex-shrink: 0;
 }
 
