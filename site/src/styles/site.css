@@ -166,30 +166,11 @@ button {
   line-height: 1.2;
 }
 
-.wordmark-title em {
-  font-style: normal;
-  color: var(--bopa-blue-4);
-}
-
 .wordmark-subtitle {
   font-size: 0.95rem;
   font-weight: 500;
   line-height: 1.3;
-}
-
-.wordmark-rule {
-  width: 1.75rem;
-  height: 2px;
-  margin: var(--space-2) 0;
-  background: var(--bopa-blue-4);
-}
-
-.wordmark-tagline {
-  font-size: 0.75rem;
-  font-weight: 400;
-  line-height: 1.35;
-  color: var(--color-muted);
-  max-width: 16rem;
+  max-width: 18rem;
 }
 
 .wordmark-liver {
@@ -221,10 +202,6 @@ button {
   }
 
   .wordmark-subtitle {
-    font-size: 0.75rem;
-  }
-
-  .wordmark-tagline {
     display: none;
   }
 }
