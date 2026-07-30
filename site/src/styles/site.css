@@ -145,9 +145,9 @@ button {
 }
 
 .wordmark-divider {
-  width: 1.5px;
+  width: 2px;
   align-self: stretch;
-  margin: var(--space-2) 0;
+  margin: var(--space-1) 0;
   background: var(--bopa-blue-4);
   flex-shrink: 0;
 }
