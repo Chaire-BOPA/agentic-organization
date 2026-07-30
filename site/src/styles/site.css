@@ -565,8 +565,8 @@ button {
 }
 
 .logo-marquee img {
-  width: 9.5rem;
-  height: 3.25rem;
+  width: calc(9.5rem * var(--logo-scale, 1));
+  height: calc(3.25rem * var(--logo-scale, 1));
   object-fit: contain;
 }
 

@@ -3,13 +3,13 @@ import Base from '../layouts/Base.astro';
 
 const partnerLogos = [
   { src: '/logos/partenaires/logo-aphp.png', alt: 'AP-HP - Assistance Publique-Hôpitaux de Paris' },
-  { src: '/logos/partenaires/logo-imt.png', alt: 'Institut Mines-Télécom' },
+  { src: '/logos/partenaires/logo-imt.png', alt: 'Institut Mines-Télécom', scale: 0.85 },
   { src: '/logos/partenaires/logo-upsaclay.png', alt: 'Université Paris-Saclay' },
   { src: '/logos/partenaires/logo-faphp.png', alt: 'Fondation AP-HP' },
-  { src: '/logos/partenaires/logo-fondation-imt.png', alt: 'Fondation Mines-Télécom' },
-  { src: '/logos/partenaires/logo-fondation-upsaclay.png', alt: "Fondation de l'Université Paris-Saclay" },
+  { src: '/logos/partenaires/logo-fondation-imt.png', alt: 'Fondation Mines-Télécom', scale: 1.15 },
+  { src: '/logos/partenaires/logo-fondation-upsaclay.png', alt: "Fondation de l'Université Paris-Saclay", scale: 1.15 },
   { src: '/logos/partenaires/logo-relyens.png', alt: 'Relyens' },
-  { src: '/logos/partenaires/logo-vermon.png', alt: 'Vermon' },
+  { src: '/logos/partenaires/logo-vermon.png', alt: 'Vermon', scale: 0.85 },
 ];
 ---
 
@@ -198,8 +198,12 @@ const partnerLogos = [
     </div>
     <div class="logo-marquee">
       <div class="logo-marquee-track">
-        {partnerLogos.map((logo) => <img src={logo.src} alt={logo.alt} loading="lazy" />)}
-        {partnerLogos.map((logo) => <img src={logo.src} alt="" aria-hidden="true" loading="lazy" />)}
+        {partnerLogos.map((logo) => (
+          <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+        ))}
+        {partnerLogos.map((logo) => (
+          <img src={logo.src} alt="" aria-hidden="true" loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+        ))}
       </div>
     </div>
   </section>
