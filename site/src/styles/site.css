@@ -565,8 +565,9 @@ button {
 }
 
 .logo-marquee img {
-  max-height: 2.75rem;
-  width: auto;
+  width: 8rem;
+  height: 2.75rem;
+  object-fit: contain;
 }
 
 @keyframes marquee {
