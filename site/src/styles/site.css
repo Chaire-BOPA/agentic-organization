@@ -138,7 +138,7 @@ button {
   text-decoration: none;
 }
 
-.site-header .wordmark img {
+.site-header .wordmark > img {
   height: 4rem;
   width: auto;
   max-width: none;
@@ -186,7 +186,7 @@ button {
 }
 
 @media (max-width: 30rem) {
-  .site-header .wordmark img {
+  .site-header .wordmark > img {
     height: 2.75rem;
   }
 
