@@ -20,7 +20,7 @@ const partnerLogos = [
   <section id="accueil" class="section-block dark hero">
     <div class="hero-overlay"></div>
     <div class="wrap" data-reveal>
-      <h1>Nous façonnons<br />le bloc opératoire<br />de demain.</h1>
+      <h1>Nous façonnons<br />le bloc opératoire<br /><em>de demain.</em></h1>
       <p class="lede">
         La Chaire Innovation BOPA développe des solutions numériques<br />
         innovantes pour améliorer la qualité, la sécurité et l'expérience<br />
@@ -320,6 +320,11 @@ const partnerLogos = [
     font-size: clamp(2.5rem, 5.5vw, 4.5rem);
     max-width: 56rem;
     margin: 0;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--bopa-blue-4);
   }
 
   .hero .lede {

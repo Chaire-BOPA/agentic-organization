@@ -159,30 +159,9 @@ button {
   line-height: 1.2;
 }
 
-.wordmark-subtitle {
-  font-size: 0.95rem;
-  font-weight: 500;
-  line-height: 1.3;
-  max-width: 18rem;
-  color: var(--color-muted);
-}
-
-.wordmark-liver {
-  width: 6.25rem;
-  height: 6.25rem;
-  flex-shrink: 0;
-}
-
-.wordmark-liver img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-@media (max-width: 64rem) {
-  .wordmark-liver {
-    display: none;
-  }
+.wordmark-title em {
+  font-style: normal;
+  color: var(--bopa-blue-4);
 }
 
 @media (max-width: 30rem) {
@@ -192,10 +171,6 @@ button {
 
   .wordmark-title {
     font-size: 0.85rem;
-  }
-
-  .wordmark-subtitle {
-    display: none;
   }
 }
 
@@ -213,8 +188,8 @@ button {
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 600;
-  padding: var(--space-2) var(--space-3);
-  border-radius: 999px;
+  padding: var(--space-3) var(--space-5);
+  border-radius: var(--radius-md);
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
@@ -226,17 +201,16 @@ button {
 
 .site-header nav > a.nav-cta {
   margin-left: var(--space-5);
-  background: transparent;
-  color: var(--bopa-blue-4);
+  background: var(--bopa-blue-4);
+  color: #fff;
   font-weight: 700;
-  box-shadow: inset 0 0 0 1px var(--bopa-blue-4);
   border-radius: var(--radius-md);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .site-header nav > a.nav-cta:hover {
-  background: var(--bopa-blue-4);
-  color: #fff;
-  box-shadow: inset 0 0 0 1px var(--bopa-blue-4);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(45, 185, 227, 0.45);
 }
 
 .site-footer {
