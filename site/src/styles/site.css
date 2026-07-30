@@ -139,7 +139,7 @@ button {
 }
 
 .site-header .wordmark > img {
-  height: 4rem;
+  height: 3rem;
   width: auto;
   max-width: none;
 }
@@ -194,8 +194,8 @@ button {
 }
 
 .site-header nav > a:hover {
-  background: var(--color-accent);
-  color: var(--color-accent-ink);
+  background: var(--bopa-blue-4);
+  color: #fff;
 }
 
 .site-header nav > a.nav-cta {
@@ -204,12 +204,11 @@ button {
   color: #fff;
   font-weight: 700;
   border-radius: var(--radius-md);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .site-header nav > a.nav-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 18px rgba(45, 185, 227, 0.45);
+  background: var(--bopa-blue-3);
+  color: #fff;
 }
 
 .site-footer {
