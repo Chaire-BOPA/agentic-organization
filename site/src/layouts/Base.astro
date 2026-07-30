@@ -11,8 +11,6 @@ interface Props {
 
 const { title, description } = Astro.props;
 
-import LiverMesh from '../components/LiverMesh.astro';
-
 // Personalized during setup.
 const siteName = 'BOPA';
 
@@ -50,10 +48,12 @@ const navCta = { href: 'https://soutenir.fondationaphp.fr/BOPA/', label: 'Nous s
             height="415"
           />
           <span class="wordmark-text">
-            <span class="wordmark-title">Bloc opératoire augmenté</span>
+            <span class="wordmark-title">Le bloc opératoire augmenté</span>
             <span class="wordmark-subtitle">Des innovations numériques conçues avec les soignants, pour les soignants</span>
           </span>
-          <span class="wordmark-liver"><LiverMesh /></span>
+          <span class="wordmark-liver">
+            <img src="/graphics/foie-maillage.png" alt="" width="500" height="513" />
+          </span>
         </a>
         <nav>
           {nav.map((item) => (
