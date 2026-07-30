@@ -193,8 +193,7 @@ button {
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-.site-header nav > a:hover,
-.site-header nav > a[aria-current="page"] {
+.site-header nav > a:hover {
   background: var(--color-accent);
   color: var(--color-accent-ink);
 }

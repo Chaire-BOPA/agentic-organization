@@ -16,16 +16,16 @@ const siteName = 'BOPA';
 
 type NavLink = { href: string; label: string };
 
-// Nav lives here and only here.
+// One-pager: nav links are all in-page anchors. Adding a section means
+// adding one link below, matching its id in index.astro.
 const nav: NavLink[] = [
-  { href: '/mission', label: 'La Chaire' },
-  { href: '/projets', label: 'Le Projet' },
-  { href: '/#mission', label: 'La méthode BOPA' },
-  { href: '/boptech', label: 'Les innovations BOPA' },
-  { href: '/contact', label: 'Nous contacter' },
+  { href: '/#qui-sommes-nous', label: 'Qui sommes-nous' },
+  { href: '/#approche', label: 'Notre approche' },
+  { href: '/#projets', label: 'Nos projets' },
+  { href: '/#equipe', label: 'Notre équipe' },
 ];
 
-const navCta = { href: 'https://soutenir.fondationaphp.fr/BOPA/', label: 'Nous soutenir' };
+const navCta = { href: '/#soutenir', label: 'Nous soutenir' };
 ---
 
 <!doctype html>
@@ -53,11 +53,11 @@ const navCta = { href: 'https://soutenir.fondationaphp.fr/BOPA/', label: 'Nous s
         </a>
         <nav>
           {nav.map((item) => (
-            <a href={item.href} aria-current={Astro.url.pathname === item.href ? 'page' : undefined}>
+            <a href={item.href}>
               {item.label}
             </a>
           ))}
-          <a class="nav-cta" href={navCta.href} target="_blank" rel="noopener">
+          <a class="nav-cta" href={navCta.href}>
             {navCta.label}
           </a>
         </nav>

@@ -11,6 +11,24 @@ const partnerLogos = [
   { src: '/logos/partenaires/logo-relyens.png', alt: 'Relyens' },
   { src: '/logos/partenaires/logo-vermon.png', alt: 'Vermon', scale: 0.85 },
 ];
+
+const team = [
+  {
+    group: 'Ceux qui font BOPA tous les jours',
+    people: [
+      { name: 'Charles Hellec', role: 'Directeur de la Chaire BOPA' },
+      { name: 'Elie Farah', role: 'Directeur de la plateforme BOPtech' },
+    ],
+  },
+  {
+    group: "L'équipe soignante du CHB",
+    people: [{ name: 'Pr Éric Vibert', role: 'Chirurgien, Centre Hépato-Biliaire — initiateur de la Chaire' }],
+  },
+  {
+    group: 'Collaborateurs ingénieurs et sciences humaines',
+    people: [{ name: 'Axelle Piguet', role: 'Ingénieure' }],
+  },
+];
 ---
 
 <Base
@@ -27,11 +45,11 @@ const partnerLogos = [
         des patients en chirurgie hépato-bilio-pancréatique.
       </p>
       <div class="btn-row hero-actions">
-        <a class="btn" href="/projets">Découvrez nos projets</a>
+        <a class="btn" href="#projets">Découvrez nos projets</a>
         <a class="btn" href="https://soutenir.fondationaphp.fr/BOPA/" target="_blank" rel="noopener">Nous soutenir</a>
       </div>
     </div>
-    <a href="#mission" class="scroll-cue" aria-label="Découvrir la suite">
+    <a href="#qui-sommes-nous" class="scroll-cue" aria-label="Découvrir la suite">
       <span>Découvrir</span>
       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
         <path d="M8 1v13M2 8l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -39,233 +57,440 @@ const partnerLogos = [
     </a>
   </section>
 
-  <section id="mission" class="section-block">
-    <div class="wrap split-grid">
-      <div data-reveal>
-        <span class="kicker">La Chaire</span>
-        <h2>Notre approche</h2>
-        <p>
-          La Chaire Innovation BOPA identifie les besoins et les points
-          d'amélioration à chaque étape du parcours patient, pour les
-          transformer en défis pour les acteurs de l'innovation.
-        </p>
-        <p>
-          Méthodes d'innovation, données, financements, terrain
-          d'expérimentation et expertise de haut niveau : la Chaire
-          accompagne le passage de l'idée à l'innovation, et de
-          l'innovation au progrès.
-        </p>
-      </div>
-      <div class="placeholder-media mission-media" data-reveal style="--reveal-delay: 0.15s"><span>Photo à venir</span></div>
+  <section id="qui-sommes-nous" class="section-block">
+    <div class="wrap" data-reveal>
+      <span class="kicker">La Chaire</span>
+      <h2>Qui sommes-nous ?</h2>
+      <p class="lede">
+        La Chaire Innovation BOPA améliore la qualité et la sécurité des
+        soins au bloc opératoire, en chirurgie hépato-bilio-pancréatique, en
+        concevant, développant et déployant des solutions numériques basées
+        sur l'IA et les jumeaux numériques.
+      </p>
+      <p>
+        Portée par trois membres fondateurs — l'AP-HP, l'Institut
+        Mines-Télécom et l'Université Paris-Saclay — elle est installée au
+        sein de l'hôpital Paul-Brousse (GHU AP-HP Université Paris-Saclay),
+        à proximité directe du Centre Hépato-Biliaire (CHB), 1er centre de
+        transplantation hépatique et chirurgie hépato-bilio-pancréatique en
+        France.
+      </p>
+      <p class="text-muted">
+        Un enjeu qui reste entier : six mois après une transplantation
+        hépatique, la mortalité avoisine encore les 10 %.
+      </p>
     </div>
     <div class="wrap">
+      <div class="stat-row">
+        <div class="stat">
+          <span class="stat-value" data-reveal>1500</span>
+          <span class="stat-label">Actes par an au bloc (chirurgies et procédures radiologiques)</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" data-reveal style="--reveal-delay: 0.1s">200</span>
+          <span class="stat-label">Greffes de foie ou de pancréas par an</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" data-reveal style="--reveal-delay: 0.2s">500</span>
+          <span class="stat-label">Cancers hépato-bilio-pancréatiques traités par an</span>
+        </div>
+      </div>
+    </div>
+    <div class="wrap partners-block" data-reveal style="--reveal-delay: 0.1s">
+      <p class="partners-label">Nos membres fondateurs et partenaires</p>
+      <div class="logo-marquee">
+        <div class="logo-marquee-track">
+          {partnerLogos.map((logo) => (
+            <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+          ))}
+          {partnerLogos.map((logo) => (
+            <img src={logo.src} alt="" aria-hidden="true" loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="approche" class="section-block">
+    <div class="wrap" data-reveal>
+      <span class="kicker">Notre approche</span>
+      <h2>La vision : de l'innovation exclusive au progrès universel</h2>
+      <p class="lede">
+        Une conviction de sciences humaines guide chaque projet : une
+        innovation n'a de valeur que si elle est adoptée. Trois exigences
+        cadrent tout ce que la Chaire construit.
+      </p>
+    </div>
+    <div class="wrap">
+      <div class="card-grid">
+        <div class="card">
+          <h3>Acceptabilité</h3>
+          <p>Des solutions numériques co-construites et validées par les soignants.</p>
+        </div>
+        <div class="card">
+          <h3>Interopérabilité</h3>
+          <p>Des systèmes capables de s'intégrer partout.</p>
+        </div>
+        <div class="card">
+          <h3>Soutenabilité</h3>
+          <p>Une approche éthique, responsable financièrement, et sobre en carbone.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap section-sub">
+      <span class="kicker">Notre approche</span>
+      <h2>Le projet scientifique : augmenter le parcours patient</h2>
+      <p class="lede">
+        BOPA2 (2025-2030) améliore la qualité et la sécurité des soins à
+        chaque étape de la chirurgie.
+      </p>
       <div class="pipeline">
         <div class="pipeline-step" data-reveal style="--step-color: var(--color-step-1); --reveal-delay: 0s">
           <div class="pipeline-dot">1</div>
           <h3>Pré-opératoire</h3>
+          <p>De l'importance de la communication.</p>
         </div>
         <div class="pipeline-step" data-reveal style="--step-color: var(--color-step-2); --reveal-delay: 0.1s">
           <div class="pipeline-dot">2</div>
           <h3>Per-opératoire</h3>
+          <p>De l'importance de l'analyse du réel.</p>
         </div>
         <div class="pipeline-step" data-reveal style="--step-color: var(--color-step-3); --reveal-delay: 0.2s">
           <div class="pipeline-dot">3</div>
           <h3>Post-opératoire</h3>
+          <p>De l'importance du suivi.</p>
         </div>
       </div>
     </div>
-  </section>
 
-  <section id="equipe" class="section-block compact">
-    <div class="wrap" data-reveal>
-      <span class="kicker">La Chaire</span>
-      <h2>BOPA 2 - Horizon 2030</h2>
+    <div class="wrap section-sub">
+      <span class="kicker">Notre approche</span>
+      <h2>La méthode</h2>
       <p class="lede">
-        Portée par ses membres fondateurs - l'AP-HP, l'Institut
-        Mines-Télécom et l'Université Paris-Saclay - la Chaire poursuit son
-        développement avec le programme BOPA 2, horizon 2030, porté par des
-        équipes fondatrice, opérationnelle et scientifique aux compétences
-        complémentaires : santé, data science, développement, mathématiques,
-        design et sciences humaines.
+        Trois degrés de maturité pour travailler avec la Chaire, dans un
+        espace de 158 m² incluant un bloc opératoire factice, mis à
+        disposition par l'hôpital Paul-Brousse AP-HP. Les solutions
+        finalisées sont validées au bloc opératoire du Centre
+        Hépato-Biliaire.
       </p>
-    </div>
-  </section>
-
-  <section id="projets" class="section-block">
-    <div class="wrap projects-layout">
-      <div class="project-slider" id="project-slider" data-reveal>
-        <div class="project-slide is-active">
-          <div class="placeholder-media"><span>Photo à venir</span></div>
-          <span class="phase-tag" style="--step-color: var(--color-step-1)">Pré-opératoire</span>
-          <div class="project-slide-info">
-            <h3>LiverSight</h3>
-            <p>Communication médecin-patient en 3D avant l'opération.</p>
-          </div>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Prototyper</h3>
+          <p>Concevoir des preuves de concept (POC).</p>
         </div>
-        <div class="project-slide">
-          <div class="placeholder-media"><span>Photo à venir</span></div>
-          <span class="phase-tag" style="--step-color: var(--color-step-2)">Per-opératoire</span>
-          <div class="project-slide-info">
-            <h3>Anyo</h3>
-            <p>Optimisation de la répartition des gardes des chirurgiens.</p>
-          </div>
+        <div class="card">
+          <h3>Codévelopper</h3>
+          <p>Construire de nouvelles solutions avec la Chaire.</p>
         </div>
-        <div class="project-slide">
-          <div class="placeholder-media"><span>Photo à venir</span></div>
-          <span class="phase-tag" style="--step-color: var(--color-step-3)">Post-opératoire</span>
-          <div class="project-slide-info">
-            <h3>Colette</h3>
-            <p>Chatbot d'accompagnement des patients transplantés du foie.</p>
-          </div>
-        </div>
-        <div class="project-slide">
-          <div class="placeholder-media"><span>Photo à venir</span></div>
-          <span class="phase-tag">À venir</span>
-          <div class="project-slide-info">
-            <h3>PancreaSight</h3>
-            <p>Détails à venir.</p>
-          </div>
-        </div>
-        <div class="project-slide">
-          <div class="placeholder-media"><span>Photo à venir</span></div>
-          <span class="phase-tag">À venir</span>
-          <div class="project-slide-info">
-            <h3>HEPAT-GREEN</h3>
-            <p>Détails à venir.</p>
-          </div>
-        </div>
-        <div class="project-slider-dots">
-          <button type="button" class="is-active" aria-label="Projet 1 : LiverSight"></button>
-          <button type="button" aria-label="Projet 2 : Anyo"></button>
-          <button type="button" aria-label="Projet 3 : Colette"></button>
-          <button type="button" aria-label="Projet 4 : PancreaSight"></button>
-          <button type="button" aria-label="Projet 5 : HEPAT-GREEN"></button>
+        <div class="card">
+          <h3>Tester</h3>
+          <p>Évaluer des solutions existantes : α-test, β-test, test d'acceptance et test clinique.</p>
         </div>
       </div>
-
-      <div class="projects-side" data-reveal style="--reveal-delay: 0.15s">
-        <span class="kicker">Innovations</span>
-        <h2>Nos projets</h2>
-        <p class="lede">
-          Les idées se transforment en solutions : nos projets s'attaquent
-          directement aux défis du bloc opératoire, à chaque étape du
-          parcours patient.
-        </p>
-        <div class="btn-row">
-          <a class="btn" href="/projets">Découvrir nos projets</a>
-          <a class="btn btn-outline" href="#publications">Voir nos publications</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="publications" class="section-block">
-    <div class="wrap">
-      <span class="kicker">Innovations</span>
-      <h2>Publications</h2>
       <div class="stat-row">
         <div class="stat">
-          <span class="stat-value" data-reveal>46</span>
-          <span class="stat-label">Articles scientifiques</span>
+          <span class="stat-value" data-reveal>1.6M€</span>
+          <span class="stat-label">Mécénat collecté depuis 2020</span>
         </div>
         <div class="stat">
-          <span class="stat-value" data-reveal style="--reveal-delay: 0.1s">48</span>
-          <span class="stat-label">Présentations en congrès</span>
+          <span class="stat-value" data-reveal style="--reveal-delay: 0.1s">50</span>
+          <span class="stat-label">Publications scientifiques</span>
         </div>
         <div class="stat">
-          <span class="stat-value" data-reveal style="--reveal-delay: 0.2s">3</span>
-          <span class="stat-label">Axes de recherche</span>
+          <span class="stat-value" data-reveal style="--reveal-delay: 0.2s">2</span>
+          <span class="stat-label">Start-up créées (DOTs, Uncovr)</span>
         </div>
       </div>
-      <p>
-        Les recherches menées au sein de la Chaire s'organisent autour de
-        trois axes : les données du bloc opératoire, les jumeaux numériques
-        anatomiques et hémodynamiques, et les sciences humaines appliquées à
-        la collaboration entre soignants et machines.
-      </p>
     </div>
   </section>
 
-  <section id="partenaires" class="section-block">
+  <section id="projets" class="section-block dark">
+    <div class="wrap" data-reveal>
+      <span class="kicker">Innovations</span>
+      <h2>Nos projets et réalisations</h2>
+      <p class="lede">
+        Des chiffres à l'impact concret : ce que la Chaire a bâti, et ce
+        qu'elle construit aujourd'hui à chaque étape du parcours patient.
+      </p>
+    </div>
+
+    <div class="wrap accordion">
+      <details class="accordion-item accordion-item-lg">
+        <summary>
+          <svg class="accordion-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <path d="M4 24h20M6 24V11l8-6 8 6v13M11 24v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <span class="accordion-title">Les réalisations institutionnelles</span>
+          <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </summary>
+        <div class="accordion-panel">
+          <div class="accordion-subgrid">
+            <details class="accordion-subitem">
+              <summary>
+                <span class="accordion-subtitle">Le tiers-lieu d'expérimentation BOPEX</span>
+                <svg class="accordion-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </summary>
+              <div class="accordion-subpanel">
+                <p>
+                  Créé en 2023, situé à l'hôpital Broussais à côté du Campus
+                  chirurgical du Grand Paris, BOPEX accélère le
+                  développement d'innovations numériques et technologiques
+                  pour le bloc opératoire : start-up, entreprises tech,
+                  innovateurs internes AP-HP et professionnels de santé y
+                  testent leurs solutions en conditions réelles.
+                </p>
+                <p>
+                  Trois piliers d'accompagnement : <strong>derisking</strong>
+                  (validation experte de la pertinence clinique et
+                  technique), <strong>codéveloppement</strong> (conception de
+                  l'interface, structuration des études cliniques) et
+                  <strong> test</strong> (utilisabilité, acceptabilité,
+                  impact organisationnel).
+                </p>
+              </div>
+            </details>
+            <details class="accordion-subitem">
+              <summary>
+                <span class="accordion-subtitle">La plateforme BOPTECH</span>
+                <svg class="accordion-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                  <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </summary>
+              <div class="accordion-subpanel">
+                <p>
+                  Plateforme technologique et scientifique unique, au sein
+                  même du bloc opératoire du Centre Hépato-Biliaire :
+                  chirurgie guidée par l'image, endoscopie, oncologie
+                  hépato-bilio-pancréatique. Financée par l'AP-HP, le Paris
+                  Saclay Cancer Cluster et BPI France.
+                </p>
+                <p>
+                  Sa salle hybride, équipée du système Philips Azurion 7 et
+                  de capacités IA, sera opérationnelle en juillet 2026.
+                  Son modèle préclinique <strong>In Machina</strong>{' '}
+                  maintient des foies humains en conditions
+                  quasi-physiologiques plusieurs jours, pour tester des
+                  innovations avant les essais cliniques — avec l'accès
+                  privilégié qu'offrent les 200 transplantations et 150
+                  hépatectomies réalisées chaque année au CHB.
+                </p>
+              </div>
+            </details>
+          </div>
+        </div>
+      </details>
+
+      <details class="accordion-item accordion-item-lg">
+        <summary>
+          <svg class="accordion-icon" width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+            <circle cx="14" cy="14" r="3" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="5" cy="21" r="2.2" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="23" cy="21" r="2.2" stroke="currentColor" stroke-width="1.6" />
+            <circle cx="14" cy="5" r="2.2" stroke="currentColor" stroke-width="1.6" />
+            <path d="M14 8v3M11.5 15.8 6.6 19.3M16.5 15.8l4.9 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
+          <span class="accordion-title">Des exemples de projets innovants made in BOPA</span>
+          <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </summary>
+        <div class="accordion-panel">
+          <div class="phase-grid">
+            <details class="phase-card" style="--step-color: var(--color-step-1)">
+              <summary>
+                <span class="phase-title">Préopératoire</span>
+                <span class="phase-subtitle">Communiquer</span>
+              </summary>
+              <div class="accordion-subpanel">
+                <div class="project-entry">
+                  <h4>LiverSight</h4>
+                  <p>
+                    Communication médecin-patient en 3D avant l'opération. En
+                    partenariat avec Toys Films, sous la supervision du Dr
+                    Oriana Ciacio et du Pr Éric Vibert.
+                  </p>
+                </div>
+                <div class="project-entry">
+                  <h4>PancreasSight</h4>
+                  <p>
+                    La même approche appliquée à la chirurgie pancréatique,
+                    en partenariat avec Toys Films et le Dr Gabriella Pittau.
+                  </p>
+                </div>
+              </div>
+            </details>
+            <details class="phase-card" style="--step-color: var(--color-step-2)">
+              <summary>
+                <span class="phase-title">Peropératoire</span>
+                <span class="phase-subtitle">Assister le chirurgien</span>
+              </summary>
+              <div class="accordion-subpanel">
+                <div class="project-entry">
+                  <h4>BOPCAM</h4>
+                  <p>
+                    Un casque qui filme les mains du chirurgien en chirurgie
+                    ouverte : analyse d'images en direct, compte-rendu
+                    opératoire augmenté, télé-expertise.
+                  </p>
+                </div>
+                <div class="project-entry">
+                  <h4>Henri</h4>
+                  <p>
+                    Un assistant conçu pour accompagner le chirurgien pendant
+                    l'opération : informations fiables sur le patient,
+                    checklist, antécédents.
+                  </p>
+                </div>
+                <div class="project-entry">
+                  <h4>De l'analyse d'image à la start-up</h4>
+                  <p>
+                    Le travail sur l'analyse d'images au bloc opératoire a
+                    donné naissance à <strong>Uncovr</strong>, une start-up
+                    née d'un besoin de terrain identifié par les équipes.
+                  </p>
+                </div>
+              </div>
+            </details>
+            <details class="phase-card" style="--step-color: var(--color-step-3)">
+              <summary>
+                <span class="phase-title">Postopératoire</span>
+                <span class="phase-subtitle">Suivre les patients</span>
+              </summary>
+              <div class="accordion-subpanel">
+                <div class="project-entry">
+                  <h4>Colette</h4>
+                  <p>
+                    Un chatbot qui accompagne 24h/24 les patients
+                    transplantés du foie, né d'un besoin identifié
+                    directement par les soignants.
+                  </p>
+                </div>
+                <div class="project-entry">
+                  <h4>Suivi longitudinal et valeur en santé</h4>
+                  <p>
+                    Aligné sur l'axe VBHC de l'AP-HP : évaluer la qualité de
+                    vie du patient via des questionnaires PROM et PREM, pour
+                    identifier des leviers d'amélioration des soins.
+                  </p>
+                </div>
+                <div class="project-entry">
+                  <h4>Quelle place pour le ressenti du chirurgien ?</h4>
+                  <p>
+                    Corréler l'état émotionnel du chirurgien au résultat
+                    clinique et au ressenti du patient, pour en faire un
+                    levier d'action à part entière.
+                  </p>
+                </div>
+              </div>
+            </details>
+          </div>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <section id="equipe" class="section-block">
     <div class="wrap" data-reveal>
       <span class="kicker">La Chaire</span>
-      <h2>Nos partenaires</h2>
-      <p class="lede partenaires-lede">
-        La Chaire bénéficie du soutien de ses membres fondateurs, des
-        fondations qui leur sont rattachées, et de la générosité
-        d'entreprises mécènes partenaires.
+      <h2>Notre équipe</h2>
+      <p class="lede">
+        Des soignants AP-HP, des ingénieurs IMT &amp; INRIA et des
+        chercheurs Paris-Saclay &amp; CNAM, réunis autour d'un même terrain.
       </p>
     </div>
-    <div class="logo-marquee">
-      <div class="logo-marquee-track">
-        {partnerLogos.map((logo) => (
-          <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
-        ))}
-        {partnerLogos.map((logo) => (
-          <img src={logo.src} alt="" aria-hidden="true" loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
-        ))}
+    {team.map((group) => (
+      <div class="wrap team-group">
+        <h3>{group.group}</h3>
+        <div class="card-grid">
+          {group.people.map((person) => (
+            <div class="card person-card">
+              <p class="person-name">{person.name}</p>
+              <p class="person-role">{person.role}</p>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    ))}
   </section>
 
-  <section class="section-block dark donate">
+  <section id="soutenir" class="section-block dark donate">
     <div class="wrap" data-reveal>
-      <h2>Soutenir la Chaire BOPA</h2>
+      <h2>Nous soutenir</h2>
       <p class="lede">
-        Chaque don accélère la recherche et l'innovation au bloc opératoire.
+        La Chaire fonctionne par mécénat — 1,6 M€ collectés depuis sa
+        création en 2020. Ce soutien finance la recherche, le
+        développement de nos outils et l'équipement du bloc opératoire.
+        Chaque don accélère la recherche et l'innovation.
       </p>
       <div class="btn-row">
         <a class="btn" href="https://soutenir.fondationaphp.fr/BOPA/" target="_blank" rel="noopener">Faire un don</a>
       </div>
     </div>
+
+    <div class="wrap">
+      <div class="soutenir-form-card" data-reveal style="--reveal-delay: 0.15s">
+        <h3>Nous contacter</h3>
+        <p>Une question, un projet à proposer ? Écrivez-nous directement.</p>
+        <form id="soutenir-form" class="contact-form" novalidate>
+          <div class="form-field">
+            <label for="nom">Nom</label>
+            <input type="text" id="nom" name="nom" required />
+          </div>
+          <div class="form-field">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" name="prenom" required />
+          </div>
+          <div class="form-field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn">Envoyer</button>
+          <p class="form-note">
+            En cliquant sur Envoyer, votre messagerie s'ouvre avec ce
+            message prérempli, adressé directement à la Chaire.
+          </p>
+        </form>
+      </div>
+    </div>
   </section>
 
   <script>
-    // Auto-advancing project slider: one project at a time, restarts its
-    // timer on manual dot clicks, pauses on hover/focus. Keeps advancing
-    // even with reduced motion requested — .project-slide's transition is
-    // dropped in that case (see site.css) so slides cut instead of fade.
-    const slider = document.getElementById('project-slider');
-    const slides = slider?.querySelectorAll<HTMLElement>('.project-slide');
-    const dots = slider?.querySelectorAll<HTMLButtonElement>('.project-slider-dots button');
+    const form = document.getElementById('soutenir-form') as HTMLFormElement | null;
 
-    if (slider && slides && dots && slides.length > 0) {
-      let index = 0;
-      let timer: ReturnType<typeof setInterval> | undefined;
+    form?.addEventListener('submit', (event) => {
+      event.preventDefault();
 
-      const show = (next: number) => {
-        index = (next + slides.length) % slides.length;
-        slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
-        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
-      };
+      const nom = (document.getElementById('nom') as HTMLInputElement).value;
+      const prenom = (document.getElementById('prenom') as HTMLInputElement).value;
+      const message = (document.getElementById('message') as HTMLTextAreaElement).value;
 
-      const stop = () => timer && clearInterval(timer);
+      const subject = `Contact - ${prenom} ${nom}`;
+      const body = [`Nom : ${nom}`, `Prénom : ${prenom}`, '', message].join('\n');
 
-      // Idempotent: always clears any running timer first. Without this,
-      // a mouseleave/focusout firing without a matching prior
-      // mouseenter/focusin (reachable if the pointer is already resting
-      // over the slider when the page loads) stacked a second interval,
-      // which is what made the slider appear to skip a slide.
-      const start = () => {
-        stop();
-        timer = setInterval(() => show(index + 1), 4500);
-      };
+      const mailto = `mailto:charles.hellec@aphp.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = mailto;
+    });
 
-      dots.forEach((dot, i) => {
-        dot.addEventListener('click', () => {
-          show(i);
-          stop();
-          start();
-        });
+    // Accordions: closing sibling <details> when one opens, so only one
+    // panel per level is expanded at a time (keeps the page scannable).
+    const closeSiblings = (el: HTMLDetailsElement) => {
+      const parent = el.parentElement;
+      if (!parent) return;
+      [...parent.children].forEach((sibling) => {
+        if (sibling !== el && sibling instanceof HTMLDetailsElement) sibling.open = false;
       });
+    };
 
-      slider.addEventListener('mouseenter', stop);
-      slider.addEventListener('mouseleave', start);
-      slider.addEventListener('focusin', stop);
-      slider.addEventListener('focusout', start);
-
-      start();
-    }
+    document.querySelectorAll<HTMLDetailsElement>('.accordion-item, .accordion-subitem, .phase-card').forEach((el) => {
+      el.addEventListener('toggle', () => {
+        if (el.open) closeSiblings(el);
+      });
+    });
   </script>
 </Base>
 
@@ -375,33 +600,51 @@ const partnerLogos = [
     50% { transform: translate(-50%, 8px); }
   }
 
-  .split-grid {
-    display: grid;
-    grid-template-columns: 1.3fr 0.7fr;
-    gap: var(--space-5);
-    align-items: center;
+  .text-muted {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
   }
 
-  .mission-media {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    max-width: 16rem;
-    margin-left: auto;
+  .section-sub {
+    margin-top: var(--space-6);
   }
 
-  .section-block.compact {
-    padding-top: var(--space-4);
-    padding-bottom: var(--space-4);
-  }
-
-  .projects-side .btn-row {
+  .partners-block {
     margin-top: var(--space-5);
+  }
+
+  .partners-label {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  .team-group {
+    margin-top: var(--space-4);
+  }
+
+  .team-group h3 {
+    margin-bottom: var(--space-3);
+  }
+
+  .person-card {
+    border-top-color: var(--color-accent) !important;
+  }
+
+  .person-name {
+    font-weight: 700;
+    font-size: var(--text-lg);
+  }
+
+  .person-role {
+    color: var(--color-muted);
+    margin-top: var(--space-1);
   }
 
   .donate {
     text-align: center;
-    background:
-      linear-gradient(120deg, var(--bopa-blue-1), var(--bopa-blue-2) 50%, var(--bopa-blue-3));
+    background: linear-gradient(120deg, var(--bopa-blue-1), var(--bopa-blue-2) 50%, var(--bopa-blue-3));
   }
 
   .donate .lede {
@@ -412,30 +655,180 @@ const partnerLogos = [
     justify-content: center;
   }
 
-  .donate .btn.btn-outline {
-    box-shadow: inset 0 0 0 1.5px #ffffff;
-    color: #ffffff;
+  .soutenir-form-card {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 48px rgba(2, 24, 49, 0.35);
+    padding: var(--space-5);
+    max-width: 34rem;
+    margin: var(--space-5) auto 0;
+    text-align: left;
   }
 
-  .donate .btn:not(.btn-outline) {
-    background: #ffffff;
-    color: var(--color-accent);
+  .soutenir-form-card h3 {
+    margin-bottom: var(--space-2);
   }
 
-  .partenaires-lede {
-    max-width: none;
-    margin-bottom: var(--space-5);
+  .soutenir-form-card > p {
+    color: var(--color-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  /* Accordion: wide category triggers, native <details>/<summary> so
+     open/close and keyboard behavior come free from the browser. */
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .accordion-item-lg > summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    background: color-mix(in srgb, var(--color-dark-ink) 6%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-dark-ink) 16%, transparent);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    list-style: none;
+    transition: background-color 0.15s ease;
+  }
+
+  .accordion-item-lg > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-item-lg > summary:hover {
+    background: color-mix(in srgb, var(--color-dark-ink) 12%, transparent);
+  }
+
+  .accordion-icon {
+    flex-shrink: 0;
+    color: var(--bopa-blue-4);
+  }
+
+  .accordion-title {
+    flex: 1;
+    font-size: var(--text-lg);
+    font-weight: 700;
+  }
+
+  .accordion-chevron {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .accordion-item[open] > summary .accordion-chevron,
+  .accordion-subitem[open] > summary .accordion-chevron,
+  .phase-card[open] > summary .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  .accordion-panel {
+    padding: var(--space-4) var(--space-2) 0;
+  }
+
+  .accordion-subgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .accordion-subitem {
+    background: color-mix(in srgb, var(--color-dark-ink) 4%, transparent);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .accordion-subitem > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+  }
+
+  .accordion-subitem > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-subpanel {
+    padding: 0 var(--space-4) var(--space-4);
+    color: var(--color-dark-ink);
+    opacity: 0.9;
+  }
+
+  .accordion-subpanel p + p {
+    margin-top: var(--space-2);
+  }
+
+  .phase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .phase-card {
+    background: color-mix(in srgb, var(--step-color) 16%, transparent);
+    border-top: 3px solid var(--step-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .phase-card > summary {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .phase-card > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .phase-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+  }
+
+  .phase-subtitle {
+    font-size: var(--text-sm);
+    color: var(--step-color);
+    font-weight: 600;
+    margin-top: var(--space-1);
+  }
+
+  .project-entry + .project-entry {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid color-mix(in srgb, var(--color-dark-ink) 16%, transparent);
+  }
+
+  .project-entry h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  .project-entry p {
+    color: var(--color-dark-ink);
+    opacity: 0.85;
+    margin-top: var(--space-1);
   }
 
   @media (max-width: 48rem) {
-    .split-grid {
-      grid-template-columns: 1fr;
+    .accordion-item-lg > summary {
+      padding: var(--space-3) var(--space-4);
     }
 
-    .mission-media {
-      order: -1;
-      max-width: 100%;
-      margin-left: 0;
+    .accordion-title {
+      font-size: var(--text-base);
     }
   }
 </style>
