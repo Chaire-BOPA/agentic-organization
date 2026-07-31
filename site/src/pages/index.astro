@@ -523,30 +523,30 @@ const team = [
       pointCountMobile: 32, // nombre de points sur mobile (perf)
       mobileBreakpoint: 640, // largeur (px) en dessous de laquelle on est "mobile"
 
-      opacityMin: 0.18, // opacité minimale au repos (respiration)
-      opacityMax: 0.42, // opacité maximale au repos (respiration)
+      opacityMin: 0.32, // opacité minimale au repos (respiration) - nettement plus visible
+      opacityMax: 0.75, // opacité maximale au repos (respiration)
       breatheSpeed: 0.0006, // vitesse de la respiration (plus petit = plus lent)
 
       driftSpeed: 0.0004, // vitesse du léger déplacement de certains points
       driftAmount: 3, // amplitude du déplacement (px)
       driftPointRatio: 0.35, // proportion de points qui dérivent un peu (les autres restent fixes)
 
-      connectionDistance: 115, // distance max (px) pour relier deux points par une ligne
-      lineOpacityMax: 0.24, // opacité max d'une ligne (à distance nulle)
-      lineWidth: 0.7, // épaisseur des lignes (px)
+      connectionDistance: 120, // distance max (px) pour relier deux points par une ligne
+      lineOpacityMax: 0.38, // opacité max d'une ligne (à distance nulle)
+      lineWidth: 0.8, // épaisseur des lignes (px)
 
       mouseRadius: 200, // rayon (px) d'influence de la souris autour d'un point
-      mouseBoost: 0.45, // opacité supplémentaire max apportée par la proximité de la souris
+      mouseBoost: 0.4, // opacité supplémentaire max apportée par la proximité de la souris
       mouseDisplace: 7, // déplacement max (px) d'un point proche du curseur
       mouseConnectionBoost: 1.4, // multiplicateur de connectionDistance près du curseur
       mouseEase: 0.08, // vitesse de rappel/suivi vers la position cible (0-1, plus petit = plus doux)
 
-      dotSizeMin: 1.7, // taille mini d'un point (px)
-      dotSizeMax: 3.4, // taille maxi d'un point (px)
-      glowBlur: 9, // flou du halo autour des points (shadowBlur) - un peu plus présent
+      dotSizeMin: 2, // taille mini d'un point (px)
+      dotSizeMax: 4, // taille maxi d'un point (px)
+      glowBlur: 15, // flou du halo autour des points (shadowBlur) - halo bien plus présent
 
-      dotColor: '205, 235, 255', // couleur des points, "r, g, b" (blanc légèrement bleuté)
-      lineColor: '205, 235, 255', // couleur des lignes, même teinte
+      dotColor: '225, 242, 255', // couleur des points, "r, g, b" (blanc légèrement bleuté, plus lumineux)
+      lineColor: '225, 242, 255', // couleur des lignes, même teinte
     };
 
     const canvas = document.getElementById('hero-network') as HTMLCanvasElement | null;
@@ -808,10 +808,10 @@ const team = [
      d'autre à toucher pour retoucher le rendu.
      ======================================================================= */
   .hero {
-    --hero-blue-dark: #021831; /* bleu nuit profond (bord gauche du dégradé) - approfondi */
-    --hero-blue-light: #4fb8e0; /* bleu clair (bord droit, laisse la photo apparaître) */
-    --hero-wash-opacity: 0.24; /* colorisation froide uniforme sur toute la photo */
-    --hero-vignette-opacity: 0.4; /* intensité de la vignette (jamais noire) */
+    --hero-blue-dark: #01101f; /* bleu marine très profond (bord gauche du dégradé) */
+    --hero-blue-light: #4fb8e0; /* bleu clair (bord droit, légèrement teinté, pas transparent) */
+    --hero-wash-opacity: 0.35; /* colorisation froide uniforme sur toute la photo */
+    --hero-vignette-opacity: 0.55; /* intensité de la vignette (jamais noire) */
     --hero-text-max-width: 560px; /* largeur du bloc de texte */
     --hero-image-position-y: 82%; /* cadrage vertical de la photo (object-position) */
     --hero-height-ratio: 3; /* ratio largeur/hauteur du hero (aspect-ratio) */
@@ -832,7 +832,7 @@ const team = [
       min-height: 24rem;
       /* Filtre légèrement renforcé sur mobile : le texte a moins de place
          pour respirer loin de la photo, il faut plus de contraste. */
-      --hero-wash-opacity: 0.32;
+      --hero-wash-opacity: 0.42;
     }
   }
 
@@ -870,10 +870,10 @@ const team = [
     z-index: 2;
     background: linear-gradient(
       to right,
-      color-mix(in srgb, var(--hero-blue-dark) 96%, transparent) 0%,
-      color-mix(in srgb, var(--hero-blue-dark) 78%, transparent) 40%,
-      color-mix(in srgb, var(--hero-blue-light) 28%, transparent) 72%,
-      color-mix(in srgb, var(--hero-blue-light) 10%, transparent) 100%
+      color-mix(in srgb, var(--hero-blue-dark) 99%, transparent) 0%,
+      color-mix(in srgb, var(--hero-blue-dark) 90%, transparent) 48%,
+      color-mix(in srgb, var(--hero-blue-light) 40%, transparent) 78%,
+      color-mix(in srgb, var(--hero-blue-light) 22%, transparent) 100%
     );
     pointer-events: none;
   }
