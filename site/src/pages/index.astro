@@ -523,17 +523,17 @@ const team = [
       pointCountMobile: 32, // nombre de points sur mobile (perf)
       mobileBreakpoint: 640, // largeur (px) en dessous de laquelle on est "mobile"
 
-      opacityMin: 0.15, // opacité minimale au repos (respiration)
-      opacityMax: 0.35, // opacité maximale au repos (respiration)
+      opacityMin: 0.18, // opacité minimale au repos (respiration)
+      opacityMax: 0.42, // opacité maximale au repos (respiration)
       breatheSpeed: 0.0006, // vitesse de la respiration (plus petit = plus lent)
 
       driftSpeed: 0.0004, // vitesse du léger déplacement de certains points
       driftAmount: 3, // amplitude du déplacement (px)
       driftPointRatio: 0.35, // proportion de points qui dérivent un peu (les autres restent fixes)
 
-      connectionDistance: 110, // distance max (px) pour relier deux points par une ligne
-      lineOpacityMax: 0.18, // opacité max d'une ligne (à distance nulle)
-      lineWidth: 0.6, // épaisseur des lignes (px)
+      connectionDistance: 115, // distance max (px) pour relier deux points par une ligne
+      lineOpacityMax: 0.24, // opacité max d'une ligne (à distance nulle)
+      lineWidth: 0.7, // épaisseur des lignes (px)
 
       mouseRadius: 200, // rayon (px) d'influence de la souris autour d'un point
       mouseBoost: 0.45, // opacité supplémentaire max apportée par la proximité de la souris
@@ -541,21 +541,12 @@ const team = [
       mouseConnectionBoost: 1.4, // multiplicateur de connectionDistance près du curseur
       mouseEase: 0.08, // vitesse de rappel/suivi vers la position cible (0-1, plus petit = plus doux)
 
-      dotSizeMin: 1.5, // taille mini d'un point (px)
-      dotSizeMax: 3, // taille maxi d'un point (px)
-      glowBlur: 6, // flou du halo autour des points (shadowBlur)
+      dotSizeMin: 1.7, // taille mini d'un point (px)
+      dotSizeMax: 3.4, // taille maxi d'un point (px)
+      glowBlur: 9, // flou du halo autour des points (shadowBlur) - un peu plus présent
 
       dotColor: '205, 235, 255', // couleur des points, "r, g, b" (blanc légèrement bleuté)
       lineColor: '205, 235, 255', // couleur des lignes, même teinte
-
-      // Concentration du maillage : plus verticalBias/horizontalBias sont
-      // grands, plus les points se resserrent en bas à gauche.
-      horizontalBias: 1.7,
-      verticalBias: 1.4,
-      // Le maillage s'estompe vers la droite : au-delà de ce ratio de
-      // largeur (0-1), l'opacité tend vers 0.
-      fadeStartRatio: 0.15,
-      fadeStrength: 1.3,
     };
 
     const canvas = document.getElementById('hero-network') as HTMLCanvasElement | null;
@@ -591,30 +582,49 @@ const team = [
         let animationFrame = 0;
 
         // Fondu du maillage vers la droite de l'image.
-        function fadeForX(xRatio: number) {
-          if (xRatio <= NETWORK_CONFIG.fadeStartRatio) return 1;
-          const t = (xRatio - NETWORK_CONFIG.fadeStartRatio) / (1 - NETWORK_CONFIG.fadeStartRatio);
-          return Math.max(0, 1 - Math.pow(t, NETWORK_CONFIG.fadeStrength));
+        // Poids de présence selon la position (0-1) : fort en bas à gauche,
+        // fort en bas, fort à droite ; nettement plus discret au centre de
+        // l'image pour ne jamais gêner la lecture du texte ni la scène.
+        function presenceWeight(xRatio: number, yRatio: number) {
+          const bottom = yRatio; // 0 en haut, 1 en bas
+          const left = 1 - xRatio; // 1 au bord gauche
+          const right = xRatio; // 1 au bord droit
+
+          const bottomLeft = left * bottom;
+          const bottomEdge = Math.pow(bottom, 1.4) * 0.75;
+          const rightEdge = Math.pow(right, 1.6) * 0.85;
+
+          let weight = Math.max(bottomLeft, bottomEdge, rightEdge);
+
+          // Suppression additionnelle au centre géométrique de l'image.
+          const dx = xRatio - 0.5;
+          const dy = yRatio - 0.42; // le centre "utile" est un peu plus haut que le milieu
+          const distFromCenter = Math.sqrt(dx * dx + dy * dy) / 0.5;
+          const centerFactor = Math.min(1, 0.25 + 0.9 * distFromCenter);
+
+          return Math.min(1, weight * centerFactor);
         }
 
-        // Génère les points, concentrés en bas à gauche, en s'estompant
-        // vers la droite. Les positions restent statistiques : sur cette
-        // photo précise, la zone basse-gauche est la plus sombre/vide et
-        // évite naturellement visages, chirurgien et ordinateur.
+        // Génère les points par échantillonnage pondéré : on tire des
+        // positions uniformes et on ne garde que celles dont le poids de
+        // présence "gagne" un tirage aléatoire, jusqu'à atteindre le
+        // nombre de points visés.
         function createPoints() {
           const isMobile = width < NETWORK_CONFIG.mobileBreakpoint;
           const count = isMobile ? NETWORK_CONFIG.pointCountMobile : NETWORK_CONFIG.pointCountDesktop;
           const next: Point[] = [];
+          const maxAttempts = count * 40;
+          let attempts = 0;
 
-          for (let i = 0; i < count; i++) {
-            const xRatio = Math.pow(Math.random(), NETWORK_CONFIG.horizontalBias);
-            const yRatio = 1 - Math.pow(Math.random(), NETWORK_CONFIG.verticalBias);
+          while (next.length < count && attempts < maxAttempts) {
+            attempts++;
+            const xRatio = Math.random();
+            const yRatio = Math.random();
+            const weight = presenceWeight(xRatio, yRatio);
+            if (Math.random() > weight) continue;
+
             const baseX = xRatio * width;
             const baseY = yRatio * height;
-            const fade = fadeForX(xRatio);
-
-            // Ignore les points quasi invisibles : inutile de les animer.
-            if (fade < 0.04) continue;
 
             next.push({
               baseX,
@@ -627,7 +637,7 @@ const team = [
               offsetY: 0,
               phase: Math.random() * Math.PI * 2,
               drifts: Math.random() < NETWORK_CONFIG.driftPointRatio,
-              fade,
+              fade: 0.55 + weight * 0.45, // un peu de variation, jamais trop pâle
               size: NETWORK_CONFIG.dotSizeMin + Math.random() * (NETWORK_CONFIG.dotSizeMax - NETWORK_CONFIG.dotSizeMin),
             });
           }
@@ -798,12 +808,12 @@ const team = [
      d'autre à toucher pour retoucher le rendu.
      ======================================================================= */
   .hero {
-    --hero-blue-dark: #04264d; /* bleu nuit profond (bord gauche du dégradé) */
+    --hero-blue-dark: #021831; /* bleu nuit profond (bord gauche du dégradé) - approfondi */
     --hero-blue-light: #4fb8e0; /* bleu clair (bord droit, laisse la photo apparaître) */
-    --hero-wash-opacity: 0.14; /* colorisation froide uniforme sur toute la photo */
-    --hero-vignette-opacity: 0.3; /* intensité de la vignette (jamais noire) */
+    --hero-wash-opacity: 0.24; /* colorisation froide uniforme sur toute la photo */
+    --hero-vignette-opacity: 0.4; /* intensité de la vignette (jamais noire) */
     --hero-text-max-width: 560px; /* largeur du bloc de texte */
-    --hero-image-position-y: 91%; /* cadrage vertical de la photo (object-position) */
+    --hero-image-position-y: 82%; /* cadrage vertical de la photo (object-position) */
     --hero-height-ratio: 3; /* ratio largeur/hauteur du hero (aspect-ratio) */
 
     position: relative;
@@ -822,7 +832,7 @@ const team = [
       min-height: 24rem;
       /* Filtre légèrement renforcé sur mobile : le texte a moins de place
          pour respirer loin de la photo, il faut plus de contraste. */
-      --hero-wash-opacity: 0.2;
+      --hero-wash-opacity: 0.32;
     }
   }
 
@@ -860,10 +870,10 @@ const team = [
     z-index: 2;
     background: linear-gradient(
       to right,
-      color-mix(in srgb, var(--hero-blue-dark) 88%, transparent) 0%,
-      color-mix(in srgb, var(--hero-blue-dark) 55%, transparent) 32%,
-      color-mix(in srgb, var(--hero-blue-light) 26%, transparent) 68%,
-      color-mix(in srgb, var(--hero-blue-light) 8%, transparent) 100%
+      color-mix(in srgb, var(--hero-blue-dark) 96%, transparent) 0%,
+      color-mix(in srgb, var(--hero-blue-dark) 78%, transparent) 40%,
+      color-mix(in srgb, var(--hero-blue-light) 28%, transparent) 72%,
+      color-mix(in srgb, var(--hero-blue-light) 10%, transparent) 100%
     );
     pointer-events: none;
   }
@@ -897,12 +907,14 @@ const team = [
     pointer-events: none;
   }
 
-  /* Canvas du maillage : au-dessus de la photo/des calques, sous le texte.
-     pointer-events: none pour ne jamais bloquer les clics/liens. */
+  /* Canvas du maillage : dernière couche visuelle, au-dessus du texte.
+     pointer-events: none pour ne jamais bloquer les clics/liens - la
+     distribution des points évite le centre pour ne jamais gêner la
+     lecture même si le canvas passe visuellement par-dessus. */
   .hero-network {
     position: absolute;
     inset: 0;
-    z-index: 5;
+    z-index: 7;
     width: 100%;
     height: 100%;
     pointer-events: none;
@@ -917,8 +929,8 @@ const team = [
   }
 
   .hero h1 {
-    font-size: clamp(2.25rem, 4.5vw, 3.75rem);
-    line-height: 1.15;
+    font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+    line-height: 1.2;
     margin: 0;
   }
 
@@ -938,6 +950,7 @@ const team = [
   .hero-actions {
     justify-content: flex-start;
     align-items: center;
+    gap: var(--space-4);
     margin-top: var(--space-4);
   }
 
