@@ -461,6 +461,9 @@ const team = [
         <h3>Nous contacter</h3>
         <p>Une question, un projet à proposer ? Écrivez-nous directement.</p>
         <form id="soutenir-form" class="contact-form" novalidate>
+          <input type="hidden" name="access_key" value="89ce7ec3-0341-4abe-a95e-b0f99be8b0d5" />
+          <input type="hidden" name="subject" value="Nouveau message depuis le site BOPA" />
+          <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off" />
           <div class="form-field">
             <label for="nom">Nom</label>
             <input type="text" id="nom" name="nom" required />
@@ -470,34 +473,63 @@ const team = [
             <input type="text" id="prenom" name="prenom" required />
           </div>
           <div class="form-field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-field">
             <label for="message">Message</label>
             <textarea id="message" name="message" rows="5" required></textarea>
           </div>
           <button type="submit" class="btn">Envoyer</button>
           <p class="form-note">
-            En cliquant sur Envoyer, votre messagerie s'ouvre avec ce
-            message prérempli, adressé directement à la Chaire.
+            En cliquant sur Envoyer, votre message est adressé directement à
+            la Chaire.
           </p>
+          <p class="form-status" role="status" aria-live="polite"></p>
         </form>
       </div>
     </div>
   </section>
 
   <script>
+    // Envoi direct via Web3Forms : le visiteur n'a plus besoin de sa
+    // propre messagerie, le message part depuis le formulaire.
     const form = document.getElementById('soutenir-form') as HTMLFormElement | null;
+    const statusEl = form?.querySelector('.form-status') as HTMLElement | null;
+    const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
 
-    form?.addEventListener('submit', (event) => {
+    form?.addEventListener('submit', async (event) => {
       event.preventDefault();
+      if (!submitBtn || !statusEl) return;
 
-      const nom = (document.getElementById('nom') as HTMLInputElement).value;
-      const prenom = (document.getElementById('prenom') as HTMLInputElement).value;
-      const message = (document.getElementById('message') as HTMLTextAreaElement).value;
+      const originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Envoi...';
+      statusEl.textContent = '';
+      statusEl.classList.remove('is-error', 'is-success');
 
-      const subject = `Contact - ${prenom} ${nom}`;
-      const body = [`Nom : ${nom}`, `Prénom : ${prenom}`, '', message].join('\n');
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const result = await response.json();
 
-      const mailto = `mailto:charles.hellec@aphp.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-      window.location.href = mailto;
+        if (result.success) {
+          form.reset();
+          statusEl.textContent = 'Message envoyé. Merci, nous revenons vers vous rapidement.';
+          statusEl.classList.add('is-success');
+        } else {
+          throw new Error(result.message ?? 'Échec de l\'envoi');
+        }
+      } catch {
+        statusEl.textContent = 'Le message n\'a pas pu être envoyé. Réessayez ou écrivez-nous directement à charles.hellec@aphp.fr.';
+        statusEl.classList.add('is-error');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalLabel;
+      }
     });
 
     // Accordions: closing sibling <details> when one opens, so only one

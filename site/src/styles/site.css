@@ -867,6 +867,20 @@ button {
   color: var(--color-muted);
 }
 
+.form-status {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  min-height: 1.2em;
+}
+
+.form-status.is-success {
+  color: var(--color-step-1);
+}
+
+.form-status.is-error {
+  color: #c0392b;
+}
+
 @media (max-width: 48rem) {
   .pipeline {
     grid-template-columns: 1fr;
