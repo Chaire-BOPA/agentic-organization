@@ -82,7 +82,7 @@ p + p { margin-top: var(--space-3); }
 
 .card-grid,
 .stat-row {
-  margin-top: var(--space-4);
+  margin-top: var(--space-5);
 }
 
 a {
@@ -289,9 +289,25 @@ button {
   color: var(--color-dark-ink);
 }
 
+/* Chaque section claire dégrade doucement vers l'autre teinte, en
+   commençant exactement là où la précédente s'est arrêtée : le fond
+   "respire" du haut en bas de la page plutôt que d'être un aplat figé,
+   sans jamais créer de coupure puisque les deux valeurs ne diffèrent que
+   de quelques unités RGB. */
+#qui-sommes-nous, #projets {
+  background: linear-gradient(180deg, var(--color-bg-tint) 0%, var(--color-bg-tint-2) 100%);
+}
+
+#approche, #equipe {
+  background: linear-gradient(180deg, var(--color-bg-tint-2) 0%, var(--color-bg-tint) 100%);
+}
+
 /* Fondu en haut de section : reprend le bleu marine de la section
    précédente et le dissout vers rien, pour qu'on ne voie jamais une
-   ligne de coupe entre deux fonds. */
+   ligne de coupe entre deux fonds. Trois paliers plutôt qu'un dégradé
+   linéaire à deux points : la fin se dissout beaucoup plus doucement
+   (courbe proche d'un ease-out), ce qui se perçoit comme nettement plus
+   "fondu" qu'un dégradé mathématiquement linéaire. */
 .fade-from-navy::before {
   content: '';
   position: absolute;
@@ -299,8 +315,13 @@ button {
   top: 0;
   left: 0;
   right: 0;
-  height: 9rem;
-  background: linear-gradient(to bottom, var(--color-navy), transparent);
+  height: 16rem;
+  background: linear-gradient(
+    to bottom,
+    var(--color-navy) 0%,
+    color-mix(in srgb, var(--color-navy) 55%, transparent) 42%,
+    transparent 100%
+  );
   pointer-events: none;
 }
 
@@ -312,8 +333,13 @@ button {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 9rem;
-  background: linear-gradient(to top, var(--color-navy), transparent);
+  height: 16rem;
+  background: linear-gradient(
+    to top,
+    var(--color-navy) 0%,
+    color-mix(in srgb, var(--color-navy) 55%, transparent) 42%,
+    transparent 100%
+  );
   pointer-events: none;
 }
 
@@ -335,18 +361,19 @@ button {
    Purement statique (pas de canvas ni de JS) - juste une ambiance qui
    rappelle l'identité graphique sans jamais rivaliser avec le contenu. */
 .mesh-echo {
+  --mesh-color: var(--color-accent);
   position: absolute;
   inset: 0;
   z-index: 0;
   opacity: 0.05;
   pointer-events: none;
   background-image:
-    radial-gradient(circle at 18% 28%, var(--color-accent) 0, var(--color-accent) 1.5px, transparent 1.5px),
-    radial-gradient(circle at 62% 62%, var(--color-accent) 0, var(--color-accent) 1.5px, transparent 1.5px),
-    radial-gradient(circle at 84% 22%, var(--color-accent) 0, var(--color-accent) 1.5px, transparent 1.5px),
-    radial-gradient(circle at 40% 85%, var(--color-accent) 0, var(--color-accent) 1.5px, transparent 1.5px),
-    linear-gradient(115deg, transparent 39.7%, var(--color-accent) 40%, transparent 40.3%),
-    linear-gradient(205deg, transparent 64.7%, var(--color-accent) 65%, transparent 65.3%);
+    radial-gradient(circle at 18% 28%, var(--mesh-color) 0, var(--mesh-color) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 62% 62%, var(--mesh-color) 0, var(--mesh-color) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 84% 22%, var(--mesh-color) 0, var(--mesh-color) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 40% 85%, var(--mesh-color) 0, var(--mesh-color) 1.5px, transparent 1.5px),
+    linear-gradient(115deg, transparent 39.7%, var(--mesh-color) 40%, transparent 40.3%),
+    linear-gradient(205deg, transparent 64.7%, var(--mesh-color) 65%, transparent 65.3%);
 }
 
 /* Halo bleu très diffus, pour la profondeur atmosphérique - jamais un
@@ -463,11 +490,11 @@ button {
    détache par contraste doux plutôt que par une grosse ombre. Bordure fine
    + ombre discrète pour une impression de profondeur sans surcharge. */
 .card {
-  background: var(--color-surface);
+  background: linear-gradient(160deg, var(--color-surface) 0%, var(--color-bg-tint) 140%);
   border: 1px solid var(--color-line);
   border-radius: var(--radius-lg);
   border-top: 3px solid var(--color-step-2);
-  box-shadow: 0 1px 2px rgba(4, 35, 56, 0.03), 0 10px 24px rgba(4, 35, 56, 0.05);
+  box-shadow: 0 2px 4px rgba(4, 35, 56, 0.04), 0 14px 32px rgba(4, 35, 56, 0.06);
   padding: var(--space-4);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
@@ -475,7 +502,7 @@ button {
 .card:hover {
   transform: translateY(-4px);
   border-color: color-mix(in srgb, var(--color-accent) 25%, var(--color-line));
-  box-shadow: 0 4px 10px rgba(4, 35, 56, 0.05), 0 20px 36px rgba(4, 35, 56, 0.08);
+  box-shadow: 0 6px 14px rgba(4, 35, 56, 0.06), 0 24px 44px rgba(4, 35, 56, 0.09);
 }
 
 .card-grid .card:nth-child(3n+1) { border-top-color: var(--color-step-1); }

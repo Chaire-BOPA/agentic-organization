@@ -32,8 +32,13 @@
 
   /* Very faint blue-white, replaces flat #fff as the default section
      background so the site reads as one continuous world instead of a
-     stack of white cards on a page. */
+     stack of white cards on a page. Two near-identical values (barely a
+     few RGB units apart) let consecutive sections hand off a gentle
+     gradient to each other - a breathing rhythm down the page instead of
+     one static flat color, with zero visible seam because each section
+     starts exactly where the previous one's gradient ended. */
   --color-bg-tint: #f6f9fd;
+  --color-bg-tint-2: #eef4fb;
 
   /* Secondary accents, one per pré/per/post-opératoire step (pipeline
      diagram, phase tags) — approved by the owner alongside a mockup that
