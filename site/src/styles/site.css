@@ -232,6 +232,13 @@ button {
   border-radius: var(--radius-md);
 }
 
+/* Le sélecteur ci-dessus (.site-header nav > a) est plus spécifique que
+   .btn-filled-premium et écrasait son color:#fff par le var(--color-ink)
+   du menu. On regagne la priorité ici plutôt que d'utiliser !important. */
+.site-header nav > a.btn-filled-premium {
+  color: #fff;
+}
+
 .site-footer {
   border-top: 1px solid var(--color-line);
   color: var(--color-muted);
@@ -259,6 +266,15 @@ button {
 
 .section-block.dark a {
   color: var(--color-accent-2);
+}
+
+/* Les boutons premium (hero) gardent leur blanc : .section-block.dark a
+   est plus spécifique que .btn-outline-premium/.btn-filled-premium
+   seuls et écrasait leur color:#fff. */
+.section-block.dark a.btn-outline-premium,
+.section-block.dark a.btn-filled-premium,
+.section-block.dark a.scroll-cue {
+  color: #fff;
 }
 
 .kicker {
