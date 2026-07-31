@@ -24,6 +24,7 @@ These start as sensible defaults; edit them to fit.
 - Cut buzzwords on sight (leverage, seamless, innovative, solutions...). Keep a running list here of words the owner has banned: TODO.
 - Titles in sentence case, no period.
 - Numbers, dates, and prices follow the conventions of the site language, consistently.
+- Never use the em dash "—", anywhere, ever, including in code comments. Always use a plain hyphen "-" instead. The owner finds the em dash reads as an AI writing tic.
 
 ## Languages
 

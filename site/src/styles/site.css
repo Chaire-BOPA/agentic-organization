@@ -194,7 +194,7 @@ button {
 }
 
 .site-header nav > a:hover {
-  background: var(--bopa-blue-4);
+  background: var(--color-accent);
   color: #fff;
 }
 
@@ -207,7 +207,7 @@ button {
 }
 
 .site-header nav > a.nav-cta:hover {
-  background: var(--bopa-blue-3);
+  background: var(--bopa-blue-4);
   color: #fff;
 }
 
@@ -324,7 +324,7 @@ button {
   gap: var(--space-4);
 }
 
-/* Static, labeled logo row — used on the dedicated partners page. The
+/* Static, labeled logo row - used on the dedicated partners page. The
    home page uses .logo-marquee instead for a lighter, decorative pass. */
 .logo-grid {
   display: flex;
