@@ -243,17 +243,18 @@ button {
   margin-left: var(--space-5);
 }
 
-/* Le CTA du header doit être un bouton .btn identique à ceux du hero
-   (même forme pilule, même padding, même survol) plutôt qu'un lien de nav
-   habillé en bleu. .site-header nav > a (0,1,2) est plus spécifique que
-   .btn seul (0,1,0) et écrasait son padding/radius/transform : on regagne
-   la priorité ici, sans !important, pour que les deux boutons soient
-   rigoureusement le même composant. */
+/* Le CTA du header doit être un bouton .btn identique à ceux du hero -
+   rectangle arrondi (var(--radius-md)), texte en minuscules, comme
+   .hero-actions .btn - plutôt qu'un lien de nav habillé en bleu.
+   .site-header nav > a (0,1,2) est plus spécifique que .btn seul (0,1,0)
+   et écrasait son padding/radius/transform : on regagne la priorité ici,
+   sans !important, pour que les deux boutons soient rigoureusement le
+   même composant. */
 .site-header nav > a.btn {
   padding: var(--space-2) var(--space-4);
-  border-radius: 999px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  border-radius: var(--radius-md);
+  text-transform: none;
+  letter-spacing: normal;
   font-size: var(--text-sm);
   font-weight: 700;
 }
