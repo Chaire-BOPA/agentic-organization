@@ -36,17 +36,32 @@ const team = [
   description="La Chaire Innovation BOPA invente la chirurgie hépato-bilio-pancréatique de demain, au sein de l'hôpital Paul-Brousse AP-HP."
 >
   <section id="accueil" class="section-block dark hero">
+    <!-- 1. Photo brute, intacte : object-fit cover + object-position pour
+         cadrer, jamais de filter/blur/scale dessus. -->
+    <img
+      class="hero-photo"
+      src="/photos/hero-bloc-op-natural.jpg"
+      alt="Une équipe chirurgicale au bloc opératoire, autour d'un ordinateur affichant une modélisation 3D du foie"
+      width="2800"
+      height="1758"
+    />
+    <!-- 2. Calques de teinte : uniquement dégradés/opacités, jamais un filter sur la photo. -->
+    <div class="hero-wash" aria-hidden="true"></div>
+    <div class="hero-gradient" aria-hidden="true"></div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <!-- 3. Flou de lisibilité, limité à la zone du texte (gauche). -->
+    <div class="hero-text-blur" aria-hidden="true"></div>
     <canvas id="hero-network" class="hero-network" aria-hidden="true"></canvas>
     <div class="wrap" data-reveal>
       <h1>Nous façonnons<br />le bloc opératoire<br /><em>de demain.</em></h1>
       <p class="lede">
-        La Chaire Innovation BOPA développe des solutions numériques<br />
-        innovantes pour améliorer la qualité, la sécurité et l'expérience<br />
+        La Chaire Innovation BOPA développe des solutions numériques
+        innovantes pour améliorer la qualité, la sécurité et l'expérience
         des patients en chirurgie hépato-bilio-pancréatique.
       </p>
       <div class="btn-row hero-actions">
-        <a class="btn" href="#projets">Découvrez nos projets</a>
-        <a class="btn" href="https://soutenir.fondationaphp.fr/BOPA/" target="_blank" rel="noopener">Nous soutenir</a>
+        <a class="btn btn-primary" href="#projets">Découvrir nos projets</a>
+        <a class="btn btn-secondary" href="https://soutenir.fondationaphp.fr/BOPA/" target="_blank" rel="noopener">Nous soutenir</a>
       </div>
     </div>
     <a href="#qui-sommes-nous" class="scroll-cue" aria-label="Découvrir la suite">
@@ -778,14 +793,26 @@ const team = [
 </Base>
 
 <style>
+  /* =======================================================================
+     HERO - variables : tout ce qu'on ajuste habituellement vit ici, rien
+     d'autre à toucher pour retoucher le rendu.
+     ======================================================================= */
   .hero {
+    --hero-blue-dark: #04264d; /* bleu nuit profond (bord gauche du dégradé) */
+    --hero-blue-light: #4fb8e0; /* bleu clair (bord droit, laisse la photo apparaître) */
+    --hero-wash-opacity: 0.14; /* colorisation froide uniforme sur toute la photo */
+    --hero-vignette-opacity: 0.3; /* intensité de la vignette (jamais noire) */
+    --hero-text-max-width: 560px; /* largeur du bloc de texte */
+    --hero-image-position-y: 91%; /* cadrage vertical de la photo (object-position) */
+    --hero-height-ratio: 3; /* ratio largeur/hauteur du hero (aspect-ratio) */
+
     position: relative;
     overflow: hidden;
-    aspect-ratio: 3 / 1;
+    aspect-ratio: var(--hero-height-ratio) / 1;
     padding-top: var(--space-5);
     padding-bottom: var(--space-5);
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     text-align: left;
   }
 
@@ -793,23 +820,89 @@ const team = [
     .hero {
       aspect-ratio: auto;
       min-height: 24rem;
+      /* Filtre légèrement renforcé sur mobile : le texte a moins de place
+         pour respirer loin de la photo, il faut plus de contraste. */
+      --hero-wash-opacity: 0.2;
     }
   }
 
-  .hero::before {
-    content: '';
+  /* 1. La photo, intacte : pas de filter, pas de blur, pas de scale().
+     object-fit: cover garde le niveau de zoom constant quel que soit
+     object-position ; seule la fenêtre de cadrage se déplace. */
+  .hero-photo {
     position: absolute;
     inset: 0;
     z-index: 0;
-    background: url('/photos/hero-bloc-op-v5.jpg') center / contain no-repeat;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center var(--hero-image-position-y);
   }
 
-  /* Canvas du maillage : posé au-dessus de la photo, sous le texte.
+  /* 2a. Colorisation froide légère, uniforme : donne l'impression d'une
+     lumière naturellement bleutée plutôt qu'un voile plaqué dessus. */
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--hero-blue-dark);
+    opacity: var(--hero-wash-opacity);
+    mix-blend-mode: color;
+    pointer-events: none;
+  }
+
+  /* 2b. Le grand dégradé horizontal : nuit profonde à gauche (contraste
+     pour le texte), transition douce, bleu clair à droite qui laisse la
+     photo se révéler presque nature. */
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--hero-blue-dark) 88%, transparent) 0%,
+      color-mix(in srgb, var(--hero-blue-dark) 55%, transparent) 32%,
+      color-mix(in srgb, var(--hero-blue-light) 26%, transparent) 68%,
+      color-mix(in srgb, var(--hero-blue-light) 8%, transparent) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* 2c. Vignette discrète, toujours dans les tons bleu nuit (jamais noire). */
+  .hero-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: radial-gradient(
+      130% 130% at 50% 50%,
+      transparent 55%,
+      color-mix(in srgb, var(--hero-blue-dark) 60%, transparent) 100%
+    );
+    opacity: var(--hero-vignette-opacity);
+    pointer-events: none;
+  }
+
+  /* 3. Flou de lisibilité : seulement une bande à gauche, derrière le
+     texte, en flou dégressif (jamais un bord net) ; backdrop-filter
+     floute ce qu'il y a dessous (la photo), pas la photo elle-même. */
+  .hero-text-blur {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    width: min(48%, 44rem);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    mask-image: linear-gradient(to right, black 0%, black 55%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, black 0%, black 55%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Canvas du maillage : au-dessus de la photo/des calques, sous le texte.
      pointer-events: none pour ne jamais bloquer les clics/liens. */
   .hero-network {
     position: absolute;
     inset: 0;
-    z-index: 1;
+    z-index: 5;
     width: 100%;
     height: 100%;
     pointer-events: none;
@@ -817,14 +910,15 @@ const team = [
 
   .hero .wrap {
     position: relative;
-    z-index: 3;
+    z-index: 6;
     margin: 0;
-    padding-left: var(--space-3);
+    max-width: var(--hero-text-max-width);
+    padding-left: clamp(1.5rem, 5vw, 5rem);
   }
 
   .hero h1 {
-    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
-    max-width: 56rem;
+    font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+    line-height: 1.15;
     margin: 0;
   }
 
@@ -834,35 +928,61 @@ const team = [
   }
 
   .hero .lede {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
     margin: var(--space-3) 0 0;
-    max-width: 40rem;
+    max-width: 31.25rem; /* ~500px */
   }
 
   .hero-actions {
     justify-content: flex-start;
+    align-items: center;
     margin-top: var(--space-4);
   }
 
   .hero-actions .btn {
-    background: transparent;
-    color: #fff;
-    box-shadow: inset 0 0 0 1px #fff;
     padding: var(--space-3) var(--space-5);
     border-radius: var(--radius-md);
     text-transform: none;
     letter-spacing: normal;
   }
 
-  .hero-actions .btn:hover {
-    background: var(--bopa-blue-4);
+  .hero-actions .btn-primary {
+    background: var(--color-accent);
     color: #fff;
+    box-shadow: none;
+  }
+
+  .hero-actions .btn-primary:hover {
+    background: var(--bopa-blue-2);
+  }
+
+  .hero-actions .btn-secondary {
+    background: transparent;
+    color: #fff;
+    box-shadow: inset 0 0 0 1px #fff;
+  }
+
+  .hero-actions .btn-secondary:hover {
+    background: var(--bopa-blue-4);
     box-shadow: inset 0 0 0 1px var(--bopa-blue-4);
+  }
+
+  @media (max-width: 40rem) {
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .hero-actions .btn {
+      text-align: center;
+    }
   }
 
   .scroll-cue {
     position: absolute;
-    z-index: 3;
+    z-index: 6;
     bottom: var(--space-4);
     left: 50%;
     transform: translateX(-50%);
