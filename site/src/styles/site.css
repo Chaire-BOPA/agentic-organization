@@ -103,24 +103,37 @@ button {
   cursor: pointer;
 }
 
-/* Footer stays in the constrained container; page sections manage their
-   own full-bleed background via .section-block. The header is full-bleed
-   (see below) with its own inner wrap for the same max-width alignment. */
+/* Bleu marine plein, même valeur que .donate juste au-dessus : le footer
+   prolonge la section "Nous soutenir" sans coupure, comme un retour
+   naturel au bleu du Hero. */
 .site-footer {
   width: 100%;
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: var(--space-3) var(--space-4);
+  padding: var(--space-4);
+  background: var(--color-navy);
+  color: rgba(244, 248, 251, 0.6);
+  font-size: var(--text-sm);
+  text-align: center;
 }
 
 .site-header {
   width: 100%;
-  /* ~15% de moins que var(--space-3) verticalement : header plus fin. */
-  padding: 0.85rem var(--space-4);
+  /* Encore ~15% de moins qu'avant : header très fin au repos. */
+  padding: 0.72rem var(--space-4);
   position: sticky;
   top: 0;
   background: #fff;
   z-index: 10;
+  transition: padding 0.35s ease, background-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* Au scroll : header plus compact encore, légèrement transparent avec un
+   flou premium derrière, et une ombre discrète qui le détache du contenu. */
+.site-header.is-scrolled {
+  padding: 0.5rem var(--space-4);
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 8px 28px rgba(4, 35, 56, 0.08);
 }
 
 .site-header-inner {
@@ -225,43 +238,83 @@ button {
 }
 
 /* Couleur/animation : .btn-filled-premium, partagée avec le hero.
-   Ici, uniquement l'espacement et le rayon propres au contexte du menu. */
+   Ici, uniquement l'espacement propre au contexte du menu. */
 .site-header nav > a.nav-cta {
   margin-left: var(--space-5);
-  font-weight: 700;
-  border-radius: var(--radius-md);
 }
 
-/* Le sélecteur ci-dessus (.site-header nav > a) est plus spécifique que
-   .btn-filled-premium et écrasait son color:#fff par le var(--color-ink)
-   du menu. On regagne la priorité ici plutôt que d'utiliser !important. */
+/* Le CTA du header doit être un bouton .btn identique à ceux du hero
+   (même forme pilule, même padding, même survol) plutôt qu'un lien de nav
+   habillé en bleu. .site-header nav > a (0,1,2) est plus spécifique que
+   .btn seul (0,1,0) et écrasait son padding/radius/transform : on regagne
+   la priorité ici, sans !important, pour que les deux boutons soient
+   rigoureusement le même composant. */
+.site-header nav > a.btn {
+  padding: var(--space-2) var(--space-4);
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
 .site-header nav > a.btn-filled-premium {
   color: #fff;
 }
 
-.site-footer {
-  border-top: 1px solid var(--color-line);
-  color: var(--color-muted);
-  font-size: var(--text-sm);
-}
-
-/* Full-bleed section blocks: the building block of the scrollable home
-   page. Each section owns its background; .wrap re-applies the shared
-   max-width so content lines up with the header/footer. */
+/* Un seul univers graphique du haut en bas de la page : plus de blocs
+   blancs/gris/foncés qui alternent. Toute section "claire" partage la
+   même teinte bleu-blanc à peine perceptible (--color-bg-tint) ; seules
+   le Hero et "Nous soutenir" restent dans le bleu marine profond, en
+   bookends volontaires (voir .fade-from-navy / .fade-to-navy plus bas
+   pour la transition en douceur entre les deux mondes). */
 .section-block {
   width: 100%;
   padding: var(--space-6) var(--space-4);
   scroll-margin-top: var(--space-5);
+  position: relative;
+  overflow: hidden;
+  background: var(--color-bg-tint);
 }
 
 .section-block .wrap {
+  position: relative;
+  z-index: 2;
   max-width: var(--max-width);
   margin: 0 auto;
 }
 
 .section-block.dark {
-  background: var(--color-dark);
+  background: var(--color-navy);
   color: var(--color-dark-ink);
+}
+
+/* Fondu en haut de section : reprend le bleu marine de la section
+   précédente et le dissout vers rien, pour qu'on ne voie jamais une
+   ligne de coupe entre deux fonds. */
+.fade-from-navy::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 9rem;
+  background: linear-gradient(to bottom, var(--color-navy), transparent);
+  pointer-events: none;
+}
+
+/* Même principe en pied de section, vers le bleu marine qui suit. */
+.fade-to-navy::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 9rem;
+  background: linear-gradient(to top, var(--color-navy), transparent);
+  pointer-events: none;
 }
 
 .section-block.dark a {
@@ -275,6 +328,36 @@ button {
 .section-block.dark a.btn-filled-premium,
 .section-block.dark a.scroll-cue {
   color: #fff;
+}
+
+/* Écho très discret du maillage du Hero : quelques points + deux fines
+   lignes, en dessous du seuil de perception consciente (opacité ~0.05).
+   Purement statique (pas de canvas ni de JS) - juste une ambiance qui
+   rappelle l'identité graphique sans jamais rivaliser avec le contenu. */
+.mesh-echo {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.05;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle at 18% 28%, var(--color-accent) 0, var(--color-accent) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 62% 62%, var(--color-accent) 0, var(--color-accent) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 84% 22%, var(--color-accent) 0, var(--color-accent) 1.5px, transparent 1.5px),
+    radial-gradient(circle at 40% 85%, var(--color-accent) 0, var(--color-accent) 1.5px, transparent 1.5px),
+    linear-gradient(115deg, transparent 39.7%, var(--color-accent) 40%, transparent 40.3%),
+    linear-gradient(205deg, transparent 64.7%, var(--color-accent) 65%, transparent 65.3%);
+}
+
+/* Halo bleu très diffus, pour la profondeur atmosphérique - jamais un
+   élément qu'on remarque consciemment, juste une lumière ambiante. */
+.ambient-halo {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--color-accent-2) 20%, transparent), transparent 70%);
+  filter: blur(48px);
+  pointer-events: none;
 }
 
 .kicker {
@@ -376,18 +459,23 @@ button {
   width: auto;
 }
 
+/* Blanc pur sur fond légèrement teinté (.section-block) : la carte se
+   détache par contraste doux plutôt que par une grosse ombre. Bordure fine
+   + ombre discrète pour une impression de profondeur sans surcharge. */
 .card {
   background: var(--color-surface);
+  border: 1px solid var(--color-line);
   border-radius: var(--radius-lg);
   border-top: 3px solid var(--color-step-2);
-  box-shadow: 0 1px 2px rgba(4, 35, 56, 0.04), 0 12px 28px rgba(4, 35, 56, 0.06);
+  box-shadow: 0 1px 2px rgba(4, 35, 56, 0.03), 0 10px 24px rgba(4, 35, 56, 0.05);
   padding: var(--space-4);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
 .card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 8px rgba(4, 35, 56, 0.06), 0 20px 36px rgba(4, 35, 56, 0.1);
+  border-color: color-mix(in srgb, var(--color-accent) 25%, var(--color-line));
+  box-shadow: 0 4px 10px rgba(4, 35, 56, 0.05), 0 20px 36px rgba(4, 35, 56, 0.08);
 }
 
 .card-grid .card:nth-child(3n+1) { border-top-color: var(--color-step-1); }

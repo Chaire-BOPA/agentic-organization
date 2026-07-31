@@ -22,6 +22,19 @@
   --color-dark: #04264d;        /* full-bleed emphasis sections */
   --color-dark-ink: #f4f8fb;    /* text on dark sections */
 
+  /* Navy bookend family: matches the Hero's own tones exactly, so the
+     donate section and footer can return to the same deep blue with no
+     visible seam. Also used for the Hero itself (kept in sync manually,
+     since the Hero's colors are locked and scoped to its own component). */
+  --color-navy: #081f4a;
+  --color-navy-2: #0a2b63;
+  --color-navy-3: #123e7a;
+
+  /* Very faint blue-white, replaces flat #fff as the default section
+     background so the site reads as one continuous world instead of a
+     stack of white cards on a page. */
+  --color-bg-tint: #f6f9fd;
+
   /* Secondary accents, one per pré/per/post-opératoire step (pipeline
      diagram, phase tags) — approved by the owner alongside a mockup that
      moved past a blue-only palette. --color-accent (blue) stays primary
@@ -48,7 +61,7 @@
   --text-sm: 0.875rem;
   --text-base: 1.0625rem;
   --text-lg: 1.375rem;
-  --text-xl: 1.875rem;
+  --text-xl: clamp(1.85rem, 2.4vw, 2.375rem); /* section h2 : plus présent, hiérarchie plus nette */
   --text-2xl: 3.25rem;
 
   /* Spacing scale (rem) */

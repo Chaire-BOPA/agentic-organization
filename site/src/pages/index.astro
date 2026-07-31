@@ -72,7 +72,7 @@ const team = [
     </a>
   </section>
 
-  <section id="qui-sommes-nous" class="section-block">
+  <section id="qui-sommes-nous" class="section-block fade-from-navy">
     <div class="wrap" data-reveal>
       <span class="kicker">La Chaire</span>
       <h2>Qui sommes-nous ?</h2>
@@ -127,6 +127,8 @@ const team = [
   </section>
 
   <section id="approche" class="section-block">
+    <div class="mesh-echo" aria-hidden="true"></div>
+    <div class="ambient-halo" aria-hidden="true" style="width: 26rem; height: 26rem; top: -6rem; right: -4rem;"></div>
     <div class="wrap" data-reveal>
       <span class="kicker">Notre approche</span>
       <h2>La vision : de l'innovation exclusive au progrès universel</h2>
@@ -220,7 +222,9 @@ const team = [
     </div>
   </section>
 
-  <section id="projets" class="section-block dark">
+  <section id="projets" class="section-block">
+    <div class="mesh-echo" aria-hidden="true" style="opacity: 0.04;"></div>
+    <div class="ambient-halo" aria-hidden="true" style="width: 30rem; height: 30rem; bottom: -8rem; left: -6rem;"></div>
     <div class="wrap" data-reveal>
       <span class="kicker">Innovations</span>
       <h2>Nos projets et réalisations</h2>
@@ -409,7 +413,7 @@ const team = [
     </div>
   </section>
 
-  <section id="equipe" class="section-block">
+  <section id="equipe" class="section-block fade-to-navy">
     <div class="wrap" data-reveal>
       <span class="kicker">La Chaire</span>
       <h2>Notre équipe</h2>
@@ -929,7 +933,7 @@ const team = [
   }
 
   .hero h1 {
-    font-size: clamp(1.84rem, 3.36vw, 2.89rem); /* +5% vs la version précédente */
+    font-size: clamp(1.73rem, 3.16vw, 2.72rem); /* -6% : titre plus discret, laisse respirer le reste */
     line-height: 1.2;
     margin: 0;
   }
@@ -941,7 +945,7 @@ const team = [
 
   .hero .lede {
     font-size: 1.15rem;
-    line-height: 1.6;
+    line-height: 1.68;
     color: rgba(255, 255, 255, 0.85);
     margin: var(--space-3) 0 0;
     max-width: 31.25rem; /* ~500px */
@@ -951,7 +955,7 @@ const team = [
     justify-content: flex-start;
     align-items: center;
     gap: var(--space-4);
-    margin-top: var(--space-4);
+    margin-top: calc(var(--space-4) + var(--space-2)); /* un peu plus d'air avant les boutons */
   }
 
   /* La couleur/animation vient des classes partagées .btn-outline-premium
@@ -1018,7 +1022,7 @@ const team = [
   }
 
   .team-group {
-    margin-top: var(--space-4);
+    margin-top: var(--space-5);
   }
 
   .team-group h3 {
@@ -1039,9 +1043,21 @@ const team = [
     margin-top: var(--space-1);
   }
 
+  /* Bleu marine plat, identique au Hero et au footer qui suit : aucune
+     couture visible entre les trois. Un seul halo diffus en plus, pour la
+     profondeur (voir .donate::before), jamais un vrai dégradé de teinte. */
   .donate {
     text-align: center;
-    background: linear-gradient(120deg, var(--bopa-blue-1), var(--bopa-blue-2) 50%, var(--bopa-blue-3));
+    background: var(--color-navy);
+  }
+
+  .donate::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: radial-gradient(120% 100% at 25% 0%, color-mix(in srgb, var(--color-navy-3) 45%, transparent), transparent 65%);
+    pointer-events: none;
   }
 
   .donate .lede {
@@ -1086,12 +1102,12 @@ const team = [
     gap: var(--space-3);
     width: 100%;
     padding: var(--space-4) var(--space-5);
-    background: color-mix(in srgb, var(--color-dark-ink) 6%, transparent);
-    border: 1px solid color-mix(in srgb, var(--color-dark-ink) 16%, transparent);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     cursor: pointer;
     list-style: none;
-    transition: background-color 0.15s ease;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
   }
 
   .accordion-item-lg > summary::-webkit-details-marker {
@@ -1099,12 +1115,14 @@ const team = [
   }
 
   .accordion-item-lg > summary:hover {
-    background: color-mix(in srgb, var(--color-dark-ink) 12%, transparent);
+    background: var(--color-bg-tint);
+    box-shadow: 0 8px 20px rgba(4, 35, 56, 0.08);
+    transform: translateY(-2px);
   }
 
   .accordion-icon {
     flex-shrink: 0;
-    color: var(--bopa-blue-4);
+    color: var(--color-accent);
   }
 
   .accordion-title {
@@ -1135,9 +1153,15 @@ const team = [
   }
 
   .accordion-subitem {
-    background: color-mix(in srgb, var(--color-dark-ink) 4%, transparent);
+    background: var(--color-bg-tint);
+    border: 1px solid var(--color-line);
     border-radius: var(--radius);
     overflow: hidden;
+    transition: box-shadow 0.25s ease;
+  }
+
+  .accordion-subitem:hover {
+    box-shadow: 0 8px 20px rgba(4, 35, 56, 0.06);
   }
 
   .accordion-subitem > summary {
@@ -1157,8 +1181,8 @@ const team = [
 
   .accordion-subpanel {
     padding: 0 var(--space-4) var(--space-4);
-    color: var(--color-dark-ink);
-    opacity: 0.9;
+    color: var(--color-ink);
+    opacity: 0.85;
   }
 
   .accordion-subpanel p + p {
@@ -1172,10 +1196,16 @@ const team = [
   }
 
   .phase-card {
-    background: color-mix(in srgb, var(--step-color) 16%, transparent);
+    background: color-mix(in srgb, var(--step-color) 10%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--step-color) 22%, var(--color-line));
     border-top: 3px solid var(--step-color);
     border-radius: var(--radius);
     overflow: hidden;
+    transition: box-shadow 0.25s ease;
+  }
+
+  .phase-card:hover {
+    box-shadow: 0 8px 20px rgba(4, 35, 56, 0.07);
   }
 
   .phase-card > summary {
@@ -1205,7 +1235,7 @@ const team = [
   .project-entry + .project-entry {
     margin-top: var(--space-3);
     padding-top: var(--space-3);
-    border-top: 1px solid color-mix(in srgb, var(--color-dark-ink) 16%, transparent);
+    border-top: 1px solid var(--color-line);
   }
 
   .project-entry h4 {
@@ -1214,7 +1244,7 @@ const team = [
   }
 
   .project-entry p {
-    color: var(--color-dark-ink);
+    color: var(--color-ink);
     opacity: 0.85;
     margin-top: var(--space-1);
   }

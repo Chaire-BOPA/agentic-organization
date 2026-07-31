@@ -57,7 +57,7 @@ const navCta = { href: '/#soutenir', label: 'Nous soutenir' };
               {item.label}
             </a>
           ))}
-          <a class="nav-cta btn-filled-premium" href={navCta.href}>
+          <a class="btn nav-cta btn-filled-premium" href={navCta.href}>
             {navCta.label}
           </a>
         </nav>
@@ -69,6 +69,19 @@ const navCta = { href: '/#soutenir', label: 'Nous soutenir' };
     <footer class="site-footer">
       <p>© {new Date().getFullYear()} {siteName}</p>
     </footer>
+    <script>
+      // Header compact au scroll : au-delà d'un petit seuil, le header
+      // gagne un fond flouté/translucide et une ombre discrète (voir
+      // .site-header.is-scrolled dans site.css).
+      const header = document.querySelector<HTMLElement>('.site-header');
+      if (header) {
+        const applyScrollState = () => {
+          header.classList.toggle('is-scrolled', window.scrollY > 24);
+        };
+        applyScrollState();
+        window.addEventListener('scroll', applyScrollState, { passive: true });
+      }
+    </script>
     <script>
       // Scroll-reveal: fade/slide [data-reveal] elements up as they enter
       // the viewport, once each. Stat numbers additionally count up from 0.
