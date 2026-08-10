@@ -16,11 +16,13 @@ const siteName = 'BOPA';
 
 type NavLink = { href: string; label: string };
 
-// One-pager: nav links are all in-page anchors. Adding a section means
-// adding one link below, matching its id in index.astro.
+// Mostly in-page anchors into the one-pager; "Nos innovations" is the
+// one exception, pointing at its own dedicated page (site/src/pages/
+// innovations.astro) since the home page's carousel only shows a
+// preview of the full project list.
 const nav: NavLink[] = [
   { href: '/#approche', label: 'Notre approche' },
-  { href: '/#projets', label: 'Nos projets' },
+  { href: '/innovations', label: 'Nos innovations' },
   { href: '/#equipe', label: 'Notre équipe' },
   { href: '/#contact', label: 'Contact' },
 ];

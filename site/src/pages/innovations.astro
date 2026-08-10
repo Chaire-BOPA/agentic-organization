@@ -1,0 +1,112 @@
+---
+import Base from '../layouts/Base.astro';
+
+const phases = [
+  {
+    id: 'pre',
+    label: 'Préopératoire',
+    subtitle: 'Communiquer',
+    step: 'var(--color-step-1)',
+    projects: [
+      {
+        name: 'LiverSight',
+        text: "Communication médecin-patient en 3D avant l'opération. En partenariat avec Toys Films, sous la supervision du Dr Oriana Ciacio et du Pr Éric Vibert.",
+      },
+      {
+        name: 'PancreasSight',
+        text: 'La même approche appliquée à la chirurgie pancréatique, en partenariat avec Toys Films et le Dr Gabriella Pittau.',
+      },
+    ],
+  },
+  {
+    id: 'per',
+    label: 'Peropératoire',
+    subtitle: 'Assister le chirurgien',
+    step: 'var(--color-step-2)',
+    projects: [
+      {
+        name: 'BOPCAM',
+        text: "Un casque qui filme les mains du chirurgien en chirurgie ouverte : analyse d'images en direct, compte-rendu opératoire augmenté, télé-expertise.",
+      },
+      {
+        name: 'Henri',
+        text: "Un assistant conçu pour accompagner le chirurgien pendant l'opération : informations fiables sur le patient, checklist, antécédents.",
+      },
+      {
+        name: "De l'analyse d'image à la start-up",
+        text: "Le travail sur l'analyse d'images au bloc opératoire a donné naissance à Uncovr, une start-up née d'un besoin de terrain identifié par les équipes.",
+      },
+    ],
+  },
+  {
+    id: 'post',
+    label: 'Postopératoire',
+    subtitle: 'Suivre les patients',
+    step: 'var(--color-step-3)',
+    projects: [
+      {
+        name: 'Colette',
+        text: 'Un chatbot qui accompagne 24h/24 les patients transplantés du foie, né d\'un besoin identifié directement par les soignants.',
+      },
+      {
+        name: 'Suivi longitudinal et valeur en santé',
+        text: "Aligné sur l'axe VBHC de l'AP-HP : évaluer la qualité de vie du patient via des questionnaires PROM et PREM, pour identifier des leviers d'amélioration des soins.",
+      },
+      {
+        name: 'Quelle place pour le ressenti du chirurgien ?',
+        text: "Corréler l'état émotionnel du chirurgien au résultat clinique et au ressenti du patient, pour en faire un levier d'action à part entière.",
+      },
+    ],
+  },
+];
+---
+
+<Base
+  title="Nos innovations — BOPA"
+  description="Tous les projets de la Chaire Innovation BOPA, du préopératoire au postopératoire."
+>
+  <section class="section-block">
+    <div class="mesh-echo" aria-hidden="true"></div>
+    <div class="wrap" data-reveal>
+      <span class="kicker">Innovations</span>
+      <h1>Nos innovations</h1>
+      <p class="lede">
+        Des idées nées sur le terrain, portées par les équipes du bloc
+        opératoire : voici tous les projets de la Chaire, à chaque étape du
+        parcours patient.
+      </p>
+    </div>
+
+    {phases.map((phase) => (
+      <div class="wrap section-sub" data-reveal>
+        <span class="phase-tag" style={`--step-color: ${phase.step}`}>{phase.label}</span>
+        <h2>{phase.subtitle}</h2>
+        <div class="card-grid">
+          {phase.projects.map((project) => (
+            <article class="card" style={`border-top-color: ${phase.step}`}>
+              <h3>{project.name}</h3>
+              <p>{project.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    ))}
+
+    <div class="wrap btn-row" data-reveal>
+      <a class="btn" href="/#projets">Retour à l'accueil</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* .section-sub lives in index.astro's own scoped <style> - redeclared
+     here since Astro doesn't share page-scoped styles across pages. */
+  .section-sub {
+    margin-top: var(--space-6);
+  }
+
+  .section-sub .phase-tag {
+    margin-bottom: var(--space-2);
+  }
+</style>
+
