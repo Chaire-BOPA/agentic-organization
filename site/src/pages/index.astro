@@ -131,47 +131,41 @@ const team = [
   <section id="approche" class="section-block">
     <div class="mesh-echo" aria-hidden="true"></div>
     <div class="ambient-halo" aria-hidden="true" style="width: 26rem; height: 26rem; top: -6rem; right: -4rem;"></div>
-    <div class="wrap" data-reveal>
-      <span class="kicker">Notre approche</span>
-      <h2>La vision : de l'innovation exclusive au progrès universel</h2>
-      <p class="lede">
-        Une conviction de sciences humaines guide chaque projet : une
-        innovation n'a de valeur que si elle est adoptée. Trois exigences
-        cadrent tout ce que la Chaire construit.
-      </p>
-    </div>
-    <div class="wrap" data-reveal style="--reveal-delay: 0.1s">
-      <div class="value-list">
+    <div class="wrap approche-intro" data-reveal>
+      <div>
+        <span class="kicker">Notre approche</span>
+        <h2>La vision : de l'innovation exclusive au progrès universel</h2>
+        <p class="lede">
+          Une conviction de sciences humaines guide chaque projet : une
+          innovation n'a de valeur que si elle est adoptée. Trois exigences
+          cadrent tout ce que la Chaire construit.
+        </p>
+      </div>
+      <div class="value-column">
         <div class="value-item" style="--step-color: var(--color-step-1)">
-          <span class="value-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" />
-              <path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" />
+            <path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
           <div>
             <h3>Acceptabilité</h3>
             <p>Des solutions numériques co-construites et validées par les soignants.</p>
           </div>
         </div>
         <div class="value-item" style="--step-color: var(--color-step-2)">
-          <span class="value-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M8 12l-1.5 1.5a3 3 0 004.24 4.24L12 16.3M16 12l1.5-1.5a3 3 0 00-4.24-4.24L12 7.7M9.5 14.5l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 12l-1.5 1.5a3 3 0 004.24 4.24L12 16.3M16 12l1.5-1.5a3 3 0 00-4.24-4.24L12 7.7M9.5 14.5l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
           <div>
             <h3>Interopérabilité</h3>
             <p>Des systèmes capables de s'intégrer partout.</p>
           </div>
         </div>
         <div class="value-item" style="--step-color: var(--color-step-3)">
-          <span class="value-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 18c-1-6 2-11 12-12 0 10-5 13-11 13-1 0-1.5-0.3-1-1z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-              <path d="M7.5 16.5c2-3 4.5-5.5 7-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-            </svg>
-          </span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 18c-1-6 2-11 12-12 0 10-5 13-11 13-1 0-1.5-0.3-1-1z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M7.5 16.5c2-3 4.5-5.5 7-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          </svg>
           <div>
             <h3>Soutenabilité</h3>
             <p>Une approche éthique, responsable financièrement, et sobre en carbone.</p>
@@ -316,7 +310,7 @@ const team = [
       </div>
     </div>
 
-    <div class="wrap section-sub" data-reveal style="--reveal-delay: 0.1s">
+    <div class="wrap section-sub carousel-wrap" data-reveal style="--reveal-delay: 0.1s">
       <div class="project-slider" id="project-slider">
         <a class="project-slide is-active" href="/innovations" style="--step-color: var(--color-step-1)">
           <div class="project-slide-bg"></div>
@@ -1084,6 +1078,13 @@ const team = [
     margin-bottom: var(--space-3);
   }
 
+  /* Own class on the carousel's wrap so it can override .section-sub's
+     generic margin-top (8rem) - a tighter gap right above the carousel
+     reads better than the rhythm used between the bigger sub-blocks. */
+  .carousel-wrap {
+    margin-top: var(--space-4);
+  }
+
   .carousel-more {
     text-align: center;
     margin-top: var(--space-3);
@@ -1093,9 +1094,9 @@ const team = [
     display: inline-flex;
     align-items: center;
     gap: var(--space-1);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    color: var(--color-muted);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-accent);
     text-decoration: none;
   }
 
@@ -1118,32 +1119,34 @@ const team = [
     max-width: none;
   }
 
-  /* Lighter than .card-grid on purpose: an icon + a line of text, not a
-     boxed block, so it doesn't repeat the same "3 cards in a row" pattern
-     as the pipeline and the méthode grid right below it. */
-  .value-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+  /* Text left, the three values stacked to its right - not another
+     "3 cards in a row" (that pattern already repeats in the pipeline and
+     the méthode grid right below). A colored left-border accent instead
+     of a boxed card or an icon badge - a third, lighter visual language. */
+  .approche-intro {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
     gap: var(--space-5);
+    align-items: start;
+  }
+
+  .value-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
   }
 
   .value-item {
     display: flex;
     align-items: flex-start;
     gap: var(--space-3);
-    max-width: 16rem;
+    padding-left: var(--space-3);
+    border-left: 3px solid var(--step-color);
   }
 
-  .value-icon {
+  .value-item svg {
     flex-shrink: 0;
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 999px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: color-mix(in srgb, var(--step-color) 14%, white);
+    margin-top: 0.2em;
     color: var(--step-color);
   }
 
@@ -1158,8 +1161,8 @@ const team = [
   }
 
   @media (max-width: 48rem) {
-    .value-list {
-      justify-content: flex-start;
+    .approche-intro {
+      grid-template-columns: 1fr;
     }
   }
 

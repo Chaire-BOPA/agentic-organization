@@ -15,14 +15,22 @@ const { title, description } = Astro.props;
 const siteName = 'BOPA';
 
 type NavLink = { href: string; label: string };
+type NavGroup = { label: string; children: NavLink[] };
+type NavItem = NavLink | NavGroup;
 
 // Mostly in-page anchors into the one-pager; "Nos innovations" is the
-// one exception, pointing at its own dedicated page (site/src/pages/
-// innovations.astro) since the home page's carousel only shows a
-// preview of the full project list.
-const nav: NavLink[] = [
+// one exception, a dropdown to its three dedicated pages (the home
+// page's carousel only shows a preview of the full project list).
+const nav: NavItem[] = [
   { href: '/#approche', label: 'Notre approche' },
-  { href: '/innovations', label: 'Nos innovations' },
+  {
+    label: 'Nos innovations',
+    children: [
+      { href: '/innovations', label: 'Nos projets' },
+      { href: '/boptech', label: 'Plateforme BOPtech' },
+      { href: '/publications', label: 'Publications' },
+    ],
+  },
   { href: '/#equipe', label: 'Notre équipe' },
   { href: '/#contact', label: 'Contact' },
 ];
@@ -54,11 +62,22 @@ const navCta = { href: '/#soutenir', label: 'Nous soutenir' };
           </span>
         </a>
         <nav>
-          {nav.map((item) => (
-            <a href={item.href}>
-              {item.label}
-            </a>
-          ))}
+          {nav.map((item) =>
+            'children' in item ? (
+              <div class="nav-dropdown">
+                <button type="button" class="nav-dropdown-trigger" aria-expanded="false">
+                  {item.label}
+                </button>
+                <div class="nav-dropdown-panel">
+                  {item.children.map((child) => (
+                    <a href={child.href}>{child.label}</a>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <a href={item.href}>{item.label}</a>
+            )
+          )}
           <a class="btn nav-cta btn-filled-premium" href={navCta.href}>
             {navCta.label}
           </a>
@@ -71,6 +90,36 @@ const navCta = { href: '/#soutenir', label: 'Nous soutenir' };
     <footer class="site-footer">
       <p>© {new Date().getFullYear()} {siteName}</p>
     </footer>
+    <script>
+      // Click-to-open nav dropdown (just "Nos innovations" for now):
+      // closes on outside click, Escape, or when a link inside is chosen.
+      const dropdowns = document.querySelectorAll<HTMLElement>('.nav-dropdown');
+
+      const closeAllDropdowns = () => {
+        dropdowns.forEach((d) => {
+          d.classList.remove('is-open');
+          d.querySelector('.nav-dropdown-trigger')?.setAttribute('aria-expanded', 'false');
+        });
+      };
+
+      dropdowns.forEach((dropdown) => {
+        const trigger = dropdown.querySelector('.nav-dropdown-trigger');
+        trigger?.addEventListener('click', (event) => {
+          event.stopPropagation();
+          const isOpen = dropdown.classList.contains('is-open');
+          closeAllDropdowns();
+          if (!isOpen) {
+            dropdown.classList.add('is-open');
+            trigger.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+
+      document.addEventListener('click', closeAllDropdowns);
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeAllDropdowns();
+      });
+    </script>
     <script>
       // Header compact au scroll : au-delà d'un petit seuil, le header
       // gagne un fond flouté/translucide et une ombre discrète (voir
