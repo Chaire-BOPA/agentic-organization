@@ -61,9 +61,27 @@ body {
   flex-direction: column;
 }
 
+/* One continuous gradient painted on <main> itself (not per-section):
+   since every light .section-block below is transparent, each just
+   reveals its own slice of this single gradient as you scroll, so the
+   blue/white wave flows smoothly across section boundaries instead of
+   resetting at each one. Percentages are relative to main's full
+   height, not the viewport, so the wave stretches over however long
+   the page actually is. */
 main {
   flex: 1;
   width: 100%;
+  background: linear-gradient(
+    180deg,
+    #ffffff 0%,
+    color-mix(in srgb, var(--bopa-blue-3) 14%, white) 14%,
+    #ffffff 30%,
+    color-mix(in srgb, var(--bopa-blue-4) 16%, white) 46%,
+    #ffffff 62%,
+    color-mix(in srgb, var(--bopa-blue-3) 14%, white) 78%,
+    #ffffff 94%,
+    color-mix(in srgb, var(--bopa-blue-4) 12%, white) 100%
+  );
 }
 
 h1, h2, h3 {
@@ -186,6 +204,18 @@ button {
   .wordmark-title {
     font-size: 0.85rem;
   }
+
+  /* Wordmark + nav together overflowed the viewport below ~400px
+     (.site-header-inner is nowrap by design, so nothing could shrink
+     into place). Drop the two-line title text and keep just the mark -
+     the logo alone still identifies the site. */
+  .wordmark-text {
+    display: none;
+  }
+
+  .site-header nav {
+    gap: var(--space-2);
+  }
 }
 
 .site-header nav {
@@ -263,19 +293,18 @@ button {
   color: #fff;
 }
 
-/* Un seul univers graphique du haut en bas de la page : plus de blocs
-   blancs/gris/foncés qui alternent. Toute section "claire" partage la
-   même teinte bleu-blanc à peine perceptible (--color-bg-tint) ; seules
-   le Hero et "Nous soutenir" restent dans le bleu marine profond, en
-   bookends volontaires (voir .fade-from-navy / .fade-to-navy plus bas
-   pour la transition en douceur entre les deux mondes). */
+/* One continuous world from top to bottom: light sections stay
+   transparent so <main>'s single gradient (above) shows through
+   uninterrupted as you scroll past each one. Only the Hero and "Nous
+   soutenir" opt out, staying in the deep navy bookend (see
+   .fade-from-navy / .fade-to-navy below for the smooth handoff). */
 .section-block {
   width: 100%;
   padding: var(--space-6) var(--space-4);
   scroll-margin-top: var(--space-5);
   position: relative;
   overflow: hidden;
-  background: var(--color-bg-tint);
+  background: transparent;
 }
 
 .section-block .wrap {
@@ -288,19 +317,6 @@ button {
 .section-block.dark {
   background: var(--color-navy);
   color: var(--color-dark-ink);
-}
-
-/* Chaque section claire dégrade doucement vers l'autre teinte, en
-   commençant exactement là où la précédente s'est arrêtée : le fond
-   "respire" du haut en bas de la page plutôt que d'être un aplat figé,
-   sans jamais créer de coupure puisque les deux valeurs ne diffèrent que
-   de quelques unités RGB. */
-#qui-sommes-nous, #projets {
-  background: linear-gradient(180deg, var(--color-bg-tint) 0%, var(--color-bg-tint-2) 100%);
-}
-
-#approche, #equipe {
-  background: linear-gradient(180deg, var(--color-bg-tint-2) 0%, var(--color-bg-tint) 100%);
 }
 
 /* Fondu en haut de section : reprend le bleu marine de la section
@@ -584,18 +600,15 @@ button {
   margin-top: var(--space-1);
 }
 
-/* Big-image auto-advancing project slider. */
-.projects-layout {
-  display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: var(--space-5);
-  align-items: center;
-  margin-top: var(--space-4);
-}
-
+/* Auto-advancing project carousel: one project at a time, tagged by
+   pré/per/post-opératoire phase. Standalone centered block (not part of
+   a text+image split) since there's no photo per project, just a
+   phase-colored gradient. */
 .project-slider {
   position: relative;
-  aspect-ratio: 4 / 3;
+  max-width: 40rem;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
   border-radius: var(--radius-lg);
   overflow: hidden;
 }
@@ -613,10 +626,10 @@ button {
   visibility: visible;
 }
 
-.project-slide .placeholder-media {
+.project-slide-bg {
   position: absolute;
   inset: 0;
-  border-radius: 0;
+  background: linear-gradient(135deg, var(--step-color), color-mix(in srgb, var(--step-color) 55%, var(--color-navy)));
 }
 
 .project-slide::before {
@@ -889,13 +902,5 @@ button {
 
   .pipeline-step::after {
     display: none;
-  }
-
-  .projects-layout {
-    grid-template-columns: 1fr;
-  }
-
-  .projects-layout .project-slider {
-    order: -1;
   }
 }

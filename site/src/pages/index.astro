@@ -140,25 +140,47 @@ const team = [
         cadrent tout ce que la Chaire construit.
       </p>
     </div>
-    <div class="wrap">
-      <div class="card-grid">
-        <div class="card">
-          <h3>Acceptabilité</h3>
-          <p>Des solutions numériques co-construites et validées par les soignants.</p>
+    <div class="wrap" data-reveal style="--reveal-delay: 0.1s">
+      <div class="value-list">
+        <div class="value-item" style="--step-color: var(--color-step-1)">
+          <span class="value-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" />
+              <path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <div>
+            <h3>Acceptabilité</h3>
+            <p>Des solutions numériques co-construites et validées par les soignants.</p>
+          </div>
         </div>
-        <div class="card">
-          <h3>Interopérabilité</h3>
-          <p>Des systèmes capables de s'intégrer partout.</p>
+        <div class="value-item" style="--step-color: var(--color-step-2)">
+          <span class="value-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M8 12l-1.5 1.5a3 3 0 004.24 4.24L12 16.3M16 12l1.5-1.5a3 3 0 00-4.24-4.24L12 7.7M9.5 14.5l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </span>
+          <div>
+            <h3>Interopérabilité</h3>
+            <p>Des systèmes capables de s'intégrer partout.</p>
+          </div>
         </div>
-        <div class="card">
-          <h3>Soutenabilité</h3>
-          <p>Une approche éthique, responsable financièrement, et sobre en carbone.</p>
+        <div class="value-item" style="--step-color: var(--color-step-3)">
+          <span class="value-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M6 18c-1-6 2-11 12-12 0 10-5 13-11 13-1 0-1.5-0.3-1-1z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M7.5 16.5c2-3 4.5-5.5 7-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+          </span>
+          <div>
+            <h3>Soutenabilité</h3>
+            <p>Une approche éthique, responsable financièrement, et sobre en carbone.</p>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="wrap section-sub">
-      <span class="kicker">Notre approche</span>
       <h2>Le projet scientifique : augmenter le parcours patient</h2>
       <p class="lede">
         BOPA2 (2025-2030) améliore la qualité et la sécurité des soins à
@@ -184,7 +206,6 @@ const team = [
     </div>
 
     <div class="wrap section-sub">
-      <span class="kicker">Notre approche</span>
       <h2>La méthode</h2>
       <p class="lede">
         Trois degrés de maturité pour travailler avec la Chaire, dans un
@@ -234,6 +255,85 @@ const team = [
         Des chiffres à l'impact concret : ce que la Chaire a bâti, et ce
         qu'elle construit aujourd'hui à chaque étape du parcours patient.
       </p>
+    </div>
+
+    <div class="wrap" data-reveal style="--reveal-delay: 0.1s">
+      <div class="project-slider" id="project-slider">
+        <div class="project-slide is-active" style="--step-color: var(--color-step-1)">
+          <div class="project-slide-bg"></div>
+          <span class="phase-tag">Préopératoire</span>
+          <div class="project-slide-info">
+            <h3>LiverSight</h3>
+            <p>Communication médecin-patient en 3D avant l'opération.</p>
+          </div>
+        </div>
+        <div class="project-slide" style="--step-color: var(--color-step-1)">
+          <div class="project-slide-bg"></div>
+          <span class="phase-tag">Préopératoire</span>
+          <div class="project-slide-info">
+            <h3>PancreasSight</h3>
+            <p>La même approche appliquée à la chirurgie pancréatique.</p>
+          </div>
+        </div>
+        <div class="project-slide" style="--step-color: var(--color-step-2)">
+          <div class="project-slide-bg"></div>
+          <span class="phase-tag">Peropératoire</span>
+          <div class="project-slide-info">
+            <h3>BOPCAM</h3>
+            <p>Un casque qui filme les mains du chirurgien : analyse en direct, télé-expertise.</p>
+          </div>
+        </div>
+        <div class="project-slide" style="--step-color: var(--color-step-2)">
+          <div class="project-slide-bg"></div>
+          <span class="phase-tag">Peropératoire</span>
+          <div class="project-slide-info">
+            <h3>Henri</h3>
+            <p>Un assistant qui accompagne le chirurgien pendant l'opération.</p>
+          </div>
+        </div>
+        <div class="project-slide" style="--step-color: var(--color-step-2)">
+          <div class="project-slide-bg"></div>
+          <span class="phase-tag">Peropératoire</span>
+          <div class="project-slide-info">
+            <h3>Uncovr</h3>
+            <p>Une start-up née de l'analyse d'images au bloc opératoire.</p>
+          </div>
+        </div>
+        <div class="project-slide" style="--step-color: var(--color-step-3)">
+          <div class="project-slide-bg"></div>
+          <span class="phase-tag">Postopératoire</span>
+          <div class="project-slide-info">
+            <h3>Colette</h3>
+            <p>Un chatbot qui accompagne 24h/24 les patients transplantés du foie.</p>
+          </div>
+        </div>
+        <div class="project-slide" style="--step-color: var(--color-step-3)">
+          <div class="project-slide-bg"></div>
+          <span class="phase-tag">Postopératoire</span>
+          <div class="project-slide-info">
+            <h3>Suivi longitudinal</h3>
+            <p>Évaluer la qualité de vie du patient via des questionnaires PROM et PREM.</p>
+          </div>
+        </div>
+        <div class="project-slide" style="--step-color: var(--color-step-3)">
+          <div class="project-slide-bg"></div>
+          <span class="phase-tag">Postopératoire</span>
+          <div class="project-slide-info">
+            <h3>Ressenti du chirurgien</h3>
+            <p>Corréler l'état émotionnel du chirurgien au résultat clinique.</p>
+          </div>
+        </div>
+        <div class="project-slider-dots">
+          <button type="button" class="is-active" aria-label="Projet 1 : LiverSight"></button>
+          <button type="button" aria-label="Projet 2 : PancreasSight"></button>
+          <button type="button" aria-label="Projet 3 : BOPCAM"></button>
+          <button type="button" aria-label="Projet 4 : Henri"></button>
+          <button type="button" aria-label="Projet 5 : Uncovr"></button>
+          <button type="button" aria-label="Projet 6 : Colette"></button>
+          <button type="button" aria-label="Projet 7 : Suivi longitudinal"></button>
+          <button type="button" aria-label="Projet 8 : Ressenti du chirurgien"></button>
+        </div>
+      </div>
     </div>
 
     <div class="wrap accordion">
@@ -315,7 +415,7 @@ const team = [
             <circle cx="14" cy="5" r="2.2" stroke="currentColor" stroke-width="1.6" />
             <path d="M14 8v3M11.5 15.8 6.6 19.3M16.5 15.8l4.9 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
           </svg>
-          <span class="accordion-title">Des exemples de projets innovants made in BOPA</span>
+          <span class="accordion-title">En découvrir plus : tous nos projets, phase par phase</span>
           <svg class="accordion-chevron" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
@@ -543,6 +643,48 @@ const team = [
         if (el.open) closeSiblings(el);
       });
     });
+
+    // Auto-advancing project carousel: one project at a time, restarts its
+    // timer on manual dot clicks, pauses on hover/focus. start() always
+    // clears any running timer first - without that, a mouseleave/focusout
+    // firing without a matching prior mouseenter/focusin (reachable if the
+    // pointer is already resting over the slider on page load) stacks a
+    // second interval and the slider appears to randomly skip a slide.
+    const slider = document.getElementById('project-slider');
+    const slides = slider?.querySelectorAll<HTMLElement>('.project-slide');
+    const dots = slider?.querySelectorAll<HTMLButtonElement>('.project-slider-dots button');
+
+    if (slider && slides && dots && slides.length > 0) {
+      let index = 0;
+      let timer: ReturnType<typeof setInterval> | undefined;
+
+      const show = (next: number) => {
+        index = (next + slides.length) % slides.length;
+        slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
+      };
+
+      const stop = () => timer && clearInterval(timer);
+      const start = () => {
+        stop();
+        timer = setInterval(() => show(index + 1), 4500);
+      };
+
+      dots.forEach((dot, i) => {
+        dot.addEventListener('click', () => {
+          show(i);
+          stop();
+          start();
+        });
+      });
+
+      slider.addEventListener('mouseenter', stop);
+      slider.addEventListener('mouseleave', start);
+      slider.addEventListener('focusin', stop);
+      slider.addEventListener('focusout', start);
+
+      start();
+    }
   </script>
 
   <script>
@@ -1043,8 +1185,71 @@ const team = [
     margin-top: var(--space-6);
   }
 
+  /* #approche's subtitle was capped at the shared .lede max-width (44rem)
+     while its h2 above ran the section's full width - looked like the
+     text got cut in half. Let it use the whole wrap here. */
+  #approche .lede {
+    max-width: none;
+  }
+
+  /* Lighter than .card-grid on purpose: an icon + a line of text, not a
+     boxed block, so it doesn't repeat the same "3 cards in a row" pattern
+     as the pipeline and the méthode grid right below it. */
+  .value-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--space-5);
+  }
+
+  .value-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    max-width: 16rem;
+  }
+
+  .value-icon {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: color-mix(in srgb, var(--step-color) 14%, white);
+    color: var(--step-color);
+  }
+
+  .value-item h3 {
+    font-size: var(--text-base);
+    margin-bottom: var(--space-1);
+  }
+
+  .value-item p {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 48rem) {
+    .value-list {
+      justify-content: flex-start;
+    }
+  }
+
   .partners-block {
     margin-top: var(--space-5);
+  }
+
+  /* The gap between the partner logos and "Notre approche" was two full
+     .section-block paddings stacked (qui-sommes-nous's bottom +
+     approche's top = 16rem). Tighten just this junction. */
+  #qui-sommes-nous {
+    padding-bottom: var(--space-5);
+  }
+
+  #approche {
+    padding-top: var(--space-5);
   }
 
   .partners-label {
