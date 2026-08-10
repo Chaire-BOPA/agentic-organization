@@ -8,31 +8,40 @@ import Base from '../layouts/Base.astro';
 >
   <section class="section-block">
     <div class="mesh-echo" aria-hidden="true"></div>
-    <div class="wrap" data-reveal>
-      <span class="kicker">Innovations</span>
-      <h1>BOPtech</h1>
-      <p class="lede">
-        Financée par l'AP-HP, le Paris Saclay Cancer Cluster (PSCC) et BPI
-        France, BOPtech est une plateforme technologique et scientifique
-        unique, implantée au sein même du bloc opératoire du Centre
-        Hépato-Biliaire (CHB), dédiée à l'innovation en chirurgie guidée
-        par l'image, en endoscopie et en cancérologie hépato-biliaire et
-        pancréatique.
-      </p>
-      <p>
-        Pensée comme un véritable écosystème collaboratif, BOPtech
-        connecte les acteurs de la MedTech, de la Biotech et de la
-        recherche académique pour accélérer le développement de solutions
-        mini-invasives et de médicaments, au service des patients.
-      </p>
-      <p class="text-muted">
-        Face à l'augmentation de l'incidence et de la mortalité des
-        cancers du foie et du pancréas - touchant une population de plus
-        en plus âgée et fragile - la mission de BOPtech est claire :
-        soutenir l'émergence de start-ups, rassurer les PME/ETI et
-        favoriser l'innovation de terrain, au plus près des besoins
-        cliniques.
-      </p>
+    <div class="wrap intro-split" data-reveal>
+      <div>
+        <span class="kicker">Innovations</span>
+        <h1>BOPtech</h1>
+        <p class="lede">
+          Financée par l'AP-HP, le Paris Saclay Cancer Cluster (PSCC) et
+          BPI France, BOPtech est une plateforme technologique et
+          scientifique unique, implantée au sein même du bloc opératoire
+          du Centre Hépato-Biliaire (CHB), dédiée à l'innovation en
+          chirurgie guidée par l'image, en endoscopie et en cancérologie
+          hépato-biliaire et pancréatique.
+        </p>
+        <p>
+          Pensée comme un véritable écosystème collaboratif, BOPtech
+          connecte les acteurs de la MedTech, de la Biotech et de la
+          recherche académique pour accélérer le développement de
+          solutions mini-invasives et de médicaments, au service des
+          patients.
+        </p>
+        <p class="text-muted">
+          Face à l'augmentation de l'incidence et de la mortalité des
+          cancers du foie et du pancréas - touchant une population de
+          plus en plus âgée et fragile - la mission de BOPtech est
+          claire : soutenir l'émergence de start-ups, rassurer les
+          PME/ETI et favoriser l'innovation de terrain, au plus près des
+          besoins cliniques.
+        </p>
+      </div>
+      <img
+        class="intro-image"
+        src="/images/boptech/foie-modele.jpg"
+        alt="Modèle anatomique de foie utilisé pour la formation et la préparation chirurgicale."
+        loading="lazy"
+      />
     </div>
 
     <div class="wrap section-sub" data-reveal>
@@ -102,6 +111,18 @@ import Base from '../layouts/Base.astro';
               clinique - pour dérisquer, valider et accélérer le
               développement de nouvelles thérapies.
             </p>
+            <div class="subpanel-media">
+              <img
+                src="/images/boptech/inmachina-schema.png"
+                alt="Schéma illustrant le principe d'un dispositif de perfusion hépatique ex vivo : chaque fonction du corps est reproduite par un module technique (pompe pour le cœur, oxygénateur pour les poumons, dialyse pour les reins, algorithme pour le contrôle...)."
+                loading="lazy"
+              />
+              <img
+                src="/images/boptech/liver4life-equipe.jpg"
+                alt="Équipe de recherche autour d'un dispositif de perfusion hépatique ex vivo."
+                loading="lazy"
+              />
+            </div>
           </div>
         </details>
         <details class="accordion-subitem">
@@ -126,6 +147,13 @@ import Base from '../layouts/Base.astro';
               développements cliniques dans un environnement hospitalier
               d'excellence.
             </p>
+            <div class="subpanel-media">
+              <img
+                src="/images/boptech/salle-hybride.jpg"
+                alt="Chirurgien équipé d'un casque de réalité augmentée devant un système d'imagerie Philips Azurion en salle hybride."
+                loading="lazy"
+              />
+            </div>
           </div>
         </details>
       </div>
@@ -136,5 +164,44 @@ import Base from '../layouts/Base.astro';
 <style>
   .section-sub {
     margin-top: var(--space-6);
+  }
+
+  .intro-split {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .intro-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+
+  .subpanel-media {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-3);
+  }
+
+  .subpanel-media img {
+    flex: 1 1 14rem;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  @media (max-width: 48rem) {
+    .intro-split {
+      grid-template-columns: 1fr;
+    }
+
+    .intro-image {
+      order: -1;
+    }
   }
 </style>
