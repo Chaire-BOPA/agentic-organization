@@ -154,7 +154,8 @@ const team = [
         </div>
         <div class="value-item" style="--step-color: var(--color-step-2)">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M8 12l-1.5 1.5a3 3 0 004.24 4.24L12 16.3M16 12l1.5-1.5a3 3 0 00-4.24-4.24L12 7.7M9.5 14.5l5-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M9 2.5v4M15 2.5v4M7 6.5h10v3.5a5 5 0 01-10 0V6.5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M12 15v3.5M9.5 21.5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
           </svg>
           <div>
             <h3>Interopérabilité</h3>
@@ -1179,6 +1180,18 @@ const team = [
 
   #approche {
     padding-top: var(--space-5);
+  }
+
+  /* #equipe sat directly on the shared page gradient (main), and at this
+     scroll position the gradient was mid-transition between two of its
+     stops - it could read as an abrupt color jump rather than a smooth
+     wash. Solid background removes any chance of that; .fade-to-navy
+     still handles the transition into "Nous soutenir" below it. Also
+     tightens the gap above the section, same as the qui-sommes-nous ->
+     approche fix. */
+  #equipe {
+    padding-top: var(--space-5);
+    background: #ffffff;
   }
 
   .partners-label {

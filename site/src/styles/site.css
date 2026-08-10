@@ -778,9 +778,6 @@ button {
    partner logos, most of which are white or transparent themselves. */
 .logo-marquee {
   overflow: hidden;
-  background: #ffffff;
-  border-radius: var(--radius-lg);
-  padding: var(--space-4) 0;
   -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
 }
@@ -872,17 +869,19 @@ button {
   box-shadow: inset 0 0 0 2px var(--color-accent);
 }
 
-/* Plein bleu ciel premium au repos (le CTA le plus visible du site) ;
-   se fonce légèrement au survol avec une ombre diffuse discrète. */
+/* Plein bleu premium au repos (le CTA le plus visible du site) ; se
+   fonce encore au survol avec une ombre diffuse discrète. One notch
+   darker than the original bopa-blue-4/3 pair - too light to read as
+   "the" call to action against the header/hero. */
 .btn-filled-premium {
-  background: var(--bopa-blue-4);
+  background: var(--bopa-blue-3);
   color: #fff;
   box-shadow: none;
 }
 
 .btn-filled-premium:hover {
-  background: var(--bopa-blue-3);
-  box-shadow: 0 8px 20px rgba(3, 162, 218, 0.35);
+  background: var(--bopa-blue-2);
+  box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35);
 }
 
 .btn-row {
