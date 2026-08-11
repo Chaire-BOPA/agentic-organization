@@ -218,11 +218,113 @@ button {
   }
 }
 
+.site-header-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 .site-header nav {
   display: flex;
   align-items: center;
   gap: var(--space-3);
   flex-wrap: wrap;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 2.75rem;
+  height: 2.75rem;
+  flex-shrink: 0;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 1.5rem;
+  height: 2px;
+  background: var(--color-ink);
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.2s ease;
+}
+
+.nav-toggle[aria-expanded='true'] span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.nav-toggle[aria-expanded='true'] span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle[aria-expanded='true'] span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Full nav row only fits one line down to ~76rem in practice (5 links +
+   the "Nos innovations" dropdown trigger + the CTA button); below that
+   it used to wrap onto 2-3 lines and bloat the header - on a phone it
+   wrapped onto 7 lines and pushed the header past 300px tall. Collapse
+   behind a hamburger for that whole range instead of letting it wrap. */
+@media (max-width: 76rem) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .site-header nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    background: #fff;
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    box-shadow: 0 20px 40px rgba(4, 35, 56, 0.14);
+    max-height: calc(100vh - 100%);
+    overflow-y: auto;
+  }
+
+  .site-header nav.is-open {
+    display: flex;
+  }
+
+  .site-header nav > a,
+  .nav-dropdown-trigger {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .nav-dropdown-panel {
+    position: static;
+    box-shadow: none;
+    margin-top: 0;
+    padding-left: var(--space-3);
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+    max-height: 0;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .nav-dropdown.is-open .nav-dropdown-panel {
+    max-height: 20rem;
+    padding-top: var(--space-1);
+    padding-bottom: var(--space-1);
+  }
+
+  .site-header nav > a.nav-cta {
+    margin-left: 0;
+    margin-top: var(--space-2);
+    justify-content: center;
+  }
 }
 
 .site-header nav > a,

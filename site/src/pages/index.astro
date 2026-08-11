@@ -521,7 +521,7 @@ const team = [
       const stop = () => timer && clearInterval(timer);
       const start = () => {
         stop();
-        timer = setInterval(() => show(index + 1), 4500);
+        timer = setInterval(() => show(index + 1), 2500);
       };
 
       dots.forEach((dot, i) => {
@@ -852,6 +852,15 @@ const team = [
     position: relative;
     overflow: hidden;
     aspect-ratio: var(--hero-height-ratio) / 1;
+    /* Le ratio 3/1 seul rend le bloc trop bas pour son propre contenu
+       (titre + texte + boutons) sur à peu près tout le spectre "tablette
+       à ordinateur portable" (~640-1590px) : au ratio, la hauteur y est
+       plus courte que le contenu, qui se fait alors couper net par
+       l'overflow:hidden - jusqu'à 130px de boutons invisibles aux
+       largeurs les plus étroites de cette plage. Ce plancher garantit
+       assez de place quel que soit le nombre de lignes du titre ; au-delà
+       d'environ 1590px, le ratio dépasse déjà ce plancher et reprend la main. */
+    min-height: 35rem;
     padding-top: var(--space-5);
     padding-bottom: var(--space-5);
     display: flex;
@@ -1028,6 +1037,18 @@ const team = [
   @keyframes bob {
     0%, 100% { transform: translate(-50%, 0); }
     50% { transform: translate(-50%, 8px); }
+  }
+
+  /* Sur mobile, le bouton "Nous soutenir" (empilé sous le premier)
+     pousse jusqu'au bord bas du hero - exactement là où le repère
+     "Découvrir" est ancré (bottom: var(--space-4)), d'où un chevauchement
+     visuel confirmé. Le geste de scroll étant déjà acquis sur mobile, ce
+     repère décoratif n'est pas nécessaire : on le masque plutôt que de
+     complexifier la mise en page pour lui faire de la place. */
+  @media (max-width: 40rem) {
+    .scroll-cue {
+      display: none;
+    }
   }
 
   .text-muted {

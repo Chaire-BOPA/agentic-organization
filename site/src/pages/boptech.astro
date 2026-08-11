@@ -36,12 +36,14 @@ import Base from '../layouts/Base.astro';
           besoins cliniques.
         </p>
       </div>
-      <img
-        class="intro-image"
-        src="/images/boptech/foie-modele.jpg"
-        alt="Modèle anatomique de foie utilisé pour la formation et la préparation chirurgicale."
-        loading="lazy"
-      />
+      <div class="intro-media">
+        <img
+          class="intro-image"
+          src="/images/boptech/foie-modele.jpg"
+          alt="Modèle anatomique de foie utilisé pour la formation et la préparation chirurgicale."
+          loading="lazy"
+        />
+      </div>
     </div>
 
     <div class="wrap section-sub" data-reveal>
@@ -183,16 +185,35 @@ import Base from '../layouts/Base.astro';
     align-items: center;
   }
 
-  /* The photo's own background is white studio seamless, same as the
-     page around it - fading the edges to transparent (rather than a
-     hard-edged rounded rectangle) lets the two whites merge, so only
-     the liver model itself appears to sit on the page. */
+  /* The photo's own background is white studio seamless, so a plain
+     rounded rectangle just reads as a pale box on a pale page - a
+     fade-to-transparent mask was tried first, but the hand reaches the
+     frame's own edges, so it got clipped along with the background.
+     A soft color wash sitting just behind the card gives the photo a
+     deliberate frame instead, without touching the image itself. */
+  .intro-media {
+    position: relative;
+  }
+
+  .intro-media::before {
+    content: '';
+    position: absolute;
+    inset: -1.25rem;
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--bopa-blue-3) 14%, white),
+      color-mix(in srgb, var(--bopa-blue-4) 10%, white)
+    );
+    border-radius: calc(var(--radius-lg) + 1.25rem);
+    z-index: -1;
+  }
+
   .intro-image {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    -webkit-mask-image: radial-gradient(ellipse 75% 75% at center, black 55%, transparent 100%);
-    mask-image: radial-gradient(ellipse 75% 75% at center, black 55%, transparent 100%);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
   }
 
   .explainer {
@@ -229,7 +250,7 @@ import Base from '../layouts/Base.astro';
       grid-template-columns: 1fr;
     }
 
-    .intro-image {
+    .intro-media {
       order: -1;
     }
   }
