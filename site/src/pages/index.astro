@@ -115,15 +115,10 @@ const team = [
     </div>
     <div class="wrap partners-block" data-reveal style="--reveal-delay: 0.1s">
       <p class="partners-label">Nos membres fondateurs et partenaires</p>
-      <div class="logo-marquee">
-        <div class="logo-marquee-track">
-          {partnerLogos.map((logo) => (
-            <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
-          ))}
-          {partnerLogos.map((logo) => (
-            <img src={logo.src} alt="" aria-hidden="true" loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
-          ))}
-        </div>
+      <div class="logo-grid">
+        {partnerLogos.map((logo) => (
+          <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+        ))}
       </div>
     </div>
   </section>
@@ -1013,6 +1008,12 @@ const team = [
     }
 
     .hero-actions .btn {
+      /* Le padding horizontal desktop (var(--space-5), 64px) était pensé
+         pour un bouton qui ne fait que la largeur de son texte - une fois
+         étiré pleine largeur (align-items: stretch ci-dessus), il laissait
+         le texte écrasé au centre avec deux grandes zones vides de
+         chaque côté. */
+      padding: var(--space-3) var(--space-4);
       text-align: center;
     }
   }
@@ -1326,7 +1327,7 @@ const team = [
   .accordion-subitem {
     background: var(--color-bg-tint);
     border: 1px solid var(--color-line);
-    border-radius: var(--radius);
+    border-radius: var(--radius-md);
     overflow: hidden;
     transition: box-shadow 0.25s ease;
   }

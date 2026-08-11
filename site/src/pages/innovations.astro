@@ -16,6 +16,7 @@ const phases = [
       {
         name: 'PancreasSight',
         text: 'La même approche appliquée à la chirurgie pancréatique, en partenariat avec Toys Films et le Dr Gabriella Pittau.',
+        photo: { src: '/images/projets/pancreasight.jpg', alt: 'Modélisation 3D interactive PancreasSight' },
       },
     ],
   },
@@ -28,6 +29,7 @@ const phases = [
       {
         name: 'BOPCAM',
         text: "Un casque qui filme les mains du chirurgien en chirurgie ouverte : analyse d'images en direct, compte-rendu opératoire augmenté, télé-expertise.",
+        photo: { src: '/images/projets/bopcam.jpg', alt: 'Casque BOPCAM porté par un chirurgien au bloc opératoire' },
       },
       {
         name: 'Henri',
@@ -48,6 +50,7 @@ const phases = [
       {
         name: 'Colette',
         text: 'Un chatbot qui accompagne 24h/24 les patients transplantés du foie, né d\'un besoin identifié directement par les soignants.',
+        photo: { src: '/images/projets/colette.jpg', alt: 'Le chatbot Colette sur un téléphone' },
       },
       {
         name: 'Suivi longitudinal et valeur en santé',
@@ -87,6 +90,11 @@ const phases = [
             <article class="card" style={`border-top-color: ${phase.step}`}>
               <h3>{project.name}</h3>
               <p>{project.text}</p>
+              {project.photo && (
+                <div class="card-photo">
+                  <img src={project.photo.src} alt={project.photo.alt} loading="lazy" />
+                </div>
+              )}
               {project.videoId && (
                 <div class="card-video">
                   <iframe
@@ -137,6 +145,20 @@ const phases = [
     width: 100%;
     height: 100%;
     border: none;
+    display: block;
+  }
+
+  .card-photo {
+    margin-top: var(--space-3);
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .card-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
   }
 </style>

@@ -641,19 +641,22 @@ button {
   gap: var(--space-4);
 }
 
-/* Static, labeled logo row - used on the dedicated partners page. The
-   home page uses .logo-marquee instead for a lighter, decorative pass. */
+/* Static, labeled logo row - used by the partners section. All logos
+   visible at once, wrapped, no motion. Each logo can carry a
+   --logo-scale custom property (set inline per-logo) since the source
+   files aren't visually balanced at a uniform box size. */
 .logo-grid {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--space-5);
+  gap: var(--space-5) var(--space-6);
   margin-top: var(--space-3);
 }
 
 .logo-grid img {
-  max-height: 3rem;
-  width: auto;
+  width: calc(9.5rem * var(--logo-scale, 1));
+  height: calc(3.25rem * var(--logo-scale, 1));
+  object-fit: contain;
 }
 
 /* Blanc pur sur fond légèrement teinté (.section-block) : la carte se
@@ -902,44 +905,7 @@ button {
   opacity: 0.7;
 }
 
-/* Auto-scrolling logo wall, used by the partners section. Markup renders
-   the logo list twice back-to-back so the loop is seamless. Own solid
-   white background: at this scroll position the shared page gradient
-   (main, above) can be tinted enough to drop contrast against the
-   partner logos, most of which are white or transparent themselves. */
-.logo-marquee {
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
-}
-
-.logo-marquee-track {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  gap: var(--space-6);
-  animation: marquee 70s linear infinite;
-}
-
-.logo-marquee:hover .logo-marquee-track {
-  animation-play-state: paused;
-}
-
-.logo-marquee img {
-  width: calc(9.5rem * var(--logo-scale, 1));
-  height: calc(3.25rem * var(--logo-scale, 1));
-  object-fit: contain;
-}
-
-@keyframes marquee {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .logo-marquee-track {
-    animation: none;
-  }
   html {
     scroll-behavior: auto;
   }
