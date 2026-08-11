@@ -11,6 +11,7 @@ const phases = [
       {
         name: 'LiverSight',
         text: "Communication médecin-patient en 3D avant l'opération. En partenariat avec Toys Films, sous la supervision du Dr Oriana Ciacio et du Pr Éric Vibert.",
+        videoId: 'MF1ysshoNVM',
       },
       {
         name: 'PancreasSight',
@@ -86,6 +87,17 @@ const phases = [
             <article class="card" style={`border-top-color: ${phase.step}`}>
               <h3>{project.name}</h3>
               <p>{project.text}</p>
+              {project.videoId && (
+                <div class="card-video">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${project.videoId}`}
+                    title={`Vidéo de présentation - ${project.name}`}
+                    loading="lazy"
+                    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+              )}
             </article>
           ))}
         </div>
@@ -105,6 +117,27 @@ const phases = [
     font-size: var(--text-base);
     padding: 0.45em 1.1em;
     margin-bottom: var(--space-3);
+  }
+
+  /* Cards default to stretch (CSS grid), which would force PancreaSight's
+     card to match LiverSight's height once the embed below makes it
+     much taller. Cards size to their own content instead. */
+  .card-grid {
+    align-items: start;
+  }
+
+  .card-video {
+    margin-top: var(--space-3);
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .card-video iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
   }
 </style>
 

@@ -687,6 +687,35 @@ button {
   background: linear-gradient(135deg, var(--step-color), color-mix(in srgb, var(--step-color) 55%, var(--color-navy)));
 }
 
+/* Real photo, once one exists for a slide - same box as .project-slide-bg
+   so either can be used interchangeably per slide. */
+.project-slide-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.play-badge {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.play-badge svg {
+  filter: drop-shadow(0 4px 14px rgba(2, 12, 24, 0.45));
+  transition: transform 0.2s ease;
+}
+
+.project-slide:hover .play-badge svg {
+  transform: scale(1.08);
+}
+
 .project-slide::before {
   content: '';
   position: absolute;
