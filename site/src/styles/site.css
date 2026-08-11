@@ -874,13 +874,13 @@ button {
    darker than the original bopa-blue-4/3 pair - too light to read as
    "the" call to action against the header/hero. */
 .btn-filled-premium {
-  background: var(--bopa-blue-3);
+  background: var(--bopa-blue-2);
   color: #fff;
   box-shadow: none;
 }
 
 .btn-filled-premium:hover {
-  background: var(--bopa-blue-2);
+  background: var(--bopa-blue-1);
   box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35);
 }
 

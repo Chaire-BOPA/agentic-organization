@@ -88,6 +88,21 @@ import Base from '../layouts/Base.astro';
       </div>
     </div>
 
+    <div class="wrap section-sub explainer" data-reveal>
+      <h2>InMachina : comment ça marche</h2>
+      <p class="lede">
+        Chaque fonction du corps humain est reproduite par un module
+        technique, pour maintenir un foie explanté en conditions
+        quasi-physiologiques - le principe sur lequel s'appuie InMachina.
+      </p>
+      <img
+        class="explainer-image"
+        src="/images/boptech/inmachina-schema.png"
+        alt="Schéma illustrant le principe d'un dispositif de perfusion hépatique ex vivo : chaque fonction du corps est reproduite par un module technique (pompe pour le cœur, oxygénateur pour les poumons, dialyse pour les reins, algorithme pour le contrôle...)."
+        loading="lazy"
+      />
+    </div>
+
     <div class="wrap section-sub" data-reveal>
       <div class="accordion-subgrid">
         <details class="accordion-subitem">
@@ -112,11 +127,6 @@ import Base from '../layouts/Base.astro';
               développement de nouvelles thérapies.
             </p>
             <div class="subpanel-media">
-              <img
-                src="/images/boptech/inmachina-schema.png"
-                alt="Schéma illustrant le principe d'un dispositif de perfusion hépatique ex vivo : chaque fonction du corps est reproduite par un module technique (pompe pour le cœur, oxygénateur pour les poumons, dialyse pour les reins, algorithme pour le contrôle...)."
-                loading="lazy"
-              />
               <img
                 src="/images/boptech/liver4life-equipe.jpg"
                 alt="Équipe de recherche autour d'un dispositif de perfusion hépatique ex vivo."
@@ -173,11 +183,30 @@ import Base from '../layouts/Base.astro';
     align-items: center;
   }
 
+  /* The photo's own background is white studio seamless, same as the
+     page around it - fading the edges to transparent (rather than a
+     hard-edged rounded rectangle) lets the two whites merge, so only
+     the liver model itself appears to sit on the page. */
   .intro-image {
     width: 100%;
     aspect-ratio: 4 / 3;
     object-fit: cover;
-    border-radius: var(--radius-lg);
+    -webkit-mask-image: radial-gradient(ellipse 75% 75% at center, black 55%, transparent 100%);
+    mask-image: radial-gradient(ellipse 75% 75% at center, black 55%, transparent 100%);
+  }
+
+  .explainer {
+    text-align: center;
+  }
+
+  .explainer .lede {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .explainer-image {
+    max-width: 26rem;
+    margin: var(--space-4) auto 0;
   }
 
   .subpanel-media {
