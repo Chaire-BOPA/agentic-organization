@@ -207,6 +207,61 @@ import Base from '../layouts/Base.astro';
     margin: var(--space-4) auto 0;
   }
 
+  /* Accordion styling redeclared here since Astro scopes <style> blocks
+     per page - index.astro's own "réalisations institutionnelles"
+     accordion rules don't reach these same class names on this page. */
+  .accordion-subgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .accordion-subitem {
+    background: var(--color-bg-tint);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+  }
+
+  .accordion-subitem:hover {
+    box-shadow: 0 8px 20px rgba(4, 35, 56, 0.06);
+  }
+
+  .accordion-subitem > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+  }
+
+  .accordion-subitem > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-chevron {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .accordion-subitem[open] > summary .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  .accordion-subpanel {
+    padding: 0 var(--space-4) var(--space-4);
+    color: var(--color-ink);
+    opacity: 0.85;
+  }
+
+  .accordion-subpanel p + p {
+    margin-top: var(--space-2);
+  }
+
   .subpanel-media {
     display: flex;
     flex-wrap: wrap;

@@ -115,10 +115,15 @@ const team = [
     </div>
     <div class="wrap partners-block" data-reveal style="--reveal-delay: 0.1s">
       <p class="partners-label">Nos membres fondateurs et partenaires</p>
-      <div class="logo-grid">
-        {partnerLogos.map((logo) => (
-          <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
-        ))}
+      <div class="logo-marquee">
+        <div class="logo-marquee-track">
+          {partnerLogos.map((logo) => (
+            <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+          ))}
+          {partnerLogos.map((logo) => (
+            <img src={logo.src} alt="" aria-hidden="true" loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+          ))}
+        </div>
       </div>
     </div>
   </section>
