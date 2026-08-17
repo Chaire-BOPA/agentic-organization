@@ -224,6 +224,19 @@ const team = [
           <p>Évaluer des solutions existantes : α-test, β-test, test d'acceptance et test clinique.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="projets" class="section-block">
+    <div class="mesh-echo" aria-hidden="true" style="opacity: 0.04;"></div>
+    <div class="ambient-halo" aria-hidden="true" style="width: 30rem; height: 30rem; bottom: -8rem; left: -6rem;"></div>
+    <div class="wrap" data-reveal>
+      <span class="kicker">Innovations</span>
+      <h2>Nos projets et réalisations</h2>
+      <p class="lede">
+        Des chiffres à l'impact concret : ce que la Chaire a bâti, et ce
+        qu'elle construit aujourd'hui à chaque étape du parcours patient.
+      </p>
       <div class="stat-row">
         <div class="stat">
           <span class="stat-value" data-reveal>1.6M€</span>
@@ -238,19 +251,6 @@ const team = [
           <span class="stat-label">Start-up créées (DOTs, Uncovr)</span>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="projets" class="section-block">
-    <div class="mesh-echo" aria-hidden="true" style="opacity: 0.04;"></div>
-    <div class="ambient-halo" aria-hidden="true" style="width: 30rem; height: 30rem; bottom: -8rem; left: -6rem;"></div>
-    <div class="wrap" data-reveal>
-      <span class="kicker">Innovations</span>
-      <h2>Nos projets et réalisations</h2>
-      <p class="lede">
-        Des chiffres à l'impact concret : ce que la Chaire a bâti, et ce
-        qu'elle construit aujourd'hui à chaque étape du parcours patient.
-      </p>
     </div>
 
     <div class="wrap section-sub" data-reveal>
@@ -1192,6 +1192,13 @@ const team = [
 
   #approche {
     padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
+  }
+
+  /* Same over-stacked-padding issue between "La méthode" (end of
+     #approche) and "Nos projets et réalisations". */
+  #projets {
+    padding-top: var(--space-5);
   }
 
   /* #equipe sat directly on the shared page gradient (main), and at this
@@ -1342,6 +1349,11 @@ const team = [
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
     gap: var(--space-3);
+    /* Grid items stretch to the row's tallest sibling by default, so
+       opening BOPEX made the still-closed BOPTECH card grow to match -
+       looked like both expanded together. Let each size to its own
+       content instead, so they're visually independent. */
+    align-items: start;
   }
 
   .accordion-subitem {
