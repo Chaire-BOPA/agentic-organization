@@ -400,6 +400,13 @@ const team = [
         </div>
       </div>
     ))}
+    <div class="wrap team-photo" data-reveal>
+      <img
+        src="/images/equipe/equipe-liver4life.jpg"
+        alt="L'équipe de la Chaire autour du dispositif de perfusion hépatique Liver4Life, utilisé pour les recherches précliniques."
+        loading="lazy"
+      />
+    </div>
   </section>
 
   <section id="soutenir" class="section-block dark donate">
@@ -1240,6 +1247,18 @@ const team = [
   .person-role {
     color: var(--color-muted);
     margin-top: var(--space-1);
+  }
+
+  .team-photo {
+    margin-top: var(--space-5);
+  }
+
+  .team-photo img {
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
   }
 
   /* Bleu marine plat, identique au Hero et au footer qui suit : aucune
