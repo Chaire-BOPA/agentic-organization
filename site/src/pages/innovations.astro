@@ -82,7 +82,7 @@ const phases = [
     </div>
 
     {phases.map((phase) => (
-      <div class="wrap section-sub" data-reveal>
+      <div class="wrap section-sub" id={phase.id} data-reveal>
         <span class="phase-tag" style={`--step-color: ${phase.step}`}>{phase.label}</span>
         <h2>{phase.subtitle}</h2>
         <div class="card-grid">
@@ -118,7 +118,7 @@ const phases = [
   /* .section-sub lives in index.astro's own scoped <style> - redeclared
      here since Astro doesn't share page-scoped styles across pages. */
   .section-sub {
-    margin-top: var(--space-6);
+    margin-top: var(--space-5);
   }
 
   .section-sub .phase-tag {
@@ -127,11 +127,18 @@ const phases = [
     margin-bottom: var(--space-3);
   }
 
-  /* Cards default to stretch (CSS grid), which would force PancreaSight's
-     card to match LiverSight's height once the embed below makes it
-     much taller. Cards size to their own content instead. */
+  /* Cards default to stretch (CSS grid), which forces shorter cards to
+     match their tallest row sibling - not wanted for the more varied
+     phases (per/post), so cards there size to their own content. */
   .card-grid {
     align-items: start;
+  }
+
+  /* LiverSight and PancreasSight are a matched pair (same idea, video vs
+     photo) and should read as same-size cards, so this row keeps the
+     default grid stretch instead. */
+  #pre .card-grid {
+    align-items: stretch;
   }
 
   .card-video {
