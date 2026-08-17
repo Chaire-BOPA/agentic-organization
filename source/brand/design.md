@@ -24,7 +24,7 @@ Institutional but alive: a hospital-and-engineering research chair, not a startu
 - Build a small set of components and reuse them. Keep an inventory here as they appear, with a pointer to where each lives. A new page should mostly assemble existing components.
   - `.section-block` (+ `.dark` variant): full-bleed section wrapper used to build the scrollable home page — see `site/src/styles/site.css`.
   - `.kicker`, `.lede`: small uppercase label above a heading, and a larger intro paragraph below it.
-  - `.card-grid` / `.card`: simple bordered cards, used for the team and projects sections.
+  - `.card-grid` / `.card`: simple bordered cards, used for the team and projects sections. Cards in the same row stretch to equal height on desktop by default (grid `align-items: stretch`) - no mobile override needed, `auto-fit` already collapses multi-card rows to one column there. When a card has a photo/video, make `.card` a flex column and give the media `margin-top: auto` so it lands flush at the bottom instead of leaving slack below it.
   - `.logo-grid`: partner logo wall, used by the partners section.
   - `.stat-row`: big number + label, used by the publications section.
   - `.nav-dropdown`: `<details>`-based dropdown menu, used by the two top-nav groups (La Chaire, Innovations).
@@ -33,13 +33,14 @@ Institutional but alive: a hospital-and-engineering research chair, not a startu
 ## Imagery
 
 - Originals live in `source/brand/assets/` at full resolution; the site serves processed copies only (see the images section of `source/formats/website.md`).
-- TODO: the project's image style once known (photography vs illustration, color treatment, cropping habits).
+- Photography is candid and on-site: the real team, real equipment, real procedures - not stock photos or staged compositions. Occasional explanatory diagrams for technical concepts (e.g. a device schema) sit alongside the photography rather than replacing it.
 
 ## Responsiveness, learned the hard way
 
 - Every visual change gets checked at mobile width (~390px) and a normal desktop before publishing, and at ~2560px if the audience uses large screens.
 - When adapting to large screens, scale whole modules together (type, dimensions, spacing, wraps). Scaling only headings leaves a small design floating in whitespace.
 - Late CSS wins ties: media-query override blocks go at the end of the style block they override, or they silently lose the cascade.
+- Adjacent `.section-block`s stack their padding-top + padding-bottom into a gap that reads as too big (default `--space-6` top and bottom = 16rem combined). Check every new section junction for this; the fix already used several times is `padding-bottom: var(--space-5)` on the section above and `padding-top: var(--space-5)` on the one below.
 
 ## Accessibility baseline
 

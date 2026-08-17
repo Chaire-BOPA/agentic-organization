@@ -28,16 +28,22 @@ These start as sensible defaults; edit them to fit.
 
 ## Languages
 
-TODO: list the site's languages. The first is the default.
+French. The site has one language; no translation pass needed.
 
 If the site has more than one language, every language is written natively. Before publishing copy in a non-default language, do a dedicated pass reading it on its own, as a native speaker would, and fix anglicisms, calques, and literal constructions. A page that reads like a translation fails this guide even if every word is technically correct.
 
 ## Notation
 
-TODO: how the project's name is written, exactly, including capitalization and any punctuation that is part of the mark. Add other named things (product names, series titles) as they appear. These notations are non-negotiable; the AI applies them everywhere without exception.
+- **BOPA**: all caps, the Chaire's name (Chaire Innovation Bloc OPératoire Augmenté).
+- **BOPtech**: mixed case (BOP + lowercase "tech"), the technology platform.
+- **BOPEX**: all caps, the experimentation tiers-lieu.
+- Project names are proper nouns, not acronyms - title case, never all-caps: **Bopcam** (corrected from BOPCAM), **Uncovr**, **LiverSight**, **PancreasSight**, **Colette**, **Henri**.
 
 ## Examples
 
 Keep two or three short before/after pairs from real feedback, so the tone is shown as well as described.
 
-- TODO after the first real correction.
+- Cut the wind-up, lead with the concrete thing. BOPtech's intro was three cascading paragraphs (funders, then ecosystem, then a mission statement) before reaching "Notre offre de services" - collapsed to one tight paragraph and dropped the mission-statement paragraph entirely.
+- Avoid the "De l'importance de X" template for short taglines - it states that something matters instead of saying what to do about it.
+  > Before: "De l'importance de la communication." / "De l'importance de l'analyse du réel." / "De l'importance du suivi."
+  > After: "Communiquer pour rassurer le patient." / "Des analyses en temps réel pour de meilleurs résultats." / "Des outils numériques pour un meilleur suivi."

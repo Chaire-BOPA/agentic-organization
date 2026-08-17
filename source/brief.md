@@ -12,10 +12,10 @@
 
 ## The site
 
-- **Domain**: TODO
-- **Live URL**: TODO (the .pages.dev URL until the domain is connected)
-- **Languages**: TODO (list them; the first one listed is the default)
-- **Pages**: TODO (list current pages and what each is for)
+- **Domain**: chaire-bopa.com
+- **Live URL**: https://www.chaire-bopa.com
+- **Languages**: French (only)
+- **Pages**: `index` (homepage: hero, approche, méthode, projets, équipe, soutenir), `innovations` (all projects by phase: pré/per/postopératoire), `boptech` (the BOPtech platform), `publications`
 - **Collections**: TODO (any repeated content: gallery, products, projects, events; where its data file lives)
 
 ## Derivatives
@@ -27,10 +27,10 @@
 
 <!-- Filled during setup, in plain terms; revisit whenever someone new joins. -->
 
-- **Who owns the accounts**: TODO (the GitHub and Cloudflare accounts belong to the owner, not to a helper or vendor)
-- **Who can ask for changes**: TODO (just the owner? a teammate? anyone at the organization?)
-- **Who publishes**: TODO (solo mode: owner + AI push to main, pushing is publishing; team mode: changes become proposals — pull requests — and a named person approves before anything goes live)
-- **Access granted so far**: TODO (each person added to the repo, with their level: read = can look, write = can propose changes, maintain/admin = can publish and change settings)
+- **Who owns the accounts**: GitHub org `Chaire-BOPA`, repo `agentic-organization` (public). Cloudflare Pages was set up by a coworker.
+- **Who can ask for changes**: at least two people so far - the coworker who originally set up the site, and Axelle Piguet (GitHub: axpiguet)
+- **Who publishes**: team mode in practice, but still solo-style workflow - each person pushes directly to `main` via their own Claude session (not PRs). Worth revisiting per the README's "when you grow" note if this causes a real collision (one already happened: a coworker's commit landed while a session was mid-edit; resolved with a clean rebase, but it's a sign this repo now has more than one active editor).
+- **Access granted so far**: Axelle Piguet (GitHub: axpiguet) - admin, added 2026-08-17
 
 ## Current priorities
 
@@ -44,3 +44,5 @@ a hypothesis or the positioning, update `decisions.md`.**
 
 <!-- Append dated one-liners for decisions worth remembering, newest first.
      Example: 2026-07-18 · dropped the blog idea, energy goes to the gallery. -->
+
+- 2026-08-17 · Axelle Piguet onboarded as a second collaborator (GitHub: axpiguet, admin access) and set up to work through her own Claude session, pushing directly to main alongside her coworker.
