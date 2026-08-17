@@ -38,6 +38,7 @@ const phases = [
       {
         name: "De l'analyse d'image à la start-up",
         text: "Le travail sur l'analyse d'images au bloc opératoire a donné naissance à Uncovr, une start-up née d'un besoin de terrain identifié par les équipes.",
+        href: 'https://uncovr.ai/',
       },
     ],
   },
@@ -86,28 +87,37 @@ const phases = [
         <span class="phase-tag" style={`--step-color: ${phase.step}`}>{phase.label}</span>
         <h2>{phase.subtitle}</h2>
         <div class="card-grid">
-          {phase.projects.map((project) => (
-            <article class="card" style={`border-top-color: ${phase.step}`}>
-              <h3>{project.name}</h3>
-              <p>{project.text}</p>
-              {project.photo && (
-                <div class="card-photo">
-                  <img src={project.photo.src} alt={project.photo.alt} loading="lazy" />
-                </div>
-              )}
-              {project.videoId && (
-                <div class="card-video">
-                  <iframe
-                    src={`https://www.youtube-nocookie.com/embed/${project.videoId}`}
-                    title={`Vidéo de présentation - ${project.name}`}
-                    loading="lazy"
-                    allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                  ></iframe>
-                </div>
-              )}
-            </article>
-          ))}
+          {phase.projects.map((project) => {
+            const Tag = project.href ? 'a' : 'article';
+            return (
+              <Tag
+                class="card"
+                style={`border-top-color: ${phase.step}`}
+                href={project.href}
+                target={project.href && '_blank'}
+                rel={project.href && 'noopener'}
+              >
+                <h3>{project.name}</h3>
+                <p>{project.text}</p>
+                {project.photo && (
+                  <div class="card-photo">
+                    <img src={project.photo.src} alt={project.photo.alt} loading="lazy" />
+                  </div>
+                )}
+                {project.videoId && (
+                  <div class="card-video">
+                    <iframe
+                      src={`https://www.youtube-nocookie.com/embed/${project.videoId}`}
+                      title={`Vidéo de présentation - ${project.name}`}
+                      loading="lazy"
+                      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                )}
+              </Tag>
+            );
+          })}
         </div>
       </div>
     ))}
@@ -139,6 +149,13 @@ const phases = [
   .card p {
     text-align: justify;
     hyphens: auto;
+  }
+
+  /* Uncovr's card is a real link (see Tag above) - undo the global `a`
+     color/underline so it still reads as a plain card. */
+  a.card {
+    text-decoration: none;
+    color: inherit;
   }
 
   /* Stretched cards (see .card-grid above) leave slack below their
