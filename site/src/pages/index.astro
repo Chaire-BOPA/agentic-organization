@@ -57,7 +57,7 @@ const team = [
       <p class="lede">
         La Chaire Innovation BOPA développe des solutions numériques
         innovantes pour améliorer la qualité, la sécurité et l'expérience
-        des patients en chirurgie hépato-bilio-pancréatique.
+        des patients en chirurgie <span class="nowrap">hépato-bilio-pancréatique</span>.
       </p>
       <div class="btn-row hero-actions">
         <a class="btn btn-outline-premium" href="/innovations">Découvrir nos projets</a>
@@ -851,7 +851,7 @@ const team = [
     --hero-blue-light: #4fb8e0; /* bleu clair (bord droit, légèrement teinté, pas transparent) */
     --hero-wash-opacity: 0.35; /* colorisation froide uniforme sur toute la photo */
     --hero-vignette-opacity: 0.55; /* intensité de la vignette (jamais noire) */
-    --hero-text-max-width: 560px; /* largeur du bloc de texte */
+    --hero-text-max-width: min(50vw, 41rem); /* largeur du bloc de texte */
     --hero-image-position-y: 82%; /* cadrage vertical de la photo (object-position) */
     --hero-height-ratio: 3; /* ratio largeur/hauteur du hero (aspect-ratio) */
 
@@ -988,11 +988,19 @@ const team = [
   }
 
   .hero .lede {
-    font-size: 1.15rem;
+    font-size: var(--text-base);
     line-height: 1.68;
     color: rgba(255, 255, 255, 0.85);
     margin: var(--space-3) 0 0;
-    max-width: 31.25rem; /* ~500px */
+    /* Assez large pour que "hépato-bilio-pancréatique" (voir la balise
+       .nowrap dessus) tienne sur 3 lignes sans se retrouver seul sur une
+       4e ; suit le même ratio vw que .hero-text-blur pour ne jamais
+       déborder de la zone floutée/lisible. */
+    max-width: min(42vw, 36rem);
+  }
+
+  .hero .lede .nowrap {
+    white-space: nowrap;
   }
 
   .hero-actions {
