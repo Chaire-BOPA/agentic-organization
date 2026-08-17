@@ -1080,3 +1080,13 @@ button {
     display: none;
   }
 }
+
+/* Justified body text reads better than ragged-left on a narrow phone
+   column; hyphens: auto (French dictionary via <html lang="fr">) keeps
+   word-spacing from stretching awkwardly on short lines. */
+@media (max-width: 40rem) {
+  p {
+    text-align: justify;
+    hyphens: auto;
+  }
+}

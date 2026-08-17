@@ -1011,6 +1011,23 @@ const team = [
     white-space: nowrap;
   }
 
+  /* --hero-text-max-width and .lede's own max-width above are vw-based
+     to track the desktop blur zone - on a narrow phone that same ratio
+     caps the text at half the screen for no reason (there's no second
+     column to leave room for). Full width instead, with a matching
+     right inset. Placed after the base rules above so it actually wins
+     the cascade (equal specificity, source order decides). */
+  @media (max-width: 40rem) {
+    .hero .wrap {
+      max-width: none;
+      padding-right: clamp(1.5rem, 5vw, 5rem);
+    }
+
+    .hero .lede {
+      max-width: none;
+    }
+  }
+
   .hero-actions {
     justify-content: flex-start;
     align-items: center;
