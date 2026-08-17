@@ -82,7 +82,7 @@ const phases = [
     </div>
 
     {phases.map((phase) => (
-      <div class="wrap section-sub" id={phase.id} data-reveal>
+      <div class="wrap section-sub" data-reveal>
         <span class="phase-tag" style={`--step-color: ${phase.step}`}>{phase.label}</span>
         <h2>{phase.subtitle}</h2>
         <div class="card-grid">
@@ -127,18 +127,18 @@ const phases = [
     margin-bottom: var(--space-3);
   }
 
-  /* Cards default to stretch (CSS grid), which forces shorter cards to
-     match their tallest row sibling - not wanted for the more varied
-     phases (per/post), so cards there size to their own content. */
+  /* Cards in the same row stretch to match their tallest sibling (grid
+     default) so each phase's projects read as same-size blocks on
+     computers. Harmless on phones: auto-fit collapses the grid to one
+     column there, so every card is alone in its row and just keeps its
+     own natural height. */
   .card-grid {
-    align-items: start;
+    align-items: stretch;
   }
 
-  /* LiverSight and PancreasSight are a matched pair (same idea, video vs
-     photo) and should read as same-size cards, so this row keeps the
-     default grid stretch instead. */
-  #pre .card-grid {
-    align-items: stretch;
+  .card p {
+    text-align: justify;
+    hyphens: auto;
   }
 
   .card-video {
