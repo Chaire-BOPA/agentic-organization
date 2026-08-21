@@ -957,10 +957,24 @@ const team = [
     z-index: 4;
     width: min(48%, 44rem);
     backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
     mask-image: linear-gradient(to right, black 0%, black 55%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to right, black 0%, black 55%, transparent 100%);
     pointer-events: none;
+  }
+
+  /* Separate rules, not extra declarations above: the build's CSS
+     minifier treats a standard/-webkit- pair in the same block as
+     redundant duplicates and silently drops one (see the identical fix
+     on .site-header.is-scrolled in site.css for the full story). */
+  @supports not (backdrop-filter: blur(1px)) {
+    .hero-text-blur {
+      -webkit-backdrop-filter: blur(16px);
+    }
+  }
+
+  @supports not (mask-image: linear-gradient(black, black)) {
+    .hero-text-blur {
+      -webkit-mask-image: linear-gradient(to right, black 0%, black 55%, transparent 100%);
+    }
   }
 
   /* Canvas du maillage : dernière couche visuelle, au-dessus du texte.

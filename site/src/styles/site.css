@@ -150,8 +150,19 @@ button {
   padding: 0.5rem var(--space-4);
   background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 8px 28px rgba(4, 35, 56, 0.08);
+}
+
+/* Separate rule, not a second declaration in the block above: the build's
+   CSS minifier was treating backdrop-filter and -webkit-backdrop-filter
+   as redundant duplicates and silently dropping one (order-dependent -
+   whichever came second survived), breaking the blur on whichever
+   browser needed the other. @supports keeps them in distinct rules so
+   the minifier can't merge them away. */
+@supports not (backdrop-filter: blur(1px)) {
+  .site-header.is-scrolled {
+    -webkit-backdrop-filter: blur(14px);
+  }
 }
 
 .site-header-inner {
@@ -319,12 +330,6 @@ button {
     padding-top: var(--space-1);
     padding-bottom: var(--space-1);
   }
-
-  .site-header nav > a.nav-cta {
-    margin-left: 0;
-    margin-top: var(--space-2);
-    justify-content: center;
-  }
 }
 
 .site-header nav > a,
@@ -423,6 +428,18 @@ button {
    Ici, uniquement l'espacement propre au contexte du menu. */
 .site-header nav > a.nav-cta {
   margin-left: var(--space-5);
+}
+
+/* Placed after the base rule above (not inside the big mobile block
+   further up) so it actually wins the cascade - equal specificity,
+   source order decides. It didn't: the CTA kept the desktop
+   margin-left on mobile and overflowed the menu panel's right edge. */
+@media (max-width: 76rem) {
+  .site-header nav > a.nav-cta {
+    margin-left: 0;
+    margin-top: var(--space-2);
+    justify-content: center;
+  }
 }
 
 /* Le CTA du header doit être un bouton .btn identique à ceux du hero -
@@ -648,8 +665,13 @@ button {
 .logo-marquee {
   margin-top: var(--space-3);
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
   mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+@supports not (mask-image: linear-gradient(black, black)) {
+  .logo-marquee {
+    -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  }
 }
 
 .logo-marquee-track {
