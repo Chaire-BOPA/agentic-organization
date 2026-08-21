@@ -94,13 +94,6 @@ import Base from '../layouts/Base.astro';
               développements cliniques dans un environnement hospitalier
               d'excellence.
             </p>
-            <div class="subpanel-media">
-              <img
-                src="/images/boptech/salle-hybride.jpg"
-                alt="Chirurgien équipé d'un casque de réalité augmentée devant un système d'imagerie Philips Azurion en salle hybride."
-                loading="lazy"
-              />
-            </div>
           </div>
         </details>
       </div>
@@ -239,21 +232,6 @@ import Base from '../layouts/Base.astro';
 
   .accordion-subpanel p + p {
     margin-top: var(--space-2);
-  }
-
-  .subpanel-media {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-top: var(--space-3);
-  }
-
-  .subpanel-media img {
-    flex: 1 1 14rem;
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    border-radius: var(--radius);
   }
 
   @media (max-width: 48rem) {
