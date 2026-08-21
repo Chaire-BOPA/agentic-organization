@@ -33,7 +33,7 @@ Institutional but alive: a hospital-and-engineering research chair, not a startu
 ## Imagery
 
 - Originals live in `source/brand/assets/` at full resolution; the site serves processed copies only (see the images section of `source/formats/website.md`).
-- Photography only: the real team, real equipment, real procedures - not stock photos, staged compositions, or explanatory diagrams/schematics. A technical schema (e.g. a device diagram) was tried and then replaced with a real photo instead - if a concept needs illustrating, reuse or repurpose an existing photo rather than adding a diagram.
+- Photography for everything that can be photographed - the real team, real equipment, real procedures, not stock photos or staged compositions. Diagrams/schematics are fine specifically for explaining how a technical mechanism works (e.g. InMachina's "comment ça marche" schema) - that's a different job than illustrating a person, place, or object, and a photo can't do it. This flip-flopped twice already (schema removed for a reused photo, then restored) - don't re-remove the InMachina schema without asking; if a similar "photo vs. diagram" call comes up elsewhere, ask rather than guessing which way this project leans.
 
 ## Responsiveness, learned the hard way
 
