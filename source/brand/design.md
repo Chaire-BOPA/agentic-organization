@@ -33,7 +33,7 @@ Institutional but alive: a hospital-and-engineering research chair, not a startu
 ## Imagery
 
 - Originals live in `source/brand/assets/` at full resolution; the site serves processed copies only (see the images section of `source/formats/website.md`).
-- Photography is candid and on-site: the real team, real equipment, real procedures - not stock photos or staged compositions. Occasional explanatory diagrams for technical concepts (e.g. a device schema) sit alongside the photography rather than replacing it.
+- Photography only: the real team, real equipment, real procedures - not stock photos, staged compositions, or explanatory diagrams/schematics. A technical schema (e.g. a device diagram) was tried and then replaced with a real photo instead - if a concept needs illustrating, reuse or repurpose an existing photo rather than adding a diagram.
 
 ## Responsiveness, learned the hard way
 
@@ -43,7 +43,9 @@ Institutional but alive: a hospital-and-engineering research chair, not a startu
 - Adjacent `.section-block`s stack their padding-top + padding-bottom into a gap that reads as too big (default `--space-6` top and bottom = 16rem combined). Check every new section junction for this; the fix already used several times is `padding-bottom: var(--space-5)` on the section above and `padding-top: var(--space-5)` on the one below.
 - A `vw`-based width tuned for desktop (to track some other element's own `vw` sizing) silently caps that same element at a fraction of the screen on mobile too, with no visual warning - it just quietly shrinks. Anything sized in `vw` needs an explicit check at ~375px, not just at desktop widths; the hero's text column once capped itself at 50vw on a phone (half the screen, for no reason - there was no second column to leave room for).
 - No split screens or side-by-side columns on phones - single column, full width, always. When adding a new two-column layout, its mobile collapse is not optional and needs verifying at ~375px before publishing, not assumed from the desktop code.
-- Body paragraphs justify (with `hyphens: auto`) below 40rem instead of ragged-left; left-aligned above that. Site-wide rule, not per-component.
+- Body paragraphs justify (with `hyphens: auto`), unconditionally, at every width. (Was mobile-only at first; corrected to apply everywhere.)
+- The homepage's shared `main` gradient (see `site.css`) has its color stops set as percentages of the page's *total height*, not fixed pixel positions - so any edit that changes a section's height (trimmed copy, tightened gaps, moved or added content) also shifts which section lands on which color band, even though the gradient rule itself wasn't touched. After any homepage edit that changes content length, re-check where the gradient's darker bands (~14%, 46%, 78%, 100%) now fall relative to section boundaries.
+- Collapsed accordions (`<details>`) are for secondary/supplementary detail, not for a page's primary content - BOPtech's named projects (InMachina, Salle Hybride) were once the last thing on the page, hidden behind a click. Primary content goes early and stays visible by default.
 
 ## Accessibility baseline
 
