@@ -74,13 +74,13 @@ main {
   background: linear-gradient(
     180deg,
     #ffffff 0%,
-    color-mix(in srgb, var(--bopa-blue-1) 30%, white) 14%,
+    color-mix(in srgb, var(--bopa-blue-1) 22%, white) 14%,
     #ffffff 30%,
-    color-mix(in srgb, var(--bopa-blue-2) 34%, white) 46%,
+    color-mix(in srgb, var(--bopa-blue-2) 25%, white) 46%,
     #ffffff 62%,
-    color-mix(in srgb, var(--bopa-blue-1) 30%, white) 78%,
+    color-mix(in srgb, var(--bopa-blue-1) 22%, white) 78%,
     #ffffff 94%,
-    color-mix(in srgb, var(--bopa-blue-2) 26%, white) 100%
+    color-mix(in srgb, var(--bopa-blue-2) 19%, white) 100%
   );
 }
 
@@ -1081,12 +1081,10 @@ button {
   }
 }
 
-/* Justified body text reads better than ragged-left on a narrow phone
-   column; hyphens: auto (French dictionary via <html lang="fr">) keeps
-   word-spacing from stretching awkwardly on short lines. */
-@media (max-width: 40rem) {
-  p {
-    text-align: justify;
-    hyphens: auto;
-  }
+/* Justified body text, everywhere and at every width - hyphens: auto
+   (French dictionary via <html lang="fr">) keeps word-spacing from
+   stretching awkwardly on narrower columns. */
+p {
+  text-align: justify;
+  hyphens: auto;
 }
