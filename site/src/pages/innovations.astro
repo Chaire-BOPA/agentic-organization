@@ -27,7 +27,7 @@ const phases = [
     step: 'var(--color-step-2)',
     projects: [
       {
-        name: 'Bopcam',
+        name: 'BOPCAM',
         text: "Un casque qui filme les mains du chirurgien en chirurgie ouverte : analyse d'images en direct, compte-rendu opératoire augmenté, télé-expertise.",
         photo: { src: '/images/projets/bopcam.jpg', alt: 'Casque BOPCAM porté par un chirurgien au bloc opératoire' },
       },
@@ -67,6 +67,26 @@ const phases = [
       {
         name: 'Quelle place pour le ressenti du chirurgien ?',
         text: "Corréler l'état émotionnel du chirurgien au résultat clinique et au ressenti du patient, pour en faire un levier d'action à part entière.",
+      },
+    ],
+  },
+  {
+    id: 'medico-eco',
+    label: 'Médico-économique',
+    subtitle: 'Mesurer la valeur',
+    step: 'var(--color-step-4)',
+    projects: [
+      {
+        name: 'Hepatgreen',
+        text: 'Projet médico-économique en cours - description à venir.',
+      },
+      {
+        name: 'MESGARDES',
+        text: 'Projet médico-économique en cours - description à venir.',
+      },
+      {
+        name: "Coût de l'hépatectomie",
+        text: 'Projet médico-économique en cours - description à venir.',
       },
     ],
   },
@@ -146,11 +166,18 @@ const phases = [
 
   /* Cards in the same row stretch to match their tallest sibling (grid
      default) so each phase's projects read as same-size blocks on
-     computers. Harmless on phones: auto-fit collapses the grid to one
-     column there, so every card is alone in its row and just keeps its
-     own natural height. */
+     computers. Fixed 3 columns per feedback (was auto-fit); a phase
+     with a project count not divisible by 3 just leaves a short last
+     row, which is fine. */
   .card-grid {
+    grid-template-columns: repeat(3, 1fr);
     align-items: stretch;
+  }
+
+  @media (max-width: 40rem) {
+    .card-grid {
+      grid-template-columns: 1fr;
+    }
   }
 
   .card p {

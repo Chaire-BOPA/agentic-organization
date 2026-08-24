@@ -47,6 +47,7 @@
   --color-step-1: #0ea86c;      /* pré-opératoire: teal/green */
   --color-step-2: #03529c;      /* per-opératoire: brand blue */
   --color-step-3: #7c5cff;      /* post-opératoire: purple */
+  --color-step-4: #d98c0f;      /* médico-économique: amber */
 
   /* Raw brand palette, for reference / non-standard uses. */
   --bopa-blue-1: #03529c;
