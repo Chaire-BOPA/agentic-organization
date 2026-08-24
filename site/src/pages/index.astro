@@ -143,35 +143,11 @@ const team = [
           cadrent tout ce que la Chaire construit.
         </p>
       </div>
-      <div class="value-column">
-        <div class="value-item" style="--step-color: var(--color-step-1)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6" />
-            <path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <div>
-            <p>Des solutions numériques co-construites et validées par les soignants.</p>
-          </div>
-        </div>
-        <div class="value-item" style="--step-color: var(--color-step-2)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M9 2.5v4M15 2.5v4M7 6.5h10v3.5a5 5 0 01-10 0V6.5z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M12 15v3.5M9.5 21.5h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-          </svg>
-          <div>
-            <p>Des systèmes capables de s'intégrer partout.</p>
-          </div>
-        </div>
-        <div class="value-item" style="--step-color: var(--color-step-3)">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M6 18c-1-6 2-11 12-12 0 10-5 13-11 13-1 0-1.5-0.3-1-1z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M7.5 16.5c2-3 4.5-5.5 7-8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-          </svg>
-          <div>
-            <p>Une approche éthique, responsable financièrement, et sobre en carbone.</p>
-          </div>
-        </div>
-      </div>
+      <!-- TODO: image "progrès" (source/brand/assets/graphics/progres.png)
+           goes here once the owner's re-upload actually has content - the
+           current file on disk is 0 bytes, unusable. Restore the
+           two-column grid (see approche-intro/value-column in the <style>
+           below, kept but currently unused) once it's in place. -->
     </div>
 
     <div class="wrap section-sub">
@@ -1239,9 +1215,12 @@ const team = [
      "3 cards in a row" (that pattern already repeats in the pipeline and
      the méthode grid right below). A colored left-border accent instead
      of a boxed card or an icon badge - a third, lighter visual language. */
+  /* Temporarily single-column: the right column (image) is pending a
+     real file upload - see the TODO in the markup above. Restore
+     "1.3fr 1fr" once the image is back in place. */
   .approche-intro {
     display: grid;
-    grid-template-columns: 1.3fr 1fr;
+    grid-template-columns: 1fr;
     gap: var(--space-5);
     align-items: start;
   }
