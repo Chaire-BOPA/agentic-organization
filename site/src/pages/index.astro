@@ -79,13 +79,55 @@ const team = [
         <a class="btn btn-filled-premium" href="https://soutenir.fondationaphp.fr/BOPA/" target="_blank" rel="noopener">Nous soutenir</a>
       </div>
     </div>
-    <a href="#qui-sommes-nous" class="scroll-cue" aria-label="Découvrir la suite">
-      <span>Découvrir</span>
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M8 1v13M2 8l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-    </a>
   </section>
+
+  <!-- Numbers are placeholders copied from an inspiration mockup, not yet
+       verified BOPA facts - owner will supply the real figures. -->
+  <div class="wrap hero-stat-band" data-reveal>
+    <div class="hero-stat">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.6" />
+        <path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        <circle cx="17.5" cy="9" r="2.3" stroke="currentColor" stroke-width="1.6" />
+        <path d="M14.5 19c0-2.5 1.6-4.3 4-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+      </svg>
+      <div>
+        <span class="hero-stat-value">+40</span>
+        <span class="hero-stat-label">chercheurs mobilisés</span>
+      </div>
+    </div>
+    <div class="hero-stat">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M5 21V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v16M15 21v-9a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+        <path d="M9 8v4M7 10h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        <path d="M3 21h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+      </svg>
+      <div>
+        <span class="hero-stat-value">8</span>
+        <span class="hero-stat-label">hôpitaux partenaires</span>
+      </div>
+    </div>
+    <div class="hero-stat">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M9 18h6M10 21h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        <path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 .9 1 1.6v.5h5v-.5c0-.7.4-1.2 1-1.6A6 6 0 0 0 12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+      </svg>
+      <div>
+        <span class="hero-stat-value">15</span>
+        <span class="hero-stat-label">projets innovants</span>
+      </div>
+    </div>
+    <div class="hero-stat">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+      <div>
+        <span class="hero-stat-value">100%</span>
+        <span class="hero-stat-label">co-construits avec les soignants</span>
+      </div>
+    </div>
+  </div>
 
   <section id="qui-sommes-nous" class="section-block fade-from-navy">
     <div class="mesh-echo" aria-hidden="true" style="opacity: 0.045;"></div>
@@ -1117,37 +1159,78 @@ const team = [
     }
   }
 
-  .scroll-cue {
-    position: absolute;
-    z-index: 6;
-    bottom: var(--space-4);
-    left: 50%;
-    transform: translateX(-50%);
+  /* Floating white card straddling the hero's bottom edge, replacing
+     the old .scroll-cue - a stat band reads as a much stronger "more
+     below" cue than a bobbing arrow, and the two would otherwise
+     occupy the same bottom-center spot and visually collide. */
+  /* Not nested in a .section-block (it straddles the boundary between
+     the hero and #qui-sommes-nous), so it doesn't inherit the usual
+     ".section-block .wrap" max-width/centering - set explicitly here
+     instead, with a calc() so it still keeps edge breathing room
+     below the max-width breakpoint like every other .wrap does. */
+  .hero-stat-band {
+    position: relative;
+    z-index: 5;
+    width: calc(100% - 2 * var(--space-4));
+    max-width: var(--max-width);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: -3rem;
+    margin-bottom: var(--space-2);
+    background: #fff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 50px -15px rgba(4, 35, 56, 0.25);
+    padding: var(--space-4) var(--space-5);
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .hero-stat {
+    display: flex;
     align-items: center;
-    gap: 0.4rem;
-    color: var(--color-dark-ink);
-    text-decoration: none;
+    gap: var(--space-3);
+  }
+
+  .hero-stat svg {
+    flex-shrink: 0;
+    color: var(--color-accent);
+  }
+
+  .hero-stat-value {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-xl);
+    color: var(--color-ink);
+    line-height: 1.1;
+  }
+
+  .hero-stat-label {
+    display: block;
     font-size: var(--text-sm);
-    opacity: 0.85;
-    animation: bob 2s ease-in-out infinite;
+    color: var(--color-muted);
   }
 
-  @keyframes bob {
-    0%, 100% { transform: translate(-50%, 0); }
-    50% { transform: translate(-50%, 8px); }
+  @media (max-width: 56rem) {
+    .hero-stat-band {
+      flex-wrap: wrap;
+      row-gap: var(--space-4);
+    }
+
+    .hero-stat {
+      flex-basis: calc(50% - var(--space-4) / 2);
+    }
   }
 
-  /* Sur mobile, le bouton "Nous soutenir" (empilé sous le premier)
-     pousse jusqu'au bord bas du hero - exactement là où le repère
-     "Découvrir" est ancré (bottom: var(--space-4)), d'où un chevauchement
-     visuel confirmé. Le geste de scroll étant déjà acquis sur mobile, ce
-     repère décoratif n'est pas nécessaire : on le masque plutôt que de
-     complexifier la mise en page pour lui faire de la place. */
   @media (max-width: 40rem) {
-    .scroll-cue {
-      display: none;
+    .hero-stat-band {
+      margin-top: -1.5rem;
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .hero-stat {
+      flex-basis: 100%;
     }
   }
 
