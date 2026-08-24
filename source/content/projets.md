@@ -56,6 +56,8 @@ Présentation demandée par l'owner : "Communiquer" (préopératoire) / "Assiste
 
 **Henri** - chatbot conçu comme source d'informations fiables et complètes sur le patient pendant l'opération (checklist, antécédents, etc.). Travail en cours, démo à venir. (Le pitch mentionne aussi « Jacky », un second chatbot qui interroge le chirurgien au fil de l'opération pour générer un compte-rendu standardisé - les deux forment ensemble le duo de chatbots pensé pour augmenter le chirurgien.)
 
+**Goldfinger** - outil intra-opératoire pour manipuler un modèle 3D de foie sans contact, en pleine opération, sans compromettre la stérilité du bloc : un geste en l'air suffit à guider le chirurgien.
+
 **De l'analyse d'image à la création d'une start-up** - le travail sur l'analyse d'images au bloc opératoire (anonymisation, analyse temps réel, rapport, codage - testé sur chirurgie bariatrique, cholécystectomie, lobectomie pulmonaire, hystérectomie) a donné naissance à la start-up **Uncovr**, une des deux start-up créées depuis BOPA1 (avec DOTs). Fait clé : les événements indésirables graves ne sont pas enregistrés dans le compte-rendu opératoire dans 20 % des cas (Mekhenane et al., Vibert, Allard, Ann Hepatobiliary Pancreat Surg, 2025).
 
 ### Postopératoire - Suivre les patients
