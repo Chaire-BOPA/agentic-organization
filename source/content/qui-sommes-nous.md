@@ -15,3 +15,10 @@ Le Centre Hépato-Biliaire, un lieu d'excellence hospitalo-universitaire depuis 
 - 500 cancers hépato-bilio-pancréatiques traités par an
 
 1er centre de transplantation hépatique et chirurgie hépato-bilio-pancréatique en France.
+
+<!-- verify: the homepage hero's stat band ("+40 chercheurs mobilisés",
+     "8 hôpitaux partenaires", "15 projets innovants", "100% co-construits
+     avec les soignants") shows placeholder numbers copied from an
+     inspiration mockup at the owner's explicit request (2026-08-24) - not
+     verified BOPA facts. Replace with real figures here and in
+     site/src/pages/index.astro (.hero-stat-band) once known. -->

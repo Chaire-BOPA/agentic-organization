@@ -34,7 +34,9 @@
 
 ## Current priorities
 
-- TODO (what the owner cares about right now; keep this list short and current)
+- Iterative homepage/site polish based on the owner's ongoing feedback (layout, copy, imagery) - most sessions right now are small, focused edits rather than big new builds.
+- Open fact gaps, tracked with `<!-- verify -->` notes in `source/content/`: the three médico-économique projects (Hepatgreen, MESGARDES, Coût de l'hépatectomie) have names but no real descriptions yet; the homepage hero stat band (chercheurs/hôpitaux/projets/%) is showing placeholder numbers copied from an inspiration mockup at the owner's explicit request, real figures still needed.
+- `source/brand/assets/graphics/progres.png` has failed to upload with real content twice (0 bytes both times) - a vision-section image is blocked on this until it lands properly.
 
 ## History and decisions
 
