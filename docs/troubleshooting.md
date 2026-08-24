@@ -113,6 +113,18 @@ Being listed as a collaborator on GitHub (check `gh api repos/OWNER/REPO/collabo
 by itself mean your local folder is wired to the right place — both things need to be true before
 a push actually reaches the live site.
 
+## "ENOSPC: no space left on device" during a file edit
+
+This means exactly what it says — the drive itself is full, not just this project's folder.
+`npm run dev`, `astro build`, and even plain file writes can all fail this way once free space
+gets low, and the error can look unrelated to disk space at a glance. Check actual free space
+first (Windows PowerShell: `Get-PSDrive C | Select-Object Used,Free`) before debugging anything
+else. If it's genuinely low (under ~1 GB free), stop running builds/dev servers - they write cache
+and output files and can make things worse - and free up space first (Downloads folder, Recycle
+Bin, Windows Storage Sense are the usual easy wins). This project's own build artifacts (`site/
+dist/`) are safe to delete any time and cost nothing to regenerate, but on a truly full drive they
+won't be enough by themselves.
+
 ## Still stuck?
 
 Paste the exact error message to Claude and ask it to diagnose step by step. And if your problem
