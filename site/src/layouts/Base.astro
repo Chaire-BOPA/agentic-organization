@@ -22,7 +22,13 @@ type NavItem = NavLink | NavGroup;
 // one exception, a dropdown to its three dedicated pages (the home
 // page's carousel only shows a preview of the full project list).
 const nav: NavItem[] = [
-  { href: '/#approche', label: 'Notre approche' },
+  {
+    label: 'La Chaire',
+    children: [
+      { href: '/#qui-sommes-nous', label: 'Qui sommes-nous' },
+      { href: '/#approche', label: 'Notre approche' },
+    ],
+  },
   {
     label: 'Nos innovations',
     children: [

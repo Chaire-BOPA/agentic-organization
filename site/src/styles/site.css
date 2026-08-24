@@ -538,7 +538,8 @@ button {
    seuls et écrasait leur color:#fff. */
 .section-block.dark a.btn-outline-premium,
 .section-block.dark a.btn-filled-premium,
-.section-block.dark a.scroll-cue {
+.section-block.dark a.scroll-cue,
+.section-block.dark a.btn-plain-donate {
   color: #fff;
 }
 
