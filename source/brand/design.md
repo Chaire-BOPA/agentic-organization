@@ -11,6 +11,7 @@ Institutional but alive: a hospital-and-engineering research chair, not a startu
 `tokens.css` is the only place where colors, fonts, and the spacing scale are defined. Nothing in `site/` or in a deck hardcodes a hex value, a font name, or a magic pixel number. Adding a design idea that needs a new value means adding the token first, with a name that says what it's for.
 
 - **Color**: the BOPA logo's four blues (`--bopa-blue-1..4`) are the source. `--color-accent` is the darkest (`--bopa-blue-1`, best contrast on white); `--color-dark` is a deeper navy used only for full-bleed emphasis sections (hero, one spotlight section per page — not every other section). Neutrals are cool-toned to sit with the blues: a light blue-gray `--color-bg`, deep navy `--color-ink` instead of pure black.
+- A solid `--color-accent` fill on a dark navy section reads as neon, not premium - the "Faire un don" CTA had this fixed to plain white text, no fill/shadow. On dark backgrounds, prefer a plain/outline treatment (see `.btn-outline-premium`, `.btn-plain-donate`) over a solid bright-blue button.
 - **Type**: still system fonts (no webfont chosen yet), but display headings use `font-weight: 700` and `--tracking-tight` (-0.02em) to read as confident and current rather than default browser serif. Revisit if the owner picks a webfont.
 
 ## Type
