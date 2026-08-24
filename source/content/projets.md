@@ -67,3 +67,16 @@ Présentation demandée par l'owner : "Communiquer" (préopératoire) / "Assiste
 **Suivi longitudinal et valeur en santé (VBHC)** - projet aligné sur l'axe VBHC (Value-Based Health Care) de l'AP-HP. Objectif : évaluer la qualité de vie du patient via la collecte de PROM et de PREM (critères centrés sur le patient : état général, stress, implication dans le parcours de soin...). Vision long terme : identifier des leviers d'action pour améliorer la qualité des soins. Ressource clé : plateforme numérique SKEZIA, fournie par SKEZI (filiale AP-HP).
 
 **Le ressenti du chirurgien** - WP6 du projet scientifique : corréler l'état émotionnel du chirurgien au résultat clinique et au ressenti du patient, pour identifier des leviers d'action (mesures PREMs, PROMs, CROMs).
+
+### Médico-économique - Mesurer la valeur
+
+<!-- verify: owner gave only the three project names below, no descriptions yet.
+     The site currently shows placeholder text ("Projet médico-économique en
+     cours - description à venir") for all three - replace here and on the
+     site once real facts are available. -->
+
+**Hepatgreen** - nom donné, description à obtenir.
+
+**MESGARDES** - nom donné, description à obtenir.
+
+**Coût de l'hépatectomie** - nom donné, description à obtenir.

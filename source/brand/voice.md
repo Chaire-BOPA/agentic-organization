@@ -37,7 +37,8 @@ If the site has more than one language, every language is written natively. Befo
 - **BOPA**: all caps, the Chaire's name (Chaire Innovation Bloc OPératoire Augmenté).
 - **BOPtech**: mixed case (BOP + lowercase "tech"), the technology platform.
 - **BOPEX**: all caps, the experimentation tiers-lieu.
-- Project names are proper nouns, not acronyms - title case, never all-caps: **Bopcam** (corrected from BOPCAM), **Uncovr**, **LiverSight**, **PancreasSight**, **Colette**, **Henri**.
+- **BOPCAM**: all caps. Flip-flopped once already (corrected to "Bopcam" title-case, then reverted back to BOPCAM) - don't re-title-case it without asking.
+- Other project names are proper nouns, not acronyms - title case: **Uncovr**, **LiverSight**, **PancreasSight**, **Colette**, **Henri**, **Goldfinger**.
 
 ## Examples
 
