@@ -63,24 +63,22 @@ body {
 
 /* One continuous gradient painted on <main> itself (not per-section):
    since every light .section-block below is transparent, each just
-   reveals its own slice of this single gradient as you scroll, so the
-   blue/white wave flows smoothly across section boundaries instead of
-   resetting at each one. Percentages are relative to main's full
-   height, not the viewport, so the wave stretches over however long
-   the page actually is. */
+   reveals its own slice of this single gradient as you scroll. Simple
+   single arc now (was an alternating multi-band wave): white through
+   the hero, easing into a cold blue by the time "Nous soutenir" (a
+   solid navy section, so it picks up right where this leaves off)
+   begins. Percentages are relative to main's full height, not the
+   viewport, so re-check them after any edit that changes section
+   proportions - 80% currently lines up with #soutenir's top. */
 main {
   flex: 1;
   width: 100%;
   background: linear-gradient(
     180deg,
     #ffffff 0%,
-    color-mix(in srgb, var(--bopa-blue-1) 22%, white) 14%,
-    #ffffff 30%,
-    color-mix(in srgb, var(--bopa-blue-2) 25%, white) 46%,
-    #ffffff 62%,
-    color-mix(in srgb, var(--bopa-blue-1) 22%, white) 78%,
-    #ffffff 94%,
-    color-mix(in srgb, var(--bopa-blue-2) 19%, white) 100%
+    #ffffff 8%,
+    color-mix(in srgb, var(--bopa-blue-2) 35%, white) 80%,
+    color-mix(in srgb, var(--bopa-blue-2) 35%, white) 100%
   );
 }
 
@@ -538,8 +536,7 @@ button {
    seuls et écrasait leur color:#fff. */
 .section-block.dark a.btn-outline-premium,
 .section-block.dark a.btn-filled-premium,
-.section-block.dark a.scroll-cue,
-.section-block.dark a.btn-plain-donate {
+.section-block.dark a.scroll-cue {
   color: #fff;
 }
 
@@ -1104,10 +1101,10 @@ button {
   }
 }
 
-/* Justified body text, everywhere and at every width - hyphens: auto
-   (French dictionary via <html lang="fr">) keeps word-spacing from
-   stretching awkwardly on narrower columns. */
+/* Justified body text, everywhere and at every width. hyphens: none -
+   the browser was splitting words mid-word to justify tighter; better
+   to let the line wrap earlier than cut a word in half. */
 p {
   text-align: justify;
-  hyphens: auto;
+  hyphens: none;
 }
