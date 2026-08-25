@@ -16,9 +16,10 @@ Le Centre Hépato-Biliaire, un lieu d'excellence hospitalo-universitaire depuis 
 
 1er centre de transplantation hépatique et chirurgie hépato-bilio-pancréatique en France.
 
-<!-- verify: the homepage hero's stat band ("+40 chercheurs mobilisés",
-     "8 hôpitaux partenaires", "15 projets innovants", "100% co-construits
-     avec les soignants") shows placeholder numbers copied from an
-     inspiration mockup at the owner's explicit request (2026-08-24) - not
-     verified BOPA facts. Replace with real figures here and in
-     site/src/pages/index.astro (.hero-stat-band) once known. -->
+<!-- verify: the homepage hero's stat band originally showed placeholder
+     numbers copied from an inspiration mockup (2026-08-24). Since then the
+     owner confirmed "54 publications" (was "+40 chercheurs mobilisés") and
+     "8 thèses soutenues" (was "8 hôpitaux partenaires") as real; "projets
+     innovants" is now computed from site/src/data/projects.js so it can't
+     go stale. Still placeholder: "100% co-construits avec les soignants" -
+     replace once the owner gives a real figure or framing for it. -->

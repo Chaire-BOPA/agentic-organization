@@ -55,4 +55,4 @@ Chronologie :
 - 2025 - création de BOPTECH (« tech tank »)
 - 2025-2030 - BOPA2, horizon 2030
 
-Chiffres : mécénat 1,6 M€ · 5 doctorants financés · 7 étudiants en master financés · 50 publications · 51 communications orales · 2 start-up créées (DOTs et Uncovr) · 1 logiciel médical créé (LiverSight) · 1 chatbot d'éducation thérapeutique · 1 salle hybride au CHB · 1 machine de perfusion au CHB
+Chiffres (pitch deck) : mécénat 1,6 M€ · 5 doctorants financés · 7 étudiants en master financés · 50 publications · 51 communications orales · 2 start-up créées (DOTs et Uncovr) · 1 logiciel médical créé (LiverSight) · 1 chatbot d'éducation thérapeutique · 1 salle hybride au CHB · 1 machine de perfusion au CHB. Mis à jour par l'owner (2026-08-25) : 54 publications, 2 logiciels médicaux créés, 8 thèses soutenues - plus récents que le pitch deck, à utiliser en priorité sur le site.

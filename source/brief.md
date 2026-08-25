@@ -35,7 +35,7 @@
 ## Current priorities
 
 - Iterative homepage/site polish based on the owner's ongoing feedback (layout, copy, imagery) - most sessions right now are small, focused edits rather than big new builds.
-- Open fact gaps, tracked with `<!-- verify -->` notes in `source/content/`: the three médico-économique projects (Hepatgreen, MESGARDES, Coût de l'hépatectomie) now all have images, but still no real descriptions (placeholder text is live on the site); the homepage hero stat band is still showing placeholder numbers copied from an inspiration mockup for chercheurs/projets/%, real figures still needed - one of the four is now confirmed real: "8" is thèses soutenues (was mislabeled "hôpitaux partenaires" until the owner corrected it 2026-08-25).
+- Open fact gaps, tracked with `<!-- verify -->` notes in `source/content/`: the three médico-économique projects (Hepatgreen, MESGARDES, Coût de l'hépatectomie) now all have images, but still no real descriptions (placeholder text is live on the site). The homepage hero stat band is down to one real placeholder left: "100% co-construits avec les soignants" - the other three are confirmed (54 publications, 8 thèses soutenues, projets innovants computed live from `site/src/data/projects.js`).
 
 ## History and decisions
 
