@@ -66,22 +66,32 @@ body {
    reveals its own slice of this single gradient as you scroll - white
    at the top, easing into a cold blue. #equipe and #soutenir both
    paint their own solid background over this further down, so the
-   gradient is only ever actually seen from the hero through #projets.
+   gradient is only ever actually seen from the end of the hero's
+   floating stat band through #projets.
    Stops are fixed px, not %, on purpose: % is relative to main's full
    height, and every past edit that changed a section's content length
    silently shifted where the color bands fell (documented the hard
    way - #equipe used to start around 54% while the gradient's "fully
    blue" stop targeted 80%, so the visible portion never actually got
    blue). Fixed px stays correct regardless of how content above or
-   below this range changes. Re-anchor the endpoint only if #equipe's
-   own start position moves meaningfully. */
+   below this range changes.
+   The first stop holds white through 664px (the hero + the floating
+   .hero-stat-band card on top of it, both fully opaque - the gradient
+   there is invisible either way) instead of starting the ramp at 0px:
+   spending part of the 0-3600px budget on a hidden zone meant the
+   *visible* start of #qui-sommes-nous was still ~80% of the way to
+   white, reading as a flat white stripe with no perceptible gradient
+   until well into the page. Re-anchor both this and the endpoint
+   (currently 3700px) if the hero/stat-band height or #equipe's start
+   position (currently ~3786px) move meaningfully. */
 main {
   flex: 1;
   width: 100%;
   background: linear-gradient(
     180deg,
     #ffffff 0px,
-    color-mix(in srgb, var(--bopa-blue-2) 35%, white) 3600px
+    #ffffff 664px,
+    color-mix(in srgb, var(--bopa-blue-2) 35%, white) 3700px
   );
 }
 
