@@ -32,9 +32,9 @@ const partnerLogos = [
 // initials instead of a fabricated stock photo standing in for a
 // named person; swap in a real photo (src field) as they come in.
 const team = [
-  { name: 'Charles Hellec', role: 'Directeur de la Chaire BOPA' },
-  { name: 'Elie Farah', role: 'Directeur de la plateforme BOPtech' },
-  { name: 'Pr Éric Vibert', role: 'Chirurgien, Centre Hépato-Biliaire - initiateur de la Chaire' },
+  { name: 'Charles Hellec', credentials: 'PhD', role: 'Directeur de la Chaire BOPA' },
+  { name: 'Elie Farah', credentials: 'MD', role: 'Directeur de la plateforme BOPtech' },
+  { name: 'Pr Éric Vibert', credentials: 'MD, PhD', role: 'Chirurgien, Centre Hépato-Biliaire - initiateur de la Chaire' },
   { name: 'Axelle Piguet', role: 'Ingénieure' },
 ].map((person) => ({
   ...person,
@@ -432,6 +432,7 @@ const team = [
           <div class="team-member-card">
             <div class="team-member-avatar" aria-hidden="true">{person.initials}</div>
             <p class="team-member-name">{person.name}</p>
+            {person.credentials && <p class="team-member-credentials">{person.credentials}</p>}
             <p class="team-member-role">{person.role}</p>
           </div>
         ))}
@@ -1325,8 +1326,16 @@ const team = [
      (an earlier version had a solid white background and used a
      radial-gradient mask here instead). */
   .approche-image img {
-    width: 100%;
+    width: 70%;
+    max-width: 40rem;
     display: block;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 40rem) {
+    .approche-image img {
+      width: 100%;
+    }
   }
 
   .partners-block {
@@ -1343,10 +1352,11 @@ const team = [
 
   .partners-tagline {
     font-family: var(--font-display);
-    font-size: var(--text-base);
+    font-size: var(--text-lg);
     font-weight: 700;
-    line-height: 1.25;
-    color: var(--color-ink);
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.2;
+    color: var(--color-accent);
     margin-bottom: var(--space-2);
   }
 
@@ -1404,7 +1414,7 @@ const team = [
   .partners-label {
     font-size: var(--text-sm);
     font-weight: 600;
-    color: var(--color-muted);
+    color: var(--color-accent);
   }
 
   /* Two-column split per the owner's reference layout: intro text
@@ -1477,6 +1487,13 @@ const team = [
     font-weight: 700;
     font-size: var(--text-sm);
     white-space: nowrap;
+  }
+
+  .team-member-credentials {
+    color: var(--color-accent-2);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-top: 0.15rem;
   }
 
   .team-member-role {
