@@ -432,7 +432,7 @@ const team = [
           <div class="team-member-card">
             <div class="team-member-avatar" aria-hidden="true">{person.initials}</div>
             <p class="team-member-name">{person.name}</p>
-            {person.credentials && <p class="team-member-credentials">{person.credentials}</p>}
+            <p class="team-member-credentials" aria-hidden={!person.credentials}>{person.credentials || ' '}</p>
             <p class="team-member-role">{person.role}</p>
           </div>
         ))}
@@ -1326,8 +1326,8 @@ const team = [
      (an earlier version had a solid white background and used a
      radial-gradient mask here instead). */
   .approche-image img {
-    width: 70%;
-    max-width: 40rem;
+    width: 85%;
+    max-width: 48rem;
     display: block;
     margin: 0 auto;
   }
