@@ -1320,10 +1320,21 @@ const team = [
     align-items: center;
   }
 
+  /* The diagram already has its own white background matching the
+     page - a card frame (shadow/border-radius) made it look like a
+     boxed photo instead of a drawing that belongs on the page. A soft
+     edge fade instead, so it blends straight into the surrounding
+     white/pale gradient with no visible edge. */
   .approche-image img {
     width: 100%;
-    border-radius: var(--radius-lg);
-    box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
+    display: block;
+    mask-image: radial-gradient(ellipse 75% 75% at center, black 60%, transparent 100%);
+  }
+
+  @supports not (mask-image: radial-gradient(black, black)) {
+    .approche-image img {
+      -webkit-mask-image: radial-gradient(ellipse 75% 75% at center, black 60%, transparent 100%);
+    }
   }
 
   @media (max-width: 48rem) {
