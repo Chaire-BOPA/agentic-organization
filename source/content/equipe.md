@@ -4,12 +4,12 @@ Source: https://chb-2ed.pages.dev/innovation/ (fetched 2026-07-30). This is a pa
 
 ## Ceux qui font BOPA tous les jours
 
-- **Charles Hellec** - Directeur de la Chaire BOPA
-- **Elie Farah** - Directeur de la plateforme BOPtech
+- **Charles Hellec, PhD** - Directeur de la Chaire BOPA
+- **Elie Farah, MD** - Directeur de la plateforme BOPtech
 
 ## L'équipe soignante du CHB
 
-- **Pr Éric Vibert** - Chirurgien au Centre Hépato-Biliaire, initiateur et porteur de la Chaire
+- **Pr Éric Vibert, MD, PhD** - Chirurgien au Centre Hépato-Biliaire, initiateur et porteur de la Chaire
 
 ## Collaborateurs ingénieurs et sciences humaines
 
