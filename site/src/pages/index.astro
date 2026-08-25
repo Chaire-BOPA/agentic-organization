@@ -27,23 +27,24 @@ const partnerLogos = [
   { src: '/logos/partenaires/logo-vermon.png', alt: 'Vermon', scale: 0.85 },
 ];
 
+// Flat list, one card each - no group headers (per the owner's
+// reference layout). No real headshots yet, so each card shows
+// initials instead of a fabricated stock photo standing in for a
+// named person; swap in a real photo (src field) as they come in.
 const team = [
-  {
-    group: 'Ceux qui font BOPA tous les jours',
-    people: [
-      { name: 'Charles Hellec', role: 'Directeur de la Chaire BOPA' },
-      { name: 'Elie Farah', role: 'Directeur de la plateforme BOPtech' },
-    ],
-  },
-  {
-    group: "L'équipe soignante du CHB",
-    people: [{ name: 'Pr Éric Vibert', role: 'Chirurgien, Centre Hépato-Biliaire - initiateur de la Chaire' }],
-  },
-  {
-    group: 'Collaborateurs ingénieurs et sciences humaines',
-    people: [{ name: 'Axelle Piguet', role: 'Ingénieure' }],
-  },
-];
+  { name: 'Charles Hellec', role: 'Directeur de la Chaire BOPA' },
+  { name: 'Elie Farah', role: 'Directeur de la plateforme BOPtech' },
+  { name: 'Pr Éric Vibert', role: 'Chirurgien, Centre Hépato-Biliaire - initiateur de la Chaire' },
+  { name: 'Axelle Piguet', role: 'Ingénieure' },
+].map((person) => ({
+  ...person,
+  initials: person.name
+    .replace(/^(Pr|Dr)\s+/i, '')
+    .split(/\s+/)
+    .map((word) => word[0])
+    .join('')
+    .toUpperCase(),
+}));
 ---
 
 <Base
@@ -413,7 +414,7 @@ const team = [
     </div>
   </section>
 
-  <section id="equipe" class="section-block fade-to-navy">
+  <section id="equipe" class="section-block dark fade-to-navy">
     <div class="mesh-echo" aria-hidden="true" style="opacity: 0.045;"></div>
     <div class="ambient-halo" aria-hidden="true" style="width: 22rem; height: 22rem; top: -2rem; left: -5rem;"></div>
     <div class="wrap" data-reveal>
@@ -424,19 +425,15 @@ const team = [
         chercheurs Paris-Saclay &amp; CNAM, réunis autour d'un même terrain.
       </p>
     </div>
-    {team.map((group) => (
-      <div class="wrap team-group">
-        <h3>{group.group}</h3>
-        <div class="card-grid">
-          {group.people.map((person) => (
-            <div class="card person-card">
-              <p class="person-name">{person.name}</p>
-              <p class="person-role">{person.role}</p>
-            </div>
-          ))}
+    <div class="wrap team-members" data-reveal>
+      {team.map((person) => (
+        <div class="team-member-card">
+          <div class="team-member-avatar" aria-hidden="true">{person.initials}</div>
+          <p class="team-member-name">{person.name}</p>
+          <p class="team-member-role">{person.role}</p>
         </div>
-      </div>
-    ))}
+      ))}
+    </div>
     {teamPhotos.length > 0 && (
       <div class="wrap team-gallery-wrap" data-reveal>
         <div class="team-gallery-slider" id="team-gallery">
@@ -1384,16 +1381,21 @@ const team = [
     padding-top: var(--space-5);
   }
 
-  /* #equipe sat directly on the shared page gradient (main), and at this
-     scroll position the gradient was mid-transition between two of its
-     stops - it could read as an abrupt color jump rather than a smooth
-     wash. Solid background removes any chance of that; .fade-to-navy
-     still handles the transition into "Nous soutenir" below it. Also
+  /* Dark navy per the owner's reference layout (was solid white - see
+     git history for that fix's own reasoning, since superseded here).
+     Own background gradient instead of a flat color: starts at
+     roughly the shared gradient's own end tone (so #projets hands off
+     smoothly with no visible seam) and reaches full navy within one
+     card's height, rather than an abrupt line at the top edge. Also
      tightens the gap above the section, same as the qui-sommes-nous ->
      approche fix. */
   #equipe {
     padding-top: var(--space-5);
-    background: #ffffff;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--bopa-blue-2) 35%, white) 0,
+      var(--color-navy) 14rem
+    );
   }
 
   .partners-label {
@@ -1402,26 +1404,57 @@ const team = [
     color: var(--color-muted);
   }
 
-  .team-group {
+  .team-members {
     margin-top: var(--space-5);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-4);
   }
 
-  .team-group h3 {
-    margin-bottom: var(--space-3);
+  .team-member-card {
+    background: var(--color-navy-2);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    text-align: center;
   }
 
-  .person-card {
-    border-top-color: var(--color-accent) !important;
-  }
-
-  .person-name {
+  .team-member-avatar {
+    width: 4.5rem;
+    height: 4.5rem;
+    margin: 0 auto var(--space-3);
+    border-radius: 999px;
+    background: var(--color-accent-2);
+    color: #fff;
+    font-family: var(--font-display);
     font-weight: 700;
     font-size: var(--text-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .person-role {
-    color: var(--color-muted);
+  .team-member-name {
+    font-weight: 700;
+    font-size: var(--text-base);
+  }
+
+  .team-member-role {
+    color: var(--color-dark-ink);
+    opacity: 0.75;
+    font-size: var(--text-sm);
     margin-top: var(--space-1);
+  }
+
+  @media (max-width: 56rem) {
+    .team-members {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .team-members {
+      grid-template-columns: 1fr;
+    }
   }
 
   .team-gallery-wrap {

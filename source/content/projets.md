@@ -68,6 +68,8 @@ Présentation demandée par l'owner : "Communiquer" (préopératoire) / "Assiste
 
 **Le ressenti du chirurgien** - WP6 du projet scientifique : corréler l'état émotionnel du chirurgien au résultat clinique et au ressenti du patient, pour identifier des leviers d'action (mesures PREMs, PROMs, CROMs).
 
+**Masterclass patient pair-aidance** - d'anciens patients transplantés sont formés pour devenir des « patients experts » ; ils accompagnent ensuite les nouveaux patients (visites, conseil) tout au long de leur parcours.
+
 ### Médico-économique - Mesurer la valeur
 
 <!-- verify: owner gave only the three project names below, no descriptions yet.
