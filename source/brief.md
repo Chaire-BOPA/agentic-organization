@@ -36,7 +36,7 @@
 
 - Iterative homepage/site polish based on the owner's ongoing feedback (layout, copy, imagery) - most sessions right now are small, focused edits rather than big new builds.
 - Open fact gaps, tracked with `<!-- verify -->` notes in `source/content/`: the three médico-économique projects (Hepatgreen, MESGARDES, Coût de l'hépatectomie) have names but no real descriptions yet; the homepage hero stat band (chercheurs/hôpitaux/projets/%) is showing placeholder numbers copied from an inspiration mockup at the owner's explicit request, real figures still needed.
-- `source/brand/assets/graphics/progres.png` has failed to upload with real content twice (0 bytes both times) - a vision-section image is blocked on this until it lands properly.
+- `source/brand/assets/graphics/progres.png` has failed to upload with real content three times now (0 bytes every time) - a vision-section image is blocked on this until it lands properly. Not a general upload problem: other files (GREFFONS.png, HENRI.png, goldfinger.png) uploaded fine via the same GitHub web UI in the same window, so something specific to this file/filename is worth checking (re-export it, try a different browser tab, maybe a different filename).
 
 ## History and decisions
 
