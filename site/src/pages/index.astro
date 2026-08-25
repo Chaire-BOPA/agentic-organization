@@ -185,11 +185,13 @@ const team = [
           cadrent tout ce que la Chaire construit.
         </p>
       </div>
-      <!-- TODO: image "progrès" (source/brand/assets/graphics/progres.png)
-           goes here once the owner's re-upload actually has content - the
-           current file on disk is 0 bytes, unusable. Restore the
-           two-column grid (see approche-intro/value-column in the <style>
-           below, kept but currently unused) once it's in place. -->
+      <div class="approche-image">
+        <img
+          src="/images/graphics/progres.png"
+          alt="Schéma en forme de pont reliant « l'innovation pour quelques-uns » au « progrès pour tous », porté par trois piliers : Acceptabilité (des solutions co-construites et validées par les soignants), Interopérabilité (des systèmes capables de s'intégrer partout) et Soutenabilité (une approche éthique, responsable financièrement, et sobre en carbone)."
+          loading="lazy"
+        />
+      </div>
     </div>
 
     <div class="wrap section-sub">
@@ -1308,48 +1310,20 @@ const team = [
     max-width: none;
   }
 
-  /* Text left, the three values stacked to its right - not another
-     "3 cards in a row" (that pattern already repeats in the pipeline and
-     the méthode grid right below). A colored left-border accent instead
-     of a boxed card or an icon badge - a third, lighter visual language. */
-  /* Temporarily single-column: the right column (image) is pending a
-     real file upload - see the TODO in the markup above. Restore
-     "1.3fr 1fr" once the image is back in place. */
+  /* Text left, the "progrès" bridge diagram right - it already carries
+     the three pillars (Acceptabilité/Interopérabilité/Soutenabilité) as
+     part of the image itself, so no separate value-column is needed. */
   .approche-intro {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1.3fr 1fr;
     gap: var(--space-5);
-    align-items: start;
+    align-items: center;
   }
 
-  .value-column {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-  }
-
-  .value-item {
-    display: flex;
-    align-items: flex-start;
-    gap: var(--space-3);
-    padding-left: var(--space-3);
-    border-left: 3px solid var(--step-color);
-  }
-
-  .value-item svg {
-    flex-shrink: 0;
-    margin-top: 0.2em;
-    color: var(--step-color);
-  }
-
-  .value-item h3 {
-    font-size: var(--text-base);
-    margin-bottom: var(--space-1);
-  }
-
-  .value-item p {
-    color: var(--color-muted);
-    font-size: var(--text-sm);
+  .approche-image img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
   }
 
   @media (max-width: 48rem) {
