@@ -1310,14 +1310,14 @@ const team = [
     max-width: none;
   }
 
-  /* Text left, the "progrès" bridge diagram right - it already carries
-     the three pillars (Acceptabilité/Interopérabilité/Soutenabilité) as
-     part of the image itself, so no separate value-column is needed. */
+  /* Full width, stacked: text then the "progrès" bridge diagram below
+     it. The diagram already carries the three pillars (Acceptabilité/
+     Interopérabilité/Soutenabilité) as part of the image itself, so no
+     separate value-column is needed. */
   .approche-intro {
     display: grid;
-    grid-template-columns: 1.3fr 1fr;
+    grid-template-columns: 1fr;
     gap: var(--space-5);
-    align-items: center;
   }
 
   /* The diagram already has its own white background matching the
@@ -1334,12 +1334,6 @@ const team = [
   @supports not (mask-image: radial-gradient(black, black)) {
     .approche-image img {
       -webkit-mask-image: radial-gradient(ellipse 75% 75% at center, black 60%, transparent 100%);
-    }
-  }
-
-  @media (max-width: 48rem) {
-    .approche-intro {
-      grid-template-columns: 1fr;
     }
   }
 
