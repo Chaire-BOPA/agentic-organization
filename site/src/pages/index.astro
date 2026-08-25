@@ -130,7 +130,7 @@ const team = [
     </div>
   </div>
 
-  <section id="qui-sommes-nous" class="section-block fade-from-navy">
+  <section id="qui-sommes-nous" class="section-block">
     <div class="mesh-echo" aria-hidden="true" style="opacity: 0.045;"></div>
     <div class="ambient-halo" aria-hidden="true" style="width: 24rem; height: 24rem; bottom: -4rem; right: -6rem;"></div>
     <div class="wrap" data-reveal>
@@ -1441,8 +1441,8 @@ const team = [
 
   .team-members {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
   }
 
   @media (max-width: 64rem) {
@@ -1454,20 +1454,20 @@ const team = [
   .team-member-card {
     background: var(--color-navy-2);
     border-radius: var(--radius-lg);
-    padding: var(--space-4);
+    padding: var(--space-4) var(--space-2);
     text-align: center;
   }
 
   .team-member-avatar {
-    width: 4.5rem;
-    height: 4.5rem;
+    width: 3.5rem;
+    height: 3.5rem;
     margin: 0 auto var(--space-3);
     border-radius: 999px;
     background: var(--color-accent-2);
     color: #fff;
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1475,7 +1475,8 @@ const team = [
 
   .team-member-name {
     font-weight: 700;
-    font-size: var(--text-base);
+    font-size: var(--text-sm);
+    white-space: nowrap;
   }
 
   .team-member-role {
