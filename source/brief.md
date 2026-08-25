@@ -29,7 +29,7 @@
 
 - **Who owns the accounts**: GitHub org `Chaire-BOPA`, repo `agentic-organization` (public). Cloudflare Pages was set up by a coworker.
 - **Who can ask for changes**: at least two people so far - the coworker who originally set up the site, and Axelle Piguet (GitHub: axpiguet)
-- **Who publishes**: team mode in practice, but still solo-style workflow - each person pushes directly to `main` via their own Claude session (not PRs). Worth revisiting per the README's "when you grow" note if this causes a real collision (one already happened: a coworker's commit landed while a session was mid-edit; resolved with a clean rebase, but it's a sign this repo now has more than one active editor).
+- **Who publishes**: team mode in practice, but still solo-style workflow - each person pushes directly to `main` via their own Claude session (not PRs). Worth revisiting per the README's "when you grow" note if this causes a real collision (one already happened: a coworker's commit landed while a session was mid-edit; resolved with a clean rebase, but it's a sign this repo now has more than one active editor). A second channel for the same risk: the owner sometimes uploads a file straight through GitHub's web UI (e.g. `source/brand/assets/graphics/phases.png`, 2026-08-25) instead of dropping it in `source/inbox/` - that lands as a commit on `main` mid-session too. `git fetch`/`pull --rebase` right before every push, not just at session start, catches both cases.
 - **Access granted so far**: Axelle Piguet (GitHub: axpiguet) - admin, added 2026-08-17
 
 ## Current priorities
