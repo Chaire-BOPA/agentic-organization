@@ -36,7 +36,8 @@ Institutional but alive: a hospital-and-engineering research chair, not a startu
 ## Imagery
 
 - Originals live in `source/brand/assets/` at full resolution; the site serves processed copies only (see the images section of `source/formats/website.md`).
-- Photography for everything that can be photographed - the real team, real equipment, real procedures, not stock photos or staged compositions. Diagrams/schematics are fine specifically for explaining how a technical mechanism works (e.g. InMachina's "comment ça marche" schema) - that's a different job than illustrating a person, place, or object, and a photo can't do it. This flip-flopped twice already (schema removed for a reused photo, then restored) - don't re-remove the InMachina schema without asking; if a similar "photo vs. diagram" call comes up elsewhere, ask rather than guessing which way this project leans.
+- Photography for everything that can be photographed - the real team, real equipment, real procedures, not stock photos or staged compositions. Diagrams/schematics are fine specifically for explaining how a technical mechanism works (e.g. InMachina's "comment ça marche" schema, the "progrès" bridge diagram for the vision section) - that's a different job than illustrating a person, place, or object, and a photo can't do it. This flip-flopped twice already on InMachina (schema removed for a reused photo, then restored) - don't re-remove a diagram without asking.
+  Same logic extends to stock-style illustrative images (Henri's AI-mascot artwork, Goldfinger's touchless-3D-model render, the Hepatgreen/coût financier/coût environnemental illustrations): fine for a project or concept that has no real BOPA photo opportunity yet (in-development tools, abstract economic/environmental framing, an AI assistant with no physical form) - not a general license to use stock photography once a real photo becomes possible.
 
 ## Responsiveness, learned the hard way
 
