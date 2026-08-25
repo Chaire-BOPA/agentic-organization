@@ -99,13 +99,13 @@ const team = [
     </div>
     <div class="hero-stat">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M5 21V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v16M15 21v-9a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-        <path d="M9 8v4M7 10h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-        <path d="M3 21h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        <path d="M12 3L2 8l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+        <path d="M6 10.5V16c0 1.5 2.5 3 6 3s6-1.5 6-3v-5.5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+        <path d="M20 9v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
       </svg>
       <div>
         <span class="hero-stat-value">8</span>
-        <span class="hero-stat-label">hôpitaux partenaires</span>
+        <span class="hero-stat-label">thèses soutenues</span>
       </div>
     </div>
     <div class="hero-stat">
@@ -1471,6 +1471,9 @@ const team = [
     border-radius: var(--radius-lg);
     padding: var(--space-4) var(--space-2);
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .team-member-avatar {
@@ -1506,15 +1509,17 @@ const team = [
     opacity: 0.75;
     font-size: var(--text-sm);
     margin-top: var(--space-1);
+    margin-bottom: var(--space-3);
   }
 
   .team-member-linkedin {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    flex-shrink: 0;
     width: 2rem;
     height: 2rem;
-    margin-top: var(--space-3);
+    margin-top: auto;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.1);
     color: var(--color-dark-ink);
