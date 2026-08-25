@@ -1320,21 +1320,13 @@ const team = [
     gap: var(--space-5);
   }
 
-  /* The diagram already has its own white background matching the
-     page - a card frame (shadow/border-radius) made it look like a
-     boxed photo instead of a drawing that belongs on the page. A soft
-     edge fade instead, so it blends straight into the surrounding
-     white/pale gradient with no visible edge. */
+  /* The current export has a real transparent background (RGBA), so it
+     already blends into the page on its own - no CSS fade needed
+     (an earlier version had a solid white background and used a
+     radial-gradient mask here instead). */
   .approche-image img {
     width: 100%;
     display: block;
-    mask-image: radial-gradient(ellipse 75% 75% at center, black 60%, transparent 100%);
-  }
-
-  @supports not (mask-image: radial-gradient(black, black)) {
-    .approche-image img {
-      -webkit-mask-image: radial-gradient(ellipse 75% 75% at center, black 60%, transparent 100%);
-    }
   }
 
   .partners-block {
