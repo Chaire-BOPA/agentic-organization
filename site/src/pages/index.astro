@@ -2,6 +2,7 @@
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import Base from '../layouts/Base.astro';
+import { phases } from '../data/projects.js';
 
 // Any image dropped into site/public/images/equipe/ becomes a gallery
 // slide automatically - see source/brand/assets/equipe/README.md for
@@ -15,6 +16,10 @@ const teamPhotos = readdirSync(join(process.cwd(), 'public', 'images', 'equipe')
     src: `/images/equipe/${file}`,
     alt: "Un instant avec l'équipe de la Chaire Innovation BOPA.",
   }));
+
+// Always the real count from innovations.astro's project list, never a
+// hand-typed number that drifts as projects are added or removed.
+const projectCount = phases.reduce((total, phase) => total + phase.projects.length, 0);
 
 const partnerLogos = [
   { src: '/logos/partenaires/logo-aphp.png', alt: 'AP-HP - Assistance Publique-Hôpitaux de Paris' },
@@ -82,19 +87,21 @@ const team = [
     </div>
   </section>
 
-  <!-- Numbers are placeholders copied from an inspiration mockup, not yet
-       verified BOPA facts - owner will supply the real figures. -->
+  <!-- 54 publications, 8 thèses soutenues confirmed by the owner; projets
+       innovants is computed from data/projects.js so it can't drift from
+       the projects page. "100% co-construits avec les soignants" is still
+       a placeholder copied from an inspiration mockup - real figure or
+       framing still needed from the owner. -->
   <div class="wrap hero-stat-band" data-reveal>
     <div class="hero-stat">
       <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.6" />
-        <path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-        <circle cx="17.5" cy="9" r="2.3" stroke="currentColor" stroke-width="1.6" />
-        <path d="M14.5 19c0-2.5 1.6-4.3 4-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        <path d="M7 3h7l4 4v14H7V3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+        <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+        <path d="M9.5 12h5M9.5 15h5M9.5 9h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
       </svg>
       <div>
-        <span class="hero-stat-value">+40</span>
-        <span class="hero-stat-label">chercheurs mobilisés</span>
+        <span class="hero-stat-value">54</span>
+        <span class="hero-stat-label">publications</span>
       </div>
     </div>
     <div class="hero-stat">
@@ -114,7 +121,7 @@ const team = [
         <path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 .9 1 1.6v.5h5v-.5c0-.7.4-1.2 1-1.6A6 6 0 0 0 12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
       </svg>
       <div>
-        <span class="hero-stat-value">15</span>
+        <span class="hero-stat-value">{projectCount}</span>
         <span class="hero-stat-label">projets innovants</span>
       </div>
     </div>
@@ -263,8 +270,8 @@ const team = [
           <span class="stat-label">Mécénat collecté depuis 2020</span>
         </div>
         <div class="stat">
-          <span class="stat-value" data-reveal style="--reveal-delay: 0.1s">50</span>
-          <span class="stat-label">Publications scientifiques</span>
+          <span class="stat-value" data-reveal style="--reveal-delay: 0.1s">2</span>
+          <span class="stat-label">Logiciels médicaux créés</span>
         </div>
         <div class="stat">
           <span class="stat-value" data-reveal style="--reveal-delay: 0.2s">2</span>
@@ -1206,7 +1213,7 @@ const team = [
      the start of a wrapped row reads as a stray mark, not a separator. */
   .hero-stat:not(:first-child) {
     padding-left: var(--space-4);
-    border-left: 1px solid var(--color-line);
+    border-left: 2px solid var(--color-line);
   }
 
   .hero-stat svg {
@@ -1385,6 +1392,7 @@ const team = [
      .section-block paddings stacked (qui-sommes-nous's bottom +
      approche's top = 16rem). Tighten just this junction. */
   #qui-sommes-nous {
+    padding-top: var(--space-5);
     padding-bottom: var(--space-5);
   }
 
@@ -1397,6 +1405,7 @@ const team = [
      #approche) and "Nos projets et réalisations". */
   #projets {
     padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
   }
 
   /* Dark navy per the owner's reference layout (was solid white - see
@@ -1409,6 +1418,7 @@ const team = [
      approche fix. */
   #equipe {
     padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
     background: linear-gradient(
       180deg,
       color-mix(in srgb, var(--bopa-blue-2) 35%, white) 0,
@@ -1606,6 +1616,7 @@ const team = [
   .donate {
     text-align: center;
     background: var(--color-navy);
+    padding-top: var(--space-5);
   }
 
   .donate::before {
