@@ -121,6 +121,13 @@ const phases = [
       </p>
     </div>
 
+    <div class="wrap phases-image" data-reveal>
+      <img
+        src="/images/graphics/phases.png"
+        alt="Frise du parcours patient en trois phases : phase 1 préopératoire (mieux communiquer), phase 2 peropératoire (mieux analyser), phase 3 postopératoire (mieux suivre)."
+      />
+    </div>
+
     {phases.map((phase) => (
       <div class="wrap section-sub" data-reveal>
         <span class="phase-tag" style={`--step-color: ${phase.step}`}>{phase.label}</span>
@@ -174,6 +181,17 @@ const phases = [
     font-size: var(--text-base);
     padding: 0.45em 1.1em;
     margin-bottom: var(--space-3);
+  }
+
+  /* Same treatment as the homepage's .approche-image: the PNG already
+     has native transparency, so no CSS mask/fade is needed. */
+  .phases-image {
+    margin-top: var(--space-5);
+  }
+
+  .phases-image img {
+    width: 100%;
+    display: block;
   }
 
   /* Cards in the same row stretch to match their tallest sibling (grid
