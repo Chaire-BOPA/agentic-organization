@@ -417,25 +417,28 @@ const team = [
   <section id="equipe" class="section-block dark fade-to-navy">
     <div class="mesh-echo" aria-hidden="true" style="opacity: 0.045;"></div>
     <div class="ambient-halo" aria-hidden="true" style="width: 22rem; height: 22rem; top: -2rem; left: -5rem;"></div>
-    <div class="wrap" data-reveal>
-      <span class="kicker">La Chaire</span>
-      <h2>Notre équipe</h2>
-      <p class="lede">
-        Des soignants AP-HP, des ingénieurs IMT &amp; INRIA et des
-        chercheurs Paris-Saclay &amp; CNAM, réunis autour d'un même terrain.
-      </p>
-    </div>
-    <div class="wrap team-members" data-reveal>
-      {team.map((person) => (
-        <div class="team-member-card">
-          <div class="team-member-avatar" aria-hidden="true">{person.initials}</div>
-          <p class="team-member-name">{person.name}</p>
-          <p class="team-member-role">{person.role}</p>
-        </div>
-      ))}
+    <div class="wrap equipe-layout" data-reveal>
+      <div class="equipe-intro">
+        <span class="kicker">L'équipe</span>
+        <h2>Des expertises<br /><span class="accent">complémentaires</span></h2>
+        <p class="lede">
+          Des soignants AP-HP, des ingénieurs IMT &amp; INRIA et des
+          chercheurs Paris-Saclay &amp; CNAM, réunis autour d'un même terrain.
+        </p>
+        <a class="link-arrow" href="#equipe-galerie">Découvrir l'équipe →</a>
+      </div>
+      <div class="team-members">
+        {team.map((person) => (
+          <div class="team-member-card">
+            <div class="team-member-avatar" aria-hidden="true">{person.initials}</div>
+            <p class="team-member-name">{person.name}</p>
+            <p class="team-member-role">{person.role}</p>
+          </div>
+        ))}
+      </div>
     </div>
     {teamPhotos.length > 0 && (
-      <div class="wrap team-gallery-wrap" data-reveal>
+      <div class="wrap team-gallery-wrap" id="equipe-galerie" style="scroll-margin-top: var(--space-5);" data-reveal>
         <div class="team-gallery-slider" id="team-gallery">
           {teamPhotos.map((photo, i) => (
             <div class:list={['team-gallery-slide', { 'is-active': i === 0 }]}>
@@ -1404,11 +1407,48 @@ const team = [
     color: var(--color-muted);
   }
 
-  .team-members {
+  /* Two-column split per the owner's reference layout: intro text
+     (kicker/heading/lede/link) on the left, member cards on the right -
+     replaces the old full-width text + 4-across grid below it. */
+  .equipe-layout {
     margin-top: var(--space-5);
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: minmax(16rem, 20rem) 1fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .equipe-intro .accent {
+    color: var(--color-accent-2);
+  }
+
+  .equipe-intro .lede {
+    margin-top: var(--space-2);
+    max-width: none;
+  }
+
+  .link-arrow {
+    display: inline-block;
+    margin-top: var(--space-3);
+    font-weight: 600;
+    color: var(--color-accent-2);
+    text-decoration: none;
+  }
+
+  .link-arrow:hover {
+    text-decoration: underline;
+  }
+
+  .team-members {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: var(--space-4);
+  }
+
+  @media (max-width: 64rem) {
+    .equipe-layout {
+      grid-template-columns: 1fr;
+    }
   }
 
   .team-member-card {
@@ -1443,12 +1483,6 @@ const team = [
     opacity: 0.75;
     font-size: var(--text-sm);
     margin-top: var(--space-1);
-  }
-
-  @media (max-width: 56rem) {
-    .team-members {
-      grid-template-columns: repeat(2, 1fr);
-    }
   }
 
   @media (max-width: 40rem) {
