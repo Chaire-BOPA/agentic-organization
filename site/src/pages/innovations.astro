@@ -9,21 +9,22 @@ import { phases } from '../data/projects.js';
 >
   <section class="section-block">
     <div class="mesh-echo" aria-hidden="true"></div>
-    <div class="wrap" data-reveal>
-      <span class="kicker">Innovations</span>
-      <h1>Nos projets</h1>
-      <p class="lede">
-        Des idées nées sur le terrain, portées par les équipes du bloc
-        opératoire : voici tous les projets de la Chaire, à chaque étape du
-        parcours patient.
-      </p>
-    </div>
-
-    <div class="wrap phases-image" data-reveal>
-      <img
-        src="/images/graphics/phases.png"
-        alt="Frise du parcours patient en trois phases : phase 1 préopératoire (mieux communiquer), phase 2 peropératoire (mieux analyser), phase 3 postopératoire (mieux suivre)."
-      />
+    <div class="wrap projets-intro" data-reveal>
+      <div>
+        <span class="kicker">Innovations</span>
+        <h1>Nos projets</h1>
+        <p class="lede">
+          Des idées nées sur le terrain, portées par les équipes du bloc
+          opératoire : voici tous les projets de la Chaire, à chaque étape du
+          parcours patient.
+        </p>
+      </div>
+      <div class="phases-image">
+        <img
+          src="/images/graphics/phases.png"
+          alt="Frise du parcours patient en trois phases : phase 1 préopératoire (mieux communiquer), phase 2 peropératoire (mieux analyser), phase 3 postopératoire (mieux suivre)."
+        />
+      </div>
     </div>
 
     {phases.map((phase) => (
@@ -81,15 +82,25 @@ import { phases } from '../data/projects.js';
     margin-bottom: var(--space-3);
   }
 
-  /* Same treatment as the homepage's .approche-image: the PNG already
-     has native transparency, so no CSS mask/fade is needed. */
-  .phases-image {
-    margin-top: var(--space-4);
+  /* Side by side per the owner's request - collapses to stacked below
+     40rem, same no-split-screens-on-mobile rule as everywhere else. */
+  .projets-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: var(--space-5);
   }
 
+  @media (max-width: 40rem) {
+    .projets-intro {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* The PNG already has native transparency, so no CSS mask/fade is
+     needed (same treatment as the homepage's .approche-image). */
   .phases-image img {
     width: 100%;
-    max-width: 42rem;
     display: block;
     margin: 0 auto;
   }

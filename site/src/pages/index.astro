@@ -435,7 +435,7 @@ const team = [
       </div>
       <p class="carousel-more">
         <a href="/innovations">
-          En savoir plus : tous nos projets, phase par phase
+          Voir tous nos projets
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
             <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
@@ -455,7 +455,6 @@ const team = [
           Des soignants AP-HP, des ingénieurs IMT &amp; INRIA et des
           chercheurs Paris-Saclay &amp; CNAM, réunis autour d'un même terrain.
         </p>
-        <a class="link-arrow" href="#equipe-galerie">Découvrir l'équipe →</a>
       </div>
       <div class="team-members">
         {team.map((person) => (
@@ -1081,7 +1080,7 @@ const team = [
   }
 
   .hero h1 {
-    font-size: clamp(1.73rem, 3.16vw, 2.72rem); /* -6% : titre plus discret, laisse respirer le reste */
+    font-size: clamp(2rem, 3.16vw, 2.72rem); /* -6% : titre plus discret, laisse respirer le reste */
     line-height: 1.2;
     margin: 0;
   }
@@ -1452,18 +1451,6 @@ const team = [
     max-width: none;
   }
 
-  .link-arrow {
-    display: inline-block;
-    margin-top: var(--space-3);
-    font-weight: 600;
-    color: var(--color-accent-2);
-    text-decoration: none;
-  }
-
-  .link-arrow:hover {
-    text-decoration: underline;
-  }
-
   .team-members {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -1611,6 +1598,7 @@ const team = [
     font-size: var(--text-base);
     max-width: 34rem;
     margin: var(--space-2) auto 0;
+    text-align: center;
   }
 
   .donate .btn-row {

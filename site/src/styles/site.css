@@ -95,6 +95,25 @@ main {
   );
 }
 
+/* Same gradient, re-anchored for mobile: the hero's text and the stat
+   band both wrap onto more lines on a narrow screen, so the opaque zone
+   at the top is taller (~1066px measured at 375px wide, not 664px) and
+   #equipe starts much further down (~6098px, not ~3786px) since every
+   section stacks single-column instead of side-by-side. Reusing the
+   desktop anchors left the ramp already ~13% into blue before any
+   content was even visible, reading as "gradient too dark" on phones.
+   Re-measure both anchors here if mobile section heights change. */
+@media (max-width: 40rem) {
+  main {
+    background: linear-gradient(
+      180deg,
+      #ffffff 0px,
+      #ffffff 1080px,
+      color-mix(in srgb, var(--bopa-blue-2) 35%, white) 5950px
+    );
+  }
+}
+
 h1, h2, h3 {
   font-family: var(--font-display);
   line-height: 1.05;
@@ -103,7 +122,13 @@ h1, h2, h3 {
   margin-bottom: var(--space-3);
 }
 
-h1 { font-size: var(--text-2xl); }
+/* --text-2xl (3.25rem) is a flat value, not a clamp like --text-xl -
+   fine on desktop, but with no floor it stayed a fixed 52px right down
+   to phone width on every page using the plain h1 (innovations,
+   boptech, publications - the homepage's own .hero h1 already has its
+   own clamp). clamp() here keeps desktop identical (6vw already exceeds
+   3.25rem above ~866px) and only scales the phone/tablet range down. */
+h1 { font-size: clamp(2rem, 6vw, var(--text-2xl)); }
 h2 { font-size: var(--text-xl); }
 h3 { font-size: var(--text-lg); }
 
@@ -285,64 +310,6 @@ button {
   transform: translateY(-7px) rotate(-45deg);
 }
 
-/* Full nav row only fits one line down to ~76rem in practice (5 links +
-   the "Nos innovations" dropdown trigger + the CTA button); below that
-   it used to wrap onto 2-3 lines and bloat the header - on a phone it
-   wrapped onto 7 lines and pushed the header past 300px tall. Collapse
-   behind a hamburger for that whole range instead of letting it wrap. */
-@media (max-width: 76rem) {
-  .nav-toggle {
-    display: flex;
-  }
-
-  .site-header nav {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 2px;
-    background: #fff;
-    padding: var(--space-3) var(--space-4) var(--space-4);
-    box-shadow: 0 20px 40px rgba(4, 35, 56, 0.14);
-    max-height: calc(100vh - 100%);
-    overflow-y: auto;
-  }
-
-  .site-header nav.is-open {
-    display: flex;
-  }
-
-  .site-header nav > a,
-  .nav-dropdown-trigger {
-    width: 100%;
-    justify-content: flex-start;
-  }
-
-  .nav-dropdown-panel {
-    position: static;
-    box-shadow: none;
-    margin-top: 0;
-    padding-left: var(--space-3);
-    opacity: 1;
-    visibility: visible;
-    transform: none;
-    transition: none;
-    max-height: 0;
-    overflow: hidden;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-
-  .nav-dropdown.is-open .nav-dropdown-panel {
-    max-height: 20rem;
-    padding-top: var(--space-1);
-    padding-bottom: var(--space-1);
-  }
-}
-
 .site-header nav > a,
 .nav-dropdown-trigger {
   display: inline-flex;
@@ -433,6 +400,68 @@ button {
 .nav-dropdown-panel a:hover {
   background: var(--color-bg-tint);
   color: var(--color-accent);
+}
+
+/* Full nav row only fits one line down to ~76rem in practice (5 links +
+   the "Nos innovations" dropdown trigger + the CTA button); below that
+   it used to wrap onto 2-3 lines and bloat the header - on a phone it
+   wrapped onto 7 lines and pushed the header past 300px tall. Collapse
+   behind a hamburger for that whole range instead of letting it wrap.
+   This block must come AFTER the base .nav-dropdown-panel rules above -
+   it previously sat before them, so the later, unconditional base rule
+   (same specificity) silently won the cascade at every width and the
+   mobile dropdown panels never actually became visible when opened. */
+@media (max-width: 76rem) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .site-header nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2px;
+    background: #fff;
+    padding: var(--space-3) var(--space-4) var(--space-4);
+    box-shadow: 0 20px 40px rgba(4, 35, 56, 0.14);
+    max-height: calc(100vh - 100%);
+    overflow-y: auto;
+  }
+
+  .site-header nav.is-open {
+    display: flex;
+  }
+
+  .site-header nav > a,
+  .nav-dropdown-trigger {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .nav-dropdown-panel {
+    position: static;
+    box-shadow: none;
+    margin-top: 0;
+    padding-left: var(--space-3);
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: none;
+    max-height: 0;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .nav-dropdown.is-open .nav-dropdown-panel {
+    max-height: 20rem;
+    padding-top: var(--space-1);
+    padding-bottom: var(--space-1);
+  }
 }
 
 /* Couleur/animation : .btn-filled-premium, partagée avec le hero.
@@ -803,6 +832,7 @@ button {
   color: var(--color-muted);
   font-size: var(--text-sm);
   margin-top: var(--space-1);
+  text-align: center;
 }
 
 /* Auto-advancing project carousel: one project at a time, tagged by
@@ -932,7 +962,7 @@ button {
 
 .stat-row .stat-value {
   font-family: var(--font-display);
-  font-size: var(--text-2xl);
+  font-size: clamp(2rem, 6vw, var(--text-2xl));
   font-weight: 700;
   line-height: 1;
   color: var(--color-accent);
