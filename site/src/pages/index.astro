@@ -1164,13 +1164,19 @@ const team = [
     gap: var(--space-3);
   }
 
-  /* Vertical separators between stats, like the inspiration mockup -
-     only in the single-row desktop layout; wrapping onto multiple
-     rows (see the media queries below) drops them, since a divider at
-     the start of a wrapped row reads as a stray mark, not a separator. */
+  /* Vertical separator, like the inspiration mockup - only in the
+     single-row desktop layout; wrapping onto multiple rows (see the
+     media queries below) drops it, since a divider at the start of a
+     wrapped row reads as a stray mark, not a separator. Owner wanted
+     just one clear divider (before the last stat) rather than one
+     before every stat - removed the others instead of just thickening
+     all of them. */
   .hero-stat:not(:first-child) {
     padding-left: var(--space-4);
-    border-left: 2px solid var(--color-line);
+  }
+
+  .hero-stat:last-child {
+    border-left: 3px solid var(--color-line);
   }
 
   .hero-stat svg {
