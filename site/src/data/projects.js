@@ -73,6 +73,7 @@ export const phases = [
       {
         name: 'Quelle place pour le ressenti du chirurgien ?',
         text: "Corréler l'état émotionnel du chirurgien au résultat clinique et au ressenti du patient, pour en faire un levier d'action à part entière.",
+        photo: { src: '/images/projets/ressenti.jpg', alt: 'Chirurgien en pleine opération, avec une courbe cardiaque symbolisant son état émotionnel' },
       },
       {
         name: 'Masterclass patient pair-aidance',
