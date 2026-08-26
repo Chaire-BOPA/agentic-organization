@@ -78,6 +78,7 @@ export const phases = [
       {
         name: 'Masterclass patient pair-aidance',
         text: "Formation d'anciens patients transplantés en « patients experts », pour accompagner et conseiller les nouveaux patients pendant leur parcours.",
+        photo: { src: '/images/projets/pair.jpg', alt: 'Deux personnes se tenant la main au chevet d\'un lit d\'hôpital' },
       },
     ],
   },

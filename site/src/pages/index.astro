@@ -187,7 +187,7 @@ const team = [
     </div>
     <div class="wrap partners-block" data-reveal style="--reveal-delay: 0.1s">
       <div class="partners-text">
-        <p class="partners-tagline"><span class="accent-2">Ensemble,</span><br />innovons sans limites</p>
+        <p class="partners-tagline">Ensemble,<br />innovons sans limites</p>
         <p class="partners-label">Nos membres fondateurs et partenaires</p>
       </div>
       <div class="logo-marquee">
@@ -494,7 +494,7 @@ const team = [
     <div class="mesh-echo" aria-hidden="true" style="opacity: 0.06; --mesh-color: rgba(225, 242, 255, 0.9);"></div>
     <div class="wrap" data-reveal>
       <h2>Nous soutenir</h2>
-      <p class="lede">
+      <p class="donate-text">
         La Chaire fonctionne par mécénat - 1,6 M€ collectés depuis sa
         création en 2020. Ce soutien finance la recherche, le
         développement de nos outils et l'équipement du bloc opératoire.
@@ -1259,7 +1259,7 @@ const team = [
   }
 
   .section-sub {
-    margin-top: var(--space-6);
+    margin-top: var(--space-4);
   }
 
   /* "Les réalisations institutionnelles" used to be its own big
@@ -1347,9 +1347,18 @@ const team = [
     gap: var(--space-5);
   }
 
+  /* Third attempt at this tagline: flat color, then bigger, then
+     two-tone - the owner still found it flat next to the plain logo
+     strip. This time the "pop" comes from a soft gradient backdrop +
+     accent bar (a highlighted callout) instead of another type/color
+     change, so the block reads as a designed element, not just text. */
   .partners-text {
     flex-shrink: 0;
-    max-width: 13rem;
+    max-width: 16rem;
+    padding: var(--space-3) var(--space-3) var(--space-3) var(--space-4);
+    border-left: 3px solid var(--color-accent);
+    background: linear-gradient(135deg, color-mix(in srgb, var(--color-accent) 12%, transparent), transparent 75%);
+    border-radius: var(--radius);
   }
 
   .partners-tagline {
@@ -1361,10 +1370,6 @@ const team = [
     white-space: nowrap;
     color: var(--color-accent);
     margin-bottom: var(--space-2);
-  }
-
-  .partners-tagline .accent-2 {
-    color: var(--color-accent-2);
   }
 
   .logo-marquee {
@@ -1600,7 +1605,11 @@ const team = [
     pointer-events: none;
   }
 
-  .donate .lede {
+  /* This paragraph is full running-text length (three sentences), not a
+     short punchy intro - .lede's large size read as oversized for it. */
+  .donate-text {
+    font-size: var(--text-base);
+    max-width: 34rem;
     margin: var(--space-2) auto 0;
   }
 
