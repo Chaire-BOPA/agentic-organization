@@ -68,6 +68,7 @@ export const phases = [
       {
         name: 'Suivi longitudinal et valeur en santé',
         text: "Aligné sur l'axe VBHC de l'AP-HP : évaluer la qualité de vie du patient via des questionnaires PROM et PREM, pour identifier des leviers d'amélioration des soins.",
+        photo: { src: '/images/projets/prem.jpg', alt: 'Un soignant remplit un questionnaire sur presse-papier dans un couloir d\'hôpital' },
       },
       {
         name: 'Quelle place pour le ressenti du chirurgien ?',

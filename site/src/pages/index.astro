@@ -32,24 +32,47 @@ const partnerLogos = [
   { src: '/logos/partenaires/logo-vermon.png', alt: 'Vermon', scale: 0.85 },
 ];
 
-// Flat list, one card each - no group headers (per the owner's
-// reference layout). No real headshots yet, so each card shows
-// initials instead of a fabricated stock photo standing in for a
-// named person; swap in a real photo (src field) as they come in.
+// Real headshots are optional, dropped into site/public/images/team-photos/
+// (see source/brand/assets/team-photos/README.md) named after the person's
+// slug - a card falls back to initials until a matching file shows up, never
+// a fabricated stock photo standing in for a named person.
+let teamPhotoFiles: string[] = [];
+try {
+  teamPhotoFiles = readdirSync(join(process.cwd(), 'public', 'images', 'team-photos')).filter((file) =>
+    /\.(jpe?g|png|webp)$/i.test(file)
+  );
+} catch {
+  // Folder doesn't exist yet - no headshots dropped in so far.
+}
+
+const slugify = (name: string) =>
+  name
+    .replace(/^(Pr|Dr)\s+/i, '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036F]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-');
+
 const team = [
   { name: 'Charles Hellec', credentials: 'PhD', role: 'Directeur de la Chaire BOPA', linkedin: 'https://www.linkedin.com/in/charles-hellec/' },
   { name: 'Elie Farah', credentials: 'MD', role: 'Directeur de la plateforme BOPtech', linkedin: 'https://www.linkedin.com/in/elie-farha-md/' },
-  { name: 'Pr Éric Vibert', credentials: 'MD, PhD', role: 'Chirurgien, Centre Hépato-Biliaire - initiateur de la Chaire', linkedin: 'https://www.linkedin.com/in/eric-vibert-md-phd-iko-koh-bab30469/' },
+  { name: 'Pr Éric Vibert', credentials: 'MD, PhD', role: 'Chirurgien, Centre Hépato‑Biliaire - initiateur de la Chaire', linkedin: 'https://www.linkedin.com/in/eric-vibert-md-phd-iko-koh-bab30469/' },
   { name: 'Axelle Piguet', role: 'Ingénieure', linkedin: 'https://fr.linkedin.com/in/axelle-piguet' },
-].map((person) => ({
-  ...person,
-  initials: person.name
-    .replace(/^(Pr|Dr)\s+/i, '')
-    .split(/\s+/)
-    .map((word) => word[0])
-    .join('')
-    .toUpperCase(),
-}));
+].map((person) => {
+  const slug = slugify(person.name);
+  const photoFile = teamPhotoFiles.find((file) => file.replace(/\.[^.]+$/, '') === slug);
+  return {
+    ...person,
+    initials: person.name
+      .replace(/^(Pr|Dr)\s+/i, '')
+      .split(/\s+/)
+      .map((word) => word[0])
+      .join('')
+      .toUpperCase(),
+    photo: photoFile ? `/images/team-photos/${photoFile}` : null,
+  };
+});
 ---
 
 <Base
@@ -437,7 +460,11 @@ const team = [
       <div class="team-members">
         {team.map((person) => (
           <div class="team-member-card">
-            <div class="team-member-avatar" aria-hidden="true">{person.initials}</div>
+            {person.photo ? (
+              <img class="team-member-avatar team-member-avatar-photo" src={person.photo} alt="" loading="lazy" />
+            ) : (
+              <div class="team-member-avatar" aria-hidden="true">{person.initials}</div>
+            )}
             <p class="team-member-name">{person.name}</p>
             <p class="team-member-credentials" aria-hidden={!person.credentials}>{person.credentials || ' '}</p>
             <p class="team-member-role">{person.role}</p>
@@ -1444,6 +1471,14 @@ const team = [
     }
   }
 
+  /* The global `p { text-align: justify }` rule (site.css) is more
+     specific than this div's inherited text-align and was overriding it
+     on every <p> here - on a card this narrow, justify stretches a
+     2-3-word line into huge, uneven gaps. Target the <p>s directly. */
+  .team-member-card p {
+    text-align: center;
+  }
+
   .team-member-card {
     background: var(--color-navy-2);
     border-radius: var(--radius-lg);
@@ -1467,6 +1502,11 @@ const team = [
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .team-member-avatar-photo {
+    object-fit: cover;
+    background: var(--color-navy-3);
   }
 
   .team-member-name {
