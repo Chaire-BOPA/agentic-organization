@@ -164,7 +164,7 @@ const team = [
     </div>
     <div class="wrap partners-block" data-reveal style="--reveal-delay: 0.1s">
       <div class="partners-text">
-        <p class="partners-tagline">Ensemble, innovons sans limites</p>
+        <p class="partners-tagline"><span class="accent-2">Ensemble,</span><br />innovons sans limites</p>
         <p class="partners-label">Nos membres fondateurs et partenaires</p>
       </div>
       <div class="logo-marquee">
@@ -452,19 +452,12 @@ const team = [
     </div>
     {teamPhotos.length > 0 && (
       <div class="wrap team-gallery-wrap" id="equipe-galerie" style="scroll-margin-top: var(--space-5);" data-reveal>
-        <div class="team-gallery-slider" id="team-gallery">
-          {teamPhotos.map((photo, i) => (
-            <div class:list={['team-gallery-slide', { 'is-active': i === 0 }]}>
+        <div class="team-gallery-grid">
+          {teamPhotos.map((photo) => (
+            <div class="team-gallery-photo">
               <img src={photo.src} alt={photo.alt} loading="lazy" />
             </div>
           ))}
-          {teamPhotos.length > 1 && (
-            <div class="team-gallery-dots">
-              {teamPhotos.map((_, i) => (
-                <button type="button" class:list={{ 'is-active': i === 0 }} aria-label={`Photo ${i + 1}`}></button>
-              ))}
-            </div>
-          )}
         </div>
       </div>
     )}
@@ -615,42 +608,6 @@ const team = [
       start();
     }
 
-    // Same pattern for the team photo gallery - no-ops on 0-1 photo.
-    const gallery = document.getElementById('team-gallery');
-    const gallerySlides = gallery?.querySelectorAll<HTMLElement>('.team-gallery-slide');
-    const galleryDots = gallery?.querySelectorAll<HTMLButtonElement>('.team-gallery-dots button');
-
-    if (gallery && gallerySlides && gallerySlides.length > 1) {
-      let galleryIndex = 0;
-      let galleryTimer: ReturnType<typeof setInterval> | undefined;
-
-      const showGallery = (next: number) => {
-        galleryIndex = (next + gallerySlides.length) % gallerySlides.length;
-        gallerySlides.forEach((slide, i) => slide.classList.toggle('is-active', i === galleryIndex));
-        galleryDots?.forEach((dot, i) => dot.classList.toggle('is-active', i === galleryIndex));
-      };
-
-      const stopGallery = () => galleryTimer && clearInterval(galleryTimer);
-      const startGallery = () => {
-        stopGallery();
-        galleryTimer = setInterval(() => showGallery(galleryIndex + 1), 3000);
-      };
-
-      galleryDots?.forEach((dot, i) => {
-        dot.addEventListener('click', () => {
-          showGallery(i);
-          stopGallery();
-          startGallery();
-        });
-      });
-
-      gallery.addEventListener('mouseenter', stopGallery);
-      gallery.addEventListener('mouseleave', startGallery);
-      gallery.addEventListener('focusin', stopGallery);
-      gallery.addEventListener('focusout', startGallery);
-
-      startGallery();
-    }
   </script>
 
   <script>
@@ -1359,17 +1316,22 @@ const team = [
 
   .partners-text {
     flex-shrink: 0;
-    max-width: 11rem;
+    max-width: 13rem;
   }
 
   .partners-tagline {
     font-family: var(--font-display);
-    font-size: var(--text-lg);
+    font-size: var(--text-base);
     font-weight: 700;
     letter-spacing: var(--tracking-tight);
-    line-height: 1.2;
+    line-height: 1.25;
+    white-space: nowrap;
     color: var(--color-accent);
     margin-bottom: var(--space-2);
+  }
+
+  .partners-tagline .accent-2 {
+    color: var(--color-accent-2);
   }
 
   .logo-marquee {
@@ -1550,64 +1512,28 @@ const team = [
     margin-top: var(--space-5);
   }
 
-  /* Same crossfade-carousel pattern as .project-slider above, simplified
-     (no per-slide caption/link - just photos). Any number of slides:
-     the JS below no-ops on 0-1 photo. */
-  .team-gallery-slider {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 2 / 1;
+  /* Owner found the single full-width crossfade slide "too big" and hard
+     to browse (small corner dots, easy to miss) - a plain grid shows
+     every photo at once, smaller, with nothing to navigate. Any number of
+     photos: auto-fit wraps to more rows as the folder grows. */
+  .team-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .team-gallery-photo {
+    aspect-ratio: 4 / 3;
     border-radius: var(--radius-lg);
     overflow: hidden;
     box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
   }
 
-  .team-gallery-slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.6s ease;
-  }
-
-  .team-gallery-slide.is-active {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  .team-gallery-slide img {
+  .team-gallery-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-  }
-
-  .team-gallery-dots {
-    position: absolute;
-    bottom: var(--space-3);
-    right: var(--space-3);
-    z-index: 2;
-    display: flex;
-    gap: 0.4rem;
-  }
-
-  .team-gallery-dots button {
-    width: 0.5rem;
-    height: 0.5rem;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.45);
-    transition: width 0.2s ease, background-color 0.2s ease;
-  }
-
-  .team-gallery-dots button.is-active {
-    width: 1.5rem;
-    background: #ffffff;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .team-gallery-slide {
-      transition: none;
-    }
   }
 
   /* Bleu marine plat, identique au Hero et au footer qui suit : aucune
