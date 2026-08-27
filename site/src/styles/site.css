@@ -1473,7 +1473,7 @@ p {
   --mp-navy: #071f46;
   --mp-navy-deep: #041a3b;
   --mp-blue: #168cff;
-  --mp-blue-bright: #1e96ff;
+  --mp-blue-bright: var(--bopa-cyan);
   --mp-ink: #071a3a;
   --mp-copy: #30435f;
   --mp-white: #ffffff;
@@ -1549,7 +1549,7 @@ p {
   height: 1px;
   background: repeating-linear-gradient(
     90deg,
-    rgba(48,157,255,0.85) 0 4px,
+    color-mix(in srgb, var(--bopa-cyan) 85%, transparent) 0 4px,
     transparent 4px 7px
   );
 }
@@ -1834,7 +1834,7 @@ p {
     right: auto;
     width: 1px;
     height: auto;
-    background: repeating-linear-gradient(180deg, rgba(48,157,255,.82) 0 4px, transparent 4px 8px);
+    background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--bopa-cyan) 82%, transparent) 0 4px, transparent 4px 8px);
     transform: translateX(-50%);
   }
 

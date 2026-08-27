@@ -263,7 +263,7 @@ import { phases } from '../data/projects.js';
     left: 16.66%;
     right: 16.66%;
     height: 1px;
-    border-top: 1px dashed #83bfff;
+    border-top: 1px dashed var(--bopa-cyan);
     z-index: 0;
   }
   .innovations-v2__journey-line::before,
@@ -297,7 +297,7 @@ import { phases } from '../data/projects.js';
     width: 62px;
     height: 62px;
     margin: 0 auto 20px;
-    border: 1.5px solid #76b8ff;
+    border: 1.5px solid var(--bopa-cyan);
     border-radius: 50%;
     background: var(--bopa-white);
     color: var(--bopa-ink);
@@ -339,7 +339,7 @@ import { phases } from '../data/projects.js';
 
   .innovations-v2__filters button {
     appearance: none;
-    border: 1px solid #8ebfff;
+    border: 1px solid var(--bopa-cyan);
     background: var(--bopa-white);
     color: var(--bopa-ink);
     min-height: 44px;
@@ -362,7 +362,7 @@ import { phases } from '../data/projects.js';
   .innovations-v2__filters button:focus-visible,
   .bopa-project-card:focus-visible,
   .innovations-v2__cta-button:focus-visible {
-    outline: 3px solid rgba(22, 140, 255, .35);
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
     outline-offset: 3px;
   }
 
@@ -482,7 +482,7 @@ import { phases } from '../data/projects.js';
     color: var(--bopa-blue);
   }
   .innovations-v2__card-action:focus-visible {
-    outline: 3px solid rgba(22, 140, 255, .35);
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
     outline-offset: 3px;
   }
 
@@ -502,8 +502,8 @@ import { phases } from '../data/projects.js';
     overflow: hidden;
     background-color: var(--bopa-navy);
     background-image:
-      radial-gradient(circle at 77% 18%, rgba(22, 140, 255, .22) 0 2px, transparent 2.5px),
-      radial-gradient(circle at 86% 72%, rgba(86, 184, 255, .2) 0 2px, transparent 2.5px);
+      radial-gradient(circle at 77% 18%, color-mix(in srgb, var(--bopa-cyan) 22%, transparent) 0 2px, transparent 2.5px),
+      radial-gradient(circle at 86% 72%, color-mix(in srgb, var(--bopa-cyan) 20%, transparent) 0 2px, transparent 2.5px);
     color: var(--bopa-white);
   }
   .innovations-v2__cta-icon {
@@ -523,7 +523,7 @@ import { phases } from '../data/projects.js';
     letter-spacing: -.025em;
   }
   .innovations-v2__cta-copy h2 span {
-    color: #54aaff;
+    color: var(--bopa-cyan);
   }
   .innovations-v2__cta-copy p {
     max-width: 720px;

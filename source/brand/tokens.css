@@ -16,8 +16,16 @@
   --color-line: #dbe4ec;        /* hairlines, borders */
 
   --color-accent: #03529c;      /* links, emphasis, primary buttons */
-  --color-accent-2: #03a2da;    /* secondary accent, links on dark */
+  --color-accent-2: var(--bopa-cyan); /* secondary accent, links on dark */
   --color-accent-ink: #ffffff;  /* text on accent */
+
+  /* BOPA cyan: the single reference value for every light-blue accent
+     across the site (kickers, chapter numbers, diagram lines/dots, icon
+     outlines, interactive borders). Extracted 2026-08-27 from the exact
+     color of "de demain" in the Hero - never redefine this by eye, only
+     by re-checking that word's computed color. Does not touch navy,
+     photos, logos, or the médico-économique gold. */
+  --bopa-cyan: #2db9e3;
 
   --color-dark: #04264d;        /* full-bleed emphasis sections */
   --color-dark-ink: #f4f8fb;    /* text on dark sections */
@@ -40,7 +48,7 @@
   --color-vision-bg: #f1f6fd;
 
   /* Phase accents stay strictly inside the BOPA blue family. */
-  --color-step-1: #2db9e3;      /* pré-opératoire: cyan blue */
+  --color-step-1: var(--bopa-cyan); /* pré-opératoire: cyan blue */
   --color-step-2: #1875ba;      /* per-opératoire: medium brand blue */
   --color-step-3: #03529c;      /* post-opératoire: deep brand blue */
   --color-step-4: #0a2b63;      /* medico-economic / secondary: navy */
@@ -54,8 +62,8 @@
   /* Raw brand palette, for reference / non-standard uses. */
   --bopa-blue-1: #03529c;
   --bopa-blue-2: #1875ba;
-  --bopa-blue-3: #03a2da;
-  --bopa-blue-4: #2db9e3;
+  --bopa-blue-3: var(--bopa-cyan);
+  --bopa-blue-4: var(--bopa-cyan);
 
   /* Type: self-hosted (site/public/fonts/, declared in site.css), system
      stack as fallback while a font loads or if it fails. Space Grotesk for
