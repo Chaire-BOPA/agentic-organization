@@ -2457,16 +2457,20 @@ const aboutIcons: Record<string, string> = {
      BOPA — Notre vision
      Réf. : CLAUDE-INTEGRATION.md + REFERENCE-NOTRE-VISION.png (2026-08-27)
      Section autonome entre "Nos innovations" et "Qui sommes-nous ?".
-     Fond exact --color-vision-bg (tokens.css) : ne pas substituer par
-     --color-bg-tint, volontairement différent (voir tokens.css).
-     ============================================================ */
+     2026-08-27, correctif demandé par la propriétaire : même fond bleu
+     nuit que "Notre Mission" (var(--mp-navy), pas --color-vision-bg qui
+     reste dans tokens.css si jamais réutile ailleurs). Les variables
+     --vision-navy/--vision-blue-2/--vision-muted gardent leur nom mais
+     pointent désormais vers des couleurs claires (texte sur fond
+     sombre) plutôt que foncées (texte sur fond clair) - tout le reste
+     du bloc ci-dessous n'a pas besoin de changer. */
   .bopa-vision {
-    --vision-navy: var(--color-navy);
-    --vision-blue-2: #0c5ff2;
-    --vision-muted: #293a59;
+    --vision-navy: #fff;
+    --vision-blue-2: var(--mp-blue-bright);
+    --vision-muted: rgba(255, 255, 255, .74);
     position: relative;
     overflow: hidden;
-    background: var(--color-vision-bg);
+    background: var(--mp-navy);
     color: var(--vision-navy);
     padding: clamp(72px, 7vw, 118px) 0 clamp(86px, 8vw, 132px);
   }
