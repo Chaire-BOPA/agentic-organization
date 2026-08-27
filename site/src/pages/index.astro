@@ -2876,27 +2876,17 @@ const aboutIcons: Record<string, string> = {
   }
 
   /* Empêche le header sticky de masquer le début de section après clic
-     sur une ancre du menu. Valeur mesurée sur la hauteur réelle du
-     header (voir site.css .site-header), pas la valeur générique du
-     pack. */
+     sur une ancre du menu. Une seule source de vérité : --bopa-header-height
+     (site.css, calculé sur la hauteur réelle du header replié au scroll -
+     voir son commentaire pour le détail) - plus d'offset approximatif ni
+     de valeur dupliquée à un autre seuil (2026-08-27, correctif ancres). */
   #notre-mission,
   #innovations-bopa,
   #notre-vision,
   #qui-sommes-nous,
   #nous-contacter,
   #nous-soutenir {
-    scroll-margin-top: 88px;
-  }
-
-  @media (max-width: 900px) {
-    #notre-mission,
-    #innovations-bopa,
-    #notre-vision,
-    #qui-sommes-nous,
-    #nous-contacter,
-    #nous-soutenir {
-      scroll-margin-top: 84px;
-    }
+    scroll-margin-top: var(--bopa-header-height);
   }
 </style>
 

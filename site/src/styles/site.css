@@ -172,6 +172,30 @@ button {
   text-align: center;
 }
 
+/* Hauteur réelle du header une fois replié au scroll (2026-08-27,
+   correctif ancres) - une seule source de vérité pour tout offset
+   d'ancre, remplace les anciennes valeurs approximatives (88px/84px)
+   qui ne correspondaient à aucune dimension réelle du header.
+   C'est l'état "replié" (.is-scrolled) qui compte, pas l'état "au
+   repos" plus haut ci-dessous : le seuil de bascule est à 24px de
+   scroll (voir Base.astro), donc le header est déjà dans son état
+   compact bien avant la fin de l'animation vers n'importe laquelle des
+   6 ancres du menu. Calcul : logo 3rem (48px, .wordmark > img) +
+   padding vertical replié 0.5rem×2 (16px) = 64px. Sous 30rem/480px, le
+   logo passe à 2.75rem (44px, seule autre dimension du header qui
+   change avec la largeur) → 60px. Si la hauteur du logo ou le padding
+   replié changent un jour, recalculer cette valeur en conséquence
+   plutôt que de la deviner. */
+:root {
+  --bopa-header-height: 64px;
+}
+
+@media (max-width: 30rem) {
+  :root {
+    --bopa-header-height: 60px;
+  }
+}
+
 .site-header {
   width: 100%;
   /* Encore ~15% de moins qu'avant : header très fin au repos. */
