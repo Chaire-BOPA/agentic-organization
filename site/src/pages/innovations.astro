@@ -8,11 +8,11 @@ import { phases } from '../data/projects.js';
   description="Tous les projets de la Chaire Innovation BOPA, du préopératoire au postopératoire."
 >
   <main class="innovations-v2" id="innovations-v2">
-    <section class="innovations-v2__intro" aria-labelledby="innovations-title">
+    <section class="innovations-v2__intro innovations-v2__intro--dark" aria-labelledby="innovations-title">
       <div class="innovations-v2__container innovations-v2__intro-grid">
         <div class="innovations-v2__intro-copy">
           <p class="innovations-v2__breadcrumb">Accueil <span aria-hidden="true">›</span> Nos projets</p>
-          <h1 id="innovations-title">Toutes nos <span>innovations</span></h1>
+          <h1 id="innovations-title">Nos <span>innovations</span></h1>
           <p class="innovations-v2__lead">
             Des idées nées sur le terrain, portées par les équipes du bloc opératoire : voici tous
             les projets de la Chaire, à chaque étape du parcours patient.
@@ -46,7 +46,11 @@ import { phases } from '../data/projects.js';
             <span>Mieux suivre<br />pour mieux guérir</span>
           </div>
         </div>
+      </div>
+    </section>
 
+    <div class="innovations-v2__filters-band">
+      <div class="innovations-v2__container">
         <nav class="innovations-v2__filters" aria-label="Filtrer les projets">
           <button type="button" class="is-active" data-project-filter="all" aria-pressed="true">Tous les projets</button>
           {phases.map((phase) => (
@@ -61,7 +65,7 @@ import { phases } from '../data/projects.js';
           ))}
         </nav>
       </div>
-    </section>
+    </div>
 
     <div class="innovations-v2__catalogue">
       <div class="innovations-v2__container">
@@ -199,8 +203,41 @@ import { phases } from '../data/projects.js';
   /* Intro ---------------------------------------------------- */
   .innovations-v2__intro {
     background: var(--bopa-white);
-    border-bottom: 1px solid var(--bopa-border);
-    padding: clamp(42px, 5vw, 78px) 0 34px;
+    padding: clamp(42px, 5vw, 78px) 0 44px;
+  }
+
+  /* Bloc haut en bleu nuit (2026-08-27, correctif Hero/CTA) : englobe
+     titre + intro + frise Pré/Per/Post, s'arrête avant les filtres, qui
+     restent dans leur propre bande claire juste en dessous (voir
+     .innovations-v2__filters-band). Reprend var(--mp-navy) tel quel -
+     même bleu nuit que Notre Mission - jamais une nouvelle nuance. */
+  .innovations-v2__intro--dark {
+    background: var(--mp-navy);
+  }
+  .innovations-v2__intro--dark .innovations-v2__breadcrumb {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .innovations-v2__intro--dark .innovations-v2__intro-copy h1,
+  .innovations-v2__intro--dark .innovations-v2__intro-copy h1 span {
+    color: #fff;
+  }
+  .innovations-v2__intro--dark .innovations-v2__lead {
+    color: rgba(255, 255, 255, 0.88);
+  }
+  .innovations-v2__intro--dark .innovations-v2__journey-step span {
+    color: rgba(255, 255, 255, 0.94);
+  }
+  .innovations-v2__intro--dark .innovations-v2__journey-icon {
+    color: var(--bopa-cyan);
+  }
+  .innovations-v2__intro--dark .innovations-v2__journey-line::before,
+  .innovations-v2__intro--dark .innovations-v2__journey-line::after {
+    background: var(--bopa-cyan);
+  }
+
+  .innovations-v2__filters-band {
+    background: var(--bopa-white);
+    padding: 28px 0 34px;
   }
 
   .innovations-v2__intro-grid {
@@ -330,7 +367,6 @@ import { phases } from '../data/projects.js';
 
   /* Filters (onglets) ----------------------------------------- */
   .innovations-v2__filters {
-    grid-column: 1 / -1;
     display: flex;
     flex-wrap: wrap;
     gap: 12px;

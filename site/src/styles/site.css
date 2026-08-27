@@ -1783,12 +1783,20 @@ p {
   transform: translateX(-3px);
 }
 
-.bopa-project-card__arrow {
-  margin-top: auto;
-  padding-top: 1.15rem;
-  color: var(--mp-blue-bright);
-  font-size: 1.55rem;
-  line-height: 1;
+/* Home only (2026-08-27, correctif) : les petites flèches de bas de
+   vignette ont été retirées ici (voir index.astro), laissant un grand
+   vide variable en bas de carte selon la longueur du texte (jusqu'à
+   ~97px sur les descriptions courtes) - un simple margin-bottom:auto
+   sur le dernier enfant ne change rien ici (c'est déjà le comportement
+   par défaut d'un flex-start pour le dernier item). Centrer le contenu
+   verticalement à la place répartit l'espace en trop au-dessus et en
+   dessous, ce qui garde une respiration constante et volontaire sous
+   le texte plutôt qu'un vide qui grandit avec les descriptions
+   courtes. Scopé à .bopa-projects-v2__rail : les vignettes de
+   /innovations partagent ce même composant mais n'ont jamais eu de
+   flèche et ne doivent pas changer. */
+.bopa-projects-v2__rail .bopa-project-card__body {
+  justify-content: center;
 }
 
 @media (max-width: 1100px) {
