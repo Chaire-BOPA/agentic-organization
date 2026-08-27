@@ -185,6 +185,11 @@ import { phases } from '../data/projects.js';
     --bopa-border: var(--color-line);
     --bopa-bg: var(--color-bg-tint);
     --bopa-white: #ffffff;
+    /* Filtres uniquement (2026-08-27, finitions V1) : le bleu nuit exact
+       du bloc haut (--mp-navy) éclairci de 7% - même famille chromatique,
+       jamais un nouveau bleu ; le bloc haut lui-même reste sur --mp-navy
+       tel quel. */
+    --bopa-filter-navy: color-mix(in srgb, var(--mp-navy) 93%, white);
     color: var(--bopa-ink);
     background: var(--bopa-bg);
   }
@@ -373,14 +378,15 @@ import { phases } from '../data/projects.js';
     padding-top: 4px;
   }
 
-  /* Filtres harmonisés sur le bleu nuit exact du bloc haut de page
-     (2026-08-27, finitions V1) : var(--mp-navy), le même token que
-     .innovations-v2__intro--dark - jamais une nouvelle nuance. */
+  /* Filtres sur une déclinaison du bleu nuit éclaircie de 7% (2026-08-27,
+     finitions V1) : --bopa-filter-navy, définie plus haut dans .innovations-v2
+     à partir de --mp-navy - le bloc haut de page reste sur --mp-navy tel
+     quel, seuls les filtres respirent un peu plus sur le fond clair. */
   .innovations-v2__filters button {
     appearance: none;
-    border: 1px solid var(--mp-navy);
+    border: 1px solid var(--bopa-filter-navy);
     background: transparent;
-    color: var(--mp-navy);
+    color: var(--bopa-filter-navy);
     min-height: 44px;
     padding: 10px 24px;
     border-radius: 999px;
@@ -391,11 +397,11 @@ import { phases } from '../data/projects.js';
   }
   .innovations-v2__filters button:hover {
     transform: translateY(-1px);
-    border-color: var(--mp-navy);
+    border-color: var(--bopa-filter-navy);
   }
   .innovations-v2__filters button.is-active {
-    background: var(--mp-navy);
-    border-color: var(--mp-navy);
+    background: var(--bopa-filter-navy);
+    border-color: var(--bopa-filter-navy);
     color: var(--bopa-white);
   }
   .innovations-v2__filters button:focus-visible,

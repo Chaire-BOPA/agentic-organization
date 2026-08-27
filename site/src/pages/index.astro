@@ -382,7 +382,7 @@ const aboutIcons: Record<string, string> = {
             </svg>
           </div>
           <h3>Acceptabilité</h3>
-          <p class="bopa-vision-v4__tagline">Une innovation qui trouve sa place auprès des soignants.</p>
+          <p class="bopa-vision-v4__tagline">Une innovation qui trouve sa place<br />auprès des soignants.</p>
           <p class="bopa-vision-v4__copy">
             Concevoir avec les professionnels de santé des solutions adaptées à leurs pratiques et à leurs besoins, pour qu'elles soient réellement adoptées.
           </p>
@@ -411,7 +411,7 @@ const aboutIcons: Record<string, string> = {
             </svg>
           </div>
           <h3>Soutenabilité</h3>
-          <p class="bopa-vision-v4__tagline">Une innovation que l'on peut durablement déployer.</p>
+          <p class="bopa-vision-v4__tagline">Une innovation que l'on peut<br />durablement déployer.</p>
           <p class="bopa-vision-v4__copy">
             Penser dès la conception sa viabilité économique et son impact environnemental pour permettre un déploiement à grande échelle.
           </p>
@@ -2615,7 +2615,7 @@ const aboutIcons: Record<string, string> = {
   }
 
   .bopa-vision-v4__inner {
-    width: min(1180px, 100%);
+    width: min(1320px, 100%);
     margin: 0 auto;
     text-align: center;
     position: relative;
@@ -2661,9 +2661,9 @@ const aboutIcons: Record<string, string> = {
     display: grid;
     grid-template-columns:
       minmax(100px, .72fr)
-      minmax(0, 1fr)
-      minmax(0, 1fr)
-      minmax(0, 1fr)
+      minmax(285px, 1fr)
+      minmax(285px, 1fr)
+      minmax(285px, 1fr)
       minmax(110px, .8fr);
     gap: clamp(1.15rem, 2.4vw, 2.5rem);
     margin-top: clamp(3.8rem, 6vw, 5.6rem);
@@ -2688,7 +2688,7 @@ const aboutIcons: Record<string, string> = {
     position: absolute;
     top: 31px;
     left: 4.5%;
-    right: 15.5%;
+    right: 11.7%;
     height: 2px;
     background: var(--mp-blue-bright);
     opacity: 0.9;
@@ -2705,7 +2705,7 @@ const aboutIcons: Record<string, string> = {
     content: "";
     position: absolute;
     top: 31px;
-    right: 15.5%;
+    right: 11.7%;
     width: 14px;
     height: 14px;
     border-top: 2px solid var(--mp-blue-bright);
@@ -2785,7 +2785,7 @@ const aboutIcons: Record<string, string> = {
      étapes de fin (Innovation/Progrès pour tous, .endpoint-label) ne
      sont pas concernées, elles gardent leur propre traitement. */
   .bopa-vision-v4__step h3 {
-    max-width: 215px;
+    max-width: 285px;
     margin-left: auto;
     margin-right: auto;
     text-align: center;
@@ -2807,7 +2807,7 @@ const aboutIcons: Record<string, string> = {
   }
 
   .bopa-vision-v4__tagline {
-    max-width: 215px;
+    max-width: 285px;
     margin: 1.35rem auto 0;
     color: rgba(255,255,255,.94);
     font-size: 1.04rem;
@@ -2817,7 +2817,7 @@ const aboutIcons: Record<string, string> = {
   }
 
   .bopa-vision-v4__copy {
-    max-width: 215px;
+    max-width: 285px;
     margin: 0.7rem auto 0;
     color: rgba(255,255,255,.72);
     font-size: 0.88rem;
@@ -2835,7 +2835,14 @@ const aboutIcons: Record<string, string> = {
   .bopa-vision-v4__network--left { left: -70px; bottom: -55px; }
   .bopa-vision-v4__network--right { right: -70px; bottom: -55px; transform: scaleX(-1); }
 
-  @media (max-width: 980px) {
+  /* Seuil remonté de 980px à 1220px (2026-08-27, finitions V1) : les
+     colonnes du milieu ont désormais un minimum de 285px (pour garantir
+     2 lignes strictes aux sous-titres) - en dessous d'environ 1200px, ce
+     minimum ne tient plus dans le layout desktop à 5 colonnes et débordait
+     silencieusement (coupé par overflow:hidden). Le layout 3 colonnes /
+     extrémités en pleine largeur ci-dessous absorbe cette plage sans
+     problème (ses colonnes sont déjà bien plus larges que 285px). */
+  @media (max-width: 1220px) {
     .bopa-vision-v4__timeline {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 2.5rem 1.5rem;
@@ -2848,7 +2855,7 @@ const aboutIcons: Record<string, string> = {
     .bopa-vision-v4__step--endpoint .bopa-vision-v4__icon { margin-bottom: 1rem; }
     .bopa-vision-v4__step h3,
     .bopa-vision-v4__tagline,
-    .bopa-vision-v4__copy { max-width: 260px; }
+    .bopa-vision-v4__copy { max-width: 285px; }
   }
 
   @media (max-width: 700px) {
