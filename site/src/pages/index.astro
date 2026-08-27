@@ -2674,28 +2674,37 @@ const aboutIcons: Record<string, string> = {
      les trois piliers du milieu ne sont plus au même niveau visuel
      qu'un simple repère parmi d'autres. Rien d'autre dans la section
      n'a changé (tailles, cercles, icônes, textes, fond, espacements). */
+  /* La ligne s'arrête désormais exactement à la pointe de la flèche
+     (même valeur right que ::after ci-dessous), pas plus loin vers le
+     cercle - avant ce correctif (2026-08-27, V2), la ligne continuait
+     jusqu'à right:4.5% derrière la flèche (posée à 14%), donnant
+     l'impression d'une trajectoire qui continue sous la flèche au lieu
+     de s'arrêter net dessus. */
   .bopa-vision-v4__timeline::before {
     content: "";
     position: absolute;
     top: 2.6rem;
     left: 4.5%;
-    right: 4.5%;
+    right: 15.5%;
     height: 2px;
     background: var(--mp-blue-bright);
     opacity: 0.9;
   }
 
-  /* right:4.5% (même valeur que la ligne) plaçait la flèche exactement
-     sous le cercle "Progrès pour tous" - invisible, cachée derrière.
-     14% dégage un espace visible avant le cercle (vérifié de 1000px à
-     1440px de large). */
+  /* Pointe de flèche = vraie terminaison de la ligne (même right que
+     ::before, 15.5% : la ligne s'arrête pile là où la flèche commence,
+     plus de segment caché derrière). Laisse ~28-51px avant le cercle
+     "Progrès pour tous" selon la largeur (mesuré de 1000px à 1920px) -
+     un pourcentage pur ne peut pas tomber pile à 30-45px partout (le
+     cercle final a une taille fixe, pas proportionnelle), donc cette
+     valeur vise le milieu de la plage demandée plutôt qu'un seul point. */
   .bopa-vision-v4__timeline::after {
     content: "";
     position: absolute;
     top: 2.6rem;
-    right: 14%;
-    width: 10px;
-    height: 10px;
+    right: 15.5%;
+    width: 14px;
+    height: 14px;
     border-top: 2px solid var(--mp-blue-bright);
     border-right: 2px solid var(--mp-blue-bright);
     transform: translateY(-50%) rotate(45deg);
