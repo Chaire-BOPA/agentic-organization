@@ -1274,6 +1274,14 @@ p {
 }
 .context-text strong { color: var(--color-ink); }
 
+/* "Centre Hépato-Biliaire" ne doit jamais se couper entre les deux mots
+   (2026-08-27, demande owner) - .context-line n'est plus en nowrap
+   depuis le patch full-width, donc un nom propre au milieu d'une ligne
+   plus longue peut désormais se retrouver coupé au retour naturel. */
+.context-nowrap {
+  white-space: nowrap;
+}
+
 /* Repères de ligne visuels, pas une contrainte stricte : chaque
    fragment garde ses 2 lignes "voulues" par défaut, mais peut
    déborder sur une 3e si la largeur l'exige - jamais de police
