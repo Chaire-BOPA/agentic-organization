@@ -620,53 +620,6 @@ const aboutIcons: Record<string, string> = {
     </div>
   </section>
 
-  <section id="approche" class="section-block fade-to-navy">
-    <div class="wrap approche-intro" data-reveal>
-      <div>
-        <span class="kicker">Notre approche</span>
-        <h2>La vision : changer les pratiques du bloc opératoire</h2>
-        <p class="lede">
-          Une conviction de sciences humaines guide chaque projet : une
-          innovation n'a de valeur que si elle est adoptée. Trois exigences
-          cadrent tout ce que la Chaire construit.
-        </p>
-      </div>
-      <div class="approche-image">
-        <img
-          src="/images/graphics/progres.png"
-          alt="Schéma en forme de pont reliant « l'innovation pour quelques-uns » au « progrès pour tous », porté par trois piliers : Acceptabilité (des solutions co-construites et validées par les soignants), Interopérabilité (des systèmes capables de s'intégrer partout) et Soutenabilité (une approche éthique, responsable financièrement, et sobre en carbone)."
-          loading="lazy"
-        />
-      </div>
-    </div>
-
-    <div class="wrap section-sub">
-      <h2>La méthode</h2>
-      <p class="lede">
-        Trois degrés de maturité pour travailler avec la Chaire, dans un
-        espace de 158 m² incluant un bloc opératoire factice, mis à
-        disposition par l'hôpital Paul-Brousse AP-HP. Cet accès direct au
-        bloc permet des échanges réguliers avec les praticiens et un
-        travail en commun. Les solutions finalisées sont validées au bloc
-        opératoire du Centre Hépato-Biliaire.
-      </p>
-      <div class="card-grid">
-        <div class="card">
-          <h3>Prototyper</h3>
-          <p>Concevoir des preuves de concept (POC).</p>
-        </div>
-        <div class="card">
-          <h3>Codévelopper</h3>
-          <p>Construire de nouvelles solutions avec la Chaire.</p>
-        </div>
-        <div class="card">
-          <h3>Tester</h3>
-          <p>Évaluer des solutions existantes : α-test, β-test, test d'acceptance et test clinique.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <script>
     // Envoi direct via Web3Forms : le visiteur n'a plus besoin de sa
     // propre messagerie, le message part depuis le formulaire.
@@ -1306,46 +1259,9 @@ const aboutIcons: Record<string, string> = {
     transform: translateX(2px);
   }
 
-  /* #approche's subtitle was capped at the shared .lede max-width (44rem)
-     while its h2 above ran the section's full width - looked like the
-     text got cut in half. Let it use the whole wrap here. */
-  #approche .lede {
-    max-width: none;
-  }
-
-  /* Full width, stacked: text then the "progrès" bridge diagram below
-     it. The diagram already carries the three pillars (Acceptabilité/
-     Interopérabilité/Soutenabilité) as part of the image itself, so no
-     separate value-column is needed. */
-  .approche-intro {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-5);
-  }
-
-  /* The current export has a real transparent background (RGBA), so it
-     already blends into the page on its own - no CSS fade needed
-     (an earlier version had a solid white background and used a
-     radial-gradient mask here instead). */
-  .approche-image img {
-    width: 85%;
-    max-width: 48rem;
-    display: block;
-    margin: 0 auto;
-  }
-
-  @media (max-width: 40rem) {
-    .approche-image img {
-      width: 100%;
-    }
-  }
-
-  /* mission -> projets s'enchaînent directement ; approche referme le
-     nouveau chapitre "qui-sommes-nous" (about-v2, qui gère son propre
-     rythme vertical). */
+  /* mission -> projets s'enchaînent directement. */
   #mission,
-  #projets,
-  #approche {
+  #projets {
     padding-top: var(--space-5);
     padding-bottom: var(--space-5);
   }
@@ -1551,28 +1467,6 @@ const aboutIcons: Record<string, string> = {
 
     .accordion-title {
       font-size: var(--text-base);
-    }
-  }
-
-  /* ---------------------------------------------------------------
-     BOPA V2 page-level final overrides. Kept at the end of the scoped
-     stylesheet so older homepage experiments cannot override the new
-     flat-background visual system from site.css.
-     #mission/#projets excluded as of the 2026-08-27 V3 pass: they now
-     manage their own padding entirely via .bopa-mission-v2/.bopa-projects-v2
-     (site.css) - an id selector here would beat that class selector on
-     specificity alone regardless of source order, undoing the new
-     component's own spacing.
-     --------------------------------------------------------------- */
-  #approche {
-    padding-top: clamp(5.5rem, 10vw, 9rem);
-    padding-bottom: clamp(5.5rem, 10vw, 9rem);
-  }
-
-  @media (max-width: 48rem) {
-    #approche {
-      padding-top: 4.5rem;
-      padding-bottom: 4.5rem;
     }
   }
 

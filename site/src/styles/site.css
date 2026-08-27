@@ -1153,23 +1153,8 @@ main {
    .bopa-mission-v2/.bopa-projects-v2 below - an id selector here would
    beat those class selectors on specificity alone, regardless of
    source order, and silently win back the old flat navy/white. */
-#environnement,
-#equipe {
+#environnement {
   background: var(--color-bg);
-}
-
-#qui-sommes-nous {
-  background: var(--color-navy);
-  color: var(--color-dark-ink);
-}
-
-#approche {
-  background: var(--color-bg-tint-2);
-}
-
-#soutenir {
-  background: var(--color-bg-tint);
-  color: var(--color-ink);
 }
 
 .section-block {
@@ -1217,16 +1202,6 @@ main {
   font-size: clamp(1.1rem, 1.6vw, 1.35rem);
   line-height: 1.55;
   color: var(--color-muted);
-}
-
-#qui-sommes-nous .lede,
-#qui-sommes-nous p {
-  color: rgba(244, 248, 251, 0.78);
-}
-
-#qui-sommes-nous h2,
-#qui-sommes-nous h3 {
-  color: #fff;
 }
 
 p {
@@ -1400,37 +1375,6 @@ p {
 .stat-row .stat:nth-child(3n+2) .stat-value,
 .stat-row .stat:nth-child(3n+3) .stat-value {
   color: var(--color-accent);
-}
-
-/* About section gets a strong dark chapter cut. */
-#qui-sommes-nous.fade-to-navy {
-  background: var(--color-navy);
-}
-#qui-sommes-nous .partners-label,
-#qui-sommes-nous .text-muted {
-  color: rgba(244,248,251,.62);
-}
-
-/* Support is a clear, light final chapter rather than another dark gradient. */
-#soutenir.dark {
-  color: var(--color-ink);
-}
-#soutenir.dark h2,
-#soutenir.dark h3 { color: var(--color-ink); }
-#soutenir.dark .kicker { color: var(--color-accent); }
-#soutenir.dark .lede,
-#soutenir.dark p { color: var(--color-muted); }
-#soutenir.dark .stat-row .stat-label { color: var(--color-muted); opacity: 1; }
-#soutenir .impact-icon { color: var(--color-accent); }
-#soutenir .impact-card { background: #fff; }
-#soutenir .btn-outline-premium {
-  background: transparent;
-  color: var(--color-accent);
-  box-shadow: inset 0 0 0 1.5px var(--color-accent);
-}
-#soutenir .btn-outline-premium:hover {
-  color: #fff;
-  background: var(--color-accent);
 }
 
 @media (max-width: 56rem) {
