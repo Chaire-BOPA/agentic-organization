@@ -2685,7 +2685,7 @@ const aboutIcons: Record<string, string> = {
   .bopa-vision-v4__timeline::before {
     content: "";
     position: absolute;
-    top: 2.6rem;
+    top: 31px;
     left: 4.5%;
     right: 15.5%;
     height: 2px;
@@ -2703,7 +2703,7 @@ const aboutIcons: Record<string, string> = {
   .bopa-vision-v4__timeline::after {
     content: "";
     position: absolute;
-    top: 2.6rem;
+    top: 31px;
     right: 15.5%;
     width: 14px;
     height: 14px;
@@ -2723,7 +2723,7 @@ const aboutIcons: Record<string, string> = {
   .bopa-vision-v4__step::before {
     content: "";
     position: absolute;
-    top: calc(2.6rem - 4px);
+    top: calc(31px - 4px);
     left: 50%;
     width: 8px;
     height: 8px;
@@ -2780,6 +2780,17 @@ const aboutIcons: Record<string, string> = {
     color: rgba(255,255,255,.95);
   }
 
+  /* "Progrès pour tous" aligné sur le bord gauche du dernier cercle
+     (owner's request, 2026-08-27) plutôt que sur celui de sa colonne :
+     même largeur que l'icône (62px) et même centrage (margin:auto),
+     donc leurs bords gauches coïncident - le texte est déjà en
+     text-align:left (règle globale des paragraphes), il ne manquait
+     que la largeur pour aligner correctement. */
+  .bopa-vision-v4__step--endpoint-end .bopa-vision-v4__endpoint-label {
+    width: 62px;
+    margin: 0 auto;
+  }
+
   .bopa-vision-v4__tagline {
     margin: 1.35rem auto 0;
     color: rgba(255,255,255,.94);
@@ -2830,6 +2841,7 @@ const aboutIcons: Record<string, string> = {
     .bopa-vision-v4__step--endpoint-start,
     .bopa-vision-v4__step--endpoint-end { grid-column: auto; }
     .bopa-vision-v4__icon { width: 54px; height: 54px; margin-bottom: 1.3rem; }
+    .bopa-vision-v4__step--endpoint-end .bopa-vision-v4__endpoint-label { width: 54px; }
     .bopa-vision-v4__copy { max-width: 310px; }
     .bopa-vision-v4__network { display: none; }
   }
