@@ -1,9 +1,10 @@
 // Shared with innovations.astro (renders every phase/project as cards).
 // Structure validated by the owner 2026-08-27: order, grouping, and the
 // exact project list below are hers, not to be reorganized/renamed/
-// added-to on our own initiative - see source/content/projets.md for
-// the fuller sourced descriptions this file's `description` fields are
-// drawn from.
+// added-to on our own initiative. Titles/descriptions are the V3
+// editorial pass (2026-08-27, later same day) - these ARE the current
+// real copy now, not placeholders; see source/content/projets.md for
+// the fuller sourced background on each project.
 export const phases = [
   {
     id: 'preoperatoire',
@@ -13,18 +14,18 @@ export const phases = [
     projects: [
       {
         name: 'LiverSight',
-        description: "Communication médecin-patient en 3D avant l'opération. En partenariat avec Toys Films, sous la supervision du Dr Oriana Ciacio et du Pr Éric Vibert.",
+        description: "Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du foie, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.",
         image: '/images/projets-v2/liversight.png',
-        href: 'https://www.youtube.com/watch?v=MF1ysshoNVM',
+        action: { label: 'Voir la vidéo de présentation', href: 'https://www.youtube.com/watch?v=MF1ysshoNVM', type: 'video' },
       },
       {
         name: 'PancreasSight',
-        description: 'La même approche appliquée à la chirurgie pancréatique, en partenariat avec Toys Films et le Dr Gabriella Pittau.',
+        description: "Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du pancréas, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.",
         image: '/images/innovations-v2/pancreassight.svg',
       },
       {
-        name: "Optimiser l'allocation des greffons",
-        description: "Utiliser l'intelligence artificielle pour optimiser l'allocation des greffons, au bénéfice des patients en attente de transplantation.",
+        name: 'LiverMatch',
+        description: 'Développer de nouveaux outils pour mieux évaluer la situation des patients en attente de transplantation et accompagner la décision médicale.',
         image: '/images/innovations-v2/optimiser-allocation-greffons.svg',
       },
     ],
@@ -37,31 +38,28 @@ export const phases = [
     projects: [
       {
         name: 'BOPCAM',
-        description: "Un casque qui filme les mains du chirurgien en chirurgie ouverte : analyse d'images en direct, compte-rendu opératoire augmenté, télé-expertise.",
+        description: 'Un dispositif « made in BOPA » pour filmer au plus près les mains et les gestes du chirurgien en chirurgie ouverte.',
         image: '/images/projets-v2/bopcam.png',
       },
       {
         name: 'Henri',
-        description: "Un assistant conçu pour accompagner le chirurgien pendant l'opération : informations fiables sur le patient, checklist, antécédents.",
+        description: "Un assistant vocal pour accompagner le chirurgien pendant l'intervention, sans interrompre son geste.",
         image: '/images/innovations-v2/henri.svg',
       },
       {
         name: 'Goldfinger',
-        description: "Un outil intra-opératoire pour manipuler un modèle 3D de foie sans contact, sans jamais compromettre la stérilité du bloc - un geste en l'air suffit à guider le chirurgien.",
+        description: 'Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.',
         image: '/images/projets-v2/goldfinger.png',
       },
       {
         name: 'Le compte rendu opératoire augmenté',
-        description: "Le travail sur l'analyse d'images au bloc opératoire a donné naissance à Uncovr, une start-up née d'un besoin de terrain identifié par les équipes.",
+        description: 'Transformer automatiquement les vidéos de chirurgie en comptes rendus opératoires. Une thématique qui a donné naissance à Uncovr.',
         image: '/images/innovations-v2/compte-rendu-operatoire-augmente.svg',
-        href: 'https://uncovr.ai/',
+        action: { label: 'Découvrir Uncovr', href: 'https://uncovr.ai/', type: 'external' },
       },
       {
-        name: "L'évaluation de la charge cognitive du chirurgien",
-        // <!-- verify: pas encore de description réelle, texte du pack
-        //      BOPA-Innovations-V2 conservé en placeholder pour cette
-        //      étape de forme (2026-08-27). -->
-        description: 'Mesurer la charge cognitive pendant la chirurgie.',
+        name: 'Évaluer la charge cognitive du chirurgien',
+        description: 'Mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical.',
         image: '/images/innovations-v2/charge-cognitive-chirurgien.svg',
       },
     ],
@@ -74,22 +72,22 @@ export const phases = [
     projects: [
       {
         name: 'Colette',
-        description: "Un chatbot qui accompagne 24h/24 les patients transplantés du foie, né d'un besoin identifié directement par les soignants.",
+        description: 'Une IA conversationnelle pour accompagner le patient greffé 24 h/24 et 7 j/7.',
         image: '/images/projets-v2/colette.png',
       },
       {
-        name: 'Le projet Value-Based Health Care pour suivre l\'évolution des patients après chirurgies',
-        description: "Aligné sur l'axe VBHC de l'AP-HP : évaluer la qualité de vie du patient via des questionnaires PROM et PREM, pour identifier des leviers d'amélioration des soins.",
+        name: 'BOPA Value',
+        description: 'Utiliser des solutions numériques pour évaluer le devenir du patient dans le temps : sa récupération, sa qualité de vie et son vécu.',
         image: '/images/innovations-v2/value-based-health-care.svg',
       },
       {
         name: 'Le ressenti du chirurgien face aux résultats cliniques',
-        description: "Corréler l'état émotionnel du chirurgien au résultat clinique et au ressenti du patient, pour en faire un levier d'action à part entière.",
+        description: 'Comprendre comment le chirurgien perçoit les résultats de ses patients et comment cette perception influence sa pratique.',
         image: '/images/innovations-v2/ressenti-chirurgien.svg',
       },
       {
-        name: 'La Master Class pour former des patients experts',
-        description: "Formation d'anciens patients transplantés en « patients experts », pour accompagner et conseiller les nouveaux patients pendant leur parcours.",
+        name: 'Masterclass patients experts',
+        description: "Transformer l'expérience d'anciens patients en expertise pour accompagner les patients d'aujourd'hui.",
         image: '/images/innovations-v2/master-class-patients-experts.svg',
       },
     ],
@@ -102,12 +100,12 @@ export const phases = [
     projects: [
       {
         name: 'MesGardes',
-        description: 'Faciliter la mise en place et l\'optimisation des plannings de garde.',
+        description: 'Simplifier la création des plannings de garde pour réduire le temps administratif et préserver le temps médical.',
         image: '/images/innovations-v2/mesgardes.svg',
       },
       {
         name: 'HepatGreen',
-        description: 'Mesurer le coût environnemental de la chirurgie du foie.',
+        description: "Mesurer l'empreinte environnementale de la chirurgie du foie pour construire une chirurgie plus durable.",
         image: '/images/innovations-v2/hepatgreen.svg',
       },
     ],

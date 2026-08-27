@@ -50,7 +50,14 @@ import { phases } from '../data/projects.js';
         <nav class="innovations-v2__filters" aria-label="Filtrer les projets">
           <button type="button" class="is-active" data-project-filter="all" aria-pressed="true">Tous les projets</button>
           {phases.map((phase) => (
-            <button type="button" data-project-filter={phase.id} aria-pressed="false">{phase.label}</button>
+            <button
+              type="button"
+              data-project-filter={phase.id}
+              data-filter-tone={phase.id === 'medico-economique' ? 'gold' : 'blue'}
+              aria-pressed="false"
+            >
+              {phase.label}
+            </button>
           ))}
         </nav>
       </div>
@@ -59,7 +66,11 @@ import { phases } from '../data/projects.js';
     <div class="innovations-v2__catalogue">
       <div class="innovations-v2__container">
         {phases.map((phase) => (
-          <section class="innovations-v2__category" data-project-category={phase.id} aria-labelledby={`category-${phase.id}`}>
+          <section
+            class={`innovations-v2__category ${phase.id === 'medico-economique' ? 'innovations-v2__category--gold' : ''}`}
+            data-project-category={phase.id}
+            aria-labelledby={`category-${phase.id}`}
+          >
             <aside class="innovations-v2__category-label">
               <div class={`innovations-v2__category-icon innovations-v2__category-icon--${phase.icon}`} aria-hidden="true">
                 {phase.icon === 'target' && <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="13"/><circle cx="32" cy="32" r="4"/><path d="M32 7v10M32 47v10M7 32h10M47 32h10"/></svg>}
@@ -75,23 +86,28 @@ import { phases } from '../data/projects.js';
 
             <div class="innovations-v2__cards" aria-label={`Projets ${phase.label}`}>
               {phase.projects.map((project) => {
-                const Tag = project.href ? 'a' : 'article';
                 return (
-                  <Tag
-                    class="bopa-project-card"
-                    href={project.href}
-                    target={project.href && '_blank'}
-                    rel={project.href && 'noopener'}
-                  >
+                  <article class="bopa-project-card">
                     <div class="bopa-project-card__media">
                       <img src={project.image} alt="" loading="lazy" />
                     </div>
                     <div class="bopa-project-card__body">
                       <h3>{project.name}</h3>
                       <p>{project.description}</p>
-                      <span class="bopa-project-card__arrow" aria-hidden="true">→</span>
+                      {project.action && (
+                        <a
+                          class="innovations-v2__card-action"
+                          href={project.action.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {project.action.type === 'video' && <span aria-hidden="true">▶</span>}
+                          <span>{project.action.label}</span>
+                          {project.action.type === 'external' && <span aria-hidden="true">↗</span>}
+                        </a>
+                      )}
                     </div>
-                  </Tag>
+                  </article>
                 );
               })}
             </div>
@@ -417,6 +433,49 @@ import { phases } from '../data/projects.js';
     flex: 1 1 0;
     min-width: 205px;
     max-width: 270px;
+  }
+
+  /* Médico-économique : seul accent doré du site, sur ce filtre/label
+     uniquement - les cartes MesGardes/HepatGreen restent bleu nuit,
+     identiques aux autres (voir .bopa-project-card, inchangé). */
+  .innovations-v2__filters button[data-filter-tone="gold"].is-active {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: #fff;
+  }
+  .innovations-v2__filters button[data-filter-tone="gold"]:hover {
+    border-color: var(--color-gold);
+  }
+  .innovations-v2__category--gold .innovations-v2__category-icon {
+    color: var(--color-gold);
+    border-color: var(--color-gold);
+  }
+  .innovations-v2__category--gold .innovations-v2__category-label h2 {
+    color: var(--color-gold);
+  }
+
+  /* Les deux seules actions cliquables des cartes : un petit lien
+     textuel dans la carte, jamais toute la carte. */
+  .innovations-v2__card-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    margin-top: auto;
+    padding-top: 14px;
+    color: var(--bopa-blue-strong);
+    text-decoration: none;
+    font-size: 0.88rem;
+    line-height: 1.25;
+    font-weight: 650;
+    transition: color 0.18s ease;
+  }
+  .innovations-v2__card-action:hover {
+    color: var(--bopa-blue);
+  }
+  .innovations-v2__card-action:focus-visible {
+    outline: 3px solid rgba(22, 140, 255, .35);
+    outline-offset: 3px;
   }
 
   /* CTA de fin de page ----------------------------------------- */

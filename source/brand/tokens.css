@@ -40,6 +40,12 @@
   --color-step-3: #03529c;      /* post-opératoire: deep brand blue */
   --color-step-4: #0a2b63;      /* medico-economic / secondary: navy */
 
+  /* One deliberate, narrow exception to "blue only": médico-économique's
+     own label/icon/active-filter accent on /innovations. Never used for
+     anything else - no orange/yellow anywhere in the interface. */
+  --color-gold: #b8954b;
+  --color-gold-soft: #e8d8ae;
+
   /* Raw brand palette, for reference / non-standard uses. */
   --bopa-blue-1: #03529c;
   --bopa-blue-2: #1875ba;
