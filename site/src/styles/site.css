@@ -1614,7 +1614,7 @@ p {
 .bopa-projects-v2 {
   width: 100%;
   overflow: hidden;
-  background: var(--mp-offwhite);
+  background: var(--color-bg-tint);
   color: var(--mp-ink);
   /* Padding haut/bas symétrique (correctif 2026-08-27) : la rangée de
      vignettes n'a plus de ligne de pagination sous elle (supprimée), donc
