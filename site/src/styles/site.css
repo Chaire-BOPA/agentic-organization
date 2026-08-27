@@ -1828,6 +1828,8 @@ p {
 }
 
 .bopa-project-card {
+  position: relative;
+  z-index: 1;
   min-width: 0;
   min-height: 410px;
   overflow: hidden;
@@ -1842,9 +1844,17 @@ p {
   transition: transform .24s ease, box-shadow .24s ease;
 }
 
-.bopa-project-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 16px 34px rgba(5,26,58,0.16);
+/* Hover-lift only where a real pointer can hover (mouse/trackpad) - a
+   touch tap shouldn't trigger (or get stuck in) a lift/shadow state.
+   z-index bump so the lifted card's shadow paints over its immediate
+   neighbors in a tight horizontal row instead of looking tucked under
+   them. */
+@media (hover: hover) and (pointer: fine) {
+  .bopa-project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 34px rgba(5,26,58,0.16);
+    z-index: 2;
+  }
 }
 
 .bopa-project-card__media {

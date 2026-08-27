@@ -418,7 +418,13 @@ import { phases } from '../data/projects.js';
 
   /* Rangée de vignettes : .bopa-project-card fournit déjà tout le
      visuel de la carte (site.css) - on ne pose ici que la mise en
-     page de la rangée. */
+     page de la rangée.
+     Marge haute/basse : overflow-x: auto force aussi overflow-y à
+     "auto" (règle CSS : un axe non-visible force l'autre à le devenir),
+     donc sans marge la carte se fait rogner par cette même rangée dès
+     qu'elle se soulève au survol (translateY) ou que son ombre
+     s'agrandit - vérifié : au repos, le haut de la carte est
+     exactement au bord de rognage de la rangée, marge zéro. */
   .innovations-v2__cards {
     display: flex;
     gap: 16px;
@@ -426,7 +432,7 @@ import { phases } from '../data/projects.js';
     overflow-x: auto;
     overscroll-behavior-inline: contain;
     scrollbar-width: thin;
-    padding: 0 2px 4px;
+    padding: 10px 4px 24px;
   }
 
   .innovations-v2__cards .bopa-project-card {
