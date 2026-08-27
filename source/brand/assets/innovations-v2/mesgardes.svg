@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 420" role="img" aria-hidden="true">
+  <defs>
+    <radialGradient id="g" cx="50%" cy="42%" r="62%"><stop offset="0" stop-color="#0D4B86" stop-opacity=".65"/><stop offset=".65" stop-color="#03142D" stop-opacity=".15"/><stop offset="1" stop-color="#03142D" stop-opacity="0"/></radialGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="720" height="420" rx="28" fill="#03142D"/>
+  <rect width="720" height="420" rx="28" fill="url(#g)"/>
+  <g stroke="#168CFF" stroke-width="3" fill="none" opacity=".28"><circle cx="80" cy="80" r="3"/><circle cx="160" cy="125" r="3"/><circle cx="240" cy="170" r="3"/><circle cx="320" cy="80" r="3"/><circle cx="400" cy="125" r="3"/><circle cx="480" cy="170" r="3"/><circle cx="560" cy="80" r="3"/><circle cx="640" cy="125" r="3"/><path d="M80 80l80 45 80-45 80 90 80-45 80 45 80-90"/></g>
+  <g stroke="#57B8FF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" filter="url(#glow)"><rect x="190" y="98" width="340" height="238" rx="30"/><path d="M190 160h340M265 98v62M455 98v62"/><path d="M245 211h54M333 211h54M421 211h54M245 269h54M333 269h54M421 269h54"/></g>
+</svg>

@@ -1597,8 +1597,14 @@ p {
    affecter le Hero, le bandeau de chiffres, ni le reste du site.
    ============================================================ */
 
+/* .innovations-v2 included here too (2026-08-27): .bopa-project-card
+   below reads --mp-navy-deep/--mp-blue-bright, which are only defined
+   inside this selector's scope - without it, the card silently renders
+   with a transparent background on any page that isn't .bopa-mission-v2/
+   .bopa-projects-v2 (custom properties don't fall back across scopes). */
 .bopa-mission-v2,
-.bopa-projects-v2 {
+.bopa-projects-v2,
+.innovations-v2 {
   --mp-navy: #071f46;
   --mp-navy-deep: #041a3b;
   --mp-blue: #168cff;
@@ -1612,7 +1618,8 @@ p {
 }
 
 .bopa-mission-v2 *,
-.bopa-projects-v2 * {
+.bopa-projects-v2 *,
+.innovations-v2 * {
   box-sizing: border-box;
 }
 

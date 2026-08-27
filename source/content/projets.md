@@ -58,6 +58,12 @@ Présentation demandée par l'owner : "Communiquer" (préopératoire) / "Assiste
 
 **Goldfinger** - outil intra-opératoire pour manipuler un modèle 3D de foie sans contact, en pleine opération, sans compromettre la stérilité du bloc : un geste en l'air suffit à guider le chirurgien.
 
+<!-- verify: owner named this project in the 2026-08-27 /innovations
+     restructure (validated category list) but gave no description yet -
+     site currently shows the redesign pack's placeholder text. -->
+
+**L'évaluation de la charge cognitive du chirurgien** - nom donné, description à obtenir.
+
 **De l'analyse d'image à la création d'une start-up** - le travail sur l'analyse d'images au bloc opératoire (anonymisation, analyse temps réel, rapport, codage - testé sur chirurgie bariatrique, cholécystectomie, lobectomie pulmonaire, hystérectomie) a donné naissance à la start-up **Uncovr**, une des deux start-up créées depuis BOPA1 (avec DOTs). Fait clé : les événements indésirables graves ne sont pas enregistrés dans le compte-rendu opératoire dans 20 % des cas (Mekhenane et al., Vibert, Allard, Ann Hepatobiliary Pancreat Surg, 2025).
 
 ### Postopératoire - Suivre les patients
@@ -72,13 +78,13 @@ Présentation demandée par l'owner : "Communiquer" (préopératoire) / "Assiste
 
 ### Médico-économique - Mesurer la valeur
 
-<!-- verify: owner gave only the three project names below, no descriptions yet.
-     The site currently shows placeholder text ("Projet médico-économique en
-     cours - description à venir") for all three - replace here and on the
-     site once real facts are available. -->
+<!-- verify: owner gave only the two project names below, no descriptions yet.
+     The site currently shows the redesign pack's short placeholder text -
+     replace here and on the site once real facts are available. -->
 
-**Hepatgreen** - nom donné, description à obtenir.
+**HepatGreen** - nom donné, description à obtenir.
 
-**MESGARDES** - nom donné, description à obtenir.
+**MesGardes** - nom donné, description à obtenir.
 
-**Coût de l'hépatectomie** - nom donné, description à obtenir.
+"Coût de l'hépatectomie" a été retiré de la liste validée par l'owner le
+2026-08-27 (n'apparaît plus sur le site).

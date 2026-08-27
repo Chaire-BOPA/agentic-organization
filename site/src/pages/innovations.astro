@@ -7,174 +7,577 @@ import { phases } from '../data/projects.js';
   title="Nos projets — BOPA"
   description="Tous les projets de la Chaire Innovation BOPA, du préopératoire au postopératoire."
 >
-  <section class="section-block">
-    <div class="mesh-echo" aria-hidden="true"></div>
-    <div class="wrap projets-intro" data-reveal>
-      <div>
-        <span class="kicker">Innovations</span>
-        <h1>Nos projets</h1>
-        <p class="lede">
-          Des idées nées sur le terrain, portées par les équipes du bloc
-          opératoire : voici tous les projets de la Chaire, à chaque étape du
-          parcours patient.
-        </p>
+  <main class="innovations-v2" id="innovations-v2">
+    <section class="innovations-v2__intro" aria-labelledby="innovations-title">
+      <div class="innovations-v2__container innovations-v2__intro-grid">
+        <div class="innovations-v2__intro-copy">
+          <p class="innovations-v2__breadcrumb">Accueil <span aria-hidden="true">›</span> Nos projets</p>
+          <h1 id="innovations-title">Toutes nos <span>innovations</span></h1>
+          <p class="innovations-v2__lead">
+            Des idées nées sur le terrain, portées par les équipes du bloc opératoire : voici tous
+            les projets de la Chaire, à chaque étape du parcours patient.
+          </p>
+        </div>
+
+        <div class="innovations-v2__journey" aria-label="Les trois temps du parcours chirurgical">
+          <div class="innovations-v2__journey-line" aria-hidden="true"></div>
+
+          <div class="innovations-v2__journey-step">
+            <div class="innovations-v2__journey-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="13"/><circle cx="32" cy="32" r="4"/><path d="M32 7v10M32 47v10M7 32h10M47 32h10"/></svg>
+            </div>
+            <strong>PRÉOPÉRATOIRE</strong>
+            <span>Mieux comprendre<br />pour mieux planifier</span>
+          </div>
+
+          <div class="innovations-v2__journey-step">
+            <div class="innovations-v2__journey-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64"><path d="M7 34h12l7-18 11 34 8-24 6 8h6"/></svg>
+            </div>
+            <strong>PEROPÉRATOIRE</strong>
+            <span>Mieux voir, mieux décider,<br />mieux opérer</span>
+          </div>
+
+          <div class="innovations-v2__journey-step">
+            <div class="innovations-v2__journey-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64"><path d="M13 49V27M25 49V17M37 49V34M49 49V10"/><path d="M8 49h48"/></svg>
+            </div>
+            <strong>POSTOPÉRATOIRE</strong>
+            <span>Mieux suivre<br />pour mieux guérir</span>
+          </div>
+        </div>
+
+        <nav class="innovations-v2__filters" aria-label="Filtrer les projets">
+          <button type="button" class="is-active" data-project-filter="all" aria-pressed="true">Tous les projets</button>
+          {phases.map((phase) => (
+            <button type="button" data-project-filter={phase.id} aria-pressed="false">{phase.label}</button>
+          ))}
+        </nav>
       </div>
-      <div class="phases-image">
-        <img
-          src="/images/graphics/phases.png"
-          alt="Frise du parcours patient en trois phases : phase 1 préopératoire (mieux communiquer), phase 2 peropératoire (mieux analyser), phase 3 postopératoire (mieux suivre)."
-        />
+    </section>
+
+    <div class="innovations-v2__catalogue">
+      <div class="innovations-v2__container">
+        {phases.map((phase) => (
+          <section class="innovations-v2__category" data-project-category={phase.id} aria-labelledby={`category-${phase.id}`}>
+            <aside class="innovations-v2__category-label">
+              <div class={`innovations-v2__category-icon innovations-v2__category-icon--${phase.icon}`} aria-hidden="true">
+                {phase.icon === 'target' && <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="13"/><circle cx="32" cy="32" r="4"/><path d="M32 7v10M32 47v10M7 32h10M47 32h10"/></svg>}
+                {phase.icon === 'pulse' && <svg viewBox="0 0 64 64"><path d="M7 34h12l7-18 11 34 8-24 6 8h6"/></svg>}
+                {phase.icon === 'chart' && <svg viewBox="0 0 64 64"><path d="M13 49V27M25 49V17M37 49V34M49 49V10"/><path d="M8 49h48"/></svg>}
+                {phase.icon === 'euro' && <span>€</span>}
+              </div>
+              <div>
+                <h2 id={`category-${phase.id}`}>{phase.label.toUpperCase()}</h2>
+                <p>{phase.tagline}</p>
+              </div>
+            </aside>
+
+            <div class="innovations-v2__cards" aria-label={`Projets ${phase.label}`}>
+              {phase.projects.map((project) => {
+                const Tag = project.href ? 'a' : 'article';
+                return (
+                  <Tag
+                    class="bopa-project-card"
+                    href={project.href}
+                    target={project.href && '_blank'}
+                    rel={project.href && 'noopener'}
+                  >
+                    <div class="bopa-project-card__media">
+                      <img src={project.image} alt="" loading="lazy" />
+                    </div>
+                    <div class="bopa-project-card__body">
+                      <h3>{project.name}</h3>
+                      <p>{project.description}</p>
+                      <span class="bopa-project-card__arrow" aria-hidden="true">→</span>
+                    </div>
+                  </Tag>
+                );
+              })}
+            </div>
+          </section>
+        ))}
       </div>
     </div>
 
-    {phases.map((phase) => (
-      <div class="wrap section-sub" data-reveal>
-        <span class="phase-tag" style={`--step-color: ${phase.step}`}>{phase.label}</span>
-        <h2>{phase.subtitle}</h2>
-        <div class="card-grid">
-          {phase.projects.map((project) => {
-            const Tag = project.href ? 'a' : 'article';
-            return (
-              <Tag
-                class="card"
-                style={`border-top-color: ${phase.step}`}
-                href={project.href}
-                target={project.href && '_blank'}
-                rel={project.href && 'noopener'}
-              >
-                <h3>{project.name}</h3>
-                <p>{project.text}</p>
-                {project.photo && (
-                  <div class="card-photo">
-                    <img src={project.photo.src} alt={project.photo.alt} loading="lazy" />
-                  </div>
-                )}
-                {project.videoId && (
-                  <div class="card-video">
-                    <iframe
-                      src={`https://www.youtube-nocookie.com/embed/${project.videoId}`}
-                      title={`Vidéo de présentation - ${project.name}`}
-                      loading="lazy"
-                      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
-                      allowfullscreen
-                    ></iframe>
-                  </div>
-                )}
-              </Tag>
-            );
-          })}
+    <section class="innovations-v2__cta">
+      <div class="innovations-v2__container">
+        <div class="innovations-v2__cta-inner">
+          <div class="innovations-v2__cta-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="22" r="10"/><path d="M13 53c2-14 10-21 19-21s17 7 19 21"/></svg>
+          </div>
+          <div class="innovations-v2__cta-copy">
+            <h2>Vous avez une idée de projet ?<br /><span>Construisons-la ensemble.</span></h2>
+            <p>Nous collaborons avec des équipes cliniques, académiques et industrielles pour accélérer l'innovation chirurgicale.</p>
+          </div>
+          <a class="innovations-v2__cta-button" href="/#contact">Nous contacter <span aria-hidden="true">→</span></a>
         </div>
       </div>
-    ))}
-  </section>
+    </section>
+  </main>
 </Base>
 
+<script>
+  // Onglets client-side, sans framework : masque/affiche les sections de
+  // catégorie, pas de rechargement de page. Garde anti-double-init pour
+  // la navigation client-side d'Astro (transitions/HMR).
+  const root = document.querySelector('#innovations-v2');
+  if (root && !root.hasAttribute('data-filters-ready')) {
+    root.setAttribute('data-filters-ready', 'true');
+    const buttons = Array.from(root.querySelectorAll('[data-project-filter]'));
+    const sections = Array.from(root.querySelectorAll('[data-project-category]'));
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.getAttribute('data-project-filter') || 'all';
+
+        buttons.forEach((item) => {
+          const active = item === button;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+
+        sections.forEach((section) => {
+          const visible = filter === 'all' || section.getAttribute('data-project-category') === filter;
+          section.toggleAttribute('hidden', !visible);
+        });
+      });
+    });
+  }
+</script>
+
 <style>
-  /* .section-sub lives in index.astro's own scoped <style> - redeclared
-     here since Astro doesn't share page-scoped styles across pages. */
-  .section-sub {
-    margin-top: var(--space-4);
+  /* ============================================================
+     BOPA — /innovations/ V2
+     Référence : REFERENCE-INNOVATIONS-V2.png (2026-08-27)
+     Les vignettes projets réutilisent .bopa-project-card telles quelles
+     (site.css, même composant que "Nos projets phares" sur la home) -
+     ce fichier ne redéfinit que la mise en page propre à cette page
+     (intro, frise, onglets, regroupement par catégorie, CTA).
+     ============================================================ */
+
+  .innovations-v2 {
+    --bopa-navy: var(--color-navy);
+    --bopa-blue: var(--color-accent);
+    --bopa-blue-strong: var(--bopa-blue-3, #03a2da);
+    --bopa-ink: var(--color-ink);
+    --bopa-muted: var(--color-muted);
+    --bopa-border: var(--color-line);
+    --bopa-bg: var(--color-bg-tint);
+    --bopa-white: #ffffff;
+    color: var(--bopa-ink);
+    background: var(--bopa-bg);
   }
 
-  .section-sub .phase-tag {
-    font-size: var(--text-base);
-    padding: 0.45em 1.1em;
-    margin-bottom: var(--space-3);
+  .innovations-v2 *,
+  .innovations-v2 *::before,
+  .innovations-v2 *::after {
+    box-sizing: border-box;
   }
 
-  /* Side by side per the owner's request - collapses to stacked below
-     40rem, same no-split-screens-on-mobile rule as everywhere else. */
-  .projets-intro {
+  .innovations-v2__container {
+    width: min(1500px, calc(100% - 64px));
+    margin-inline: auto;
+  }
+
+  /* Intro ---------------------------------------------------- */
+  .innovations-v2__intro {
+    background: var(--bopa-white);
+    border-bottom: 1px solid var(--bopa-border);
+    padding: clamp(42px, 5vw, 78px) 0 34px;
+  }
+
+  .innovations-v2__intro-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(290px, 0.78fr) minmax(620px, 1.55fr);
+    column-gap: clamp(52px, 8vw, 128px);
+    row-gap: 34px;
     align-items: center;
-    gap: var(--space-5);
   }
 
-  @media (max-width: 40rem) {
-    .projets-intro {
-      grid-template-columns: 1fr;
-    }
+  .innovations-v2__intro-copy {
+    align-self: start;
   }
 
-  /* The PNG already has native transparency, so no CSS mask/fade is
-     needed (same treatment as the homepage's .approche-image). */
-  .phases-image img {
-    width: 100%;
+  .innovations-v2__breadcrumb {
+    margin: 0 0 26px;
+    font-size: 0.92rem;
+    color: var(--bopa-muted);
+  }
+  .innovations-v2__breadcrumb span {
+    margin-inline: 8px;
+  }
+
+  .innovations-v2 h1 {
+    margin: 0;
+    font-size: clamp(3rem, 4.8vw, 5.35rem);
+    line-height: 0.94;
+    letter-spacing: -0.045em;
+    font-weight: 700;
+    color: var(--bopa-ink);
+    max-width: 8ch;
+  }
+  .innovations-v2 h1 span {
     display: block;
-    margin: 0 auto;
+    color: var(--bopa-blue);
   }
 
-  /* Cards in the same row stretch to match their tallest sibling (grid
-     default) so each phase's projects read as same-size blocks on
-     computers. Fixed 3 columns per feedback (was auto-fit); a phase
-     with a project count not divisible by 3 just leaves a short last
-     row, which is fine. */
-  .card-grid {
+  .innovations-v2__lead {
+    max-width: 470px;
+    margin: 28px 0 0;
+    font-size: clamp(1rem, 1.18vw, 1.18rem);
+    line-height: 1.72;
+    color: var(--bopa-muted);
+  }
+
+  /* Journey (frise Pré/Per/Post) ------------------------------ */
+  .innovations-v2__journey {
+    position: relative;
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
-    align-items: stretch;
+    min-width: 0;
+    padding-top: 34px;
   }
 
-  @media (max-width: 40rem) {
-    .card-grid {
+  .innovations-v2__journey-line {
+    position: absolute;
+    top: 64px;
+    left: 16.66%;
+    right: 16.66%;
+    height: 1px;
+    border-top: 1px dashed #83bfff;
+    z-index: 0;
+  }
+  .innovations-v2__journey-line::before,
+  .innovations-v2__journey-line::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bopa-blue);
+  }
+  .innovations-v2__journey-line::before {
+    left: 25%;
+  }
+  .innovations-v2__journey-line::after {
+    right: 25%;
+  }
+
+  .innovations-v2__journey-step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    min-width: 0;
+  }
+
+  .innovations-v2__journey-icon,
+  .innovations-v2__category-icon {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 20px;
+    border: 1.5px solid #76b8ff;
+    border-radius: 50%;
+    background: var(--bopa-white);
+    color: var(--bopa-ink);
+  }
+  .innovations-v2__journey-icon svg,
+  .innovations-v2__category-icon svg,
+  .innovations-v2__cta-icon svg {
+    width: 38px;
+    height: 38px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .innovations-v2__journey-step strong {
+    display: block;
+    margin-bottom: 16px;
+    color: var(--bopa-blue-strong);
+    font-size: 0.93rem;
+    letter-spacing: 0.015em;
+  }
+  .innovations-v2__journey-step span {
+    display: block;
+    color: var(--bopa-ink);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  /* Filters (onglets) ----------------------------------------- */
+  .innovations-v2__filters {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 4px;
+  }
+
+  .innovations-v2__filters button {
+    appearance: none;
+    border: 1px solid #8ebfff;
+    background: var(--bopa-white);
+    color: var(--bopa-ink);
+    min-height: 44px;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: background-color .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+  }
+  .innovations-v2__filters button:hover {
+    transform: translateY(-1px);
+    border-color: var(--bopa-blue);
+  }
+  .innovations-v2__filters button.is-active {
+    background: var(--bopa-blue);
+    border-color: var(--bopa-blue);
+    color: var(--bopa-white);
+  }
+  .innovations-v2__filters button:focus-visible,
+  .bopa-project-card:focus-visible,
+  .innovations-v2__cta-button:focus-visible {
+    outline: 3px solid rgba(22, 140, 255, .35);
+    outline-offset: 3px;
+  }
+
+  /* Catalogue: regroupement par catégorie ---------------------- */
+  .innovations-v2__catalogue {
+    background: var(--bopa-bg);
+  }
+
+  .innovations-v2__category {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 30px;
+    padding: 30px 0 28px;
+    border-bottom: 1px solid var(--bopa-border);
+  }
+  .innovations-v2__category[hidden] {
+    display: none;
+  }
+
+  .innovations-v2__category-label {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding-top: 2px;
+  }
+
+  .innovations-v2__category-icon {
+    flex: 0 0 58px;
+    width: 58px;
+    height: 58px;
+    margin: 0;
+    color: var(--bopa-blue-strong);
+  }
+  .innovations-v2__category-icon span {
+    font-size: 1.9rem;
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .innovations-v2__category-label h2 {
+    margin: 7px 0 12px;
+    color: var(--bopa-blue-strong);
+    font-size: 0.96rem;
+    line-height: 1.2;
+    letter-spacing: .015em;
+    font-weight: 700;
+  }
+  .innovations-v2__category-label p {
+    margin: 0;
+    max-width: 175px;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: var(--bopa-ink);
+  }
+
+  /* Rangée de vignettes : .bopa-project-card fournit déjà tout le
+     visuel de la carte (site.css) - on ne pose ici que la mise en
+     page de la rangée. */
+  .innovations-v2__cards {
+    display: flex;
+    gap: 16px;
+    min-width: 0;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+    padding: 0 2px 4px;
+  }
+
+  .innovations-v2__cards .bopa-project-card {
+    flex: 1 1 0;
+    min-width: 205px;
+    max-width: 270px;
+  }
+
+  /* CTA de fin de page ----------------------------------------- */
+  .innovations-v2__cta {
+    background: var(--bopa-bg);
+    padding: 22px 0 54px;
+  }
+  .innovations-v2__cta-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 26px;
+    min-height: 154px;
+    padding: 30px 42px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--bopa-navy);
+    background-image:
+      radial-gradient(circle at 77% 18%, rgba(22, 140, 255, .22) 0 2px, transparent 2.5px),
+      radial-gradient(circle at 86% 72%, rgba(86, 184, 255, .2) 0 2px, transparent 2.5px);
+    color: var(--bopa-white);
+  }
+  .innovations-v2__cta-icon {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border: 1.5px solid var(--bopa-blue);
+    border-radius: 50%;
+    color: var(--bopa-blue);
+  }
+  .innovations-v2__cta-copy h2 {
+    margin: 0 0 10px;
+    color: var(--bopa-white);
+    font-size: clamp(1.55rem, 2vw, 2.1rem);
+    line-height: 1.12;
+    letter-spacing: -.025em;
+  }
+  .innovations-v2__cta-copy h2 span {
+    color: #54aaff;
+  }
+  .innovations-v2__cta-copy p {
+    max-width: 720px;
+    margin: 0;
+    color: #e7eff9;
+    font-size: .95rem;
+    line-height: 1.55;
+  }
+  .innovations-v2__cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 52px;
+    padding: 12px 26px;
+    border-radius: 7px;
+    background: var(--bopa-blue);
+    color: var(--bopa-white);
+    text-decoration: none;
+    font-weight: 650;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1180px) {
+    .innovations-v2__intro-grid {
       grid-template-columns: 1fr;
+    }
+    .innovations-v2 h1 {
+      max-width: none;
+    }
+    .innovations-v2__lead {
+      max-width: 720px;
+    }
+    .innovations-v2__journey {
+      max-width: 920px;
+      width: 100%;
+    }
+    .innovations-v2__category {
+      grid-template-columns: 220px minmax(0, 1fr);
+    }
+    .innovations-v2__cards .bopa-project-card {
+      min-width: 220px;
     }
   }
 
-  .card p {
-    text-align: justify;
-    hyphens: none;
+  @media (max-width: 760px) {
+    .innovations-v2__container {
+      width: min(calc(100% - 32px), 1500px);
+    }
+    .innovations-v2__intro {
+      padding-top: 32px;
+    }
+    .innovations-v2 h1 {
+      font-size: clamp(2.65rem, 14vw, 4.5rem);
+    }
+
+    .innovations-v2__journey {
+      grid-template-columns: 1fr;
+      gap: 26px;
+      padding: 0;
+    }
+    .innovations-v2__journey-line {
+      display: none;
+    }
+    .innovations-v2__journey-step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      column-gap: 16px;
+      text-align: left;
+      align-items: center;
+    }
+    .innovations-v2__journey-icon {
+      width: 54px;
+      height: 54px;
+      margin: 0;
+      grid-row: 1 / span 2;
+    }
+    .innovations-v2__journey-step strong {
+      margin: 0 0 5px;
+    }
+    .innovations-v2__journey-step span {
+      font-size: .94rem;
+    }
+
+    .innovations-v2__filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 7px;
+    }
+    .innovations-v2__filters button {
+      flex: 0 0 auto;
+    }
+
+    .innovations-v2__category {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding-block: 26px;
+    }
+    .innovations-v2__category-label {
+      gap: 14px;
+    }
+    .innovations-v2__category-label p {
+      max-width: none;
+    }
+    .innovations-v2__cards .bopa-project-card {
+      flex-basis: 78vw;
+      min-width: min(78vw, 270px);
+    }
+
+    .innovations-v2__cta-inner {
+      grid-template-columns: auto 1fr;
+      padding: 28px 24px;
+    }
+    .innovations-v2__cta-button {
+      grid-column: 1 / -1;
+      justify-content: center;
+    }
   }
 
-  /* Uncovr's card is a real link (see Tag above) - undo the global `a`
-     color/underline so it still reads as a plain card. */
-  a.card {
-    text-decoration: none;
-    color: inherit;
-  }
-
-  /* Stretched cards (see .card-grid above) leave slack below their
-     content on the shorter ones. Flex column + margin-top: auto on the
-     media collects that slack right above the image/video instead,
-     so every picture lands flush with the card's bottom edge. */
-  .card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
-  }
-
-  /* h3's own margin-bottom (global rule) would otherwise stack with the
-     flex gap above and double the title-to-text spacing. */
-  .card h3 {
-    margin-bottom: 0;
-  }
-
-  .card-video {
-    margin-top: auto;
-    aspect-ratio: 16 / 9;
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .card-video iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-    display: block;
-  }
-
-  .card-photo {
-    margin-top: auto;
-    aspect-ratio: 16 / 9;
-    border-radius: var(--radius);
-    overflow: hidden;
-  }
-
-  .card-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  @media (prefers-reduced-motion: reduce) {
+    .innovations-v2__filters button {
+      transition: none;
+    }
   }
 </style>
-
