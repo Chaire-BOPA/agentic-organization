@@ -34,6 +34,11 @@
   --color-bg-tint: #f3f7fc;
   --color-bg-tint-2: #e8f1fb;
 
+  /* "Notre vision" section background - a distinct, deliberately exact
+     pale blue (owner's explicit call, 2026-08-27), not interchangeable
+     with --color-bg-tint above even though they're close. */
+  --color-vision-bg: #f1f6fd;
+
   /* Phase accents stay strictly inside the BOPA blue family. */
   --color-step-1: #2db9e3;      /* pré-opératoire: cyan blue */
   --color-step-2: #1875ba;      /* per-opératoire: medium brand blue */
