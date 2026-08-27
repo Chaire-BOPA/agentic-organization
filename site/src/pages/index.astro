@@ -458,7 +458,7 @@ const aboutIcons: Record<string, string> = {
             <div class="about-v2__person-body">
               <h4>{person.name}</h4>
               <strong>{person.role}</strong>
-              {person.credentials && <p class="about-v2__credentials">{person.credentials}</p>}
+              <p class="about-v2__credentials" aria-hidden={!person.credentials}>{person.credentials || ' '}</p>
               {person.linkedin && (
                 <a class="about-v2__linkedin" href={person.linkedin} target="_blank" rel="noopener" aria-label={`Profil LinkedIn de ${person.name}`}>
                   <span class="about-v2__linkedin-icon" aria-hidden="true">in</span>
@@ -2141,6 +2141,8 @@ const aboutIcons: Record<string, string> = {
   }
   .about-v2__person {
     min-width: 0;
+    display: flex;
+    flex-direction: column;
     background: rgba(255,255,255,.76);
     border: 1px solid var(--about-line);
     border-radius: 10px;
@@ -2158,11 +2160,11 @@ const aboutIcons: Record<string, string> = {
   }
   .about-v2__person-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
   .about-v2__photo-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #edf2f8, #f8fbff); }
-  .about-v2__person-body { padding: 1rem 1rem 1.15rem; }
+  .about-v2__person-body { flex: 1; display: flex; flex-direction: column; padding: 1rem 1rem 1.15rem; }
   .about-v2__person-body h4 { margin: 0 0 .25rem; color: var(--color-navy); font-size: 1rem; }
   .about-v2__person-body > strong { display: block; color: var(--mp-blue-bright); font-size: .72rem; line-height: 1.3; }
   .about-v2__person-body .about-v2__credentials { margin: .35rem 0 0; color: var(--about-ink); font-size: .76rem; font-weight: 700; }
-  .about-v2__linkedin { display: inline-flex; align-items: center; gap: .45rem; margin-top: 1rem; }
+  .about-v2__linkedin { display: inline-flex; align-items: center; gap: .45rem; margin-top: auto; padding-top: 1rem; }
   .about-v2__linkedin-icon { width: 1.4rem; height: 1.4rem; display: grid; place-items: center; border-radius: 3px; background: var(--color-accent); color: #fff; font-size: .72rem; font-weight: 800; }
 
   .about-v2__support {
