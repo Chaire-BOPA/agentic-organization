@@ -1536,38 +1536,42 @@ p {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 3rem;
   margin-top: clamp(3.8rem, 6vw, 5.6rem);
 }
 
-/* Ligne/points harmonisés sur /innovations/ (2026-08-27, V4.1) : repositionnés
-   pour rester centrés sur les nouveaux cercles de 62px (contre 84px avant). */
-.bopa-mission-v2__timeline::before {
-  content: "";
+/* Frise harmonisée à l'identique de /nos_innovations/ (2026-08-27,
+   correctif frises/Vision) : même mécanisme qu'.innovations-v2__journey-line
+   (un vrai élément de ligne, pas un pseudo-élément du conteneur) plutôt
+   qu'une approximation - garantit la même géométrie, le même rythme de
+   pointillés et les mêmes points intermédiaires. Colonnes à gap:0 (comme
+   la référence) : avec 3 colonnes égales, les centres tombent toujours
+   à 16.66% / 50% / 83.34%, quelle que soit la largeur du conteneur -
+   la ligne va donc pile du centre du 1er cercle au centre du 3e, sans
+   déborder ni à gauche de Préopératoire ni à droite de Postopératoire. */
+.bopa-mission-v2__timeline-line {
   position: absolute;
   top: 31px;
-  left: 11.5%;
-  right: 11.5%;
+  left: 16.66%;
+  right: 16.66%;
   height: 1px;
-  background: repeating-linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--bopa-cyan) 85%, transparent) 0 4px,
-    transparent 4px 7px
-  );
+  border-top: 1px dashed var(--bopa-cyan);
+  z-index: 0;
 }
-
-.bopa-mission-v2__timeline::after {
+.bopa-mission-v2__timeline-line::before,
+.bopa-mission-v2__timeline-line::after {
   content: "";
   position: absolute;
-  top: calc(31px - 4px);
-  left: 50%;
+  top: -4px;
   width: 8px;
   height: 8px;
-  border-radius: 999px;
-  background: var(--mp-blue-bright);
-  box-shadow: -31.4vw 0 0 -1px rgba(87,181,255,0.95), 31.4vw 0 0 -1px rgba(87,181,255,0.95);
-  transform: translateX(-50%);
-  pointer-events: none;
+  border-radius: 50%;
+  background: var(--bopa-cyan);
+}
+.bopa-mission-v2__timeline-line::before {
+  left: 25%;
+}
+.bopa-mission-v2__timeline-line::after {
+  right: 25%;
 }
 
 .bopa-mission-v2__step {
@@ -1839,23 +1843,16 @@ p {
     padding-right: 1.25rem;
   }
 
+  /* Même comportement responsive que /nos_innovations/ (2026-08-27,
+     correctif frises/Vision) : la ligne de connexion disparaît
+     entièrement sur mobile plutôt que de garder sa propre variante
+     verticale - une seule implémentation, pas deux qui divergent. */
   .bopa-mission-v2__timeline {
     grid-template-columns: 1fr;
-    gap: 2.9rem;
+    gap: 26px;
   }
 
-  .bopa-mission-v2__timeline::before {
-    top: 31px;
-    bottom: 31px;
-    left: 50%;
-    right: auto;
-    width: 1px;
-    height: auto;
-    background: repeating-linear-gradient(180deg, color-mix(in srgb, var(--bopa-cyan) 82%, transparent) 0 4px, transparent 4px 8px);
-    transform: translateX(-50%);
-  }
-
-  .bopa-mission-v2__timeline::after {
+  .bopa-mission-v2__timeline-line {
     display: none;
   }
 

@@ -223,6 +223,7 @@ const aboutIcons: Record<string, string> = {
       </p>
 
       <div class="bopa-mission-v2__timeline" role="list" aria-label="Les trois temps du parcours chirurgical">
+        <div class="bopa-mission-v2__timeline-line" aria-hidden="true"></div>
         <article class="bopa-mission-v2__step" role="listitem">
           <div class="bopa-mission-v2__icon" aria-hidden="true">
             <svg viewBox="0 0 64 64" fill="none">
@@ -2776,6 +2777,20 @@ const aboutIcons: Record<string, string> = {
     text-transform: uppercase;
   }
 
+  /* Les 3 piliers (Acceptabilité/Interopérabilité/Soutenabilité) centrés
+     sous leur cercle (owner's request, 2026-08-27, correctif frises/Vision) :
+     même largeur (215px, celle déjà utilisée par .copy) et même centrage
+     pour les 3 blocs de texte (titre/accroche/paragraphe), pas seulement
+     text-align:center - la boîte elle-même doit être centrée. Les
+     étapes de fin (Innovation/Progrès pour tous, .endpoint-label) ne
+     sont pas concernées, elles gardent leur propre traitement. */
+  .bopa-vision-v4__step h3 {
+    max-width: 215px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
   .bopa-vision-v4__endpoint-label {
     color: rgba(255,255,255,.95);
   }
@@ -2792,11 +2807,13 @@ const aboutIcons: Record<string, string> = {
   }
 
   .bopa-vision-v4__tagline {
+    max-width: 215px;
     margin: 1.35rem auto 0;
     color: rgba(255,255,255,.94);
     font-size: 1.04rem;
     font-weight: 600;
     line-height: 1.5;
+    text-align: center;
   }
 
   .bopa-vision-v4__copy {
@@ -2805,6 +2822,7 @@ const aboutIcons: Record<string, string> = {
     color: rgba(255,255,255,.72);
     font-size: 0.88rem;
     line-height: 1.52;
+    text-align: center;
   }
 
   .bopa-vision-v4__network {
@@ -2828,6 +2846,8 @@ const aboutIcons: Record<string, string> = {
     .bopa-vision-v4__step--endpoint-start { grid-column: 1 / -1; }
     .bopa-vision-v4__step--endpoint-end { grid-column: 1 / -1; }
     .bopa-vision-v4__step--endpoint .bopa-vision-v4__icon { margin-bottom: 1rem; }
+    .bopa-vision-v4__step h3,
+    .bopa-vision-v4__tagline,
     .bopa-vision-v4__copy { max-width: 260px; }
   }
 
@@ -2842,6 +2862,8 @@ const aboutIcons: Record<string, string> = {
     .bopa-vision-v4__step--endpoint-end { grid-column: auto; }
     .bopa-vision-v4__icon { width: 54px; height: 54px; margin-bottom: 1.3rem; }
     .bopa-vision-v4__step--endpoint-end .bopa-vision-v4__endpoint-label { width: 54px; }
+    .bopa-vision-v4__step h3,
+    .bopa-vision-v4__tagline,
     .bopa-vision-v4__copy { max-width: 310px; }
     .bopa-vision-v4__network { display: none; }
   }
