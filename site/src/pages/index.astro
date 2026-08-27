@@ -1121,7 +1121,7 @@ const aboutIcons: Record<string, string> = {
     --hero-blue-light: #4fb8e0; /* bleu clair (bord droit, légèrement teinté, pas transparent) */
     --hero-wash-opacity: 0.35; /* colorisation froide uniforme sur toute la photo */
     --hero-vignette-opacity: 0.55; /* intensité de la vignette (jamais noire) */
-    --hero-text-max-width: min(50vw, 41rem); /* largeur du bloc de texte */
+    --hero-text-max-width: max(35rem, min(54vw, 43rem)); /* largeur du bloc de texte - plancher fixe ajouté (2026-08-27) pour garder le lede en 3 lignes après l'harmonisation typographique, y compris aux largeurs où la police reste bloquée à son minimum */
     --hero-image-position-y: 82%; /* cadrage vertical de la photo (object-position) */
     --hero-height-ratio: 3; /* ratio largeur/hauteur du hero (aspect-ratio) */
 
@@ -1217,7 +1217,7 @@ const aboutIcons: Record<string, string> = {
     position: absolute;
     inset: 0;
     z-index: 4;
-    width: min(48%, 44rem);
+    width: max(37rem, min(56vw, 45rem)); /* élargi (2026-08-27) pour suivre --hero-text-max-width, avec ~2rem de marge */
     backdrop-filter: blur(16px);
     mask-image: linear-gradient(to right, black 0%, black 55%, transparent 100%);
     pointer-events: none;
@@ -1260,9 +1260,14 @@ const aboutIcons: Record<string, string> = {
     padding-left: clamp(1.5rem, 5vw, 5rem);
   }
 
+  /* Harmonisation typographique Niveau 1 (2026-08-27) : mêmes métriques
+     que le H2 de Notre Mission (étalon), quel que soit ce que la
+     règle de base h1/h2/h3 (site.css) impose par ailleurs. */
   .hero h1 {
-    font-size: clamp(2.12rem, 3.35vw, 2.88rem); /* +6% (correctif 2026-08-27, demande owner) */
-    line-height: 1.2;
+    font-size: clamp(2rem, 3.1vw, 3.15rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
     margin: 0;
   }
 
@@ -1271,16 +1276,23 @@ const aboutIcons: Record<string, string> = {
     color: var(--bopa-blue-4);
   }
 
+  /* Harmonisation typographique Niveau 2 (2026-08-27) : mêmes métriques
+     que le lede de Notre Mission (étalon). */
   .hero .lede {
-    font-size: 1.06rem; /* +6% sur var(--text-base) (correctif 2026-08-27) */
-    line-height: 1.68;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    line-height: 1.55;
     color: rgba(255, 255, 255, 0.85);
     margin: var(--space-3) 0 0;
     /* Assez large pour que "hépato-bilio-pancréatique" (voir la balise
        .nowrap dessus) tienne sur 3 lignes sans se retrouver seul sur une
        4e ; suit le même ratio vw que .hero-text-blur pour ne jamais
-       déborder de la zone floutée/lisible. */
-    max-width: min(42vw, 36rem);
+       déborder de la zone floutée/lisible. Un simple ratio vw (même
+       généreux) ne suffisait pas : entre ~640px et ~1230px la police
+       reste bloquée à son minimum (clamp), donc la largeur disponible
+       continuait de rétrécir avec le viewport sans que le texte
+       rétrécisse - d'où le plancher fixe (34rem) qui garantit 3 lignes
+       même dans cette zone, vérifié à 700/768/1024/1150/1440px. */
+    max-width: max(34rem, min(53vw, 42rem));
   }
 
   .hero .lede .nowrap {
