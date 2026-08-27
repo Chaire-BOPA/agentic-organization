@@ -145,83 +145,115 @@ const team = [
     </div>
   </section>
 
-  <section id="mission" class="section-block">
-    <div class="wrap" data-reveal>
-      <span class="kicker">Notre mission</span>
-      <h2>Le projet scientifique : augmenter le parcours patient</h2>
-      <p class="lede">
-        BOPA2 (2025-2030) améliore la qualité et la sécurité des soins à
-        chaque étape de la chirurgie.
+  <section id="mission" class="bopa-mission-v2" aria-labelledby="mission-title">
+    <div class="bopa-mission-v2__inner">
+      <p class="bopa-eyebrow">Notre mission</p>
+      <h2 id="mission-title">Le numérique au service de la chirurgie</h2>
+      <p class="bopa-mission-v2__intro">
+        Nous développons et intégrons des technologies innovantes pour accompagner chaque étape du parcours
+        chirurgical, améliorer les décisions médicales et réduire la charge mentale des équipes soignantes.
       </p>
-      <div class="pipeline">
-        <div class="pipeline-step" data-reveal style="--step-color: var(--color-step-1); --reveal-delay: 0s">
-          <div class="pipeline-dot">1</div>
-          <h3>Pré-opératoire</h3>
-          <p>Communiquer pour rassurer le patient.</p>
-        </div>
-        <div class="pipeline-step" data-reveal style="--step-color: var(--color-step-2); --reveal-delay: 0.1s">
-          <div class="pipeline-dot">2</div>
-          <h3>Per-opératoire</h3>
-          <p>Des analyses en temps réel pour de meilleurs résultats.</p>
-        </div>
-        <div class="pipeline-step" data-reveal style="--step-color: var(--color-step-3); --reveal-delay: 0.2s">
-          <div class="pipeline-dot">3</div>
-          <h3>Post-opératoire</h3>
-          <p>Des outils numériques pour un meilleur suivi.</p>
-        </div>
+
+      <div class="bopa-mission-v2__timeline" role="list" aria-label="Les trois temps du parcours chirurgical">
+        <article class="bopa-mission-v2__step" role="listitem">
+          <div class="bopa-mission-v2__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="32" r="15" stroke="currentColor" stroke-width="2.2"/>
+              <circle cx="32" cy="32" r="5" stroke="currentColor" stroke-width="2.2"/>
+              <path d="M32 10v9M32 45v9M10 32h9M45 32h9M17 17l6.5 6.5M40.5 40.5 47 47M47 17l-6.5 6.5M23.5 40.5 17 47" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Préopératoire</h3>
+          <p>Mieux comprendre<br />pour mieux planifier</p>
+        </article>
+
+        <article class="bopa-mission-v2__step" role="listitem">
+          <div class="bopa-mission-v2__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M11 34h10l6-16 10 31 7-22 5 7h5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Peropératoire</h3>
+          <p>Mieux voir, mieux décider,<br />mieux opérer</p>
+        </article>
+
+        <article class="bopa-mission-v2__step" role="listitem">
+          <div class="bopa-mission-v2__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M15 47V34M25 47V24M35 47V38M45 47V17M55 47V29" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
+              <path d="M12 50h46" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Postopératoire</h3>
+          <p>Mieux suivre<br />pour mieux guérir</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <section id="projets" class="section-block">
-    <div class="wrap" data-reveal>
-      <span class="kicker">Nos projets phares</span>
-      <h2>Des innovations pensées pour le terrain.</h2>
-      <p class="lede">
-        De la préparation de l'intervention au suivi du patient, BOPA transforme
-        des besoins cliniques concrets en outils numériques utiles au bloc opératoire.
-      </p>
+  <section id="projets" class="bopa-projects-v2" aria-labelledby="projects-title">
+    <div class="bopa-projects-v2__inner">
+      <div class="bopa-projects-v2__intro">
+        <p class="bopa-eyebrow">Nos projets phares</p>
+        <h2 id="projects-title">Des innovations<br />pour transformer<br />la chirurgie</h2>
+        <p>
+          De la planification à la récupération, nos projets apportent des réponses concrètes aux défis
+          d'aujourd'hui pour préparer la chirurgie de demain.
+        </p>
+        <a class="bopa-projects-v2__cta" href="/innovations">
+          Découvrir tous nos projets
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
 
-      <div class="project-highlights">
-        <a class="project-highlight" href="https://www.youtube.com/watch?v=MF1ysshoNVM" target="_blank" rel="noopener" data-reveal>
-          <img src="/images/projets/liversight-video.jpg" alt="Vidéo de présentation de LiverSight" loading="lazy" />
-          <div class="project-highlight-content">
-            <span class="phase-tag">Préopératoire</span>
+      <div class="bopa-projects-v2__rail" tabindex="0" aria-label="Projets phares — défilement horizontal sur petit écran">
+        <a class="bopa-project-card" href="https://www.youtube.com/watch?v=MF1ysshoNVM" target="_blank" rel="noopener">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/liversight.png" alt="Présentation du projet LiverSight" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
             <h3>LiverSight</h3>
-            <p>Une visualisation 3D pour mieux préparer l'intervention et faciliter le dialogue médecin-patient.</p>
+            <p>Planification 3D et IA<br />pour les chirurgies<br />hépatiques complexes</p>
+            <span class="bopa-project-card__arrow" aria-hidden="true">→</span>
           </div>
         </a>
 
-        <a class="project-highlight" href="/innovations" data-reveal style="--reveal-delay: .08s">
-          <img src="/images/projets/bopcam.jpg" alt="Casque BOPCAM porté par un chirurgien au bloc opératoire" loading="lazy" />
-          <div class="project-highlight-content">
-            <span class="phase-tag">Peropératoire</span>
+        <a class="bopa-project-card" href="/innovations">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/bopcam.png" alt="Présentation du projet BOPCAM" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
             <h3>BOPCAM</h3>
-            <p>Un casque qui filme les mains du chirurgien pour l'analyse en direct et la télé-expertise.</p>
+            <p>Vision augmentée<br />pour une meilleure<br />perception au bloc</p>
+            <span class="bopa-project-card__arrow" aria-hidden="true">→</span>
           </div>
         </a>
 
-        <a class="project-highlight" href="/innovations" data-reveal style="--reveal-delay: .16s">
-          <img src="/images/projets/goldfinger.png" alt="Chirurgien manipulant sans contact un modèle 3D de foie au bloc opératoire" loading="lazy" />
-          <div class="project-highlight-content">
-            <span class="phase-tag">Peropératoire</span>
+        <a class="bopa-project-card" href="/innovations">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/goldfinger.png" alt="Présentation du projet Goldfinger" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
             <h3>Goldfinger</h3>
-            <p>Manipuler un modèle 3D de foie sans contact, sans compromettre la stérilité du bloc.</p>
+            <p>Interaction sans contact<br />avec les images<br />médicales</p>
+            <span class="bopa-project-card__arrow" aria-hidden="true">→</span>
           </div>
         </a>
 
-        <a class="project-highlight" href="/innovations" data-reveal style="--reveal-delay: .24s">
-          <img src="/images/projets/colette.jpg" alt="Le chatbot Colette sur un téléphone" loading="lazy" />
-          <div class="project-highlight-content">
-            <span class="phase-tag">Postopératoire</span>
+        <a class="bopa-project-card" href="/innovations">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/colette.png" alt="Présentation du projet Colette" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
             <h3>Colette</h3>
-            <p>Un chatbot qui accompagne 24 h/24 les patients transplantés du foie après leur intervention.</p>
+            <p>Suivi et accompagnement<br />personnalisé du patient<br />après chirurgie</p>
+            <span class="bopa-project-card__arrow" aria-hidden="true">→</span>
           </div>
         </a>
       </div>
 
-      <div class="projects-more btn-row">
-        <a class="btn" href="/innovations">Découvrir tous nos projets</a>
+      <div class="bopa-projects-v2__progress" aria-hidden="true">
+        <span class="is-active"></span><span></span><span></span>
       </div>
     </div>
   </section>
@@ -1756,8 +1788,13 @@ const team = [
      BOPA V2 page-level final overrides. Kept at the end of the scoped
      stylesheet so older homepage experiments cannot override the new
      flat-background visual system from site.css.
+     #mission/#projets excluded as of the 2026-08-27 V3 pass: they now
+     manage their own padding entirely via .bopa-mission-v2/.bopa-projects-v2
+     (site.css) - an id selector here would beat that class selector on
+     specificity alone regardless of source order, undoing the new
+     component's own spacing.
      --------------------------------------------------------------- */
-  #mission, #projets, #approche, #equipe, #qui-sommes-nous, #soutenir {
+  #approche, #equipe, #qui-sommes-nous, #soutenir {
     padding-top: clamp(5.5rem, 10vw, 9rem);
     padding-bottom: clamp(5.5rem, 10vw, 9rem);
   }
@@ -1805,7 +1842,7 @@ const team = [
   }
 
   @media (max-width: 48rem) {
-    #mission, #projets, #approche, #equipe, #qui-sommes-nous, #soutenir {
+    #approche, #equipe, #qui-sommes-nous, #soutenir {
       padding-top: 4.5rem;
       padding-bottom: 4.5rem;
     }

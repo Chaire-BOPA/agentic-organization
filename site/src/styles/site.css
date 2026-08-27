@@ -1197,13 +1197,16 @@ main {
   background: var(--color-bg);
 }
 
+/* #mission and #projets excluded here as of the 2026-08-27 V3 pass:
+   they now set their own background/color entirely via
+   .bopa-mission-v2/.bopa-projects-v2 below - an id selector here would
+   beat those class selectors on specificity alone, regardless of
+   source order, and silently win back the old flat navy/white. */
 #environnement,
-#projets,
 #equipe {
   background: var(--color-bg);
 }
 
-#mission,
 #qui-sommes-nous {
   background: var(--color-navy);
   color: var(--color-dark-ink);
@@ -1265,15 +1268,11 @@ main {
   color: var(--color-muted);
 }
 
-#mission .lede,
 #qui-sommes-nous .lede,
-#mission p,
 #qui-sommes-nous p {
   color: rgba(244, 248, 251, 0.78);
 }
 
-#mission h2,
-#mission h3,
 #qui-sommes-nous h2,
 #qui-sommes-nous h3 {
   color: #fff;
@@ -1323,11 +1322,6 @@ p {
   color: var(--color-muted);
 }
 .context-text strong { color: var(--color-ink); }
-
-/* Mission: large three-step editorial sequence, blue-only. */
-#mission .wrap { position: relative; z-index: 1; }
-#mission .kicker { color: var(--color-accent-2); }
-#mission h2 { max-width: 14ch; }
 
 .pipeline {
   margin-top: clamp(3.25rem, 6vw, 5.5rem);
@@ -1594,4 +1588,408 @@ p {
     border-bottom: 1px solid var(--color-line);
   }
   .context-item:last-child { border-bottom: 0; }
+}
+
+/* ============================================================
+   BOPA V3 — Mission + Projets phares
+   Référence visuelle : REFERENCE-MISSION-PROJETS.png (2026-08-27)
+   Scope volontairement isolé (--mp-* et .bopa-*) pour ne pas
+   affecter le Hero, le bandeau de chiffres, ni le reste du site.
+   ============================================================ */
+
+.bopa-mission-v2,
+.bopa-projects-v2 {
+  --mp-navy: #071f46;
+  --mp-navy-deep: #041a3b;
+  --mp-blue: #168cff;
+  --mp-blue-bright: #1e96ff;
+  --mp-ink: #071a3a;
+  --mp-copy: #30435f;
+  --mp-white: #ffffff;
+  --mp-offwhite: #fbfcfe;
+  --mp-line: #dce6f1;
+  font-family: var(--font-text, "Inter", system-ui, sans-serif);
+}
+
+.bopa-mission-v2 *,
+.bopa-projects-v2 * {
+  box-sizing: border-box;
+}
+
+.bopa-eyebrow {
+  margin: 0 0 0.85rem;
+  color: var(--mp-blue-bright);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+/* ---------- MISSION ---------- */
+.bopa-mission-v2 {
+  width: 100%;
+  overflow: hidden;
+  background: var(--mp-navy);
+  color: var(--mp-white);
+  padding: clamp(4.75rem, 7vw, 7rem) 2rem clamp(5.25rem, 8vw, 7.5rem);
+}
+
+.bopa-mission-v2__inner {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.bopa-mission-v2 h2 {
+  margin: 0;
+  color: var(--mp-white);
+  font-family: var(--font-display, "Space Grotesk", system-ui, sans-serif);
+  font-size: clamp(2rem, 3.1vw, 3.15rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.bopa-mission-v2__intro {
+  width: min(860px, 100%);
+  margin: 1.45rem auto 0;
+  color: rgba(255,255,255,0.88);
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  line-height: 1.55;
+  text-align: center;
+}
+
+.bopa-mission-v2__timeline {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3rem;
+  margin-top: clamp(3.8rem, 6vw, 5.6rem);
+}
+
+.bopa-mission-v2__timeline::before {
+  content: "";
+  position: absolute;
+  top: 2.6rem;
+  left: 11.5%;
+  right: 11.5%;
+  height: 1px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(48,157,255,0.85) 0 4px,
+    transparent 4px 7px
+  );
+}
+
+.bopa-mission-v2__timeline::after {
+  content: "";
+  position: absolute;
+  top: calc(2.6rem - 4px);
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--mp-blue-bright);
+  box-shadow: -31.4vw 0 0 -1px rgba(87,181,255,0.95), 31.4vw 0 0 -1px rgba(87,181,255,0.95);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.bopa-mission-v2__step {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.bopa-mission-v2__icon {
+  display: grid;
+  place-items: center;
+  width: 5.25rem;
+  height: 5.25rem;
+  margin: 0 auto 1.7rem;
+  border: 1.5px solid var(--mp-blue-bright);
+  border-radius: 999px;
+  background: var(--mp-navy);
+  color: var(--mp-white);
+}
+
+.bopa-mission-v2__icon svg {
+  width: 3rem;
+  height: 3rem;
+}
+
+.bopa-mission-v2__step h3 {
+  margin: 0;
+  color: var(--mp-blue-bright);
+  font-family: var(--font-text, "Inter", system-ui, sans-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+}
+
+.bopa-mission-v2__step p {
+  margin: 1.35rem 0 0;
+  color: rgba(255,255,255,0.94);
+  font-size: 1.04rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* ---------- PROJETS PHARES ---------- */
+.bopa-projects-v2 {
+  width: 100%;
+  overflow: hidden;
+  background: var(--mp-offwhite);
+  color: var(--mp-ink);
+  padding: clamp(4.2rem, 6vw, 6.25rem) 2rem clamp(4rem, 6vw, 5.75rem);
+}
+
+.bopa-projects-v2__inner {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.92fr) minmax(0, 3fr);
+  grid-template-areas:
+    "intro rail"
+    "intro progress";
+  column-gap: clamp(2.5rem, 5vw, 5rem);
+  width: min(1320px, 100%);
+  margin: 0 auto;
+  align-items: start;
+}
+
+.bopa-projects-v2__intro {
+  grid-area: intro;
+  padding-top: 0.45rem;
+}
+
+.bopa-projects-v2__intro h2 {
+  margin: 0;
+  color: var(--mp-ink);
+  font-family: var(--font-display, "Space Grotesk", system-ui, sans-serif);
+  font-size: clamp(2.15rem, 3vw, 3.25rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.bopa-projects-v2__intro > p:not(.bopa-eyebrow) {
+  max-width: 20.5rem;
+  margin: 1.8rem 0 0;
+  color: var(--mp-copy);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.bopa-projects-v2__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 3.4rem;
+  margin-top: 2rem;
+  padding: 0.9rem 1.25rem 0.9rem 1.45rem;
+  border-radius: 7px;
+  background: var(--mp-blue);
+  color: #fff !important;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  box-shadow: 0 8px 20px rgba(22,140,255,0.18);
+  transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
+}
+
+.bopa-projects-v2__cta:hover {
+  background: #087fee;
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(22,140,255,0.23);
+}
+
+.bopa-projects-v2__cta span {
+  font-size: 1.35rem;
+  font-weight: 400;
+}
+
+.bopa-projects-v2__rail {
+  grid-area: rail;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  min-width: 0;
+}
+
+.bopa-project-card {
+  min-width: 0;
+  min-height: 410px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(4,25,58,0.16);
+  border-radius: 14px;
+  background: var(--mp-navy-deep);
+  color: #fff !important;
+  text-decoration: none;
+  box-shadow: 0 8px 18px rgba(5,26,58,0.10);
+  transition: transform .24s ease, box-shadow .24s ease;
+}
+
+.bopa-project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 34px rgba(5,26,58,0.16);
+}
+
+.bopa-project-card__media {
+  position: relative;
+  height: 184px;
+  overflow: hidden;
+  background: #061a38;
+}
+
+.bopa-project-card__media::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 52%;
+  background: linear-gradient(to bottom, transparent, var(--mp-navy-deep));
+  pointer-events: none;
+}
+
+.bopa-project-card__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  filter: none;
+  transform: scale(1.015);
+}
+
+.bopa-project-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0.55rem 1.25rem 1.2rem;
+}
+
+.bopa-project-card__body h3 {
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-display, "Space Grotesk", system-ui, sans-serif);
+  font-size: clamp(1.32rem, 1.6vw, 1.65rem);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+}
+
+.bopa-project-card__body p {
+  margin: 1rem 0 0;
+  color: rgba(255,255,255,0.88);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.bopa-project-card__arrow {
+  margin-top: auto;
+  padding-top: 1.15rem;
+  color: var(--mp-blue-bright);
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.bopa-projects-v2__progress {
+  grid-area: progress;
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  padding-top: 1.55rem;
+}
+
+.bopa-projects-v2__progress span {
+  width: 2rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: #dce5ef;
+}
+
+.bopa-projects-v2__progress span.is-active {
+  width: 3rem;
+  background: var(--mp-blue-bright);
+}
+
+@media (max-width: 1100px) {
+  .bopa-projects-v2__inner {
+    grid-template-columns: 1fr;
+    grid-template-areas: "intro" "rail" "progress";
+    row-gap: 2.5rem;
+  }
+
+  .bopa-projects-v2__intro > p:not(.bopa-eyebrow) {
+    max-width: 42rem;
+  }
+
+  .bopa-projects-v2__rail {
+    overflow-x: auto;
+    grid-template-columns: repeat(4, minmax(230px, 1fr));
+    scroll-snap-type: x mandatory;
+    scrollbar-width: thin;
+    padding-bottom: .5rem;
+  }
+
+  .bopa-project-card {
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 760px) {
+  .bopa-mission-v2,
+  .bopa-projects-v2 {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .bopa-mission-v2__timeline {
+    grid-template-columns: 1fr;
+    gap: 2.9rem;
+  }
+
+  .bopa-mission-v2__timeline::before {
+    top: 2.6rem;
+    bottom: 2.6rem;
+    left: 50%;
+    right: auto;
+    width: 1px;
+    height: auto;
+    background: repeating-linear-gradient(180deg, rgba(48,157,255,.82) 0 4px, transparent 4px 8px);
+    transform: translateX(-50%);
+  }
+
+  .bopa-mission-v2__timeline::after {
+    display: none;
+  }
+
+  .bopa-mission-v2__step {
+    padding: 0 0 1rem;
+  }
+
+  .bopa-projects-v2__intro h2 br {
+    display: none;
+  }
+
+  .bopa-projects-v2__rail {
+    margin-right: -1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .bopa-project-card {
+    min-height: 385px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bopa-project-card,
+  .bopa-projects-v2__cta {
+    transition: none;
+  }
 }
