@@ -58,11 +58,7 @@ Présentation demandée par l'owner : "Communiquer" (préopératoire) / "Assiste
 
 **Goldfinger** - outil intra-opératoire pour manipuler un modèle 3D de foie sans contact, en pleine opération, sans compromettre la stérilité du bloc : un geste en l'air suffit à guider le chirurgien.
 
-<!-- verify: owner named this project in the 2026-08-27 /innovations
-     restructure (validated category list) but gave no description yet -
-     site currently shows the redesign pack's placeholder text. -->
-
-**L'évaluation de la charge cognitive du chirurgien** - nom donné, description à obtenir.
+**Évaluer la charge cognitive du chirurgien** - mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical. (Texte owner, V3 du 2026-08-27 - toujours une description courte, pas encore le niveau de détail des autres projets.)
 
 **De l'analyse d'image à la création d'une start-up** - le travail sur l'analyse d'images au bloc opératoire (anonymisation, analyse temps réel, rapport, codage - testé sur chirurgie bariatrique, cholécystectomie, lobectomie pulmonaire, hystérectomie) a donné naissance à la start-up **Uncovr**, une des deux start-up créées depuis BOPA1 (avec DOTs). Fait clé : les événements indésirables graves ne sont pas enregistrés dans le compte-rendu opératoire dans 20 % des cas (Mekhenane et al., Vibert, Allard, Ann Hepatobiliary Pancreat Surg, 2025).
 
@@ -70,7 +66,7 @@ Présentation demandée par l'owner : "Communiquer" (préopératoire) / "Assiste
 
 **Colette** - chatbot pour accompagner 24h/24 les patients transplantés hépatiques. Né d'un besoin identifié directement par les soignants. Développement finalisé, outil performant, étude clinique en cours de mise en place. Vision à terme : déploiement à l'échelle nationale.
 
-**Suivi longitudinal et valeur en santé (VBHC)** - projet aligné sur l'axe VBHC (Value-Based Health Care) de l'AP-HP. Objectif : évaluer la qualité de vie du patient via la collecte de PROM et de PREM (critères centrés sur le patient : état général, stress, implication dans le parcours de soin...). Vision long terme : identifier des leviers d'action pour améliorer la qualité des soins. Ressource clé : plateforme numérique SKEZIA, fournie par SKEZI (filiale AP-HP).
+**BOPA Value** (anciennement présenté comme « Suivi longitudinal et valeur en santé (VBHC) », renommé par l'owner le 2026-08-27) - projet aligné sur l'axe VBHC (Value-Based Health Care) de l'AP-HP. Objectif : évaluer la qualité de vie du patient via la collecte de PROM et de PREM (critères centrés sur le patient : état général, stress, implication dans le parcours de soin...). Vision long terme : identifier des leviers d'action pour améliorer la qualité des soins. Ressource clé : plateforme numérique SKEZIA, fournie par SKEZI (filiale AP-HP).
 
 **Le ressenti du chirurgien** - WP6 du projet scientifique : corréler l'état émotionnel du chirurgien au résultat clinique et au ressenti du patient, pour identifier des leviers d'action (mesures PREMs, PROMs, CROMs).
 
@@ -78,13 +74,9 @@ Présentation demandée par l'owner : "Communiquer" (préopératoire) / "Assiste
 
 ### Médico-économique - Mesurer la valeur
 
-<!-- verify: owner gave only the two project names below, no descriptions yet.
-     The site currently shows the redesign pack's short placeholder text -
-     replace here and on the site once real facts are available. -->
+**HepatGreen** - mesurer l'empreinte environnementale de la chirurgie du foie pour construire une chirurgie plus durable. (Texte owner, V3 du 2026-08-27.)
 
-**HepatGreen** - nom donné, description à obtenir.
-
-**MesGardes** - nom donné, description à obtenir.
+**MesGardes** - simplifier la création des plannings de garde pour réduire le temps administratif et préserver le temps médical. (Texte owner, V3 du 2026-08-27.)
 
 "Coût de l'hépatectomie" a été retiré de la liste validée par l'owner le
 2026-08-27 (n'apparaît plus sur le site).
