@@ -2685,11 +2685,15 @@ const aboutIcons: Record<string, string> = {
     opacity: 0.9;
   }
 
+  /* right:4.5% (même valeur que la ligne) plaçait la flèche exactement
+     sous le cercle "Progrès pour tous" - invisible, cachée derrière.
+     14% dégage un espace visible avant le cercle (vérifié de 1000px à
+     1440px de large). */
   .bopa-vision-v4__timeline::after {
     content: "";
     position: absolute;
     top: 2.6rem;
-    right: 4.5%;
+    right: 14%;
     width: 10px;
     height: 10px;
     border-top: 2px solid var(--mp-blue-bright);
