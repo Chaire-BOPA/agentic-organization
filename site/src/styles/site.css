@@ -1612,7 +1612,8 @@ p {
    .bopa-projects-v2 (custom properties don't fall back across scopes). */
 .bopa-mission-v2,
 .bopa-projects-v2,
-.innovations-v2 {
+.innovations-v2,
+.about-v2 {
   --mp-navy: #071f46;
   --mp-navy-deep: #041a3b;
   --mp-blue: #168cff;
