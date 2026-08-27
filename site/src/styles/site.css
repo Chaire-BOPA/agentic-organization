@@ -1084,11 +1084,11 @@ button {
 }
 
 /* Plein bleu premium au repos (le CTA le plus visible du site) ; se
-   fonce encore au survol avec une ombre diffuse discrète. One notch
-   darker than the original bopa-blue-4/3 pair - too light to read as
-   "the" call to action against the header/hero. */
+   fonce encore au survol avec une ombre diffuse discrète. Repointed to
+   --bopa-cyan 2026-08-27 for full harmonization (owner's explicit call,
+   overriding the earlier "too light to read as THE cta" reasoning). */
 .btn-filled-premium {
-  background: var(--bopa-blue-2);
+  background: var(--bopa-cyan);
   color: #fff;
   box-shadow: none;
 }
@@ -1667,20 +1667,20 @@ p {
   margin-top: 2rem;
   padding: 0.9rem 1.25rem 0.9rem 1.45rem;
   border-radius: 7px;
-  background: var(--mp-blue);
+  background: var(--bopa-cyan);
   color: #fff !important;
   font-size: 0.98rem;
   font-weight: 600;
   line-height: 1;
   text-decoration: none;
-  box-shadow: 0 8px 20px rgba(22,140,255,0.18);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--bopa-cyan) 18%, transparent);
   transition: transform .2s ease, background-color .2s ease, box-shadow .2s ease;
 }
 
 .bopa-projects-v2__cta:hover {
-  background: #087fee;
+  background: color-mix(in srgb, var(--bopa-cyan) 78%, black);
   transform: translateY(-1px);
-  box-shadow: 0 12px 28px rgba(22,140,255,0.23);
+  box-shadow: 0 12px 28px color-mix(in srgb, var(--bopa-cyan) 23%, transparent);
 }
 
 .bopa-projects-v2__cta span {
