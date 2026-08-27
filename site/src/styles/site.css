@@ -1291,7 +1291,15 @@ p {
 }
 
 /* Context band: one clean horizontal institutional strip, never overlapping hero. */
+/* Seule version de ce composant désormais (2026-08-27) : une copie plus
+   ancienne vivait aussi dans le <style> scopé d'index.astro
+   (display:flex + border-left sur chaque item) et coexistait avec
+   celle-ci sans jamais avoir été retirée - les deux s'appliquaient en
+   même temps, doublant visuellement chaque séparateur. Padding/fond
+   fusionnés ici depuis l'ancienne version avant sa suppression. */
 .context-band {
+  padding-block: var(--space-4);
+  background: var(--color-bg-tint);
   border-top: 1px solid var(--color-line);
   border-bottom: 1px solid var(--color-line);
 }
@@ -1317,7 +1325,7 @@ p {
 .context-item svg { flex: 0 0 auto; }
 .context-text {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: 0.97rem; /* +6% (correctif 2026-08-27) */
   line-height: 1.35;
   color: var(--color-muted);
 }
@@ -1751,19 +1759,21 @@ p {
   overflow: hidden;
   background: var(--mp-offwhite);
   color: var(--mp-ink);
-  padding: clamp(4.2rem, 6vw, 6.25rem) 2rem clamp(4rem, 6vw, 5.75rem);
+  /* Padding haut/bas symétrique (correctif 2026-08-27) : la rangée de
+     vignettes n'a plus de ligne de pagination sous elle (supprimée), donc
+     plus besoin d'un padding bas plus petit pour compenser cet espace -
+     la respiration doit être la même en haut et en bas de la section. */
+  padding: clamp(4.2rem, 6vw, 6.25rem) 2rem;
 }
 
 .bopa-projects-v2__inner {
   display: grid;
   grid-template-columns: minmax(240px, 0.92fr) minmax(0, 3fr);
-  grid-template-areas:
-    "intro rail"
-    "intro progress";
+  grid-template-areas: "intro rail";
   column-gap: clamp(2.5rem, 5vw, 5rem);
   width: min(1320px, 100%);
   margin: 0 auto;
-  align-items: start;
+  align-items: center;
 }
 
 .bopa-projects-v2__intro {
@@ -1903,8 +1913,15 @@ p {
 .bopa-project-card__body p {
   margin: 1rem 0 0;
   color: rgba(255,255,255,0.88);
-  font-size: 0.92rem;
-  line-height: 1.55;
+  font-size: clamp(0.82rem, 0.9vw, 0.92rem); /* textes V4 plus longs : évite qu'ils soient écrasés (correctif 2026-08-27) */
+  line-height: 1.48;
+}
+
+/* Le pictogramme "postopératoire" a son centre optique légèrement à
+   droite dans son propre SVG - recentré de 3px dans son cercle
+   (correctif owner 2026-08-27, contrôlé visuellement). */
+.bopa-mission-v2__step--postop .bopa-mission-v2__icon svg {
+  transform: translateX(-3px);
 }
 
 .bopa-project-card__arrow {
@@ -1915,30 +1932,10 @@ p {
   line-height: 1;
 }
 
-.bopa-projects-v2__progress {
-  grid-area: progress;
-  display: flex;
-  justify-content: center;
-  gap: 0.6rem;
-  padding-top: 1.55rem;
-}
-
-.bopa-projects-v2__progress span {
-  width: 2rem;
-  height: 0.45rem;
-  border-radius: 999px;
-  background: #dce5ef;
-}
-
-.bopa-projects-v2__progress span.is-active {
-  width: 3rem;
-  background: var(--mp-blue-bright);
-}
-
 @media (max-width: 1100px) {
   .bopa-projects-v2__inner {
     grid-template-columns: 1fr;
-    grid-template-areas: "intro" "rail" "progress";
+    grid-template-areas: "intro" "rail";
     row-gap: 2.5rem;
   }
 

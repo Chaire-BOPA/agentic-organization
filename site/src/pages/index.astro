@@ -148,10 +148,11 @@ const team = [
   <section id="mission" class="bopa-mission-v2" aria-labelledby="mission-title">
     <div class="bopa-mission-v2__inner">
       <p class="bopa-eyebrow">Notre mission</p>
-      <h2 id="mission-title">Le numérique au service de la chirurgie</h2>
+      <h2 id="mission-title">Améliorer la chirurgie, grâce au numérique</h2>
       <p class="bopa-mission-v2__intro">
         Nous développons et intégrons des technologies innovantes pour accompagner chaque étape du parcours
-        chirurgical, améliorer les décisions médicales et réduire la charge mentale des équipes soignantes.
+        patient en chirurgie, améliorer l'implication des malades, la sécurité de l'acte chirurgical et le
+        suivi des patients après l'opération.
       </p>
 
       <div class="bopa-mission-v2__timeline" role="list" aria-label="Les trois temps du parcours chirurgical">
@@ -177,7 +178,7 @@ const team = [
           <p>Mieux voir, mieux décider,<br />mieux opérer</p>
         </article>
 
-        <article class="bopa-mission-v2__step" role="listitem">
+        <article class="bopa-mission-v2__step bopa-mission-v2__step--postop" role="listitem">
           <div class="bopa-mission-v2__icon" aria-hidden="true">
             <svg viewBox="0 0 64 64" fill="none">
               <path d="M15 47V34M25 47V24M35 47V38M45 47V17M55 47V29" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
@@ -194,8 +195,8 @@ const team = [
   <section id="projets" class="bopa-projects-v2" aria-labelledby="projects-title">
     <div class="bopa-projects-v2__inner">
       <div class="bopa-projects-v2__intro">
-        <p class="bopa-eyebrow">Nos projets phares</p>
-        <h2 id="projects-title">Des innovations<br />pour transformer<br />la chirurgie</h2>
+        <p class="bopa-eyebrow">Nos innovations</p>
+        <h2 id="projects-title">Des projets pensés pour transformer la chirurgie</h2>
         <p>
           De la planification à la récupération, nos projets apportent des réponses concrètes aux défis
           d'aujourd'hui pour préparer la chirurgie de demain.
@@ -213,7 +214,7 @@ const team = [
           </div>
           <div class="bopa-project-card__body">
             <h3>LiverSight</h3>
-            <p>Planification 3D et IA<br />pour les chirurgies<br />hépatiques complexes</p>
+            <p>Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du foie, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.</p>
             <span class="bopa-project-card__arrow" aria-hidden="true">→</span>
           </div>
         </a>
@@ -224,7 +225,7 @@ const team = [
           </div>
           <div class="bopa-project-card__body">
             <h3>BOPCAM</h3>
-            <p>Vision augmentée<br />pour une meilleure<br />perception au bloc</p>
+            <p>Un dispositif « made in BOPA » pour filmer au plus près les mains et les gestes du chirurgien en chirurgie ouverte.</p>
             <span class="bopa-project-card__arrow" aria-hidden="true">→</span>
           </div>
         </a>
@@ -235,7 +236,7 @@ const team = [
           </div>
           <div class="bopa-project-card__body">
             <h3>Goldfinger</h3>
-            <p>Interaction sans contact<br />avec les images<br />médicales</p>
+            <p>Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.</p>
             <span class="bopa-project-card__arrow" aria-hidden="true">→</span>
           </div>
         </a>
@@ -246,14 +247,10 @@ const team = [
           </div>
           <div class="bopa-project-card__body">
             <h3>Colette</h3>
-            <p>Suivi et accompagnement<br />personnalisé du patient<br />après chirurgie</p>
+            <p>Une IA conversationnelle pour accompagner le patient greffé 24 h/24 et 7 j/7.</p>
             <span class="bopa-project-card__arrow" aria-hidden="true">→</span>
           </div>
         </a>
-      </div>
-
-      <div class="bopa-projects-v2__progress" aria-hidden="true">
-        <span class="is-active"></span><span></span><span></span>
       </div>
     </div>
   </section>
@@ -1032,7 +1029,7 @@ const team = [
   }
 
   .hero h1 {
-    font-size: clamp(2rem, 3.16vw, 2.72rem); /* -6% : titre plus discret, laisse respirer le reste */
+    font-size: clamp(2.12rem, 3.35vw, 2.88rem); /* +6% (correctif 2026-08-27, demande owner) */
     line-height: 1.2;
     margin: 0;
   }
@@ -1043,7 +1040,7 @@ const team = [
   }
 
   .hero .lede {
-    font-size: var(--text-base);
+    font-size: 1.06rem; /* +6% sur var(--text-base) (correctif 2026-08-27) */
     line-height: 1.68;
     color: rgba(255, 255, 255, 0.85);
     margin: var(--space-3) 0 0;
@@ -1090,6 +1087,7 @@ const team = [
     border-radius: var(--radius-md);
     text-transform: none;
     letter-spacing: normal;
+    font-size: 0.93rem; /* +6% sur var(--text-sm) (correctif 2026-08-27) */
   }
 
   @media (max-width: 40rem) {
@@ -1114,88 +1112,6 @@ const team = [
      fond blanc à peine teinté de bleu, une bordure basse fine pour créer
      une vraie rupture visuelle avec la section suivante - sobre, pas de
      grosse carte flottante ni d'ombre marquée. */
-  .context-band {
-    padding-top: var(--space-4);
-    padding-bottom: var(--space-4);
-    background: var(--color-bg-tint);
-    border-bottom: 1px solid var(--color-line);
-  }
-
-  .context-band-row {
-    display: flex;
-    justify-content: space-between;
-    gap: var(--space-4);
-  }
-
-  .context-item {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: var(--space-3);
-  }
-
-  /* Séparateurs verticaux discrets entre les 4 informations - retirés
-     progressivement à mesure que la grille se resserre (voir media
-     queries) puisqu'un trait juste avant un élément qui commence sa
-     propre ligne ne lit plus comme un séparateur. */
-  .context-item:not(:first-child) {
-    padding-left: var(--space-4);
-    border-left: 1px solid var(--color-line);
-  }
-
-  .context-item svg {
-    flex-shrink: 0;
-    color: var(--color-accent);
-  }
-
-  .context-text {
-    font-size: var(--text-sm);
-    color: var(--color-muted);
-    line-height: 1.35;
-  }
-
-  .context-text strong {
-    color: var(--color-ink);
-    font-weight: 700;
-  }
-
-  @media (max-width: 56rem) {
-    .context-band-row {
-      flex-wrap: wrap;
-      row-gap: var(--space-3);
-    }
-
-    .context-item {
-      flex-basis: calc(50% - var(--space-4) / 2);
-    }
-
-    .context-item:not(:first-child) {
-      padding-left: 0;
-      border-left: none;
-    }
-
-    .context-item:nth-child(even) {
-      padding-left: var(--space-4);
-      border-left: 1px solid var(--color-line);
-    }
-  }
-
-  @media (max-width: 40rem) {
-    .context-band-row {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-
-    .context-item {
-      flex-basis: 100%;
-    }
-
-    .context-item:nth-child(even) {
-      padding-left: 0;
-      border-left: none;
-    }
-  }
-
   .text-muted {
     color: var(--color-muted);
     font-size: var(--text-sm);
