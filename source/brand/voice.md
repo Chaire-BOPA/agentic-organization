@@ -25,6 +25,7 @@ These start as sensible defaults; edit them to fit.
 - Titles in sentence case, no period.
 - Numbers, dates, and prices follow the conventions of the site language, consistently.
 - Never use the em dash "—", anywhere, ever, including in code comments. Always use a plain hyphen "-" instead. The owner finds the em dash reads as an AI writing tic.
+  This rule had quietly regressed by 2026-08-27: several page `<title>` tags, one `aria-label`, and a handful of section-header code comments (added across earlier passes) had em dashes that went unnoticed until the owner caught one in a browser tab title. `<title>`/`aria-label`/`alt` attributes and code comments are exactly the places a "don't use X in body copy" rule is easiest to forget to apply, since they don't visually read like "content" while writing them - grep for "—" across `site/src` (and re-check after any pack integration) rather than only proofreading the parts that look like prose.
 
 ## Languages
 
