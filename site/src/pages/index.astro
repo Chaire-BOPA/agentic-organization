@@ -110,122 +110,51 @@ const team = [
     </div>
   </section>
 
-  <!-- 54 publications, 8 thèses soutenues confirmed by the owner; projets
-       innovants is computed from data/projects.js so it can't drift from
-       the projects page. "100% co-construits avec les soignants" is still
-       a placeholder copied from an inspiration mockup - real figure or
-       framing still needed from the owner. -->
-  <div class="wrap hero-stat-band" data-reveal>
-    <div class="hero-stat">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M7 3h7l4 4v14H7V3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-        <path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-        <path d="M9.5 12h5M9.5 15h5M9.5 9h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-      </svg>
-      <div>
-        <span class="hero-stat-value">54</span>
-        <span class="hero-stat-label">publications</span>
+  <!-- Bandeau institutionnel : répond en un coup d'œil à "pourquoi
+       l'environnement de BOPA est propice à l'innovation" (lieu, proximité
+       clinique, accès terrain, co-construction) - jamais la productivité
+       scientifique (publications/thèses/projets), qui a sa place plus bas
+       dans la page (section Nos projets, section Nous soutenir). Section
+       normale dans le flux, aucune marge négative : ne chevauche jamais
+       le Hero. -->
+  <section id="environnement" class="section-block context-band">
+    <div class="wrap context-band-row" data-reveal>
+      <div class="context-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="5" y="9" width="14" height="12" rx="1" stroke="currentColor" stroke-width="1.6" />
+          <path d="M9 3h6v6H9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+          <path d="M12 13v4M10 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+        <p class="context-text">Au cœur de l'hôpital<br /><strong>Paul-Brousse AP-HP</strong></p>
       </div>
-    </div>
-    <div class="hero-stat">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M12 3L2 8l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-        <path d="M6 10.5V16c0 1.5 2.5 3 6 3s6-1.5 6-3v-5.5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-        <path d="M20 9v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-      </svg>
-      <div>
-        <span class="hero-stat-value">8</span>
-        <span class="hero-stat-label">thèses soutenues</span>
+      <div class="context-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+          <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.6" />
+        </svg>
+        <p class="context-text">À proximité immédiate du <strong>Centre Hépato-Biliaire</strong> - <strong>~180 transplantations hépatiques/an</strong></p>
       </div>
-    </div>
-    <div class="hero-stat">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M9 18h6M10 21h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-        <path d="M12 3a6 6 0 0 0-3.5 10.9c.6.4 1 .9 1 1.6v.5h5v-.5c0-.7.4-1.2 1-1.6A6 6 0 0 0 12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-      </svg>
-      <div>
-        <span class="hero-stat-value">{projectCount}</span>
-        <span class="hero-stat-label">projets innovants</span>
+      <div class="context-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 12h13M13 7l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <p class="context-text"><strong>Accès direct</strong><br />au terrain clinique</p>
       </div>
-    </div>
-    <div class="hero-stat">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
-        <path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-      </svg>
-      <div>
-        <span class="hero-stat-value">100%</span>
-        <span class="hero-stat-label">co-construits avec les soignants</span>
-      </div>
-    </div>
-  </div>
-
-  <section id="qui-sommes-nous" class="section-block">
-    <div class="mesh-echo" aria-hidden="true" style="opacity: 0.045;"></div>
-    <div class="ambient-halo" aria-hidden="true" style="width: 24rem; height: 24rem; bottom: -4rem; right: -6rem;"></div>
-    <div class="wrap" data-reveal>
-      <span class="kicker">La Chaire</span>
-      <h2>Qui sommes-nous ?</h2>
-      <p class="lede">
-        La Chaire Innovation BOPA améliore la qualité et la sécurité des
-        soins au bloc opératoire, en chirurgie hépato-bilio-pancréatique, en
-        concevant, développant et déployant des solutions numériques basées
-        sur l'IA et les jumeaux numériques.
-      </p>
-      <p>
-        Portée par trois membres fondateurs - l'AP-HP, l'Institut
-        Mines-Télécom et l'Université Paris-Saclay - elle est installée au
-        sein de l'hôpital Paul-Brousse (GHU AP-HP Université Paris-Saclay),
-        à proximité directe du Centre Hépato-Biliaire (CHB), 1er centre de
-        transplantation hépatique et chirurgie hépato-bilio-pancréatique en
-        France.
-      </p>
-      <p class="text-muted">
-        Un enjeu qui reste entier : six mois après une transplantation
-        hépatique, la mortalité avoisine encore les 10 %.
-      </p>
-    </div>
-    <div class="wrap partners-block" data-reveal style="--reveal-delay: 0.1s">
-      <div class="partners-text">
-        <p class="partners-tagline">Ensemble,<br />innovons sans limites</p>
-        <p class="partners-label">Nos membres fondateurs et partenaires</p>
-      </div>
-      <div class="logo-marquee">
-        <div class="logo-marquee-track">
-          {partnerLogos.map((logo) => (
-            <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
-          ))}
-          {partnerLogos.map((logo) => (
-            <img src={logo.src} alt="" aria-hidden="true" loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
-          ))}
-        </div>
+      <div class="context-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="9" cy="12" r="5" stroke="currentColor" stroke-width="1.6" />
+          <circle cx="15" cy="12" r="5" stroke="currentColor" stroke-width="1.6" />
+        </svg>
+        <p class="context-text"><strong>100 %</strong> des projets<br />co-construits avec les soignants</p>
       </div>
     </div>
   </section>
 
-  <section id="approche" class="section-block">
+  <section id="mission" class="section-block">
     <div class="mesh-echo" aria-hidden="true"></div>
     <div class="ambient-halo" aria-hidden="true" style="width: 26rem; height: 26rem; top: -6rem; right: -4rem;"></div>
-    <div class="wrap approche-intro" data-reveal>
-      <div>
-        <span class="kicker">Notre approche</span>
-        <h2>La vision : changer les pratiques du bloc opératoire</h2>
-        <p class="lede">
-          Une conviction de sciences humaines guide chaque projet : une
-          innovation n'a de valeur que si elle est adoptée. Trois exigences
-          cadrent tout ce que la Chaire construit.
-        </p>
-      </div>
-      <div class="approche-image">
-        <img
-          src="/images/graphics/progres.png"
-          alt="Schéma en forme de pont reliant « l'innovation pour quelques-uns » au « progrès pour tous », porté par trois piliers : Acceptabilité (des solutions co-construites et validées par les soignants), Interopérabilité (des systèmes capables de s'intégrer partout) et Soutenabilité (une approche éthique, responsable financièrement, et sobre en carbone)."
-          loading="lazy"
-        />
-      </div>
-    </div>
-
-    <div class="wrap section-sub">
+    <div class="wrap" data-reveal>
+      <span class="kicker">Notre mission</span>
       <h2>Le projet scientifique : augmenter le parcours patient</h2>
       <p class="lede">
         BOPA2 (2025-2030) améliore la qualité et la sécurité des soins à
@@ -246,32 +175,6 @@ const team = [
           <div class="pipeline-dot">3</div>
           <h3>Post-opératoire</h3>
           <p>Des outils numériques pour un meilleur suivi.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="wrap section-sub">
-      <h2>La méthode</h2>
-      <p class="lede">
-        Trois degrés de maturité pour travailler avec la Chaire, dans un
-        espace de 158 m² incluant un bloc opératoire factice, mis à
-        disposition par l'hôpital Paul-Brousse AP-HP. Cet accès direct au
-        bloc permet des échanges réguliers avec les praticiens et un
-        travail en commun. Les solutions finalisées sont validées au bloc
-        opératoire du Centre Hépato-Biliaire.
-      </p>
-      <div class="card-grid">
-        <div class="card">
-          <h3>Prototyper</h3>
-          <p>Concevoir des preuves de concept (POC).</p>
-        </div>
-        <div class="card">
-          <h3>Codévelopper</h3>
-          <p>Construire de nouvelles solutions avec la Chaire.</p>
-        </div>
-        <div class="card">
-          <h3>Tester</h3>
-          <p>Évaluer des solutions existantes : α-test, β-test, test d'acceptance et test clinique.</p>
         </div>
       </div>
     </div>
@@ -444,7 +347,56 @@ const team = [
     </div>
   </section>
 
-  <section id="equipe" class="section-block dark fade-to-navy">
+  <section id="approche" class="section-block">
+    <div class="mesh-echo" aria-hidden="true"></div>
+    <div class="ambient-halo" aria-hidden="true" style="width: 26rem; height: 26rem; top: -6rem; right: -4rem;"></div>
+    <div class="wrap approche-intro" data-reveal>
+      <div>
+        <span class="kicker">Notre approche</span>
+        <h2>La vision : changer les pratiques du bloc opératoire</h2>
+        <p class="lede">
+          Une conviction de sciences humaines guide chaque projet : une
+          innovation n'a de valeur que si elle est adoptée. Trois exigences
+          cadrent tout ce que la Chaire construit.
+        </p>
+      </div>
+      <div class="approche-image">
+        <img
+          src="/images/graphics/progres.png"
+          alt="Schéma en forme de pont reliant « l'innovation pour quelques-uns » au « progrès pour tous », porté par trois piliers : Acceptabilité (des solutions co-construites et validées par les soignants), Interopérabilité (des systèmes capables de s'intégrer partout) et Soutenabilité (une approche éthique, responsable financièrement, et sobre en carbone)."
+          loading="lazy"
+        />
+      </div>
+    </div>
+
+    <div class="wrap section-sub">
+      <h2>La méthode</h2>
+      <p class="lede">
+        Trois degrés de maturité pour travailler avec la Chaire, dans un
+        espace de 158 m² incluant un bloc opératoire factice, mis à
+        disposition par l'hôpital Paul-Brousse AP-HP. Cet accès direct au
+        bloc permet des échanges réguliers avec les praticiens et un
+        travail en commun. Les solutions finalisées sont validées au bloc
+        opératoire du Centre Hépato-Biliaire.
+      </p>
+      <div class="card-grid">
+        <div class="card">
+          <h3>Prototyper</h3>
+          <p>Concevoir des preuves de concept (POC).</p>
+        </div>
+        <div class="card">
+          <h3>Codévelopper</h3>
+          <p>Construire de nouvelles solutions avec la Chaire.</p>
+        </div>
+        <div class="card">
+          <h3>Tester</h3>
+          <p>Évaluer des solutions existantes : α-test, β-test, test d'acceptance et test clinique.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="equipe" class="section-block">
     <div class="mesh-echo" aria-hidden="true" style="opacity: 0.045;"></div>
     <div class="ambient-halo" aria-hidden="true" style="width: 22rem; height: 22rem; top: -2rem; left: -5rem;"></div>
     <div class="wrap equipe-layout" data-reveal>
@@ -487,6 +439,49 @@ const team = [
         </div>
       </div>
     )}
+  </section>
+
+  <section id="qui-sommes-nous" class="section-block fade-to-navy">
+    <div class="mesh-echo" aria-hidden="true" style="opacity: 0.045;"></div>
+    <div class="ambient-halo" aria-hidden="true" style="width: 24rem; height: 24rem; bottom: -4rem; right: -6rem;"></div>
+    <div class="wrap" data-reveal>
+      <span class="kicker">La Chaire</span>
+      <h2>Qui sommes-nous ?</h2>
+      <p class="lede">
+        La Chaire Innovation BOPA améliore la qualité et la sécurité des
+        soins au bloc opératoire, en chirurgie hépato-bilio-pancréatique, en
+        concevant, développant et déployant des solutions numériques basées
+        sur l'IA et les jumeaux numériques.
+      </p>
+      <p>
+        Portée par trois membres fondateurs - l'AP-HP, l'Institut
+        Mines-Télécom et l'Université Paris-Saclay - elle est installée au
+        sein de l'hôpital Paul-Brousse (GHU AP-HP Université Paris-Saclay),
+        à proximité directe du Centre Hépato-Biliaire (CHB), 1er centre de
+        transplantation hépatique et chirurgie hépato-bilio-pancréatique en
+        France.
+      </p>
+      <p class="text-muted">
+        Un enjeu qui reste entier : six mois après une transplantation
+        hépatique, la mortalité avoisine encore les 10 %.
+      </p>
+    </div>
+    <div class="wrap partners-block" data-reveal style="--reveal-delay: 0.1s">
+      <div class="partners-text">
+        <p class="partners-tagline">Ensemble,<br />innovons sans limites</p>
+        <p class="partners-label">Nos membres fondateurs et partenaires</p>
+      </div>
+      <div class="logo-marquee">
+        <div class="logo-marquee-track">
+          {partnerLogos.map((logo) => (
+            <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+          ))}
+          {partnerLogos.map((logo) => (
+            <img src={logo.src} alt="" aria-hidden="true" loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+          ))}
+        </div>
+      </div>
+    </div>
   </section>
 
   <section id="soutenir" class="section-block dark donate">
@@ -1244,98 +1239,90 @@ const team = [
     }
   }
 
-  /* Floating white card straddling the hero's bottom edge, replacing
-     the old .scroll-cue - a stat band reads as a much stronger "more
-     below" cue than a bobbing arrow, and the two would otherwise
-     occupy the same bottom-center spot and visually collide. */
-  /* Not nested in a .section-block (it straddles the boundary between
-     the hero and #qui-sommes-nous), so it doesn't inherit the usual
-     ".section-block .wrap" max-width/centering - set explicitly here
-     instead, with a calc() so it still keeps edge breathing room
-     below the max-width breakpoint like every other .wrap does. */
-  .hero-stat-band {
-    position: relative;
-    z-index: 5;
-    width: calc(100% - 2 * var(--space-4));
-    max-width: var(--max-width);
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: -3rem;
-    margin-bottom: var(--space-2);
-    background: #fff;
-    border-radius: var(--radius-lg);
-    box-shadow: 0 20px 50px -15px rgba(4, 35, 56, 0.25);
-    padding: var(--space-4) var(--space-5);
+  /* Bandeau institutionnel juste sous le Hero : section normale dans le
+     flux (aucune marge négative, jamais de superposition sur le Hero),
+     fond blanc à peine teinté de bleu, une bordure basse fine pour créer
+     une vraie rupture visuelle avec la section suivante - sobre, pas de
+     grosse carte flottante ni d'ombre marquée. */
+  .context-band {
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+    background: var(--color-bg-tint);
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .context-band-row {
     display: flex;
     justify-content: space-between;
     gap: var(--space-4);
   }
 
-  .hero-stat {
+  .context-item {
+    flex: 1;
     display: flex;
     align-items: center;
     gap: var(--space-3);
   }
 
-  /* Vertical separator, like the inspiration mockup - only in the
-     single-row desktop layout; wrapping onto multiple rows (see the
-     media queries below) drops it, since a divider at the start of a
-     wrapped row reads as a stray mark, not a separator. Owner wanted
-     just one clear divider (before the last stat) rather than one
-     before every stat - removed the others instead of just thickening
-     all of them. */
-  .hero-stat:not(:first-child) {
+  /* Séparateurs verticaux discrets entre les 4 informations - retirés
+     progressivement à mesure que la grille se resserre (voir media
+     queries) puisqu'un trait juste avant un élément qui commence sa
+     propre ligne ne lit plus comme un séparateur. */
+  .context-item:not(:first-child) {
     padding-left: var(--space-4);
+    border-left: 1px solid var(--color-line);
   }
 
-  .hero-stat:last-child {
-    border-left: 3px solid var(--color-line);
-  }
-
-  .hero-stat svg {
+  .context-item svg {
     flex-shrink: 0;
     color: var(--color-accent);
   }
 
-  .hero-stat-value {
-    display: block;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: var(--text-xl);
-    color: var(--color-ink);
-    line-height: 1.1;
-  }
-
-  .hero-stat-label {
-    display: block;
+  .context-text {
     font-size: var(--text-sm);
     color: var(--color-muted);
+    line-height: 1.35;
+  }
+
+  .context-text strong {
+    color: var(--color-ink);
+    font-weight: 700;
   }
 
   @media (max-width: 56rem) {
-    .hero-stat-band {
+    .context-band-row {
       flex-wrap: wrap;
-      row-gap: var(--space-4);
+      row-gap: var(--space-3);
     }
 
-    .hero-stat {
+    .context-item {
       flex-basis: calc(50% - var(--space-4) / 2);
     }
 
-    .hero-stat:not(:first-child) {
+    .context-item:not(:first-child) {
       padding-left: 0;
       border-left: none;
+    }
+
+    .context-item:nth-child(even) {
+      padding-left: var(--space-4);
+      border-left: 1px solid var(--color-line);
     }
   }
 
   @media (max-width: 40rem) {
-    .hero-stat-band {
-      margin-top: -1.5rem;
-      padding: var(--space-3) var(--space-4);
+    .context-band-row {
+      flex-direction: column;
+      align-items: flex-start;
     }
 
-    .hero-stat {
+    .context-item {
       flex-basis: 100%;
+    }
+
+    .context-item:nth-child(even) {
+      padding-left: 0;
+      border-left: none;
     }
   }
 
@@ -1474,42 +1461,29 @@ const team = [
     }
   }
 
-  /* The gap between the partner logos and "Notre approche" was two full
-     .section-block paddings stacked (qui-sommes-nous's bottom +
-     approche's top = 16rem). Tighten just this junction. */
-  #qui-sommes-nous {
-    padding-top: var(--space-5);
-    padding-bottom: var(--space-5);
-  }
-
-  #approche {
-    padding-top: var(--space-5);
-    padding-bottom: var(--space-5);
-  }
-
-  /* Same over-stacked-padding issue between "La méthode" (end of
-     #approche) and "Nos projets et réalisations". */
-  #projets {
-    padding-top: var(--space-5);
-    padding-bottom: var(--space-5);
-  }
-
-  /* Dark navy per the owner's reference layout (was solid white - see
-     git history for that fix's own reasoning, since superseded here).
-     Own background gradient instead of a flat color: starts at
-     roughly the shared gradient's own end tone (so #projets hands off
-     smoothly with no visible seam) and reaches full navy within one
-     card's height, rather than an abrupt line at the top edge. Also
-     tightens the gap above the section, same as the qui-sommes-nous ->
-     approche fix. */
+  /* Zone "milieu de page" : mission -> projets -> approche -> équipe
+     s'enchaînent maintenant directement (l'ancienne réorganisation ne
+     laissait ce resserrement qu'entre qui-sommes-nous/approche/projets ;
+     la même sur-pile de paddings existe à chaque jonction de cette
+     nouvelle zone, donc la même tenue de resserrement s'applique
+     partout). */
+  #mission,
+  #projets,
+  #approche,
   #equipe {
     padding-top: var(--space-5);
     padding-bottom: var(--space-5);
-    background: linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--bopa-blue-2) 35%, white) 0,
-      var(--color-navy) 14rem
-    );
+  }
+
+  /* Qui sommes-nous est désormais la dernière section avant "Nous
+     soutenir" (voir .fade-to-navy sur cette section) : resserrement en
+     haut comme ses voisines, mais on garde le padding bas par défaut
+     (8rem) plutôt que 4rem - le fondu vers le marine (16rem, voir
+     .fade-to-navy) a besoin de cet espace pour ne jamais retomber sur le
+     bandeau de logos partenaires. */
+  #qui-sommes-nous {
+    padding-top: var(--space-5);
+    padding-bottom: 18rem;
   }
 
   .partners-label {
@@ -1529,8 +1503,12 @@ const team = [
     align-items: center;
   }
 
+  /* La section n'est plus sombre (équipe est désormais au milieu du
+     parcours, pas juste avant "Nous soutenir") : --color-accent-2 (bleu
+     clair, pensé pour un fond marine) n'a plus assez de contraste sur
+     fond clair - on reprend le bleu premium standard des autres kickers. */
   .equipe-intro .accent {
-    color: var(--color-accent-2);
+    color: var(--color-accent);
   }
 
   .equipe-intro .lede {

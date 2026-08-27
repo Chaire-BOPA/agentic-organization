@@ -64,52 +64,55 @@ body {
 /* One continuous gradient painted on <main> itself (not per-section):
    since every light .section-block below is transparent, each just
    reveals its own slice of this single gradient as you scroll - white
-   at the top, easing into a cold blue. #equipe and #soutenir both
-   paint their own solid background over this further down, so the
-   gradient is only ever actually seen from the end of the hero's
-   floating stat band through #projets.
+   at the top, easing into a cold blue. #qui-sommes-nous is now the last
+   light section (see .fade-to-navy on it) and paints no background of
+   its own, so the gradient stays visible, fully blue-tinted, right up
+   to its own fade into navy.
    Stops are fixed px, not %, on purpose: % is relative to main's full
    height, and every past edit that changed a section's content length
    silently shifted where the color bands fell (documented the hard
-   way - #equipe used to start around 54% while the gradient's "fully
+   way - a section used to start around 54% while the gradient's "fully
    blue" stop targeted 80%, so the visible portion never actually got
    blue). Fixed px stays correct regardless of how content above or
    below this range changes.
-   The first stop holds white through 664px (the hero + the floating
-   .hero-stat-band card on top of it, both fully opaque - the gradient
+   The first stop holds white through 771px (the Hero + the new
+   #environnement banner below it, both fully opaque - the gradient
    there is invisible either way) instead of starting the ramp at 0px:
-   spending part of the 0-3600px budget on a hidden zone meant the
-   *visible* start of #qui-sommes-nous was still ~80% of the way to
-   white, reading as a flat white stripe with no perceptible gradient
-   until well into the page. Re-anchor both this and the endpoint
-   (currently 3700px) if the hero/stat-band height or #equipe's start
-   position (currently ~3786px) move meaningfully. */
+   spending part of the budget on a hidden zone meant the *visible* start
+   of #mission was still most of the way to white, reading as a flat
+   white stripe with no perceptible gradient until well into the page.
+   Re-anchor both this and the endpoint (currently 4024px, #qui-sommes-nous's
+   own top edge) if the Hero/banner height or the page order above
+   #qui-sommes-nous move meaningfully - re-measure via
+   getBoundingClientRect on #environnement and #qui-sommes-nous rather
+   than guessing. */
 main {
   flex: 1;
   width: 100%;
   background: linear-gradient(
     180deg,
     #ffffff 0px,
-    #ffffff 664px,
-    color-mix(in srgb, var(--bopa-blue-2) 35%, white) 3700px
+    #ffffff 771px,
+    color-mix(in srgb, var(--bopa-blue-2) 35%, white) 4024px
   );
 }
 
-/* Same gradient, re-anchored for mobile: the hero's text and the stat
-   band both wrap onto more lines on a narrow screen, so the opaque zone
-   at the top is taller (~1066px measured at 375px wide, not 664px) and
-   #equipe starts much further down (~6098px, not ~3786px) since every
-   section stacks single-column instead of side-by-side. Reusing the
-   desktop anchors left the ramp already ~13% into blue before any
-   content was even visible, reading as "gradient too dark" on phones.
-   Re-measure both anchors here if mobile section heights change. */
+/* Same gradient, re-anchored for mobile: the Hero's text and the banner
+   both wrap onto more lines on a narrow screen, so the opaque zone at
+   the top is taller (~990px measured at 375px wide, not 771px) and
+   #qui-sommes-nous starts much further down (~6616px, not ~4024px)
+   since every section stacks single-column instead of side-by-side.
+   Reusing the desktop anchors left the ramp already well into blue
+   before any content was even visible, reading as "gradient too dark"
+   on phones. Re-measure both anchors here if mobile section heights
+   change. */
 @media (max-width: 40rem) {
   main {
     background: linear-gradient(
       180deg,
       #ffffff 0px,
-      #ffffff 1080px,
-      color-mix(in srgb, var(--bopa-blue-2) 35%, white) 5950px
+      #ffffff 990px,
+      color-mix(in srgb, var(--bopa-blue-2) 35%, white) 6616px
     );
   }
 }
