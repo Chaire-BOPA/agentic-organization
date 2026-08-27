@@ -226,9 +226,9 @@ const aboutIcons: Record<string, string> = {
         <article class="bopa-mission-v2__step" role="listitem">
           <div class="bopa-mission-v2__icon" aria-hidden="true">
             <svg viewBox="0 0 64 64" fill="none">
-              <circle cx="32" cy="32" r="15" stroke="currentColor" stroke-width="2.2"/>
-              <circle cx="32" cy="32" r="5" stroke="currentColor" stroke-width="2.2"/>
-              <path d="M32 10v9M32 45v9M10 32h9M45 32h9M17 17l6.5 6.5M40.5 40.5 47 47M47 17l-6.5 6.5M23.5 40.5 17 47" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <circle cx="32" cy="32" r="15" stroke="currentColor" stroke-width="2.5"/>
+              <circle cx="32" cy="32" r="5" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M32 10v9M32 45v9M10 32h9M45 32h9M17 17l6.5 6.5M40.5 40.5 47 47M47 17l-6.5 6.5M23.5 40.5 17 47" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
           </div>
           <h3>Préopératoire</h3>
@@ -238,7 +238,7 @@ const aboutIcons: Record<string, string> = {
         <article class="bopa-mission-v2__step" role="listitem">
           <div class="bopa-mission-v2__icon" aria-hidden="true">
             <svg viewBox="0 0 64 64" fill="none">
-              <path d="M11 34h10l6-16 10 31 7-22 5 7h5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M11 34h10l6-16 10 31 7-22 5 7h5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
           <h3>Peropératoire</h3>
@@ -248,13 +248,72 @@ const aboutIcons: Record<string, string> = {
         <article class="bopa-mission-v2__step bopa-mission-v2__step--postop" role="listitem">
           <div class="bopa-mission-v2__icon" aria-hidden="true">
             <svg viewBox="0 0 64 64" fill="none">
-              <path d="M15 47V34M25 47V24M35 47V38M45 47V17M55 47V29" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
-              <path d="M12 50h46" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+              <path d="M15 47V34M25 47V24M35 47V38M45 47V17M55 47V29" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M12 50h46" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
             </svg>
           </div>
           <h3>Postopératoire</h3>
           <p>Mieux suivre<br />pour mieux guérir</p>
         </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="innovations-bopa" class="bopa-projects-v2" aria-labelledby="projects-title">
+    <div class="bopa-projects-v2__inner">
+      <div class="bopa-projects-v2__intro">
+        <p class="bopa-eyebrow">Nos innovations</p>
+        <h2 id="projects-title">Des projets pensés pour transformer la chirurgie</h2>
+        <p>
+          De la planification à la récupération, nos projets apportent des réponses concrètes aux défis
+          d'aujourd'hui pour préparer la chirurgie de demain.
+        </p>
+        <a class="bopa-projects-v2__cta" href="/innovations">
+          Découvrir nos projets
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="bopa-projects-v2__rail" tabindex="0" aria-label="Projets phares - défilement horizontal sur petit écran">
+        <a class="bopa-project-card" href="https://www.youtube.com/watch?v=MF1ysshoNVM" target="_blank" rel="noopener">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/liversight.png" alt="Présentation du projet LiverSight" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
+            <h3>LiverSight</h3>
+            <p>Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du foie, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.</p>
+          </div>
+        </a>
+
+        <a class="bopa-project-card" href="/innovations">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/bopcam.png" alt="Présentation du projet BOPCAM" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
+            <h3>BOPCAM</h3>
+            <p>Un dispositif « made in BOPA » pour filmer au plus près les mains et les gestes du chirurgien en chirurgie ouverte.</p>
+          </div>
+        </a>
+
+        <a class="bopa-project-card" href="/innovations">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/goldfinger.png" alt="Présentation du projet Goldfinger" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
+            <h3>Goldfinger</h3>
+            <p>Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.</p>
+          </div>
+        </a>
+
+        <a class="bopa-project-card" href="/innovations">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/colette.png" alt="Présentation du projet Colette" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
+            <h3>Colette</h3>
+            <p>Une IA conversationnelle pour accompagner le patient greffé 24 h/24 et 7 j/7.</p>
+          </div>
+        </a>
       </div>
     </div>
   </section>
@@ -374,65 +433,6 @@ const aboutIcons: Record<string, string> = {
     </div>
   </section>
 
-  <section id="innovations-bopa" class="bopa-projects-v2" aria-labelledby="projects-title">
-    <div class="bopa-projects-v2__inner">
-      <div class="bopa-projects-v2__intro">
-        <p class="bopa-eyebrow">Nos innovations</p>
-        <h2 id="projects-title">Des projets pensés pour transformer la chirurgie</h2>
-        <p>
-          De la planification à la récupération, nos projets apportent des réponses concrètes aux défis
-          d'aujourd'hui pour préparer la chirurgie de demain.
-        </p>
-        <a class="bopa-projects-v2__cta" href="/innovations">
-          Découvrir nos projets
-          <span aria-hidden="true">→</span>
-        </a>
-      </div>
-
-      <div class="bopa-projects-v2__rail" tabindex="0" aria-label="Projets phares - défilement horizontal sur petit écran">
-        <a class="bopa-project-card" href="https://www.youtube.com/watch?v=MF1ysshoNVM" target="_blank" rel="noopener">
-          <div class="bopa-project-card__media">
-            <img src="/images/projets-v2/liversight.png" alt="Présentation du projet LiverSight" loading="lazy" />
-          </div>
-          <div class="bopa-project-card__body">
-            <h3>LiverSight</h3>
-            <p>Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du foie, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.</p>
-          </div>
-        </a>
-
-        <a class="bopa-project-card" href="/innovations">
-          <div class="bopa-project-card__media">
-            <img src="/images/projets-v2/bopcam.png" alt="Présentation du projet BOPCAM" loading="lazy" />
-          </div>
-          <div class="bopa-project-card__body">
-            <h3>BOPCAM</h3>
-            <p>Un dispositif « made in BOPA » pour filmer au plus près les mains et les gestes du chirurgien en chirurgie ouverte.</p>
-          </div>
-        </a>
-
-        <a class="bopa-project-card" href="/innovations">
-          <div class="bopa-project-card__media">
-            <img src="/images/projets-v2/goldfinger.png" alt="Présentation du projet Goldfinger" loading="lazy" />
-          </div>
-          <div class="bopa-project-card__body">
-            <h3>Goldfinger</h3>
-            <p>Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.</p>
-          </div>
-        </a>
-
-        <a class="bopa-project-card" href="/innovations">
-          <div class="bopa-project-card__media">
-            <img src="/images/projets-v2/colette.png" alt="Présentation du projet Colette" loading="lazy" />
-          </div>
-          <div class="bopa-project-card__body">
-            <h3>Colette</h3>
-            <p>Une IA conversationnelle pour accompagner le patient greffé 24 h/24 et 7 j/7.</p>
-          </div>
-        </a>
-      </div>
-    </div>
-  </section>
-
   <section id="qui-sommes-nous" class="about-v2 section-block" aria-labelledby="about-v2-title">
     <div class="wrap about-v2__intro" data-reveal>
       <span class="about-v2__kicker">Qui sommes-nous ?</span>
@@ -527,10 +527,48 @@ const aboutIcons: Record<string, string> = {
       </div>
     </div>
 
+    <div class="about-v2__clinical">
+      <div class="about-v2__clinical-copy">
+        <div class="about-v2__clinical-inner">
+          <div class="about-v2__clinical-title">
+            <span class="about-v2__chapter-number">02.</span>
+            <h3>Un environnement clinique d'excellence</h3>
+          </div>
+          <div class="about-v2__clinical-points">
+            <p><span aria-hidden="true">•</span> Implantée à l'hôpital Paul-Brousse, à environ 500 m du Centre Hépato-Biliaire (CHB).</p>
+            <p><span aria-hidden="true">•</span> Créée à l'initiative du Pr Éric Vibert.</p>
+          </div>
+          <div class="about-v2__clinical-stats">
+            {clinicalStats.map((stat) => (
+              <div class="about-v2__clinical-stat">
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div class="about-v2__clinical-photo">
+        {chbPhoto ? (
+          <img src={chbPhoto} alt="Le Centre Hépato-Biliaire, hôpital Paul-Brousse." loading="lazy" />
+        ) : (
+          <div class="about-v2__clinical-photo-placeholder" aria-hidden="true" />
+        )}
+      </div>
+      <p class="about-v2__clinical-claim wrap">
+        <span class="about-v2__medal" aria-hidden="true">✓</span>
+        <span>
+          Un terrain clinique d'exception pour imaginer, tester et évaluer
+          les innovations au plus près des besoins des chirurgiens et des
+          patients.
+        </span>
+      </p>
+    </div>
+
     <div class="about-v2__team-band">
       <div class="wrap about-v2__team" id="equipe" data-reveal>
         <div class="about-v2__team-intro">
-          <span class="about-v2__chapter-number">02.</span>
+          <span class="about-v2__chapter-number">03.</span>
           <h3>Ceux qui font BOPA<br />tous les jours</h3>
           <p>
             Des soignants AP-HP, des ingénieurs IMT &amp; INRIA et des
@@ -572,44 +610,6 @@ const aboutIcons: Record<string, string> = {
           </div>
         </div>
       )}
-    </div>
-
-    <div class="about-v2__clinical">
-      <div class="about-v2__clinical-copy">
-        <div class="about-v2__clinical-inner">
-          <div class="about-v2__clinical-title">
-            <span class="about-v2__chapter-number">03.</span>
-            <h3>Un environnement clinique d'excellence</h3>
-          </div>
-          <div class="about-v2__clinical-points">
-            <p><span aria-hidden="true">•</span> Implantée à l'hôpital Paul-Brousse, à environ 500 m du Centre Hépato-Biliaire (CHB).</p>
-            <p><span aria-hidden="true">•</span> Créée à l'initiative du Pr Éric Vibert.</p>
-          </div>
-          <div class="about-v2__clinical-stats">
-            {clinicalStats.map((stat) => (
-              <div class="about-v2__clinical-stat">
-                <strong>{stat.value}</strong>
-                <span>{stat.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-      <div class="about-v2__clinical-photo">
-        {chbPhoto ? (
-          <img src={chbPhoto} alt="Le Centre Hépato-Biliaire, hôpital Paul-Brousse." loading="lazy" />
-        ) : (
-          <div class="about-v2__clinical-photo-placeholder" aria-hidden="true" />
-        )}
-      </div>
-      <p class="about-v2__clinical-claim wrap">
-        <span class="about-v2__medal" aria-hidden="true">✓</span>
-        <span>
-          Un terrain clinique d'exception pour imaginer, tester et évaluer
-          les innovations au plus près des besoins des chirurgiens et des
-          patients.
-        </span>
-      </p>
     </div>
   </section>
 
@@ -1637,7 +1637,7 @@ const aboutIcons: Record<string, string> = {
     --about-line: var(--color-line);
     --about-bg: var(--color-bg-tint);
     overflow: clip;
-    background: #fff;
+    background: var(--about-bg);
     color: var(--about-ink);
   }
 
@@ -1990,7 +1990,7 @@ const aboutIcons: Record<string, string> = {
   }
 
   .about-v2__team-band {
-    background: var(--about-bg);
+    background: #fff;
   }
 
   .about-v2__team {
@@ -2188,7 +2188,7 @@ const aboutIcons: Record<string, string> = {
   .bopa-support {
     position: relative;
     overflow: hidden;
-    background: var(--color-bg-tint);
+    background: #ffffff;
     color: var(--color-ink);
     padding: clamp(76px, 7vw, 118px) 0 clamp(78px, 7vw, 116px);
   }
@@ -2339,10 +2339,10 @@ const aboutIcons: Record<string, string> = {
     text-decoration: none;
     font-weight: 800;
     border-radius: var(--radius-md);
-    transition: transform .2s ease, filter .2s ease;
+    transition: transform 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
   }
   @media (hover: hover) and (pointer: fine) {
-    .support-donation-panel__cta:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .support-donation-panel__cta:hover { background: var(--bopa-blue-1); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35); }
   }
   .support-donation-panel__security {
     margin: 14px 0 0;
@@ -2382,7 +2382,7 @@ const aboutIcons: Record<string, string> = {
 
   .bopa-contact {
     position: relative;
-    background: #ffffff;
+    background: var(--color-bg-tint);
     color: var(--color-ink);
     overflow: hidden;
   }
@@ -2602,8 +2602,8 @@ const aboutIcons: Record<string, string> = {
     width: 100%;
     overflow: hidden;
     position: relative;
-    background: #ffffff;
-    color: var(--color-ink);
+    background: var(--mp-navy);
+    color: #fff;
     padding: clamp(4.75rem, 7vw, 7rem) 2rem clamp(5.25rem, 8vw, 7.5rem);
   }
 
@@ -2633,7 +2633,7 @@ const aboutIcons: Record<string, string> = {
 
   .bopa-vision-v4 h2 {
     margin: 0;
-    color: var(--color-navy);
+    color: #fff;
     font-family: var(--font-display);
     font-size: clamp(2rem, 3.1vw, 3.15rem);
     font-weight: 600;
@@ -2644,14 +2644,14 @@ const aboutIcons: Record<string, string> = {
   .bopa-vision-v4__intro {
     width: min(860px, 100%);
     margin: 1.45rem auto 0;
-    color: var(--color-muted);
+    color: rgba(255,255,255,.88);
     font-size: clamp(1rem, 1.3vw, 1.2rem);
     line-height: 1.55;
     text-align: center;
   }
 
   .bopa-vision-v4__intro strong {
-    color: var(--color-ink);
+    color: #fff;
     font-weight: 700;
   }
 
@@ -2733,24 +2733,29 @@ const aboutIcons: Record<string, string> = {
     z-index: -1;
   }
 
+  /* Cercles harmonisés sur la DA de /innovations/ (2026-08-27, V4.1) :
+     62px, contour 1.5px cyan, intérieur blanc, pictogramme cyan - même
+     diamètre/épaisseur/finesse que la frise Pré/Per/Post d'/innovations/,
+     seule la couleur du pictogramme diffère volontairement (cyan ici,
+     encre sur /innovations/ qui est un fond clair). */
   .bopa-vision-v4__icon {
     display: grid;
     place-items: center;
-    width: 5.25rem;
-    height: 5.25rem;
-    margin: 0 auto 1.7rem;
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 20px;
     border: 1.5px solid var(--mp-blue-bright);
     border-radius: 999px;
-    background: var(--mp-navy);
+    background: #fff;
     color: var(--mp-blue-bright);
   }
 
   .bopa-vision-v4__icon svg {
-    width: 3rem;
-    height: 3rem;
+    width: 38px;
+    height: 38px;
     fill: none;
     stroke: currentColor;
-    stroke-width: 2.2;
+    stroke-width: 2.5;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
@@ -2762,7 +2767,7 @@ const aboutIcons: Record<string, string> = {
   .bopa-vision-v4__step h3,
   .bopa-vision-v4__endpoint-label {
     margin: 0;
-    color: var(--color-navy);
+    color: var(--mp-blue-bright);
     font-family: var(--font-text);
     font-size: 1rem;
     font-weight: 700;
@@ -2772,12 +2777,12 @@ const aboutIcons: Record<string, string> = {
   }
 
   .bopa-vision-v4__endpoint-label {
-    color: var(--color-navy);
+    color: rgba(255,255,255,.95);
   }
 
   .bopa-vision-v4__tagline {
     margin: 1.35rem auto 0;
-    color: var(--color-ink);
+    color: rgba(255,255,255,.94);
     font-size: 1.04rem;
     font-weight: 600;
     line-height: 1.5;
@@ -2786,7 +2791,7 @@ const aboutIcons: Record<string, string> = {
   .bopa-vision-v4__copy {
     max-width: 215px;
     margin: 0.7rem auto 0;
-    color: var(--color-muted);
+    color: rgba(255,255,255,.72);
     font-size: 0.88rem;
     line-height: 1.52;
   }
@@ -2824,7 +2829,7 @@ const aboutIcons: Record<string, string> = {
     }
     .bopa-vision-v4__step--endpoint-start,
     .bopa-vision-v4__step--endpoint-end { grid-column: auto; }
-    .bopa-vision-v4__icon { width: 5rem; height: 5rem; margin-bottom: 1.3rem; }
+    .bopa-vision-v4__icon { width: 54px; height: 54px; margin-bottom: 1.3rem; }
     .bopa-vision-v4__copy { max-width: 310px; }
     .bopa-vision-v4__network { display: none; }
   }
