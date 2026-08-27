@@ -30,24 +30,15 @@
   --color-navy-2: #0a2b63;
   --color-navy-3: #123e7a;
 
-  /* Very faint blue-white, replaces flat #fff as the default section
-     background so the site reads as one continuous world instead of a
-     stack of white cards on a page. Two near-identical values (barely a
-     few RGB units apart) let consecutive sections hand off a gentle
-     gradient to each other - a breathing rhythm down the page instead of
-     one static flat color, with zero visible seam because each section
-     starts exactly where the previous one's gradient ended. */
-  --color-bg-tint: #f6f9fd;
-  --color-bg-tint-2: #eef4fb;
+  /* Flat section surfaces: deliberate hard cuts between chapters. */
+  --color-bg-tint: #f3f7fc;
+  --color-bg-tint-2: #e8f1fb;
 
-  /* Secondary accents, one per pré/per/post-opératoire step (pipeline
-     diagram, phase tags) — approved by the owner alongside a mockup that
-     moved past a blue-only palette. --color-accent (blue) stays primary
-     everywhere else: nav, links, main buttons. */
-  --color-step-1: #0ea86c;      /* pré-opératoire: teal/green */
-  --color-step-2: #03529c;      /* per-opératoire: brand blue */
-  --color-step-3: #7c5cff;      /* post-opératoire: purple */
-  --color-step-4: #d98c0f;      /* médico-économique: amber */
+  /* Phase accents stay strictly inside the BOPA blue family. */
+  --color-step-1: #2db9e3;      /* pré-opératoire: cyan blue */
+  --color-step-2: #1875ba;      /* per-opératoire: medium brand blue */
+  --color-step-3: #03529c;      /* post-opératoire: deep brand blue */
+  --color-step-4: #0a2b63;      /* medico-economic / secondary: navy */
 
   /* Raw brand palette, for reference / non-standard uses. */
   --bopa-blue-1: #03529c;
@@ -65,10 +56,10 @@
 
   /* Type scale (rem). One scale for the whole site. */
   --text-sm: 0.875rem;
-  --text-base: 1.0625rem;
-  --text-lg: 1.375rem;
-  --text-xl: clamp(1.85rem, 2.4vw, 2.375rem); /* section h2 : plus présent, hiérarchie plus nette */
-  --text-2xl: 3.25rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(2.25rem, 4.3vw, 4.25rem);
+  --text-2xl: clamp(3rem, 6.2vw, 5.75rem);
 
   /* Spacing scale (rem) */
   --space-1: 0.25rem;
@@ -82,5 +73,5 @@
   --radius: 4px;
   --radius-md: 10px;
   --radius-lg: 20px;
-  --max-width: 68rem;
+  --max-width: 74rem;
 }

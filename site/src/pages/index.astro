@@ -2,7 +2,6 @@
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import Base from '../layouts/Base.astro';
-import { phases } from '../data/projects.js';
 
 // Any image dropped into site/public/images/equipe/ becomes a gallery
 // slide automatically - see source/brand/assets/equipe/README.md for
@@ -16,10 +15,6 @@ const teamPhotos = readdirSync(join(process.cwd(), 'public', 'images', 'equipe')
     src: `/images/equipe/${file}`,
     alt: "Un instant avec l'équipe de la Chaire Innovation BOPA.",
   }));
-
-// Always the real count from innovations.astro's project list, never a
-// hand-typed number that drifts as projects are added or removed.
-const projectCount = phases.reduce((total, phase) => total + phase.projects.length, 0);
 
 const partnerLogos = [
   { src: '/logos/partenaires/logo-aphp.png', alt: 'AP-HP - Assistance Publique-Hôpitaux de Paris' },
@@ -151,8 +146,6 @@ const team = [
   </section>
 
   <section id="mission" class="section-block">
-    <div class="mesh-echo" aria-hidden="true"></div>
-    <div class="ambient-halo" aria-hidden="true" style="width: 26rem; height: 26rem; top: -6rem; right: -4rem;"></div>
     <div class="wrap" data-reveal>
       <span class="kicker">Notre mission</span>
       <h2>Le projet scientifique : augmenter le parcours patient</h2>
@@ -181,175 +174,59 @@ const team = [
   </section>
 
   <section id="projets" class="section-block">
-    <div class="mesh-echo" aria-hidden="true" style="opacity: 0.04;"></div>
-    <div class="ambient-halo" aria-hidden="true" style="width: 30rem; height: 30rem; bottom: -8rem; left: -6rem;"></div>
     <div class="wrap" data-reveal>
-      <span class="kicker">Innovations</span>
-      <h2>Nos projets et réalisations</h2>
+      <span class="kicker">Nos projets phares</span>
+      <h2>Des innovations pensées pour le terrain.</h2>
       <p class="lede">
-        Des chiffres à l'impact concret : ce que la Chaire a bâti, et ce
-        qu'elle construit aujourd'hui à chaque étape du parcours patient.
+        De la préparation de l'intervention au suivi du patient, BOPA transforme
+        des besoins cliniques concrets en outils numériques utiles au bloc opératoire.
       </p>
-      <div class="stat-row">
-        <div class="stat">
-          <span class="stat-value" data-reveal>1.6M€</span>
-          <span class="stat-label">Mécénat collecté depuis 2020</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" data-reveal style="--reveal-delay: 0.1s">2</span>
-          <span class="stat-label">Logiciels médicaux créés</span>
-        </div>
-        <div class="stat">
-          <span class="stat-value" data-reveal style="--reveal-delay: 0.2s">2</span>
-          <span class="stat-label">Start-up créées (DOTs, Uncovr)</span>
-        </div>
-      </div>
-    </div>
 
-    <div class="wrap section-sub" data-reveal>
-      <h3 class="institutional-subtitle">Les réalisations institutionnelles</h3>
-      <div class="accordion-subgrid">
-        <details class="accordion-subitem">
-          <summary>
-            <span class="accordion-subtitle">Le tiers-lieu d'expérimentation BOPEX</span>
-            <svg class="accordion-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </summary>
-          <div class="accordion-subpanel">
-            <p>
-              Créé en 2023, situé à l'hôpital Broussais à côté du Campus
-              chirurgical du Grand Paris, BOPEX accélère le développement
-              d'innovations numériques et technologiques pour le bloc
-              opératoire : start-up, entreprises tech, innovateurs internes
-              AP-HP et professionnels de santé y testent leurs solutions en
-              conditions réelles.
-            </p>
-            <p>
-              Trois piliers d'accompagnement : <strong>derisking</strong>
-              (validation experte de la pertinence clinique et technique),
-              <strong> codéveloppement</strong> (conception de l'interface,
-              structuration des études cliniques) et
-              <strong> test</strong> (utilisabilité, acceptabilité, impact
-              organisationnel).
-            </p>
-          </div>
-        </details>
-        <details class="accordion-subitem">
-          <summary>
-            <span class="accordion-subtitle">La plateforme BOPTECH</span>
-            <svg class="accordion-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-              <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-            </svg>
-          </summary>
-          <div class="accordion-subpanel">
-            <p>
-              Plateforme technologique et scientifique unique, au sein même
-              du bloc opératoire du Centre Hépato-Biliaire : chirurgie
-              guidée par l'image, endoscopie, oncologie
-              hépato-bilio-pancréatique. Financée par l'AP-HP, le Paris
-              Saclay Cancer Cluster et BPI France.
-            </p>
-            <p>
-              Sa salle hybride, équipée du système Philips Azurion 7 et de
-              capacités IA, sera opérationnelle en juillet 2026. Son modèle
-              préclinique <strong>In Machina</strong>{' '}
-              maintient des foies humains en conditions quasi-physiologiques
-              plusieurs jours, pour tester des innovations avant les essais
-              cliniques - avec l'accès privilégié qu'offrent les 200
-              transplantations et 150 hépatectomies réalisées chaque année
-              au CHB.
-            </p>
-          </div>
-        </details>
-      </div>
-    </div>
-
-    <div class="wrap section-sub carousel-wrap" data-reveal style="--reveal-delay: 0.1s">
-      <div class="project-slider" id="project-slider">
-        <a
-          class="project-slide is-active"
-          href="https://www.youtube.com/watch?v=MF1ysshoNVM"
-          target="_blank"
-          rel="noopener"
-          style="--step-color: var(--color-step-1)"
-        >
-          <img class="project-slide-photo" src="/images/projets/liversight-video.jpg" alt="Vidéo de présentation de LiverSight" loading="lazy" />
-          <span class="phase-tag">Préopératoire</span>
-          <span class="play-badge" aria-hidden="true">
-            <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
-              <circle cx="28" cy="28" r="27" fill="rgba(4, 20, 33, 0.45)" stroke="#fff" stroke-width="1.5" />
-              <path d="M23 18.5v19l16-9.5-16-9.5z" fill="#fff" />
-            </svg>
-          </span>
-          <div class="project-slide-info">
+      <div class="project-highlights">
+        <a class="project-highlight" href="https://www.youtube.com/watch?v=MF1ysshoNVM" target="_blank" rel="noopener" data-reveal>
+          <img src="/images/projets/liversight-video.jpg" alt="Vidéo de présentation de LiverSight" loading="lazy" />
+          <div class="project-highlight-content">
+            <span class="phase-tag">Préopératoire</span>
             <h3>LiverSight</h3>
-            <p>Communication médecin-patient en 3D avant l'opération - voir la vidéo sur YouTube.</p>
+            <p>Une visualisation 3D pour mieux préparer l'intervention et faciliter le dialogue médecin-patient.</p>
           </div>
         </a>
-        <a class="project-slide" href="/innovations" style="--step-color: var(--color-step-1)">
-          <img class="project-slide-photo" src="/images/projets/pancreasight.jpg" alt="Modélisation 3D interactive PancreasSight" loading="lazy" />
-          <span class="phase-tag">Préopératoire</span>
-          <div class="project-slide-info">
-            <h3>PancreasSight</h3>
-            <p>La même approche appliquée à la chirurgie pancréatique.</p>
-          </div>
-        </a>
-        <a class="project-slide" href="/innovations" style="--step-color: var(--color-step-2)">
-          <img class="project-slide-photo" src="/images/projets/bopcam.jpg" alt="Casque BOPCAM porté par un chirurgien au bloc opératoire" loading="lazy" />
-          <span class="phase-tag">Peropératoire</span>
-          <div class="project-slide-info">
+
+        <a class="project-highlight" href="/innovations" data-reveal style="--reveal-delay: .08s">
+          <img src="/images/projets/bopcam.jpg" alt="Casque BOPCAM porté par un chirurgien au bloc opératoire" loading="lazy" />
+          <div class="project-highlight-content">
+            <span class="phase-tag">Peropératoire</span>
             <h3>BOPCAM</h3>
-            <p>Un casque qui filme les mains du chirurgien : analyse en direct, télé-expertise.</p>
+            <p>Un casque qui filme les mains du chirurgien pour l'analyse en direct et la télé-expertise.</p>
           </div>
         </a>
-        <a class="project-slide" href="/innovations" style="--step-color: var(--color-step-2)">
-          <img class="project-slide-photo" src="/images/projets/henri.png" alt="Illustration d'Henri, l'assistant IA du chirurgien, aux côtés de l'équipe au bloc opératoire" loading="lazy" />
-          <span class="phase-tag">Peropératoire</span>
-          <div class="project-slide-info">
-            <h3>Henri</h3>
-            <p>Un assistant pour accompagner le chirurgien : informations patient, checklist, antécédents.</p>
-          </div>
-        </a>
-        <a class="project-slide" href="/innovations" style="--step-color: var(--color-step-2)">
-          <img class="project-slide-photo" src="/images/projets/goldfinger.png" alt="Chirurgien manipulant sans contact un modèle 3D de foie affiché à l'écran, en salle d'opération" loading="lazy" />
-          <span class="phase-tag">Peropératoire</span>
-          <div class="project-slide-info">
+
+        <a class="project-highlight" href="/innovations" data-reveal style="--reveal-delay: .16s">
+          <img src="/images/projets/goldfinger.png" alt="Chirurgien manipulant sans contact un modèle 3D de foie au bloc opératoire" loading="lazy" />
+          <div class="project-highlight-content">
+            <span class="phase-tag">Peropératoire</span>
             <h3>Goldfinger</h3>
             <p>Manipuler un modèle 3D de foie sans contact, sans compromettre la stérilité du bloc.</p>
           </div>
         </a>
-        <a class="project-slide" href="/innovations" style="--step-color: var(--color-step-3)">
-          <img class="project-slide-photo" src="/images/projets/colette.jpg" alt="Le chatbot Colette sur un téléphone" loading="lazy" />
-          <span class="phase-tag">Postopératoire</span>
-          <div class="project-slide-info">
+
+        <a class="project-highlight" href="/innovations" data-reveal style="--reveal-delay: .24s">
+          <img src="/images/projets/colette.jpg" alt="Le chatbot Colette sur un téléphone" loading="lazy" />
+          <div class="project-highlight-content">
+            <span class="phase-tag">Postopératoire</span>
             <h3>Colette</h3>
-            <p>Un chatbot qui accompagne 24h/24 les patients transplantés du foie.</p>
+            <p>Un chatbot qui accompagne 24 h/24 les patients transplantés du foie après leur intervention.</p>
           </div>
         </a>
-        <div class="project-slider-dots">
-          <button type="button" class="is-active" aria-label="Projet 1 : LiverSight"></button>
-          <button type="button" aria-label="Projet 2 : PancreasSight"></button>
-          <button type="button" aria-label="Projet 3 : BOPCAM"></button>
-          <button type="button" aria-label="Projet 4 : Henri"></button>
-          <button type="button" aria-label="Projet 5 : Goldfinger"></button>
-          <button type="button" aria-label="Projet 6 : Colette"></button>
-        </div>
       </div>
-      <p class="carousel-more">
-        <a href="/innovations">
-          Voir tous nos projets
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-        </a>
-      </p>
+
+      <div class="projects-more btn-row">
+        <a class="btn" href="/innovations">Découvrir tous nos projets</a>
+      </div>
     </div>
   </section>
 
   <section id="approche" class="section-block">
-    <div class="mesh-echo" aria-hidden="true"></div>
-    <div class="ambient-halo" aria-hidden="true" style="width: 26rem; height: 26rem; top: -6rem; right: -4rem;"></div>
     <div class="wrap approche-intro" data-reveal>
       <div>
         <span class="kicker">Notre approche</span>
@@ -397,8 +274,6 @@ const team = [
   </section>
 
   <section id="equipe" class="section-block">
-    <div class="mesh-echo" aria-hidden="true" style="opacity: 0.045;"></div>
-    <div class="ambient-halo" aria-hidden="true" style="width: 22rem; height: 22rem; top: -2rem; left: -5rem;"></div>
     <div class="wrap equipe-layout" data-reveal>
       <div class="equipe-intro">
         <span class="kicker">L'équipe</span>
@@ -442,8 +317,6 @@ const team = [
   </section>
 
   <section id="qui-sommes-nous" class="section-block fade-to-navy">
-    <div class="mesh-echo" aria-hidden="true" style="opacity: 0.045;"></div>
-    <div class="ambient-halo" aria-hidden="true" style="width: 24rem; height: 24rem; bottom: -4rem; right: -6rem;"></div>
     <div class="wrap" data-reveal>
       <span class="kicker">La Chaire</span>
       <h2>Qui sommes-nous ?</h2>
@@ -485,7 +358,6 @@ const team = [
   </section>
 
   <section id="soutenir" class="section-block dark donate">
-    <div class="mesh-echo" aria-hidden="true" style="opacity: 0.06; --mesh-color: rgba(225, 242, 255, 0.9);"></div>
     <div class="wrap" data-reveal>
       <span class="kicker">Mécénat</span>
       <h2>Votre soutien transforme des idées en innovations concrètes pour le bloc opératoire.</h2>
@@ -587,9 +459,17 @@ const team = [
     </div>
 
     <div class="wrap" id="contact" style="scroll-margin-top: var(--space-5);">
-      <div class="soutenir-form-card" data-reveal style="--reveal-delay: 0.15s">
-        <h3>Nous contacter</h3>
-        <p>Une question, un projet à proposer ? Écrivez-nous directement.</p>
+      <div class="contact-closing" data-reveal style="--reveal-delay: 0.15s">
+        <div class="contact-closing-copy">
+          <span class="kicker">Nous contacter</span>
+          <h3>Une idée, un projet, une collaboration ?</h3>
+          <p>Parlons-en. L'équipe BOPA échange avec les soignants, chercheurs, startups, industriels et partenaires qui souhaitent faire avancer l'innovation au bloc opératoire.</p>
+          <div class="contact-reasons" aria-label="Motifs de contact">
+            <span>Proposer un projet</span>
+            <span>Collaborer avec BOPA</span>
+            <span>Poser une question à l'équipe</span>
+          </div>
+        </div>
         <form id="soutenir-form" class="contact-form" novalidate>
           <input type="hidden" name="access_key" value="89ce7ec3-0341-4abe-a95e-b0f99be8b0d5" />
           <input type="hidden" name="subject" value="Nouveau message depuis le site BOPA" />
@@ -673,48 +553,6 @@ const team = [
         if (el.open) closeSiblings(el);
       });
     });
-
-    // Auto-advancing project carousel: one project at a time, restarts its
-    // timer on manual dot clicks, pauses on hover/focus. start() always
-    // clears any running timer first - without that, a mouseleave/focusout
-    // firing without a matching prior mouseenter/focusin (reachable if the
-    // pointer is already resting over the slider on page load) stacks a
-    // second interval and the slider appears to randomly skip a slide.
-    const slider = document.getElementById('project-slider');
-    const slides = slider?.querySelectorAll<HTMLElement>('.project-slide');
-    const dots = slider?.querySelectorAll<HTMLButtonElement>('.project-slider-dots button');
-
-    if (slider && slides && dots && slides.length > 0) {
-      let index = 0;
-      let timer: ReturnType<typeof setInterval> | undefined;
-
-      const show = (next: number) => {
-        index = (next + slides.length) % slides.length;
-        slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
-        dots.forEach((dot, i) => dot.classList.toggle('is-active', i === index));
-      };
-
-      const stop = () => timer && clearInterval(timer);
-      const start = () => {
-        stop();
-        timer = setInterval(() => show(index + 1), 2500);
-      };
-
-      dots.forEach((dot, i) => {
-        dot.addEventListener('click', () => {
-          show(i);
-          stop();
-          start();
-        });
-      });
-
-      slider.addEventListener('mouseenter', stop);
-      slider.addEventListener('mouseleave', start);
-      slider.addEventListener('focusin', stop);
-      slider.addEventListener('focusout', start);
-
-      start();
-    }
 
   </script>
 
@@ -1911,6 +1749,65 @@ const team = [
 
     .accordion-title {
       font-size: var(--text-base);
+    }
+  }
+
+  /* ---------------------------------------------------------------
+     BOPA V2 page-level final overrides. Kept at the end of the scoped
+     stylesheet so older homepage experiments cannot override the new
+     flat-background visual system from site.css.
+     --------------------------------------------------------------- */
+  #mission, #projets, #approche, #equipe, #qui-sommes-nous, #soutenir {
+    padding-top: clamp(5.5rem, 10vw, 9rem);
+    padding-bottom: clamp(5.5rem, 10vw, 9rem);
+  }
+
+  #qui-sommes-nous {
+    padding-bottom: clamp(5.5rem, 10vw, 9rem);
+  }
+
+  .partners-text {
+    background: transparent;
+    border-radius: 0;
+  }
+
+  .donate {
+    text-align: left;
+    background: var(--color-bg-tint);
+  }
+
+  .donate::before {
+    display: none;
+  }
+
+  .donate .btn-row,
+  .donate-cta .btn-row {
+    justify-content: flex-start;
+  }
+
+  .donate-cta .btn {
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .impact-grid {
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  }
+
+  .impact-card p {
+    text-align: left;
+  }
+
+  .card-grid.impact-grid .card:nth-child(3n+1) .impact-icon,
+  .card-grid.impact-grid .card:nth-child(3n+2) .impact-icon,
+  .card-grid.impact-grid .card:nth-child(3n+3) .impact-icon {
+    color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 10%, white);
+  }
+
+  @media (max-width: 48rem) {
+    #mission, #projets, #approche, #equipe, #qui-sommes-nous, #soutenir {
+      padding-top: 4.5rem;
+      padding-bottom: 4.5rem;
     }
   }
 </style>
