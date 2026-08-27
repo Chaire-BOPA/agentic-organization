@@ -1230,74 +1230,58 @@ p {
   border-bottom: 1px solid var(--color-line);
 }
 
-/* Quatre quarts strictement égaux (2026-08-27, demande owner) - avant
-   ça, la colonne CHB (texte le plus long) recevait 1.45fr contre 1fr
-   pour les autres, ce qui masquait l'inégalité réelle des colonnes. */
+/* Bandeau pleine largeur (2026-08-27, demande owner) : la ligne n'est
+   plus limitée par .wrap/max-width du site - elle sort du conteneur
+   central et occupe 100vw, pour que les 3 séparateurs tombent
+   visuellement à 25/50/75% de l'écran, pas du conteneur de contenu.
+   Le markup n'a plus la classe .wrap sur cet élément (voir index.astro). */
 .context-band-row {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   align-items: stretch;
+  width: 100vw;
+  max-width: none;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 }
 
-/* Gap/padding resserrés (2026-08-27, patch bandeau 4 colonnes) : avec
-   4 colonnes strictement égales (25% chacune), le fragment CHB - le
-   plus long texte - avait besoin de cet espace en plus pour tenir sur
-   sa ligne 1 sans déborder de sa propre colonne. Valeurs identiques
-   pour les 4 fragments (contrainte explicite du patch). */
 .context-item {
   min-width: 0;
   display: flex;
   align-items: center;
-  gap: 0.55rem;
-  padding: 0.35rem 0.65rem;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 0.5rem clamp(1rem, 2vw, 2.25rem);
   border-right: 1px solid var(--color-line);
   color: var(--color-accent);
 }
 
-.context-item:first-child { padding-left: 0; }
-.context-item:last-child { border-right: 0; padding-right: 0; }
+.context-item:first-child { border-left: 0; }
+.context-item:last-child { border-right: 0; }
 .context-item svg { flex: 0 0 auto; }
-/* Correctif 2026-08-27 (patch bandeau 4 colonnes) : la taille Niveau 2
-   ci-dessus (identique au lead de Mission) rendait le bandeau trop
-   proche du Hero/Mission en poids visuel - demande explicite de
-   revenir à une taille plus discrète, dédiée à ce bandeau seulement.
-   Graisses/couleurs/emphases (strong) inchangées.
-   Taille fixe, pas de clamp() en vw : dans toute la plage où la grille
-   4 colonnes est active (≥78rem, voir plus bas), .wrap est déjà bloqué
-   à son max-width - la largeur de chaque colonne ne bouge plus du
-   tout, donc un font-size en vw grossit avec le viewport sans que la
-   colonne s'élargisse, et le texte déborde à nouveau sur grand écran
-   (mesuré : +52px de débordement à 1920px avec un clamp(...vw...)). */
+/* Lisibilité avant nombre de lignes (2026-08-27, patch bandeau
+   full-width) : taille plus généreuse que le précédent correctif -
+   sûre ici puisque chaque colonne fait maintenant 25vw d'une grille
+   qui occupe tout le viewport (pas de max-width qui plafonne pendant
+   que la police continue de grossir, contrairement à l'ancienne
+   version imbriquée dans .wrap). Graisses/couleurs/emphases (strong)
+   inchangées. */
 .context-text {
   margin: 0;
-  font-size: 0.66rem;
+  font-size: clamp(0.8rem, 0.9vw, 0.95rem);
   line-height: 1.35;
   color: var(--color-muted);
 }
 .context-text strong { color: var(--color-ink); }
 
-/* Retours à la ligne explicites : chaque fragment doit tenir sur
-   exactement 2 lignes sur desktop, sans laisser le navigateur décider
-   seul - notamment le fragment CHB, dont le texte est le plus long.
-   Repasse en retour naturel dès que le bandeau lui-même repasse en
-   grille 2 puis 1 colonne (mêmes breakpoints que .context-band-row). */
+/* Repères de ligne visuels, pas une contrainte stricte : chaque
+   fragment garde ses 2 lignes "voulues" par défaut, mais peut
+   déborder sur une 3e si la largeur l'exige - jamais de police
+   réduite artificiellement pour forcer un nombre de lignes exact
+   (demande explicite owner, 2026-08-27). */
 .context-line {
   display: block;
-  white-space: nowrap;
-}
-
-/* Ce seuil (78rem, pas les 56rem habituels des autres breakpoints du
-   bandeau) est mesuré, pas arbitraire : en dessous, même avec la
-   typo/le padding déjà resserrés ci-dessus, le fragment CHB ("À
-   proximité immédiate du Centre Hépato-Biliaire") ne tient plus sur
-   une ligne sans police illisible - vérifié en direct, le texte déborde
-   encore de 17px à 1150px et ne rentre exactement qu'à partir de
-   ~1220px. Repasser en retour naturel avant ce point plutôt que
-   déborder silencieusement. */
-@media (max-width: 78rem) {
-  .context-line {
-    white-space: normal;
-  }
+  white-space: normal;
 }
 
 .pipeline {
@@ -1420,18 +1404,17 @@ p {
   color: var(--color-accent);
 }
 
-/* Même seuil (78rem) que la règle .context-line ci-dessus, pour rester
-   cohérent : sous ce seuil, la grille 4 colonnes/2 lignes strictes
-   redevient une grille 2 colonnes avec retour naturel (déjà éprouvée),
-   plutôt que de tenir une promesse de 2 lignes qu'aucune police
-   lisible ne peut satisfaire à ces largeurs. */
-@media (max-width: 78rem) {
+/* Seuil mesuré, pas le 56rem standard : même en autorisant 2-3 lignes
+   (au lieu d'exactement 2) et avec une police plus grande, le fragment
+   CHB retombe à 4 lignes en dessous de ~1300px de large (vérifié :
+   3 lignes à 1300px, 4 lignes à 1250px) - au-delà de 3 lignes, la
+   grille 2 colonnes (bien plus d'espace par fragment) prend le relais
+   plutôt que de laisser un fragment dépasser la limite acceptée. */
+@media (max-width: 82rem) {
   .context-band-row { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .context-item { padding: 1rem; border-bottom: 1px solid var(--color-line); }
   .context-item:nth-child(2) { border-right: 0; }
   .context-item:nth-child(3), .context-item:nth-child(4) { border-bottom: 0; }
-  .context-item:first-child { padding-left: 1rem; }
-  .context-item:last-child { padding-right: 1rem; }
 }
 
 @media (max-width: 48rem) {
