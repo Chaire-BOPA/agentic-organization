@@ -35,6 +35,7 @@
 ## Current priorities
 
 - Iterative homepage/site polish based on the owner's ongoing feedback (layout, copy, imagery) - most sessions right now are small, focused edits rather than big new builds.
+- The owner has an established pattern for bigger visual pivots: export a handful of files (the homepage `.astro`, `tokens.css`, `site.css`, `Base.astro`) to a separate AI (ChatGPT) for a redesign proposal, then hand the result back as a zip with an integration doc for Claude Code to diff against the live project and merge carefully - not applied blindly. Expect this to recur; when it does, read the integration doc first, diff every file against current state before touching anything, and verify locally before publishing.
 - Open fact gaps, tracked with `<!-- verify -->` notes in `source/content/`: the three médico-économique projects (Hepatgreen, MESGARDES, Coût de l'hépatectomie) now all have images, but still no real descriptions (placeholder text is live on the site). The homepage hero stat band is down to one real placeholder left: "100% co-construits avec les soignants" - the other three are confirmed (54 publications, 8 thèses soutenues, projets innovants computed live from `site/src/data/projects.js`).
 
 ## History and decisions
@@ -47,3 +48,4 @@ a hypothesis or the positioning, update `decisions.md`.**
      Example: 2026-07-18 · dropped the blog idea, energy goes to the gallery. -->
 
 - 2026-08-17 · Axelle Piguet onboarded as a second collaborator (GitHub: axpiguet, admin access) and set up to work through her own Claude session, pushing directly to main alongside her coworker.
+- 2026-08-27 · Homepage visual direction pivoted: the continuous-gradient/mesh-echo/ambient-halo system (built up over the prior week) was replaced by a flat, hard-edged, blue-only-palette system from an externally-produced ("BOPA V2") redesign, integrated after a full diff against the live project. See `source/brand/design.md` for the specifics now in force.
