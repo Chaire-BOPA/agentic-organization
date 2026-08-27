@@ -2667,18 +2667,35 @@ const aboutIcons: Record<string, string> = {
     align-items: start;
   }
 
+  /* Trajectoire directionnelle continue (2026-08-27, patch flèche) :
+     remplace l'ancienne ligne pointillée par un trait plein, avec une
+     seule pointe de flèche juste avant "Progrès pour tous" (::after
+     ci-dessous) - Innovation est le départ, Progrès la destination,
+     les trois piliers du milieu ne sont plus au même niveau visuel
+     qu'un simple repère parmi d'autres. Rien d'autre dans la section
+     n'a changé (tailles, cercles, icônes, textes, fond, espacements). */
   .bopa-vision-v4__timeline::before {
     content: "";
     position: absolute;
     top: 2.6rem;
     left: 4.5%;
     right: 4.5%;
-    height: 1px;
-    background: repeating-linear-gradient(
-      90deg,
-      rgba(48,157,255,.85) 0 4px,
-      transparent 4px 7px
-    );
+    height: 2px;
+    background: var(--mp-blue-bright);
+    opacity: 0.9;
+  }
+
+  .bopa-vision-v4__timeline::after {
+    content: "";
+    position: absolute;
+    top: 2.6rem;
+    right: 4.5%;
+    width: 10px;
+    height: 10px;
+    border-top: 2px solid var(--mp-blue-bright);
+    border-right: 2px solid var(--mp-blue-bright);
+    transform: translateY(-50%) rotate(45deg);
+    opacity: 0.9;
   }
 
   .bopa-vision-v4__step {
@@ -2774,7 +2791,8 @@ const aboutIcons: Record<string, string> = {
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 2.5rem 1.5rem;
     }
-    .bopa-vision-v4__timeline::before { display: none; }
+    .bopa-vision-v4__timeline::before,
+    .bopa-vision-v4__timeline::after { display: none; }
     .bopa-vision-v4__step::before { display: none; }
     .bopa-vision-v4__step--endpoint-start { grid-column: 1 / -1; }
     .bopa-vision-v4__step--endpoint-end { grid-column: 1 / -1; }
