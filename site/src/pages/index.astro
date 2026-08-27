@@ -7,14 +7,20 @@ import Base from '../layouts/Base.astro';
 // slide automatically - see source/brand/assets/equipe/README.md for
 // where the owner drops originals. process.cwd() (not import.meta.url)
 // because the build bundles this file elsewhere, breaking a
-// URL-relative path that only worked in dev.
-const teamPhotos = readdirSync(join(process.cwd(), 'public', 'images', 'equipe'))
-  .filter((file) => /\.(jpe?g|png|webp)$/i.test(file))
-  .sort()
-  .map((file) => ({
-    src: `/images/equipe/${file}`,
-    alt: "Un instant avec l'équipe de la Chaire Innovation BOPA.",
-  }));
+// URL-relative path that only worked in dev. The folder itself may not
+// exist (e.g. every photo removed) - same try/catch as team-photos below.
+let teamPhotos: { src: string; alt: string }[] = [];
+try {
+  teamPhotos = readdirSync(join(process.cwd(), 'public', 'images', 'equipe'))
+    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file))
+    .sort()
+    .map((file) => ({
+      src: `/images/equipe/${file}`,
+      alt: "Un instant avec l'équipe de la Chaire Innovation BOPA.",
+    }));
+} catch {
+  // Folder doesn't exist - no gallery photos dropped in currently.
+}
 
 const partnerLogos = [
   { src: '/logos/partenaires/logo-aphp.png', alt: 'AP-HP - Assistance Publique-Hôpitaux de Paris' },
