@@ -1139,7 +1139,7 @@ p {
 }
 
 /* ======================================================================
-   BOPA V2 — editorial visual system
+   BOPA V2 - editorial visual system
    Flat section backgrounds, blue-only palette, stronger typography,
    larger breathing room. Hero remains intentionally untouched.
    ====================================================================== */
@@ -1413,7 +1413,7 @@ p {
 }
 
 /* ============================================================
-   BOPA V3 — Mission + Projets phares
+   BOPA V3 - Mission + Projets phares
    Référence visuelle : REFERENCE-MISSION-PROJETS.png (2026-08-27)
    Scope volontairement isolé (--mp-* et .bopa-*) pour ne pas
    affecter le Hero, le bandeau de chiffres, ni le reste du site.
