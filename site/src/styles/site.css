@@ -1105,55 +1105,6 @@ button {
   margin-top: var(--space-4);
 }
 
-/* Simple contact-style forms (collaboration request, etc.). */
-.contact-form {
-  max-width: 34rem;
-  margin-top: var(--space-4);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-
-.form-field {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-
-.form-field label {
-  font-size: var(--text-sm);
-  font-weight: 600;
-  color: var(--color-muted);
-}
-
-.form-field input,
-.form-field textarea {
-  font: inherit;
-  font-size: var(--text-base);
-  color: var(--color-ink);
-  background: var(--color-surface);
-  border: 1.5px solid var(--color-line);
-  border-radius: var(--radius);
-  padding: var(--space-2) var(--space-3);
-}
-
-.form-field input:focus,
-.form-field textarea:focus {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 1px;
-}
-
-.contact-form .btn {
-  align-self: flex-start;
-  border: none;
-  cursor: pointer;
-}
-
-.form-note {
-  font-size: var(--text-sm);
-  color: var(--color-muted);
-}
-
 .form-status {
   font-size: var(--text-sm);
   font-weight: 600;
@@ -1482,81 +1433,6 @@ p {
   background: var(--color-accent);
 }
 
-/* Contact: deliberately designed as a strong closing panel inside Support. */
-.contact-closing {
-  margin-top: clamp(5rem, 9vw, 8rem);
-  padding: clamp(2rem, 5vw, 4.5rem);
-  border-radius: clamp(1rem, 2vw, 1.5rem);
-  background: var(--color-navy);
-  color: #fff;
-  display: grid;
-  grid-template-columns: minmax(0, .82fr) minmax(0, 1.18fr);
-  gap: clamp(2.5rem, 6vw, 6rem);
-  align-items: start;
-}
-.contact-closing-copy .kicker { color: var(--color-accent-2) !important; }
-.contact-closing-copy h3 {
-  max-width: 10ch;
-  color: #fff !important;
-  font-size: clamp(2rem, 4vw, 3.4rem);
-  line-height: 1;
-}
-.contact-closing-copy p {
-  max-width: 30rem;
-  color: rgba(244,248,251,.7) !important;
-}
-.contact-reasons {
-  display: grid;
-  gap: .8rem;
-  margin-top: 2rem;
-  color: rgba(244,248,251,.82);
-  font-size: .94rem;
-}
-.contact-reasons span {
-  display: flex;
-  gap: .7rem;
-  align-items: center;
-}
-.contact-reasons span::before {
-  content: '';
-  width: .45rem;
-  height: .45rem;
-  border-radius: 50%;
-  background: var(--color-accent-2);
-  flex: 0 0 auto;
-}
-.contact-closing .contact-form {
-  margin-top: 0;
-  max-width: none;
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0,1fr));
-  gap: 1rem;
-}
-.contact-closing .form-field:nth-of-type(3),
-.contact-closing .form-field:nth-of-type(4) { grid-column: 1 / -1; }
-.contact-closing .form-field label { color: rgba(244,248,251,.7); }
-.contact-closing .form-field input,
-.contact-closing .form-field textarea {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.2);
-  color: #fff;
-  border-radius: .65rem;
-  padding: .9rem 1rem;
-}
-.contact-closing .form-field input:focus,
-.contact-closing .form-field textarea:focus {
-  outline: 2px solid var(--color-accent-2);
-  border-color: transparent;
-}
-.contact-closing .contact-form .btn {
-  grid-column: 1 / -1;
-  justify-self: start;
-  background: var(--color-accent-2);
-  color: var(--color-navy);
-}
-.contact-closing .form-status { grid-column: 1 / -1; }
-.contact-closing .form-status.is-success { color: #bdefff; }
-
 @media (max-width: 56rem) {
   .context-band-row { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .context-item { padding: 1rem; border-bottom: 1px solid var(--color-line); }
@@ -1564,7 +1440,6 @@ p {
   .context-item:nth-child(3), .context-item:nth-child(4) { border-bottom: 0; }
   .context-item:first-child { padding-left: 1rem; }
   .context-item:last-child { padding-right: 1rem; }
-  .contact-closing { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 48rem) {
@@ -1580,11 +1455,6 @@ p {
   }
   .project-highlights { grid-template-columns: 1fr; }
   .project-highlight { min-height: 21rem; }
-  .contact-closing .contact-form { grid-template-columns: 1fr; }
-  .contact-closing .form-field:nth-of-type(3),
-  .contact-closing .form-field:nth-of-type(4),
-  .contact-closing .contact-form .btn,
-  .contact-closing .form-status { grid-column: auto; }
 }
 
 @media (max-width: 36rem) {
@@ -1613,7 +1483,9 @@ p {
 .bopa-mission-v2,
 .bopa-projects-v2,
 .innovations-v2,
-.about-v2 {
+.about-v2,
+.bopa-support,
+.bopa-contact {
   --mp-navy: #071f46;
   --mp-navy-deep: #041a3b;
   --mp-blue: #168cff;
