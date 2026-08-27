@@ -1,0 +1,4 @@
+# Cloudflare Pages redirect rules (https://developers.cloudflare.com/pages/configuration/redirects/)
+# "Nos innovations" moved from /innovations/ to /nos_innovations/ (2026-08-27) - keep old links/bookmarks working.
+/innovations/  /nos_innovations/  301
+/innovations   /nos_innovations/  301

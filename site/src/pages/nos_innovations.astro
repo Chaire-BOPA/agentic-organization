@@ -168,7 +168,7 @@ import { phases } from '../data/projects.js';
 
 <style>
   /* ============================================================
-     BOPA - /innovations/ V2
+     BOPA - /nos_innovations/ V2 (renamed 2026-08-27, was /innovations/)
      Référence : REFERENCE-INNOVATIONS-V2.png (2026-08-27)
      Les vignettes projets réutilisent .bopa-project-card telles quelles
      (site.css, même composant que "Nos projets phares" sur la home) -
@@ -373,11 +373,14 @@ import { phases } from '../data/projects.js';
     padding-top: 4px;
   }
 
+  /* Filtres harmonisés sur le bleu nuit exact du bloc haut de page
+     (2026-08-27, finitions V1) : var(--mp-navy), le même token que
+     .innovations-v2__intro--dark - jamais une nouvelle nuance. */
   .innovations-v2__filters button {
     appearance: none;
-    border: 1px solid var(--bopa-cyan);
-    background: var(--bopa-white);
-    color: var(--bopa-ink);
+    border: 1px solid var(--mp-navy);
+    background: transparent;
+    color: var(--mp-navy);
     min-height: 44px;
     padding: 10px 24px;
     border-radius: 999px;
@@ -388,11 +391,11 @@ import { phases } from '../data/projects.js';
   }
   .innovations-v2__filters button:hover {
     transform: translateY(-1px);
-    border-color: var(--bopa-blue);
+    border-color: var(--mp-navy);
   }
   .innovations-v2__filters button.is-active {
-    background: var(--bopa-blue);
-    border-color: var(--bopa-blue);
+    background: var(--mp-navy);
+    border-color: var(--mp-navy);
     color: var(--bopa-white);
   }
   .innovations-v2__filters button:focus-visible,
@@ -481,7 +484,13 @@ import { phases } from '../data/projects.js';
 
   /* Médico-économique : seul accent doré du site, sur ce filtre/label
      uniquement - les cartes MesGardes/HepatGreen restent bleu nuit,
-     identiques aux autres (voir .bopa-project-card, inchangé). */
+     identiques aux autres (voir .bopa-project-card, inchangé). Non
+     sélectionné, il se différencie déjà en doré (2026-08-27, finitions
+     V1) plutôt que d'hériter du bleu nuit des autres filtres. */
+  .innovations-v2__filters button[data-filter-tone="gold"] {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+  }
   .innovations-v2__filters button[data-filter-tone="gold"].is-active {
     background: var(--color-gold);
     border-color: var(--color-gold);
@@ -496,6 +505,14 @@ import { phases } from '../data/projects.js';
   }
   .innovations-v2__category--gold .innovations-v2__category-label h2 {
     color: var(--color-gold);
+  }
+
+  /* MesGardes + HepatGreen (les deux seules cartes de cette catégorie) :
+     liseré doré fin pour signaler la famille "médico-économique", sans
+     toucher au fond navy/taille/arrondis/hover de .bopa-project-card
+     (2026-08-27, finitions V1). */
+  .innovations-v2__category--gold .bopa-project-card {
+    border: 1px solid var(--color-gold);
   }
 
   /* Les deux seules actions cliquables des cartes : un petit lien
@@ -568,6 +585,9 @@ import { phases } from '../data/projects.js';
     font-size: .95rem;
     line-height: 1.55;
   }
+  /* Cyan BOPA exact + hover harmonisé sur la référence absolue (bouton
+     header "Nous soutenir", .btn-filled-premium) - 2026-08-27, finitions
+     V1.1 : assombrissement --bopa-blue-1, translateY(-2px), même ombre. */
   .innovations-v2__cta-button {
     display: inline-flex;
     align-items: center;
@@ -575,11 +595,22 @@ import { phases } from '../data/projects.js';
     min-height: 52px;
     padding: 12px 26px;
     border-radius: 7px;
-    background: var(--bopa-blue);
-    color: var(--bopa-white);
+    background: var(--bopa-cyan);
+    border: 1px solid var(--bopa-cyan);
+    color: #fff;
     text-decoration: none;
     font-weight: 650;
     white-space: nowrap;
+    transition: transform 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .innovations-v2__cta-button:hover {
+      background: var(--bopa-blue-1);
+      border-color: var(--bopa-blue-1);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35);
+    }
   }
 
   @media (max-width: 1180px) {
@@ -676,7 +707,8 @@ import { phases } from '../data/projects.js';
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .innovations-v2__filters button {
+    .innovations-v2__filters button,
+    .innovations-v2__cta-button {
       transition: none;
     }
   }
