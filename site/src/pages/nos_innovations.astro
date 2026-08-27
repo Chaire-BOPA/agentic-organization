@@ -185,11 +185,14 @@ import { phases } from '../data/projects.js';
     --bopa-border: var(--color-line);
     --bopa-bg: var(--color-bg-tint);
     --bopa-white: #ffffff;
-    /* Filtres uniquement (2026-08-27, finitions V1) : le bleu nuit exact
-       du bloc haut (--mp-navy) éclairci de 7% - même famille chromatique,
-       jamais un nouveau bleu ; le bloc haut lui-même reste sur --mp-navy
-       tel quel. */
-    --bopa-filter-navy: color-mix(in srgb, var(--mp-navy) 93%, white);
+    /* Filtres uniquement (2026-08-27, finitions V2) : le bleu nuit exact
+       du bloc haut (--mp-navy), légèrement plus clair ET plus saturé, pas
+       simplement mélangé à du blanc (ça désature et tire vers le gris -
+       correctif de la V1). OKLCH + syntaxe relative "from" : on bouge la
+       luminosité (L) et la chroma (C) tout en gardant la teinte (H)
+       identique, donc toujours "franchement bleu nuit", jamais gris ni
+       cyan. Le bloc haut lui-même reste sur --mp-navy tel quel. */
+    --bopa-filter-navy: oklch(from var(--mp-navy) calc(l + 0.06) calc(c + 0.03) h);
     color: var(--bopa-ink);
     background: var(--bopa-bg);
   }
@@ -514,11 +517,22 @@ import { phases } from '../data/projects.js';
   }
 
   /* MesGardes + HepatGreen (les deux seules cartes de cette catégorie) :
-     liseré doré fin pour signaler la famille "médico-économique", sans
+     liseré doré pour signaler la famille "médico-économique", sans
      toucher au fond navy/taille/arrondis/hover de .bopa-project-card
-     (2026-08-27, finitions V1). */
+     (2026-08-27, finitions V1, épaissi en V2). En `border`, un
+     `1.5px` est arrondi à `1px` par le rendu à densité d'écran normale
+     (vérifié : aucune différence visible avec l'ancien 1px) - passé en
+     `box-shadow`, qui lui respecte les valeurs fractionnaires. Le hover
+     existant remplace tout le `box-shadow` de la carte (son ombre de
+     survol), donc le liseré doit être réinjecté à côté de cette ombre
+     plutôt que laissé disparaître. */
   .innovations-v2__category--gold .bopa-project-card {
-    border: 1px solid var(--color-gold);
+    box-shadow: 0 0 0 1.5px var(--color-gold);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .innovations-v2__category--gold .bopa-project-card:hover {
+      box-shadow: 0 0 0 1.5px var(--color-gold), 0 16px 34px rgba(5,26,58,0.16);
+    }
   }
 
   /* Les deux seules actions cliquables des cartes : un petit lien
