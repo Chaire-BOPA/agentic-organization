@@ -18,29 +18,21 @@ type NavLink = { href: string; label: string };
 type NavGroup = { label: string; children: NavLink[] };
 type NavItem = NavLink | NavGroup;
 
-// Mostly in-page anchors into the one-pager; "Nos innovations" is the
-// one exception, a dropdown to its three dedicated pages (the home
-// page's carousel only shows a preview of the full project list).
+// Flat in-page anchors into the one-pager, per the owner's 2026-08-27
+// header restructuring pack. The nav no longer links out to the
+// dedicated /innovations, /boptech, /publications pages (owner's
+// explicit call, same day) - those pages still exist and are still
+// linked from within the home page's own content, just not from the
+// header.
 const nav: NavItem[] = [
-  {
-    label: 'La Chaire',
-    children: [
-      { href: '/#qui-sommes-nous', label: 'Qui sommes-nous' },
-    ],
-  },
-  {
-    label: 'Nos innovations',
-    children: [
-      { href: '/innovations', label: 'Nos projets' },
-      { href: '/boptech', label: 'La plateforme BOPTECH' },
-      { href: '/publications', label: 'Nos publications' },
-    ],
-  },
-  { href: '/#equipe', label: 'Notre équipe' },
-  { href: '/#contact', label: 'Contact' },
+  { href: '/#notre-mission', label: 'Notre mission' },
+  { href: '/#innovations-bopa', label: 'Les innovations BOPA' },
+  { href: '/#notre-vision', label: 'Notre vision' },
+  { href: '/#qui-sommes-nous', label: 'Qui sommes-nous ?' },
+  { href: '/#nous-contacter', label: 'Nous contacter' },
 ];
 
-const navCta = { href: '/#soutenir', label: 'Nous soutenir' };
+const navCta = { href: '/#nous-soutenir', label: 'Nous soutenir' };
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);

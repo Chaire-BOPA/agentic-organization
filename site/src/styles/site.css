@@ -1148,7 +1148,7 @@ main {
   background: var(--color-bg);
 }
 
-/* #mission and #projets excluded here as of the 2026-08-27 V3 pass:
+/* #notre-mission and #innovations-bopa excluded here as of the 2026-08-27 V3 pass:
    they now set their own background/color entirely via
    .bopa-mission-v2/.bopa-projects-v2 below - an id selector here would
    beat those class selectors on specificity alone, regardless of
