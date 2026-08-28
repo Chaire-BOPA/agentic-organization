@@ -435,96 +435,89 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     </div>
 
     <div class="wrap about-v2__chaire" data-reveal>
-      <div class="about-v2__chaire-network" aria-hidden="true">
-        <img src="/images/graphics/reseau-bopa.png" alt="" loading="lazy" />
+      <div class="about-v2__chaire-marker">
+        <span class="about-v2__chaire-number">01</span>
+        <span class="about-v2__chaire-marker-title">Une Chaire d'excellence</span>
       </div>
 
-      <div class="about-v2__chaire-content">
-        <div class="about-v2__chaire-marker">
-          <span class="about-v2__chaire-number">01</span>
-          <span class="about-v2__chaire-marker-title">Une Chaire d'excellence</span>
+      <div class="about-v2__chaire-foundation">
+        <div class="about-v2__chaire-text">
+          <p class="about-v2__chaire-lede">
+            Fondée en <strong>2020</strong> par le <strong>Pr Éric Vibert</strong>, chirurgien
+            transplanteur à l'hôpital Paul-Brousse AP-HP et professeur à l'Université
+            Paris-Saclay, la Chaire BOPA est co-portée par l'<strong>AP-HP</strong>,
+            l'<strong>Institut Mines-Télécom (IMT)</strong> et l'<strong>Université
+            Paris-Saclay</strong>. Elle associe excellence académique, expertise clinique
+            et innovation technologique pour imaginer et développer la chirurgie de demain.
+          </p>
+          <p class="about-v2__chaire-lede">
+            Sa volonté est de ne pas s'arrêter à la recherche : expérimenter les
+            innovations, démontrer leur valeur et les accompagner jusqu'à leur
+            déploiement et, lorsque cela est pertinent, jusqu'à la création de
+            start-up.
+          </p>
         </div>
 
-        <div class="about-v2__chaire-foundation">
-          <div class="about-v2__chaire-text">
-            <p class="about-v2__chaire-lede">
-              Fondée en <strong>2020</strong> par le <strong>Pr Éric Vibert</strong>, chirurgien
-              transplanteur à l'hôpital Paul-Brousse AP-HP et professeur à l'Université
-              Paris-Saclay, la Chaire BOPA est co-portée par l'<strong>AP-HP</strong>,
-              l'<strong>Institut Mines-Télécom (IMT)</strong> et l'<strong>Université
-              Paris-Saclay</strong>. Elle associe excellence académique, expertise clinique
-              et innovation technologique pour imaginer et développer la chirurgie de demain.
-            </p>
-            <p class="about-v2__chaire-lede">
-              Sa volonté est de ne pas s'arrêter à la recherche : expérimenter les
-              innovations, démontrer leur valeur et les accompagner jusqu'à leur
-              déploiement et, lorsque cela est pertinent, jusqu'à la création de
-              start-up.
-            </p>
-          </div>
-
-          <div class="about-v2__chaire-partners">
-            <p class="about-v2__chaire-label">Co-portée par</p>
-            <div class="about-v2__chaire-partners-logos">
-              {founders.map((logo) => (
-                <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
-              ))}
-            </div>
-          </div>
-        </div>
-
-        <div class="about-v2__chaire-section">
-          <p class="about-v2__chaire-label">Une excellence académique</p>
-          <div class="about-v2__chaire-stats">
-            {researchStats.map((stat) => (
-              <div class="about-v2__chaire-stat">
-                <strong>{stat.value}</strong>
-                <span>{stat.label}</span>
-              </div>
+        <div class="about-v2__chaire-partners">
+          <div class="about-v2__chaire-partners-logos">
+            {founders.map((logo) => (
+              <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
             ))}
           </div>
         </div>
+      </div>
 
-        <div class="about-v2__chaire-section">
-          <p class="about-v2__chaire-label">De la recherche au terrain</p>
-          <p class="about-v2__chaire-lede about-v2__chaire-lede--narrow">
-            Pour faire passer les innovations de l'idée à l'usage, BOPA a fait émerger
-            des dispositifs dédiés à leur expérimentation et à leur déploiement.
-          </p>
-          <div class="about-v2__chaire-programs">
-            <div class="about-v2__chaire-program about-v2__chaire-program--bopex">
-              <img src="/logos/partenaires/logo-bopex.png" alt="BOpEx" loading="lazy" />
-              <p>
-                Un tiers-lieu d'expérimentation pour co-développer, tester et évaluer
-                les innovations numériques destinées au bloc opératoire.
-              </p>
-              <a class="about-v2__chaire-cta" href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">Découvrir BOpEx →</a>
+      <div class="about-v2__chaire-section">
+        <p class="about-v2__chaire-heading">Une recherche académique pro-active</p>
+        <div class="about-v2__chaire-stats">
+          {researchStats.map((stat) => (
+            <div class="about-v2__chaire-stat">
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
             </div>
-            <div class="about-v2__chaire-program about-v2__chaire-program--boptech">
-              <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
-              <p>
-                Une plateforme technologique et scientifique au cœur du bloc opératoire,
-                dédiée à l'expérimentation en conditions réelles.
-              </p>
-            </div>
+          ))}
+        </div>
+      </div>
+
+      <div class="about-v2__chaire-section">
+        <p class="about-v2__chaire-heading">De la recherche au terrain</p>
+        <p class="about-v2__chaire-lede about-v2__chaire-lede--narrow">
+          Pour faire passer les innovations de l'idée à l'usage, BOPA a fait émerger
+          des dispositifs dédiés à leur expérimentation et à leur déploiement.
+        </p>
+        <div class="about-v2__chaire-programs">
+          <div class="about-v2__chaire-program about-v2__chaire-program--bopex">
+            <img src="/logos/partenaires/logo-bopex.png" alt="BOpEx" loading="lazy" />
+            <p>
+              Un tiers-lieu d'expérimentation pour co-développer, tester et évaluer
+              les innovations numériques destinées au bloc opératoire.
+            </p>
+            <a class="about-v2__chaire-cta" href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">Découvrir BOpEx →</a>
+          </div>
+          <div class="about-v2__chaire-program about-v2__chaire-program--boptech">
+            <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
+            <p>
+              Une plateforme technologique et scientifique au cœur du bloc opératoire,
+              dédiée à l'expérimentation en conditions réelles.
+            </p>
           </div>
         </div>
+      </div>
 
-        <div class="about-v2__chaire-section">
-          <p class="about-v2__chaire-label">Faire sortir l'innovation du laboratoire</p>
-          <p class="about-v2__chaire-lede about-v2__chaire-lede--narrow">
-            BOPA accompagne les projets qui ont démontré leur valeur vers des solutions
-            concrètes et diffusables, avec la volonté, lorsque le modèle s'y prête, de
-            favoriser leur valorisation et la création de start-up.
-          </p>
-          <div class="about-v2__chaire-stats about-v2__chaire-stats--valorisation">
-            {impactStats.map((stat) => (
-              <div class="about-v2__chaire-stat">
-                <strong>{stat.value}</strong>
-                <span>{stat.label}</span>
-              </div>
-            ))}
-          </div>
+      <div class="about-v2__chaire-section">
+        <p class="about-v2__chaire-heading">Faire sortir l'innovation du laboratoire</p>
+        <p class="about-v2__chaire-lede about-v2__chaire-lede--narrow">
+          BOPA accompagne les projets qui ont démontré leur valeur vers des solutions
+          concrètes et diffusables, avec la volonté, lorsque le modèle s'y prête, de
+          favoriser leur valorisation et la création de start-up.
+        </p>
+        <div class="about-v2__chaire-stats about-v2__chaire-stats--valorisation">
+          {impactStats.map((stat) => (
+            <div class="about-v2__chaire-stat">
+              <strong>{stat.value}</strong>
+              <span>{stat.label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -1652,12 +1645,27 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2 span,
   .about-v2 a { font-family: var(--font-text); }
 
+  /* Espace avant "QUI SOMMES-NOUS ?" harmonisé avec le début des autres
+     grandes sections (2026-08-28, correctifs V4) : .about-v2 porte aussi
+     .section-block, dont la règle générique (site.css) donne déjà un
+     padding-top - .about-v2__intro ajoutait EN PLUS le sien par-dessus,
+     doublant l'espace. Fix : une seule source, le même id-override que
+     Mission/Innovations/Vision (var(--space-5), 64px), et
+     .about-v2__intro n'a plus son propre padding-top. Seul le haut est
+     repris ici - le bas de #qui-sommes-nous sert aux sous-sections 02/03,
+     hors périmètre de ce correctif. */
+  #qui-sommes-nous { padding-top: var(--space-5); }
+
   .about-v2__intro {
-    padding-top: clamp(4rem, 7vw, 6.75rem);
-    padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+    text-align: center;
+    padding-bottom: 0;
   }
-  .about-v2__intro-title {
-    margin: 1.1rem 0 0;
+  /* Spécificité : .section-block:not(.hero) h2 (site.css) a la même
+     spécificité qu'une classe seule et gagnait sur .about-v2__intro-title,
+     imposant --text-xl au lieu de l'échelle Mission/Innovations/Vision -
+     préfixer par l'id #qui-sommes-nous pour trancher sans ambiguïté. */
+  #qui-sommes-nous .about-v2__intro-title {
+    margin: 1.1rem auto 0;
     max-width: 46rem;
     color: var(--color-navy);
     font-family: var(--font-display);
@@ -1665,13 +1673,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     font-weight: 600;
     line-height: 1.08;
     letter-spacing: -0.035em;
+    text-align: center;
   }
-  .about-v2__intro-lede {
-    margin: 1.45rem 0 0;
+  #qui-sommes-nous .about-v2__intro-lede {
+    margin: 1.45rem auto 0;
     max-width: 38rem;
     color: var(--about-ink);
     font-size: clamp(1rem, 1.3vw, 1.2rem);
     line-height: 1.55;
+    text-align: center;
   }
   /* Même langage graphique que .bopa-eyebrow (Mission/Innovations) et
      .bopa-vision-v4__eyebrow (Vision) - owner's explicit request,
@@ -1689,49 +1699,25 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   /* ------------------------------------------------------------
-     "Une Chaire d'excellence" (01) - refonte V3, 2026-08-28, au plus
-     près de REFERENCE-VISUEL-CHAIRE.png : deux colonnes (texte /
-     logos co-porteurs empilés), chiffres harmonisés avec .stat-row
-     du site (publications), motif réseau en fondu haut-droite. Plus
-     de cartes/cadres/traits : la hiérarchie vient de la typographie,
-     des espaces et des vrais logos/chiffres. Fond = --about-bg (bleu
-     très pâle déjà validé), texte = --about-ink/--color-navy, accent
-     = --bopa-cyan - aucune nouvelle nuance. .about-v2__chaire-number
-     est PROPRE à cette sous-section (01) : .about-v2__chapter-number
-     reste partagée par 02/03, non touchée par ce pack.
+     "Une Chaire d'excellence" (01) - correctifs V4, 2026-08-28 :
+     harmonisation pure avec Mission/Innovations/Vision, pas de refonte.
+     Plus de maillage/image décorative (retiré, non remplacé) ; plus de
+     trait sous "01" ; plus de "CO-PORTÉE PAR" (les logos remontent) ;
+     un nouveau niveau de hiérarchie interne (.about-v2__chaire-heading)
+     partagé par les 3 titres de sous-bloc ; chiffres académiques et de
+     valorisation ramenés à l'échelle de .about-v2__clinical-stat (02,
+     juste en dessous) - plus élégante, moins "dashboard" que --text-2xl.
+     L'espace avant "01" reprend telle quelle la valeur réelle de Mission
+     (intro -> frise, clamp(3.8rem,6vw,5.6rem)), portée uniquement par
+     .about-v2__chaire plutôt que doublée entre deux éléments. Fond =
+     --about-bg, texte = --about-ink/--color-navy, accent = --bopa-cyan -
+     aucune nouvelle nuance. .about-v2__chaire-number reste PROPRE à
+     cette sous-section (01) : .about-v2__chapter-number reste partagée
+     par 02/03, non touchée par ce pack.
      ------------------------------------------------------------ */
   .about-v2__chaire {
-    position: relative;
-    overflow: hidden;
-    padding: clamp(2.5rem, 4vw, 3.5rem) 0 clamp(4.5rem, 7vw, 6.5rem);
+    padding: clamp(3.8rem, 6vw, 5.6rem) 0 clamp(4.5rem, 7vw, 6.5rem);
   }
-
-  .about-v2__chaire-network {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: min(46vw, 620px);
-    height: min(58vw, 460px);
-    z-index: 0;
-    pointer-events: none;
-  }
-  .about-v2__chaire-network img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top right;
-  }
-  .about-v2__chaire-network::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(115deg, var(--about-bg) 0%, transparent 42%),
-      linear-gradient(to bottom, transparent 55%, var(--about-bg) 100%);
-  }
-
-  .about-v2__chaire-content { position: relative; z-index: 1; }
 
   .about-v2__chaire-marker {
     display: flex;
@@ -1740,24 +1726,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
   }
   .about-v2__chaire-number {
-    position: relative;
-    display: inline-block;
-    padding-bottom: 0.65rem;
     color: var(--bopa-cyan);
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    font-size: 1.2rem;
     font-weight: 700;
     line-height: 1;
-  }
-  .about-v2__chaire-number::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 1.6rem;
-    height: 2px;
-    border-radius: 999px;
-    background: var(--bopa-cyan);
   }
   .about-v2__chaire-marker-title {
     color: var(--color-navy);
@@ -1768,26 +1741,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     line-height: 1.15;
   }
 
-  .about-v2__chaire-label {
-    position: relative;
-    display: inline-block;
+  /* Niveau 2 interne, commun aux 3 titres de sous-bloc (correctifs V4) -
+     nouveau palier, entre .about-v2__chaire-marker-title (01, "Niveau 1"
+     de cette sous-section) et le texte courant : pas d'équivalent réel
+     ailleurs dans le projet à réutiliser tel quel, donc une valeur neuve
+     mais volontairement sobre (pas de majuscules/tiret, contrairement à
+     l'ancien .about-v2__chaire-label qu'il remplace ici). */
+  .about-v2__chaire-heading {
     margin: 0 0 1.1rem;
-    padding-bottom: 0.6rem;
-    color: var(--bopa-cyan);
-    font-size: 0.78rem;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: 1.2rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-  .about-v2__chaire-label::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 2.5rem;
-    height: 2px;
-    border-radius: 999px;
-    background: var(--bopa-cyan);
+    letter-spacing: -0.005em;
+    line-height: 1.25;
   }
 
   .about-v2__chaire-lede {
@@ -1819,8 +1786,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     gap: clamp(1.5rem, 3vw, 2rem);
   }
   .about-v2__chaire-partners-logos img {
-    max-width: 9rem;
-    max-height: 3rem;
+    max-width: 10.5rem;
+    max-height: 3.5rem;
     width: auto;
     height: auto;
     object-fit: contain;
@@ -1846,7 +1813,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     display: block;
     color: var(--color-navy);
     font-family: var(--font-display);
-    font-size: clamp(2rem, 6vw, var(--text-2xl));
+    font-size: clamp(1.9rem, 3vw, 2.7rem);
     font-weight: 700;
     line-height: 1;
   }
@@ -2162,7 +2129,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   @media (max-width: 800px) {
     .about-v2__chaire-foundation { grid-template-columns: 1fr; gap: clamp(2rem, 6vw, 2.75rem); }
-    .about-v2__chaire-network { width: 100%; height: min(70vw, 320px); opacity: .5; }
   }
 
   @media (max-width: 680px) {
