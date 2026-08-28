@@ -1832,14 +1832,19 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      partners) - mais l'owner a explicitement redemandé de remonter le
      groupe au-delà de ce centre exact, en autorisant un chevauchement
      visuel avec ce qu'il y a au-dessus si nécessaire (2026-08-28, retour
-     verbal). Nudge manuel assumé cette fois, pas une correction de bug -
-     le centrage géométrique reste juste, ceci le décale volontairement. */
+     verbal, remonté une deuxième fois). Nudge manuel assumé, pas une
+     correction de bug - le centrage géométrique reste juste, ceci le
+     décale volontairement. Décalage horizontal (4.25rem) ajouté pour
+     centrer le groupe sur le chiffre "8" (dernier indicateur) du
+     bandeau juste en dessous - calibré à la largeur desktop courante
+     (~1440px), à revérifier si la largeur du bandeau change un jour. */
   .about-v2__chaire-partners-logos {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: clamp(1.5rem, 3vw, 2rem);
-    margin-top: -1rem;
+    margin-top: -1.75rem;
+    margin-left: 8.5rem;
   }
   .about-v2__chaire-partners-logos img {
     max-width: 12.5rem;
@@ -2238,6 +2243,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   @media (max-width: 800px) {
     .about-v2__chaire-foundation { grid-template-columns: 1fr; gap: clamp(2rem, 6vw, 2.75rem); }
+    /* Le décalage horizontal desktop (aligner sur le "8" du bandeau,
+       qui n'a plus de sens une fois le bandeau replié en grille 2x2)
+       et le chevauchement vertical n'ont plus lieu d'être en colonne
+       unique - les logos redeviennent simplement centrés sous le texte. */
+    .about-v2__chaire-partners-logos { margin-top: 0; margin-left: 0; }
   }
 
   @media (max-width: 680px) {
