@@ -104,7 +104,7 @@ const researchStats = [
 ];
 
 const impactStats = [
-  { value: '2', label: 'Start-up' },
+  { value: '2', label: 'Start-up créées' },
   { value: '2', label: 'Logiciels médicaux' },
   { value: '1', label: "Chatbot d'éducation thérapeutique" },
 ];
@@ -426,91 +426,105 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   <section id="qui-sommes-nous" class="about-v2 section-block" aria-labelledby="about-v2-title">
     <div class="wrap about-v2__intro" data-reveal>
       <span class="about-v2__kicker" id="about-v2-title">Qui sommes-nous ?</span>
+      <h2 class="about-v2__intro-title">Une expertise académique et clinique au service de l'innovation</h2>
+      <p class="about-v2__intro-lede">
+        Au carrefour de la recherche, de la clinique et du numérique, la Chaire BOPA
+        imagine et développe la chirurgie de demain pour améliorer la prise en charge
+        des patients.
+      </p>
     </div>
 
     <div class="wrap about-v2__chaire" data-reveal>
-      <div class="about-v2__chaire-marker">
-        <span class="about-v2__chapter-number">01.</span>
-        <span class="about-v2__chaire-marker-title">Une Chaire d'excellence</span>
+      <div class="about-v2__chaire-network" aria-hidden="true">
+        <img src="/images/graphics/reseau-bopa.png" alt="" loading="lazy" />
       </div>
 
-      <div class="about-v2__chaire-intro">
-        <p class="about-v2__chaire-label">La Chaire d'excellence</p>
-        <h3 class="about-v2__chaire-title">Une excellence académique tournée vers l'innovation</h3>
-        <p class="about-v2__chaire-lede">
-          Fondée en <strong>2020</strong> par le <strong>Pr Éric Vibert</strong>, chirurgien
-          transplanteur à l'hôpital Paul-Brousse AP-HP et professeur à l'Université
-          Paris-Saclay, la Chaire BOPA associe excellence académique, expertise clinique
-          et innovation technologique pour imaginer et développer la chirurgie de demain.
-        </p>
-        <p class="about-v2__chaire-lede">
-          Sa volonté : ne pas s'arrêter à la recherche. BOPA accompagne les innovations
-          jusqu'à leur expérimentation, leur valorisation et, lorsqu'elles ont vocation à
-          être diffusées largement, leur transformation en solutions concrètes et en
-          start-up.
-        </p>
-      </div>
-
-      <div class="about-v2__chaire-ecosystem">
-        <p class="about-v2__chaire-label">Un écosystème académique d'excellence</p>
-        <div class="about-v2__chaire-logos">
-          {founders.map((logo) => (
-            <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
-          ))}
+      <div class="about-v2__chaire-content">
+        <div class="about-v2__chaire-marker">
+          <span class="about-v2__chaire-number">01</span>
+          <span class="about-v2__chaire-marker-title">Une Chaire d'excellence</span>
         </div>
-      </div>
 
-      <div class="about-v2__chaire-stats">
-        {researchStats.map((stat) => (
-          <div class="about-v2__chaire-stat">
-            <strong>{stat.value}</strong>
-            <span>{stat.label}</span>
-          </div>
-        ))}
-      </div>
-
-      <div class="about-v2__chaire-terrain">
-        <p class="about-v2__chaire-label">De la recherche au terrain</p>
-        <p class="about-v2__chaire-lede">
-          Pour accélérer le passage de l'idée à l'usage, BOPA s'appuie sur des
-          dispositifs qui rapprochent recherche, innovation technologique,
-          professionnels de santé et entrepreneurs.
-        </p>
-        <div class="about-v2__chaire-programs">
-          <div class="about-v2__chaire-program about-v2__chaire-program--bopex">
-            <img src="/logos/partenaires/logo-bopex.png" alt="BOpEx" loading="lazy" />
-            <p>
-              Un tiers-lieu d'expérimentation dédié au co-développement, au test et à
-              l'évaluation de solutions numériques destinées au bloc opératoire.
+        <div class="about-v2__chaire-foundation">
+          <div class="about-v2__chaire-text">
+            <p class="about-v2__chaire-lede">
+              Fondée en <strong>2020</strong> par le <strong>Pr Éric Vibert</strong>, chirurgien
+              transplanteur à l'hôpital Paul-Brousse AP-HP et professeur à l'Université
+              Paris-Saclay, la Chaire BOPA est co-portée par l'<strong>AP-HP</strong>,
+              l'<strong>Institut Mines-Télécom (IMT)</strong> et l'<strong>Université
+              Paris-Saclay</strong>. Elle associe excellence académique, expertise clinique
+              et innovation technologique pour imaginer et développer la chirurgie de demain.
             </p>
-            <a class="about-v2__chaire-cta" href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">Découvrir BOpEx →</a>
-          </div>
-          <div class="about-v2__chaire-program about-v2__chaire-program--boptech">
-            <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
-            <p>
-              Une plateforme technologique et scientifique au cœur du bloc opératoire,
-              conçue pour rapprocher innovations, expertise clinique et expérimentation
-              en conditions réelles.
+            <p class="about-v2__chaire-lede">
+              Sa volonté est de ne pas s'arrêter à la recherche : expérimenter les
+              innovations, démontrer leur valeur et les accompagner jusqu'à leur
+              déploiement et, lorsque cela est pertinent, jusqu'à la création de
+              start-up.
             </p>
           </div>
-        </div>
-      </div>
 
-      <div class="about-v2__chaire-valorisation">
-        <h3 class="about-v2__chaire-title">Faire émerger des solutions qui dépassent le laboratoire</h3>
-        <p class="about-v2__chaire-lede">
-          La vocation de BOPA est aussi de donner aux innovations les moyens de sortir
-          du cadre académique : les confronter au terrain, démontrer leur valeur et
-          accompagner, lorsque c'est pertinent, leur valorisation jusqu'à la création de
-          start-up.
-        </p>
-        <div class="about-v2__chaire-stats about-v2__chaire-stats--valorisation">
-          {impactStats.map((stat) => (
-            <div class="about-v2__chaire-stat">
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
+          <div class="about-v2__chaire-partners">
+            <p class="about-v2__chaire-label">Co-portée par</p>
+            <div class="about-v2__chaire-partners-logos">
+              {founders.map((logo) => (
+                <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+              ))}
             </div>
-          ))}
+          </div>
+        </div>
+
+        <div class="about-v2__chaire-section">
+          <p class="about-v2__chaire-label">Une excellence académique</p>
+          <div class="about-v2__chaire-stats">
+            {researchStats.map((stat) => (
+              <div class="about-v2__chaire-stat">
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div class="about-v2__chaire-section">
+          <p class="about-v2__chaire-label">De la recherche au terrain</p>
+          <p class="about-v2__chaire-lede about-v2__chaire-lede--narrow">
+            Pour faire passer les innovations de l'idée à l'usage, BOPA a fait émerger
+            des dispositifs dédiés à leur expérimentation et à leur déploiement.
+          </p>
+          <div class="about-v2__chaire-programs">
+            <div class="about-v2__chaire-program about-v2__chaire-program--bopex">
+              <img src="/logos/partenaires/logo-bopex.png" alt="BOpEx" loading="lazy" />
+              <p>
+                Un tiers-lieu d'expérimentation pour co-développer, tester et évaluer
+                les innovations numériques destinées au bloc opératoire.
+              </p>
+              <a class="about-v2__chaire-cta" href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">Découvrir BOpEx →</a>
+            </div>
+            <div class="about-v2__chaire-program about-v2__chaire-program--boptech">
+              <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
+              <p>
+                Une plateforme technologique et scientifique au cœur du bloc opératoire,
+                dédiée à l'expérimentation en conditions réelles.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-v2__chaire-section">
+          <p class="about-v2__chaire-label">Faire sortir l'innovation du laboratoire</p>
+          <p class="about-v2__chaire-lede about-v2__chaire-lede--narrow">
+            BOPA accompagne les projets qui ont démontré leur valeur vers des solutions
+            concrètes et diffusables, avec la volonté, lorsque le modèle s'y prête, de
+            favoriser leur valorisation et la création de start-up.
+          </p>
+          <div class="about-v2__chaire-stats about-v2__chaire-stats--valorisation">
+            {impactStats.map((stat) => (
+              <div class="about-v2__chaire-stat">
+                <strong>{stat.value}</strong>
+                <span>{stat.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -1639,9 +1653,25 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2 a { font-family: var(--font-text); }
 
   .about-v2__intro {
-    text-align: center;
     padding-top: clamp(4rem, 7vw, 6.75rem);
-    padding-bottom: clamp(1rem, 2vw, 1.5rem);
+    padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  }
+  .about-v2__intro-title {
+    margin: 1.1rem 0 0;
+    max-width: 46rem;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.1vw, 3.15rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+  }
+  .about-v2__intro-lede {
+    margin: 1.45rem 0 0;
+    max-width: 38rem;
+    color: var(--about-ink);
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    line-height: 1.55;
   }
   /* Même langage graphique que .bopa-eyebrow (Mission/Innovations) et
      .bopa-vision-v4__eyebrow (Vision) - owner's explicit request,
@@ -1659,58 +1689,107 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   /* ------------------------------------------------------------
-     "Une Chaire d'excellence" (01) - refonte fluide, 2026-08-27/28.
-     Plus de cartes/cadres/traits : la hiérarchie vient de la
-     typographie, des espaces et des vrais logos/chiffres. Fond =
-     --about-bg (bleu très pâle déjà validé), texte = --about-ink /
-     --color-navy, accent = --mp-blue-bright (cyan BOPA) - aucune
-     nouvelle nuance. Les classes .about-v2__chaire-* sont propres à
-     cette sous-section ; .about-v2__chapter-number est partagée et
-     pensée pour que 02/03 reprennent la même DA plus tard.
+     "Une Chaire d'excellence" (01) - refonte V3, 2026-08-28, au plus
+     près de REFERENCE-VISUEL-CHAIRE.png : deux colonnes (texte /
+     logos co-porteurs empilés), chiffres harmonisés avec .stat-row
+     du site (publications), motif réseau en fondu haut-droite. Plus
+     de cartes/cadres/traits : la hiérarchie vient de la typographie,
+     des espaces et des vrais logos/chiffres. Fond = --about-bg (bleu
+     très pâle déjà validé), texte = --about-ink/--color-navy, accent
+     = --bopa-cyan - aucune nouvelle nuance. .about-v2__chaire-number
+     est PROPRE à cette sous-section (01) : .about-v2__chapter-number
+     reste partagée par 02/03, non touchée par ce pack.
      ------------------------------------------------------------ */
   .about-v2__chaire {
-    padding: clamp(1rem, 2vw, 2rem) 0 clamp(4.5rem, 7vw, 6.5rem);
+    position: relative;
+    overflow: hidden;
+    padding: clamp(2.5rem, 4vw, 3.5rem) 0 clamp(4.5rem, 7vw, 6.5rem);
   }
+
+  .about-v2__chaire-network {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: min(46vw, 620px);
+    height: min(58vw, 460px);
+    z-index: 0;
+    pointer-events: none;
+  }
+  .about-v2__chaire-network img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top right;
+  }
+  .about-v2__chaire-network::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(115deg, var(--about-bg) 0%, transparent 42%),
+      linear-gradient(to bottom, transparent 55%, var(--about-bg) 100%);
+  }
+
+  .about-v2__chaire-content { position: relative; z-index: 1; }
 
   .about-v2__chaire-marker {
     display: flex;
     align-items: baseline;
-    gap: 0.85rem;
+    gap: 1.1rem;
+    margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
   }
-  .about-v2__chapter-number {
-    color: var(--mp-blue-bright);
+  .about-v2__chaire-number {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.65rem;
+    color: var(--bopa-cyan);
     font-family: var(--font-display);
-    font-size: 0.95rem;
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
     font-weight: 700;
-    letter-spacing: 0.06em;
     line-height: 1;
+  }
+  .about-v2__chaire-number::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 1.6rem;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--bopa-cyan);
   }
   .about-v2__chaire-marker-title {
     color: var(--color-navy);
     font-family: var(--font-display);
-    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-size: clamp(1.7rem, 2.6vw, 2.15rem);
     font-weight: 600;
     letter-spacing: -0.01em;
+    line-height: 1.15;
   }
 
   .about-v2__chaire-label {
-    margin: 0 0 0.75rem;
-    color: var(--mp-blue-bright);
+    position: relative;
+    display: inline-block;
+    margin: 0 0 1.1rem;
+    padding-bottom: 0.6rem;
+    color: var(--bopa-cyan);
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
-  .about-v2__chaire-title {
-    margin: 0 0 1.25rem;
-    max-width: 38rem;
-    color: var(--color-navy);
-    font-family: var(--font-display);
-    font-size: clamp(1.7rem, 2.8vw, 2.35rem);
-    line-height: 1.15;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+  .about-v2__chaire-label::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 2.5rem;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--bopa-cyan);
   }
+
   .about-v2__chaire-lede {
     max-width: 42rem;
     color: var(--about-ink);
@@ -1719,60 +1798,66 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
   .about-v2__chaire-lede + .about-v2__chaire-lede { margin-top: 1.1rem; }
   .about-v2__chaire-lede strong { color: var(--color-navy); font-weight: 700; }
+  .about-v2__chaire-lede--narrow { max-width: 34rem; }
 
-  .about-v2__chaire-intro { margin-top: 1.35rem; }
-
-  .about-v2__chaire-ecosystem {
-    margin-top: clamp(3rem, 5vw, 4.25rem);
-    text-align: center;
+  .about-v2__chaire-foundation {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+    gap: clamp(3rem, 7vw, 6rem);
+    align-items: start;
   }
-  .about-v2__chaire-ecosystem .about-v2__chaire-label { text-align: center; }
-  .about-v2__chaire-logos {
+
+  .about-v2__chaire-partners {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(2.5rem, 6vw, 4.5rem);
-    margin-top: 1.5rem;
+    flex-direction: column;
+    gap: clamp(1.1rem, 2vw, 1.5rem);
   }
-  .about-v2__chaire-logos img {
-    max-width: 10rem;
-    max-height: 2.75rem;
+  .about-v2__chaire-partners-logos {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 3vw, 2rem);
+  }
+  .about-v2__chaire-partners-logos img {
+    max-width: 9rem;
+    max-height: 3rem;
     width: auto;
     height: auto;
     object-fit: contain;
+    object-position: left center;
     transform: scale(var(--logo-scale, 1));
+    transform-origin: left center;
   }
+
+  .about-v2__chaire-section { margin-top: clamp(3.5rem, 6vw, 5rem); }
 
   .about-v2__chaire-stats {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: 2rem clamp(1.5rem, 4vw, 3rem);
-    margin-top: clamp(2.75rem, 4.5vw, 3.75rem);
+    margin-top: clamp(1.5rem, 3vw, 2rem);
   }
   .about-v2__chaire-stats--valorisation {
-    justify-content: center;
-    text-align: center;
+    justify-content: flex-start;
     gap: 2rem clamp(3rem, 6vw, 5rem);
   }
   .about-v2__chaire-stat strong {
     display: block;
     color: var(--color-navy);
     font-family: var(--font-display);
-    font-size: clamp(2.2rem, 4vw, 3rem);
-    font-weight: 600;
+    font-size: clamp(2rem, 6vw, var(--text-2xl));
+    font-weight: 700;
     line-height: 1;
   }
   .about-v2__chaire-stat span {
     display: block;
-    margin-top: 0.5rem;
+    margin-top: 0.55rem;
     color: var(--about-muted);
     font-size: 0.85rem;
     line-height: 1.4;
   }
 
-  .about-v2__chaire-terrain { margin-top: clamp(3.5rem, 6vw, 5rem); }
   .about-v2__chaire-programs {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1796,14 +1881,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__chaire-cta {
     display: inline-block;
     margin-top: 0.85rem;
-    color: var(--mp-blue-bright);
+    color: var(--bopa-cyan);
     font-size: 0.88rem;
     font-weight: 700;
     text-decoration: none;
   }
   .about-v2__chaire-cta:hover { text-decoration: underline; text-underline-offset: 0.2em; }
-
-  .about-v2__chaire-valorisation { margin-top: clamp(3.5rem, 6vw, 5rem); }
 
   .about-v2__linkedin {
     color: var(--mp-blue-bright);
@@ -2075,6 +2158,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     .about-v2__team-intro { max-width: 36rem; }
     .about-v2__team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .about-v2__support-head { max-width: 46rem; }
+  }
+
+  @media (max-width: 800px) {
+    .about-v2__chaire-foundation { grid-template-columns: 1fr; gap: clamp(2rem, 6vw, 2.75rem); }
+    .about-v2__chaire-network { width: 100%; height: min(70vw, 320px); opacity: .5; }
   }
 
   @media (max-width: 680px) {

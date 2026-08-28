@@ -1522,6 +1522,33 @@ p {
   text-transform: uppercase;
 }
 
+/* Shared "petit tiret cyan" signature under every main section eyebrow
+   (Notre mission/Nos innovations/Nous contacter via .bopa-eyebrow, plus
+   Notre vision/Qui sommes-nous/Nous soutenir's own eyebrow classes below,
+   each defined in index.astro's scoped styles) - one definition here so
+   the mark stays pixel-identical everywhere, added 2026-08-28 at the
+   owner's request after validating it on "Qui sommes-nous ?". Global
+   site.css selectors match by class regardless of Astro's scoping
+   attribute, so this applies across files without duplication. */
+.bopa-eyebrow,
+.bopa-vision-v4__eyebrow,
+.about-v2__kicker,
+.bopa-support__eyebrow {
+  position: relative;
+}
+.bopa-eyebrow::after,
+.bopa-vision-v4__eyebrow::after,
+.about-v2__kicker::after,
+.bopa-support__eyebrow::after {
+  content: "";
+  display: block;
+  margin-top: 0.55rem;
+  width: 2.5rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--bopa-cyan);
+}
+
 /* ---------- MISSION ---------- */
 .bopa-mission-v2 {
   width: 100%;
