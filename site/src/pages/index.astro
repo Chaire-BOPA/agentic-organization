@@ -121,8 +121,8 @@ const bandIcons = [
 const researchResults = [
   { title: '2 start-ups créées', text: 'pour porter et développer des innovations de rupture' },
   { title: '2 logiciels médicaux déployés', text: 'au plus près des besoins des professionnels de santé' },
-  { title: 'Colette', text: "chatbot d'éducation thérapeutique pour les patients greffés" },
-  { title: 'MesGardes', text: 'application facilitant la gestion des gardes au bloc opératoire' },
+  { title: "Colette, chatbot d'éducation thérapeutique", text: 'pour les patients greffés' },
+  { title: 'MesGardes, application facilitant la gestion', text: 'des gardes au bloc opératoire' },
 ];
 
 const impactCheckIcon =
@@ -514,11 +514,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
         <div class="about-v2__impact-cards">
           <div class="about-v2__impact-card">
-            <div class="about-v2__impact-card-icon" set:html={impactCardIcons[0]} />
-            <p class="about-v2__impact-card-title">
-              Des résultats concrets<br />
-              <span class="about-v2__chaire-highlight">au service du terrain</span>
-            </p>
+            <div class="about-v2__impact-card-header">
+              <div class="about-v2__impact-card-icon" set:html={impactCardIcons[0]} />
+              <p class="about-v2__impact-card-title">
+                1. Des résultats concrets <span class="about-v2__chaire-highlight">au service du terrain</span>
+              </p>
+            </div>
             <p class="about-v2__impact-card-text">
               La recherche menée au sein de BOPA a déjà permis de faire émerger et
               déployer des solutions concrètes, notamment à travers la création de
@@ -539,12 +540,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           </div>
 
           <div class="about-v2__impact-card">
-            <div class="about-v2__impact-card-icon" set:html={impactCardIcons[1]} />
-            <p class="about-v2__impact-card-title">
-              Renforcer les liens<br />
-              <span class="about-v2__chaire-highlight">entre l'AP-HP et les industriels
-              de la pharma ou de la medtech</span>
-            </p>
+            <div class="about-v2__impact-card-header">
+              <div class="about-v2__impact-card-icon" set:html={impactCardIcons[1]} />
+              <p class="about-v2__impact-card-title">
+                2. Renforcer les liens <span class="about-v2__chaire-highlight">entre l'AP-HP et les industriels</span> de la pharma ou de la medtech
+              </p>
+            </div>
             <p class="about-v2__impact-card-text">
               Le deuxième axe est de créer et renforcer les passerelles entre l'AP-HP
               et les industriels de la pharma et de la medtech, afin de favoriser le
@@ -553,22 +554,24 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             </p>
             <div class="about-v2__impact-partners">
               <div class="about-v2__impact-partner">
+                <p class="about-v2__impact-partner-label">Le tiers lieu d'expérimentation<br />BOPEX</p>
                 <a href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">
                   <img src="/logos/partenaires/logo-bopex.png" alt="BOpEx" loading="lazy" />
                 </a>
-                <p>
-                  <span class="about-v2__chaire-highlight">Une démarche dédiée à
-                  l'innovation au bloc opératoire au sens large</span>, favorisant
-                  les collaborations entre l'hôpital et les acteurs industriels.
+                <p class="about-v2__impact-partner-text">
+                  Le guichet d'entrée pour l'innovation numérique au bloc opératoire
+                  pour l'AP-HP.
                 </p>
+                <a class="about-v2__impact-partner-cta" href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">
+                  Découvrir le BOPEX <span aria-hidden="true">↗</span>
+                </a>
               </div>
               <div class="about-v2__impact-partner">
+                <p class="about-v2__impact-partner-label">La plateforme<br />BOPTECH</p>
                 <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
-                <p>
-                  Une plateforme dédiée plus spécifiquement à
-                  <span class="about-v2__chaire-highlight"> l'innovation en chirurgie du foie</span>,
-                  permettant aux équipes hospitalières et aux industriels de développer
-                  et expérimenter ensemble de nouvelles solutions.
+                <p class="about-v2__impact-partner-text">
+                  Une plateforme dédiée spécifiquement à l'innovation en chirurgie du
+                  foie avec une machine de perfusion et une salle hybride.
                 </p>
               </div>
             </div>
@@ -1991,32 +1994,44 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     margin-top: clamp(2rem, 3.5vw, 2.75rem);
   }
   .about-v2__impact-card {
-    background: #fff;
+    background: linear-gradient(180deg, #fff, var(--about-bg));
     border: 1px solid var(--about-line);
     border-radius: 1rem;
     padding: clamp(1.75rem, 3vw, 2.25rem);
   }
+
+  /* Picto + titre sur la même ligne de tête (pack "impact-cards-exact",
+     2026-08-28) - point explicitement demandé par l'owner et par le
+     visuel de référence, remplace l'ancien empilement vertical. */
+  .about-v2__impact-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
   .about-v2__impact-card-icon {
+    flex-shrink: 0;
     display: grid;
     place-items: center;
     width: 3.25rem;
     height: 3.25rem;
     border-radius: 50%;
     background: var(--about-bg);
+    border: 1px solid var(--about-line);
     color: var(--bopa-cyan);
-    margin-bottom: 1.1rem;
   }
   .about-v2__impact-card-icon svg { width: 1.6rem; height: 1.6rem; }
   .about-v2__impact-card-title {
     position: relative;
     display: inline-block;
-    margin: 0 0 1.25rem;
+    margin: 0.15rem 0 0;
     padding-bottom: 0.65rem;
     color: var(--color-navy);
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
     font-weight: 700;
-    line-height: 1.3;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
   }
   .about-v2__impact-card-title::after {
     content: "";
@@ -2039,7 +2054,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__impact-checklist {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -2048,7 +2062,9 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     display: flex;
     align-items: flex-start;
     gap: 0.75rem;
+    padding: 0.85rem 0;
   }
+  .about-v2__impact-checklist li + li { border-top: 1px dashed var(--about-line); }
   .about-v2__impact-check {
     flex-shrink: 0;
     display: grid;
@@ -2061,7 +2077,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__impact-check svg { width: 1.4rem; height: 1.4rem; }
   .about-v2__impact-result strong {
     display: block;
-    color: var(--color-navy);
+    color: var(--bopa-cyan);
     font-size: 0.95rem;
     font-weight: 700;
   }
@@ -2073,30 +2089,55 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     line-height: 1.45;
   }
 
+  /* BOPEX/BOPTECH - logos "beaucoup plus grands" (pack, 2026-08-28) :
+     vrais assets à leur propre ratio (BOpEx = wordmark large et plat,
+     BOPTECH = badge circulaire) - tailles très différentes l'une de
+     l'autre, volontairement, plutôt que forcées à une hauteur commune. */
   .about-v2__impact-partners {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: clamp(1.5rem, 3vw, 2rem);
     margin-top: clamp(1.5rem, 2.5vw, 1.75rem);
+    text-align: center;
   }
   .about-v2__impact-partner:last-child {
     padding-left: clamp(1.5rem, 3vw, 2rem);
     border-left: 1px solid var(--about-line);
   }
+  .about-v2__impact-partner-label {
+    margin: 0 0 1.1rem;
+    color: var(--color-navy);
+    font-size: 0.86rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
   .about-v2__impact-partner img {
     display: block;
     width: auto;
     object-fit: contain;
-    margin-bottom: 0.9rem;
+    margin: 0 auto 1rem;
   }
-  .about-v2__impact-partner:first-child img { max-height: 2rem; max-width: 8rem; }
-  .about-v2__impact-partner:last-child img { max-height: 3.25rem; max-width: 3.25rem; }
-  .about-v2__impact-partner p {
+  .about-v2__impact-partner:first-child img { max-height: 4.75rem; max-width: 13rem; }
+  .about-v2__impact-partner:last-child img { max-height: 7.5rem; max-width: 7.5rem; }
+  .about-v2__impact-partner-text {
     margin: 0;
     color: var(--about-ink);
     font-size: 0.86rem;
     line-height: 1.55;
   }
+  .about-v2__impact-partner-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.9rem;
+    padding-bottom: 0.15rem;
+    color: var(--bopa-cyan);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid var(--bopa-cyan);
+  }
+  .about-v2__impact-partner-cta:hover { opacity: 0.8; }
 
   .about-v2__linkedin {
     color: var(--mp-blue-bright);
