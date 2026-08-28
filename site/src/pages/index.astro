@@ -1698,9 +1698,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   /* Même langage graphique que .bopa-eyebrow (Mission/Innovations) et
      .bopa-vision-v4__eyebrow (Vision) - owner's explicit request,
      2026-08-27/28, refonte Chaire d'excellence : plus de soulignement
-     décoratif, mêmes taille/graisse/espacement que les 3 autres. */
+     décoratif, mêmes taille/graisse/espacement que les 3 autres.
+     display:block + text-align:left (finitions V3, 2026-08-28) :
+     reprend exactement le traitement de .bopa-vision-v4__eyebrow (bloc
+     pleine largeur, aligné à gauche du même conteneur) - seul l'eyebrow
+     passe à gauche, .about-v2__intro-title/-lede gardent leur propre
+     text-align:center explicite juste en dessous. */
   .about-v2__kicker {
-    display: inline-block;
+    display: block;
+    text-align: left;
     margin-bottom: 0.85rem;
     color: var(--mp-blue-bright);
     font-size: 0.82rem;
@@ -1719,16 +1725,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      partagé par les 3 titres de sous-bloc ; chiffres académiques et de
      valorisation ramenés à l'échelle de .about-v2__clinical-stat (02,
      juste en dessous) - plus élégante, moins "dashboard" que --text-2xl.
-     L'espace avant "01" reprend telle quelle la valeur réelle de Mission
-     (intro -> frise, clamp(3.8rem,6vw,5.6rem)), portée uniquement par
-     .about-v2__chaire plutôt que doublée entre deux éléments. Fond =
-     --about-bg, texte = --about-ink/--color-navy, accent = --bopa-cyan -
-     aucune nouvelle nuance. .about-v2__chaire-number reste PROPRE à
-     cette sous-section (01) : .about-v2__chapter-number reste partagée
-     par 02/03, non touchée par ce pack.
-     ------------------------------------------------------------ */
+     Fond = --about-bg, texte = --about-ink/--color-navy, accent =
+     --bopa-cyan - aucune nouvelle nuance. .about-v2__chaire-number
+     reste PROPRE à cette sous-section (01) : .about-v2__chapter-number
+     reste partagée par 02/03, non touchée par ce pack.
+     L'espace avant "01" reprenait la valeur réelle de Mission (intro ->
+     frise, clamp(3.8rem,6vw,5.6rem)) - l'owner l'a jugé encore trop
+     important une fois vu en place (finitions V3, 2026-08-28) et a
+     demandé une réduction franche, indépendamment de Mission cette
+     fois. Repris var(--space-5) (4rem/64px), le même token déjà utilisé
+     pour le haut de la section elle-même - un vrai token du projet,
+     pas un offset inventé, plutôt qu'un clamp plus généreux. */
   .about-v2__chaire {
-    padding: clamp(3.8rem, 6vw, 5.6rem) 0 clamp(4.5rem, 7vw, 6.5rem);
+    padding-top: var(--space-5);
+    padding-bottom: clamp(4.5rem, 7vw, 6.5rem);
   }
 
   .about-v2__chaire-marker {
@@ -1789,7 +1799,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__chaire-foundation {
     display: grid;
     grid-template-columns: minmax(0, 1.85fr) minmax(180px, 0.5fr);
-    gap: clamp(2rem, 4vw, 3rem);
+    gap: clamp(1.5rem, 3vw, 2.25rem);
     align-items: stretch;
   }
 
@@ -1804,11 +1814,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     justify-content: center;
     gap: clamp(1.1rem, 2vw, 1.5rem);
   }
+  /* Correction optique (finitions V3, 2026-08-28) : le groupe est déjà
+     centré au pixel près sur la hauteur réelle du bloc de texte
+     (grid align-items:stretch + justify-content:center ci-dessus,
+     vérifié via getBoundingClientRect) - mais son poids visuel (AP-HP
+     en haut, plus "plein", Paris-Saclay en bas, un simple wordmark à
+     plat) le fait paraître plus bas que son centre géométrique. Léger
+     décalage vers le haut pour corriger l'impression, sans changer le
+     mécanisme de centrage lui-même. */
   .about-v2__chaire-partners-logos {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: clamp(1.5rem, 3vw, 2rem);
+    margin-top: -0.75rem;
   }
   .about-v2__chaire-partners-logos img {
     max-width: 12.5rem;
@@ -1824,13 +1843,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      --mp-navy (même bleu marine que Notre Mission, aucune nouvelle
      nuance). Chiffres à l'échelle de .about-v2__clinical-stat (déjà la
      référence "élégante, non-dashboard" retenue lors des correctifs V4). */
+  /* Largeur pleine (finitions V3, 2026-08-28) : le bandeau doit occuper
+     exactement la même largeur que .about-v2__chaire (le même .wrap /
+     var(--max-width) que tout le reste du contenu de cette partie),
+     bord à bord - annule le width:90% centré de finitions V2, l'owner
+     ayant vu en place que ça le faisait paraître comme un petit
+     rectangle plutôt qu'un vrai bandeau éditorial. Hauteur réduite
+     seulement via le padding vertical (les pictos/chiffres/libellés
+     internes restent à leur taille exacte, non touchés ici). */
   .about-v2__chaire-band {
-    margin: clamp(2rem, 3.5vw, 3rem) auto 0;
-    width: 90%;
+    margin-top: clamp(2rem, 3.5vw, 3rem);
     display: flex;
     background: var(--mp-navy);
     border-radius: 1rem;
-    padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.25rem, 3vw, 2rem);
+    padding: clamp(1.4rem, 2.4vw, 2rem) clamp(1.25rem, 3vw, 2rem);
   }
   .about-v2__chaire-band-stat {
     flex: 1 1 0;
