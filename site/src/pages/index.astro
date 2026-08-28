@@ -1998,6 +1998,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     margin-top: clamp(2rem, 3.5vw, 2.75rem);
   }
   .about-v2__impact-card {
+    display: flex;
+    flex-direction: column;
     background: linear-gradient(180deg, #fff, var(--about-bg));
     border: 1px solid var(--about-line);
     border-radius: 1rem;
@@ -2057,9 +2059,17 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     line-height: 1.6;
   }
 
+  /* La carte est en colonne flex (voir .about-v2__impact-card) et la
+     checklist grandit pour absorber tout l'espace restant (2026-08-28,
+     retour owner : la carte de gauche laissait un vide en bas car son
+     contenu était naturellement plus court que celui de droite) -
+     justify-content:space-between répartit les 4 items sur toute la
+     hauteur disponible plutôt que de les laisser groupés en haut. */
   .about-v2__impact-checklist {
+    flex: 1;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -2124,12 +2134,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      description de chaque colonne démarrait à une hauteur différente
      selon la taille réelle du logo. Les deux logos sont centrés dans
      ce même espace, quelle que soit leur taille propre. */
+  /* Alignés en haut (flex-start) plutôt que centrés (2026-08-28, retour
+     owner) - BOPTECH (le plus grand des deux, 9rem) remonte au sommet
+     du slot ; BOpEx (bien plus petit) s'aligne pareil, sur le même
+     bord haut, plutôt que de flotter au milieu d'un espace réservé
+     pour le plus grand des deux. Hauteur du slot ramenée à 9rem (pile
+     la taille de BOPTECH, plus de marge inutile) et l'écart avant la
+     description resserré - les deux descriptions démarrent toujours
+     à la même hauteur, la hauteur du slot restant partagée. */
   .about-v2__impact-partner-logo {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
-    height: 9.5rem;
-    margin-bottom: 0.65rem;
+    height: 9rem;
+    margin-bottom: 0.4rem;
   }
   .about-v2__impact-partner-logo img {
     display: block;
