@@ -56,8 +56,8 @@ const slugify = (name: string) =>
     .replace(/\s+/g, '-');
 
 const team = [
-  { name: 'Pr Éric Vibert', credentials: 'MD, PhD', role: 'Chirurgien transplanteur et fondateur de la Chaire BOPA', linkedin: 'https://www.linkedin.com/in/eric-vibert-md-phd-iko-koh-bab30469/' },
-  { name: 'Charles Hellec', credentials: 'PhD', role: 'Directeur opérationnel', linkedin: 'https://www.linkedin.com/in/charles-hellec/' },
+  { name: 'Pr Éric Vibert', credentials: 'MD, PhD', role: 'Fondateur de la Chaire BOPA', linkedin: 'https://www.linkedin.com/in/eric-vibert-md-phd-iko-koh-bab30469/' },
+  { name: 'Charles Hellec', credentials: 'PhD', role: 'Directeur opérationnel de la Chaire BOPA', linkedin: 'https://www.linkedin.com/in/charles-hellec/' },
   { name: 'Elie Farha', credentials: 'MD', role: 'Directeur opérationnel de la plateforme BOPTECH', linkedin: 'https://www.linkedin.com/in/elie-farha-md/' },
   { name: 'Axelle Piguet', role: 'Ingénieure machine learning', linkedin: 'https://fr.linkedin.com/in/axelle-piguet' },
 ].map((person) => {
@@ -2448,7 +2448,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     align-items: stretch;
     gap: clamp(2rem, 4vw, 4rem);
     padding-top: clamp(1.1rem, 2vw, 1.5rem);
-    padding-bottom: clamp(1.25rem, 2vw, 1.75rem);
+    padding-bottom: var(--space-5);
   }
   .about-v2__team-intro {
     display: flex;
@@ -2507,7 +2507,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
   .about-v2__person-photo {
     width: 100%;
-    aspect-ratio: 0.79 / 1;
+    aspect-ratio: 1.34 / 1;
     background: #edf2f8;
   }
   .about-v2__person-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
@@ -2517,7 +2517,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__person-body .about-v2__credentials { margin: 0; min-height: 1.3em; color: var(--bopa-cyan); font-size: .95rem; font-weight: 700; line-height: 1.3; }
   .about-v2__person-divider { display: block; width: 1.75rem; height: 1px; margin: .75rem 0; background: var(--about-line); }
   .about-v2__person-role { margin: 0; color: var(--about-ink); font-size: .92rem; line-height: 1.55; }
-  .about-v2__linkedin { display: inline-flex; align-items: center; gap: .4rem; margin-top: auto; padding-top: 1.2rem; color: var(--color-accent); font-size: .9rem; font-weight: 700; }
+  .about-v2__linkedin { display: inline-flex; align-items: center; gap: .4rem; margin-top: .65rem; color: var(--color-accent); font-size: .9rem; font-weight: 700; }
   .about-v2__linkedin-icon { width: 1.35rem; height: 1.35rem; display: grid; place-items: center; border-radius: 3px; background: var(--color-accent); color: #fff; font-size: .7rem; font-weight: 800; }
 
   .about-v2__support {
