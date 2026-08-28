@@ -97,16 +97,16 @@ const patronDescriptions = [
 ];
 
 const researchStats = [
-  { value: '55', label: 'publications', icon: 'book' },
-  { value: '51', label: 'communications orales', icon: 'mic' },
-  { value: '7', label: 'étudiants en thèse', icon: 'cap' },
-  { value: '8', label: 'étudiants en master', icon: 'person' },
+  { value: '55', label: 'Publications' },
+  { value: '51', label: 'Communications orales' },
+  { value: '7', label: 'Doctorants' },
+  { value: '8', label: 'Étudiants en Master' },
 ];
 
 const impactStats = [
-  { value: '2', label: 'start-up créées' },
-  { value: '2', label: 'logiciels médicaux' },
-  { value: '1', label: "chatbot d'éducation thérapeutique" },
+  { value: '2', label: 'Start-up' },
+  { value: '2', label: 'Logiciels médicaux' },
+  { value: '1', label: "Chatbot d'éducation thérapeutique" },
 ];
 
 const clinicalStats = [
@@ -124,17 +124,6 @@ const chbPhotoFile = ['jpg', 'jpeg', 'png', 'webp']
   .map((ext) => `centre-hepato-biliaire.${ext}`)
   .find((file) => existsSync(join(process.cwd(), 'public', 'photos', file)));
 const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
-
-// Petites icônes line-art (24x24, stroke=currentColor) pour le carré de
-// chiffres "recherche académique" - pas de librairie d'icônes dans le
-// projet, un mini-set inline suffit pour ces 4 usages.
-const aboutIconAttrs = 'viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"';
-const aboutIcons: Record<string, string> = {
-  book: `<svg ${aboutIconAttrs}><path d="M4 5.5C4 4.7 4.7 4 5.5 4H11v16H5.5C4.7 20 4 19.3 4 18.5V5.5Z"/><path d="M20 5.5C20 4.7 19.3 4 18.5 4H13v16h5.5c.8 0 1.5-.7 1.5-1.5V5.5Z"/></svg>`,
-  mic: `<svg ${aboutIconAttrs}><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/><path d="M8 21h8"/></svg>`,
-  cap: `<svg ${aboutIconAttrs}><path d="M12 3 2 8l10 5 10-5-10-5Z"/><path d="M6 10.5V16c0 1.5 2.7 3 6 3s6-1.5 6-3v-5.5"/><path d="M22 8v6"/></svg>`,
-  person: `<svg ${aboutIconAttrs}><circle cx="12" cy="8" r="3.2"/><path d="M5 20c0-3.9 3.1-6 7-6s7 2.1 7 6"/></svg>`,
-};
 ---
 
 <Base
@@ -436,90 +425,88 @@ const aboutIcons: Record<string, string> = {
 
   <section id="qui-sommes-nous" class="about-v2 section-block" aria-labelledby="about-v2-title">
     <div class="wrap about-v2__intro" data-reveal>
-      <span class="about-v2__kicker">Qui sommes-nous ?</span>
-      <h2 id="about-v2-title">Une expertise académique et clinique<br />au service de l'innovation en chirurgie.</h2>
+      <span class="about-v2__kicker" id="about-v2-title">Qui sommes-nous ?</span>
     </div>
 
-    <div class="wrap about-v2__institutional" data-reveal>
-      <div class="about-v2__chapter-heading">
+    <div class="wrap about-v2__chaire" data-reveal>
+      <div class="about-v2__chaire-marker">
         <span class="about-v2__chapter-number">01.</span>
-        <h3>Une Chaire d'excellence,<br />de la recherche à l'impact</h3>
-        <p>
-          La Chaire Innovation BOPA améliore la qualité et la sécurité des
-          soins au bloc opératoire, en chirurgie hépato-bilio-pancréatique, en
-          concevant, développant et déployant des solutions numériques basées
-          sur l'IA et les jumeaux numériques. Un enjeu qui reste entier : six
-          mois après une transplantation hépatique, la mortalité avoisine
-          encore les 10 %.
+        <span class="about-v2__chaire-marker-title">Une Chaire d'excellence</span>
+      </div>
+
+      <div class="about-v2__chaire-intro">
+        <p class="about-v2__chaire-label">La Chaire d'excellence</p>
+        <h3 class="about-v2__chaire-title">Une excellence académique tournée vers l'innovation</h3>
+        <p class="about-v2__chaire-lede">
+          Fondée en <strong>2020</strong> par le <strong>Pr Éric Vibert</strong>, chirurgien
+          transplanteur à l'hôpital Paul-Brousse AP-HP et professeur à l'Université
+          Paris-Saclay, la Chaire BOPA associe excellence académique, expertise clinique
+          et innovation technologique pour imaginer et développer la chirurgie de demain.
+        </p>
+        <p class="about-v2__chaire-lede">
+          Sa volonté : ne pas s'arrêter à la recherche. BOPA accompagne les innovations
+          jusqu'à leur expérimentation, leur valorisation et, lorsqu'elles ont vocation à
+          être diffusées largement, leur transformation en solutions concrètes et en
+          start-up.
         </p>
       </div>
 
-      <div class="about-v2__founders">
-        <h4>Trois membres fondateurs</h4>
-        <div class="about-v2__founder-grid">
+      <div class="about-v2__chaire-ecosystem">
+        <p class="about-v2__chaire-label">Un écosystème académique d'excellence</p>
+        <div class="about-v2__chaire-logos">
           {founders.map((logo) => (
-            <div class="about-v2__founder">
-              <div class="about-v2__founder-logo">
-                <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
-              </div>
-              <p>Membre fondateur</p>
-            </div>
+            <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
           ))}
         </div>
       </div>
 
-      <div class="about-v2__proof-grid">
-        <div class="about-v2__research">
-          <h4>Recherche académique</h4>
-          <div class="about-v2__research-square">
-            {researchStats.map((stat) => (
-              <div class="about-v2__research-stat">
-                <span class="about-v2__stat-icon" aria-hidden="true" set:html={aboutIcons[stat.icon]} />
-                <span>
-                  <strong>{stat.value}</strong>
-                  <span>{stat.label}</span>
-                </span>
-              </div>
-            ))}
+      <div class="about-v2__chaire-stats">
+        {researchStats.map((stat) => (
+          <div class="about-v2__chaire-stat">
+            <strong>{stat.value}</strong>
+            <span>{stat.label}</span>
           </div>
-        </div>
+        ))}
+      </div>
 
-        <div class="about-v2__achievements">
-          <h4>Des réalisations institutionnelles nées de BOPA</h4>
-          <div class="about-v2__achievement">
-            <span class="about-v2__achievement-mark">B</span>
-            <div>
-              <h5>BOpEx</h5>
-              <strong>Une réalisation de la Chaire, aujourd'hui autonome</strong>
-              <p>
-                Tiers-lieu d'expérimentation né de la Chaire, aujourd'hui
-                autonome : accélère le développement d'innovations numériques
-                et technologiques pour le bloc opératoire.
-              </p>
-              <a class="about-v2__text-link" href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">Découvrir BOpEx →</a>
-            </div>
+      <div class="about-v2__chaire-terrain">
+        <p class="about-v2__chaire-label">De la recherche au terrain</p>
+        <p class="about-v2__chaire-lede">
+          Pour accélérer le passage de l'idée à l'usage, BOPA s'appuie sur des
+          dispositifs qui rapprochent recherche, innovation technologique,
+          professionnels de santé et entrepreneurs.
+        </p>
+        <div class="about-v2__chaire-programs">
+          <div class="about-v2__chaire-program about-v2__chaire-program--bopex">
+            <img src="/logos/partenaires/logo-bopex.png" alt="BOpEx" loading="lazy" />
+            <p>
+              Un tiers-lieu d'expérimentation dédié au co-développement, au test et à
+              l'évaluation de solutions numériques destinées au bloc opératoire.
+            </p>
+            <a class="about-v2__chaire-cta" href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">Découvrir BOpEx →</a>
           </div>
-          <div class="about-v2__achievement">
-            <span class="about-v2__achievement-mark">T</span>
-            <div>
-              <h5>BOPTECH</h5>
-              <strong>Une réalisation de la Chaire, aujourd'hui autonome</strong>
-              <p>
-                Plateforme technologique et scientifique initiée par la
-                Chaire, devenue une infrastructure à part entière du bloc
-                opératoire du Centre Hépato-Biliaire.
-              </p>
-              <a class="about-v2__text-link" href="/boptech">Découvrir BOPTECH →</a>
-            </div>
+          <div class="about-v2__chaire-program about-v2__chaire-program--boptech">
+            <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
+            <p>
+              Une plateforme technologique et scientifique au cœur du bloc opératoire,
+              conçue pour rapprocher innovations, expertise clinique et expérimentation
+              en conditions réelles.
+            </p>
           </div>
         </div>
       </div>
 
-      <div class="about-v2__impact">
-        <p>Des innovations de la Chaire déjà passées du prototype à l'usage réel :</p>
-        <div class="about-v2__impact-row">
+      <div class="about-v2__chaire-valorisation">
+        <h3 class="about-v2__chaire-title">Faire émerger des solutions qui dépassent le laboratoire</h3>
+        <p class="about-v2__chaire-lede">
+          La vocation de BOPA est aussi de donner aux innovations les moyens de sortir
+          du cadre académique : les confronter au terrain, démontrer leur valeur et
+          accompagner, lorsque c'est pertinent, leur valorisation jusqu'à la création de
+          start-up.
+        </p>
+        <div class="about-v2__chaire-stats about-v2__chaire-stats--valorisation">
           {impactStats.map((stat) => (
-            <div class="about-v2__impact-stat">
+            <div class="about-v2__chaire-stat">
               <strong>{stat.value}</strong>
               <span>{stat.label}</span>
             </div>
@@ -1654,233 +1641,177 @@ const aboutIcons: Record<string, string> = {
   .about-v2__intro {
     text-align: center;
     padding-top: clamp(4rem, 7vw, 6.75rem);
-    padding-bottom: clamp(3rem, 5vw, 4.5rem);
+    padding-bottom: clamp(1rem, 2vw, 1.5rem);
   }
+  /* Même langage graphique que .bopa-eyebrow (Mission/Innovations) et
+     .bopa-vision-v4__eyebrow (Vision) - owner's explicit request,
+     2026-08-27/28, refonte Chaire d'excellence : plus de soulignement
+     décoratif, mêmes taille/graisse/espacement que les 3 autres. */
   .about-v2__kicker {
     display: inline-block;
-    margin-bottom: 1.15rem;
+    margin-bottom: 0.85rem;
     color: var(--mp-blue-bright);
-    font-size: .78rem;
-    font-weight: 800;
-    letter-spacing: .2em;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.055em;
     text-transform: uppercase;
   }
-  .about-v2__kicker::after {
-    content: "";
-    display: block;
-    width: 2.25rem;
-    height: 2px;
-    margin: .75rem auto 0;
-    background: var(--mp-blue-bright);
-  }
-  .about-v2__intro h2 {
-    margin: 0;
-    color: var(--color-navy);
-    font-size: clamp(2rem, 4vw, 3.45rem);
-    line-height: 1.08;
-    font-weight: 700;
+
+  /* ------------------------------------------------------------
+     "Une Chaire d'excellence" (01) - refonte fluide, 2026-08-27/28.
+     Plus de cartes/cadres/traits : la hiérarchie vient de la
+     typographie, des espaces et des vrais logos/chiffres. Fond =
+     --about-bg (bleu très pâle déjà validé), texte = --about-ink /
+     --color-navy, accent = --mp-blue-bright (cyan BOPA) - aucune
+     nouvelle nuance. Les classes .about-v2__chaire-* sont propres à
+     cette sous-section ; .about-v2__chapter-number est partagée et
+     pensée pour que 02/03 reprennent la même DA plus tard.
+     ------------------------------------------------------------ */
+  .about-v2__chaire {
+    padding: clamp(1rem, 2vw, 2rem) 0 clamp(4.5rem, 7vw, 6.5rem);
   }
 
-  .about-v2__institutional {
-    padding: clamp(1rem, 2vw, 2rem) 0 clamp(4rem, 7vw, 6.25rem);
-  }
-  .about-v2__chapter-heading {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1.05fr) minmax(18rem, .95fr);
-    gap: 1.5rem;
-    align-items: start;
-    margin-bottom: 2.5rem;
+  .about-v2__chaire-marker {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
   }
   .about-v2__chapter-number {
     color: var(--mp-blue-bright);
     font-family: var(--font-display);
-    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
     line-height: 1;
-    font-weight: 750;
   }
-  .about-v2__chapter-heading h3 {
-    margin: 0;
+  .about-v2__chaire-marker-title {
     color: var(--color-navy);
-    font-size: clamp(1.6rem, 2.8vw, 2.55rem);
-    line-height: 1.08;
-  }
-  .about-v2__chapter-heading > p {
-    margin: .15rem 0 0;
-    max-width: 35rem;
-    color: var(--about-ink);
-    font-size: .98rem;
-    line-height: 1.65;
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
-  .about-v2__founders {
-    padding: 0 0 2.4rem;
-    border-bottom: 1px solid var(--about-line);
+  .about-v2__chaire-label {
+    margin: 0 0 0.75rem;
+    color: var(--mp-blue-bright);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
-  .about-v2__founders > h4,
-  .about-v2__research > h4,
-  .about-v2__achievements > h4,
-  .about-v2__impact > h4 {
-    margin: 0 0 .65rem;
-    color: var(--color-accent);
-    font-size: clamp(1.05rem, 1.5vw, 1.32rem);
-    line-height: 1.25;
+  .about-v2__chaire-title {
+    margin: 0 0 1.25rem;
+    max-width: 38rem;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.8vw, 2.35rem);
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
-  .about-v2__founders > h4 { text-align: center; }
-  .about-v2__founder-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    margin-top: 2rem;
+  .about-v2__chaire-lede {
+    max-width: 42rem;
+    color: var(--about-ink);
+    font-size: 1rem;
+    line-height: 1.7;
   }
-  .about-v2__founder {
-    min-height: 9rem;
-    padding: .75rem 2rem;
+  .about-v2__chaire-lede + .about-v2__chaire-lede { margin-top: 1.1rem; }
+  .about-v2__chaire-lede strong { color: var(--color-navy); font-weight: 700; }
+
+  .about-v2__chaire-intro { margin-top: 1.35rem; }
+
+  .about-v2__chaire-ecosystem {
+    margin-top: clamp(3rem, 5vw, 4.25rem);
     text-align: center;
   }
-  .about-v2__founder + .about-v2__founder { border-left: 1px solid var(--about-line); }
-  .about-v2__founder-logo {
-    height: 3.8rem;
+  .about-v2__chaire-ecosystem .about-v2__chaire-label { text-align: center; }
+  .about-v2__chaire-logos {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.25rem;
+    gap: clamp(2.5rem, 6vw, 4.5rem);
+    margin-top: 1.5rem;
   }
-  .about-v2__founder-logo img {
-    max-width: 11.5rem;
-    max-height: 3.1rem;
+  .about-v2__chaire-logos img {
+    max-width: 10rem;
+    max-height: 2.75rem;
     width: auto;
     height: auto;
     object-fit: contain;
-  }
-  .about-v2__founder p {
-    max-width: 15rem;
-    margin: 0 auto;
-    color: var(--about-ink);
-    font-size: .88rem;
-    line-height: 1.5;
+    transform: scale(var(--logo-scale, 1));
   }
 
-  .about-v2__proof-grid {
-    display: grid;
-    grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
-    gap: clamp(2.5rem, 5vw, 5rem);
-    padding-top: 2.8rem;
+  .about-v2__chaire-stats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 2rem clamp(1.5rem, 4vw, 3rem);
+    margin-top: clamp(2.75rem, 4.5vw, 3.75rem);
   }
-  .about-v2__research {
-    padding-right: clamp(1rem, 3vw, 2rem);
-    border-right: 1px solid var(--about-line);
+  .about-v2__chaire-stats--valorisation {
+    justify-content: center;
+    text-align: center;
+    gap: 2rem clamp(3rem, 6vw, 5rem);
   }
-  .about-v2__research-square {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .about-v2__research-stat {
-    min-height: 8.75rem;
-    display: grid;
-    grid-template-columns: 2.5rem 1fr;
-    gap: .7rem;
-    align-items: center;
-    padding: 1.1rem .8rem;
-  }
-  .about-v2__research-stat:nth-child(odd) { border-right: 1px solid var(--about-line); }
-  .about-v2__research-stat:nth-child(-n+2) { border-bottom: 1px solid var(--about-line); }
-  .about-v2__stat-icon { color: var(--mp-blue-bright); }
-  .about-v2__research-stat strong {
+  .about-v2__chaire-stat strong {
     display: block;
-    color: var(--color-accent);
+    color: var(--color-navy);
     font-family: var(--font-display);
-    font-size: clamp(2rem, 3.3vw, 2.65rem);
+    font-size: clamp(2.2rem, 4vw, 3rem);
+    font-weight: 600;
     line-height: 1;
   }
-  .about-v2__research-stat span {
+  .about-v2__chaire-stat span {
     display: block;
-    margin-top: .35rem;
-    color: var(--about-ink);
-    font-size: .82rem;
-    line-height: 1.35;
-  }
-
-  .about-v2__achievement {
-    display: grid;
-    grid-template-columns: 3rem 1fr;
-    gap: 1rem;
-    padding: 1.25rem 0 1.5rem;
-    border-bottom: 1px solid var(--about-line);
-  }
-  .about-v2__achievement:last-child { border-bottom: 0; }
-  .about-v2__achievement-mark {
-    width: 2.75rem;
-    height: 2.75rem;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    color: #fff;
-    background: var(--mp-blue-bright);
-    font-size: 1.35rem;
-    font-weight: 700;
-  }
-  .about-v2__achievement h5 {
-    margin: 0 0 .12rem;
-    color: var(--color-accent);
-    font-size: 1.3rem;
-  }
-  .about-v2__achievement strong {
-    display: block;
-    color: var(--color-accent);
-    font-size: .86rem;
+    margin-top: 0.5rem;
+    color: var(--about-muted);
+    font-size: 0.85rem;
     line-height: 1.4;
   }
-  .about-v2__achievement p {
-    margin: .65rem 0 .7rem;
-    max-width: 35rem;
-    color: var(--about-ink);
-    font-size: .84rem;
-    line-height: 1.55;
+
+  .about-v2__chaire-terrain { margin-top: clamp(3.5rem, 6vw, 5rem); }
+  .about-v2__chaire-programs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2.5rem, 5vw, 4rem);
+    margin-top: clamp(2rem, 4vw, 2.75rem);
   }
-  .about-v2__text-link,
+  .about-v2__chaire-program img {
+    display: block;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 1.1rem;
+  }
+  .about-v2__chaire-program--bopex img { max-height: 2.6rem; max-width: 9rem; }
+  .about-v2__chaire-program--boptech img { max-height: 4.5rem; max-width: 4.5rem; }
+  .about-v2__chaire-program p {
+    max-width: 26rem;
+    color: var(--about-ink);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+  .about-v2__chaire-cta {
+    display: inline-block;
+    margin-top: 0.85rem;
+    color: var(--mp-blue-bright);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .about-v2__chaire-cta:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+
+  .about-v2__chaire-valorisation { margin-top: clamp(3.5rem, 6vw, 5rem); }
+
   .about-v2__linkedin {
     color: var(--mp-blue-bright);
     font-size: .85rem;
     font-weight: 750;
     text-decoration: none;
   }
-  .about-v2__text-link:hover,
   .about-v2__linkedin:hover { text-decoration: underline; text-underline-offset: .2em; }
-
-  .about-v2__impact {
-    margin-top: 2.65rem;
-    text-align: center;
-  }
-  .about-v2__impact > p {
-    max-width: 44rem;
-    margin: 0 auto 1.55rem;
-    color: var(--about-ink);
-    font-size: .9rem;
-    line-height: 1.55;
-  }
-  .about-v2__impact-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    max-width: 48rem;
-    margin: 0 auto;
-  }
-  .about-v2__impact-stat {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: .8rem;
-    align-items: center;
-    padding: .7rem 1.35rem;
-    text-align: left;
-  }
-  .about-v2__impact-stat + .about-v2__impact-stat { border-left: 1px solid var(--about-line); }
-  .about-v2__impact-stat strong {
-    color: var(--color-accent);
-    font-family: var(--font-display);
-    font-size: 2rem;
-  }
-  .about-v2__impact-stat span {
-    font-size: .8rem;
-    line-height: 1.25;
-  }
 
   .about-v2__clinical {
     display: grid;
@@ -2136,10 +2067,6 @@ const aboutIcons: Record<string, string> = {
   .about-v2__support-logo--patron { min-height: 6.5rem; }
 
   @media (max-width: 980px) {
-    .about-v2__chapter-heading { grid-template-columns: auto 1fr; }
-    .about-v2__chapter-heading > p { grid-column: 2; }
-    .about-v2__proof-grid { grid-template-columns: 1fr; }
-    .about-v2__research { padding-right: 0; border-right: 0; padding-bottom: 2rem; border-bottom: 1px solid var(--about-line); }
     .about-v2__clinical { grid-template-columns: 1fr; }
     .about-v2__clinical-inner { width: 100%; padding-left: max(1.5rem, calc((100vw - var(--max-width)) / 2)); padding-right: max(1.5rem, calc((100vw - var(--max-width)) / 2)); }
     .about-v2__clinical-photo, .about-v2__clinical-photo-placeholder { min-height: 25rem; }
@@ -2151,18 +2078,9 @@ const aboutIcons: Record<string, string> = {
   }
 
   @media (max-width: 680px) {
-    .about-v2__intro h2 br { display: none; }
-    .about-v2__chapter-heading { grid-template-columns: auto 1fr; gap: .9rem; }
-    .about-v2__chapter-heading > p { grid-column: 1 / -1; }
-    .about-v2__founder-grid { grid-template-columns: 1fr; }
-    .about-v2__founder { min-height: 0; padding: 1.5rem .25rem; }
-    .about-v2__founder + .about-v2__founder { border-left: 0; border-top: 1px solid var(--about-line); }
-    .about-v2__research-square { grid-template-columns: 1fr 1fr; }
-    .about-v2__research-stat { grid-template-columns: 1fr; text-align: center; }
-    .about-v2__research-stat .about-v2__stat-icon { margin: 0 auto; }
-    .about-v2__impact-row { grid-template-columns: 1fr; }
-    .about-v2__impact-stat { grid-template-columns: 2.4rem 1fr; }
-    .about-v2__impact-stat + .about-v2__impact-stat { border-left: 0; border-top: 1px solid var(--about-line); }
+    .about-v2__chaire-programs { grid-template-columns: 1fr; gap: 2.5rem; }
+    .about-v2__chaire-stats { justify-content: center; text-align: center; }
+    .about-v2__chaire-stats .about-v2__chaire-stat { width: calc(50% - .75rem); }
     .about-v2__clinical-stats { grid-template-columns: repeat(2, 1fr); gap: 1.25rem 0; }
     .about-v2__clinical-stat:nth-child(3) { border-left: 0; }
     .about-v2__clinical-photo, .about-v2__clinical-photo img, .about-v2__clinical-photo-placeholder { min-height: 19rem; }
