@@ -1832,9 +1832,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      partners) - mais l'owner a explicitement redemandé de remonter le
      groupe au-delà de ce centre exact, en autorisant un chevauchement
      visuel avec ce qu'il y a au-dessus si nécessaire (2026-08-28, retour
-     verbal, remonté une deuxième fois). Nudge manuel assumé, pas une
+     verbal, remonté une troisième fois). Nudge manuel assumé, pas une
      correction de bug - le centrage géométrique reste juste, ceci le
-     décale volontairement. Décalage horizontal (4.25rem) ajouté pour
+     décale volontairement. Décalage horizontal (8.5rem, dont seule la
+     moitié se voit sur un flex item centré - voir design.md) pour
      centrer le groupe sur le chiffre "8" (dernier indicateur) du
      bandeau juste en dessous - calibré à la largeur desktop courante
      (~1440px), à revérifier si la largeur du bandeau change un jour. */
@@ -1843,7 +1844,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     flex-direction: column;
     align-items: center;
     gap: clamp(1.5rem, 3vw, 2rem);
-    margin-top: -1.75rem;
+    margin-top: -2.75rem;
     margin-left: 8.5rem;
   }
   .about-v2__chaire-partners-logos img {
