@@ -619,43 +619,45 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     </div>
 
     <div class="about-v2__eco">
-      <div class="wrap about-v2__eco-grid" data-reveal>
-        <div class="about-v2__eco-copy">
-          <div class="about-v2__eco-marker">
-            <span class="about-v2__eco-number">02.</span>
-            <span class="about-v2__eco-marker-divider" aria-hidden="true"></span>
-            <span class="about-v2__eco-marker-title">Un écosystème unique dédié à l'innovation</span>
-          </div>
-
-          <div class="about-v2__eco-points">
-            {ecoPoints.map((point, i) => (
-              <div class:list={['about-v2__eco-point', { 'about-v2__eco-point--strong': point.strong }]}>
-                <div class="about-v2__eco-point-icon" set:html={ecoIcons[i]} />
-                <div class="about-v2__eco-point-body">
-                  <p class="about-v2__eco-point-title" set:html={point.title} />
-                  <p class="about-v2__eco-point-text" set:html={point.text} />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div class="about-v2__eco-stats">
-            {clinicalStats.map((stat) => (
-              <div class="about-v2__eco-stat">
-                <strong>{stat.value}</strong>
-                <span>{stat.label}</span>
-              </div>
-            ))}
-          </div>
+      <div class="wrap" data-reveal>
+        <div class="about-v2__eco-marker">
+          <span class="about-v2__eco-number">02.</span>
+          <span class="about-v2__eco-marker-divider" aria-hidden="true"></span>
+          <span class="about-v2__eco-marker-title">Un écosystème unique dédié à l'innovation</span>
         </div>
 
-        <div class="about-v2__eco-photo">
-          {chbPhoto ? (
-            <img src={chbPhoto} alt="Le Centre Hépato-Biliaire, hôpital Paul-Brousse AP-HP." loading="lazy" />
-          ) : (
-            <div class="about-v2__eco-photo-placeholder" aria-hidden="true" />
-          )}
-          <p class="about-v2__eco-photo-caption">Centre Hépato-Biliaire — Hôpital Paul-Brousse AP-HP</p>
+        <div class="about-v2__eco-grid">
+          <div class="about-v2__eco-copy">
+            <div class="about-v2__eco-points">
+              {ecoPoints.map((point, i) => (
+                <div class:list={['about-v2__eco-point', { 'about-v2__eco-point--strong': point.strong }]}>
+                  <div class="about-v2__eco-point-icon" set:html={ecoIcons[i]} />
+                  <div class="about-v2__eco-point-body">
+                    <p class="about-v2__eco-point-title" set:html={point.title} />
+                    <p class="about-v2__eco-point-text" set:html={point.text} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div class="about-v2__eco-stats">
+              {clinicalStats.map((stat) => (
+                <div class="about-v2__eco-stat">
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="about-v2__eco-photo">
+            {chbPhoto ? (
+              <img src={chbPhoto} alt="Le Centre Hépato-Biliaire, hôpital Paul-Brousse AP-HP." loading="lazy" />
+            ) : (
+              <div class="about-v2__eco-photo-placeholder" aria-hidden="true" />
+            )}
+            <p class="about-v2__eco-photo-caption">Centre Hépato-Biliaire — Hôpital Paul-Brousse AP-HP</p>
+          </div>
         </div>
       </div>
     </div>
@@ -2267,7 +2269,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     display: grid;
     grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
     gap: clamp(2.5rem, 5vw, 4rem);
-    align-items: start;
+    align-items: center;
   }
 
   .about-v2__eco-marker {
@@ -2341,7 +2343,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__eco-stats {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    max-width: 26rem;
+    max-width: 30rem;
     padding-top: clamp(1.1rem, 2vw, 1.4rem);
     border-top: 1px solid rgba(8, 31, 74, 0.15);
   }
@@ -2370,7 +2372,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__eco-photo img,
   .about-v2__eco-photo-placeholder {
     width: 100%;
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 16 / 9;
     border-radius: 10px;
     overflow: hidden;
     object-fit: cover;
