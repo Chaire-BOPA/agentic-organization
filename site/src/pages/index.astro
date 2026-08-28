@@ -505,7 +505,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
       <div class="about-v2__impact">
         <p class="about-v2__impact-title">De la recherche à l'impact</p>
-        <p class="about-v2__chaire-lede about-v2__chaire-lede--narrow">
+        <p class="about-v2__chaire-lede about-v2__impact-intro">
           La volonté de la Chaire BOPA est de transformer la recherche en solutions
           concrètes et réellement utiles. Cette ambition se traduit de
           <span class="about-v2__chaire-highlight"> deux manières complémentaires</span> :
@@ -1981,6 +1981,9 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     border-radius: 999px;
     background: var(--bopa-cyan);
   }
+  /* Utilise toute la largeur disponible (2026-08-28, retour owner) -
+     pas de max-width étroit comme .about-v2__chaire-lede--narrow. */
+  .about-v2__impact-intro { max-width: none; }
 
   .about-v2__impact-cards {
     display: grid;
