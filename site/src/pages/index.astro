@@ -1729,15 +1729,14 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      --bopa-cyan - aucune nouvelle nuance. .about-v2__chaire-number
      reste PROPRE à cette sous-section (01) : .about-v2__chapter-number
      reste partagée par 02/03, non touchée par ce pack.
-     L'espace avant "01" reprenait la valeur réelle de Mission (intro ->
-     frise, clamp(3.8rem,6vw,5.6rem)) - l'owner l'a jugé encore trop
-     important une fois vu en place (finitions V3, 2026-08-28) et a
-     demandé une réduction franche, indépendamment de Mission cette
-     fois. Repris var(--space-5) (4rem/64px), le même token déjà utilisé
-     pour le haut de la section elle-même - un vrai token du projet,
-     pas un offset inventé, plutôt qu'un clamp plus généreux. */
+     L'espace avant "01" a été réduit deux fois (V3 puis V4, 2026-08-28) :
+     valeur réelle de Mission -> var(--space-5) (64px, encore jugé trop
+     grand) -> var(--space-4) (32px), le palier immédiatement en dessous
+     dans l'échelle --space du projet - une "petite respiration
+     éditoriale" plutôt qu'un grand vide, sans inventer de valeur hors
+     de l'échelle. */
   .about-v2__chaire {
-    padding-top: var(--space-5);
+    padding-top: var(--space-4);
     padding-bottom: clamp(4.5rem, 7vw, 6.5rem);
   }
 
@@ -1796,17 +1795,27 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__chaire-lede--narrow { max-width: 34rem; }
   .about-v2__chaire-highlight { color: var(--bopa-cyan); }
 
+  /* Colonne logos à largeur fixe (finitions V4, 2026-08-28) plutôt
+     qu'un ratio fr : "auto" mesuré sur le contenu réel s'est avéré
+     s'effondrer à 0px tant que les <img loading="lazy"> n'ont pas
+     chargé (leur largeur intrinsèque est 0 avant chargement - le même
+     piège lazy-load que la vérification en aperçu) ; une largeur fixe
+     égale au max-width réel des logos (12.5rem, .about-v2__chaire-
+     partners-logos img) donne le même résultat "aucun espace mort" de
+     façon fiable, indépendamment du chargement des images. Gap réduit
+     à var(--space-4) (32px, un vrai palier de l'échelle --space) pour
+     rapprocher le groupe du texte. La colonne de texte elle-même n'est
+     pas touchée : .about-v2__chaire-lede garde son propre max-width
+     (50rem), déjà atteint avant cette part de grille. */
   .about-v2__chaire-foundation {
     display: grid;
-    grid-template-columns: minmax(0, 1.85fr) minmax(180px, 0.5fr);
-    gap: clamp(1.5rem, 3vw, 2.25rem);
+    grid-template-columns: minmax(0, 1fr) 12.5rem;
+    gap: var(--space-4);
     align-items: stretch;
   }
 
-  /* Plus de barre verticale (finitions V2, 2026-08-28) - les logos sont
-     centrés sur leur propre axe optique (align-items:center, pas
-     flex-start) plutôt qu'alignés à gauche, pour paraître équilibrés
-     malgré leurs formats très différents. */
+  /* Plus de barre verticale (finitions V2) - logos centrés sur leur
+     propre axe optique (align-items:center, pas flex-start). */
   .about-v2__chaire-partners {
     display: flex;
     flex-direction: column;
@@ -1814,20 +1823,22 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     justify-content: center;
     gap: clamp(1.1rem, 2vw, 1.5rem);
   }
-  /* Correction optique (finitions V3, 2026-08-28) : le groupe est déjà
-     centré au pixel près sur la hauteur réelle du bloc de texte
-     (grid align-items:stretch + justify-content:center ci-dessus,
-     vérifié via getBoundingClientRect) - mais son poids visuel (AP-HP
-     en haut, plus "plein", Paris-Saclay en bas, un simple wordmark à
-     plat) le fait paraître plus bas que son centre géométrique. Léger
-     décalage vers le haut pour corriger l'impression, sans changer le
-     mécanisme de centrage lui-même. */
+  /* Centrage vertical EXACT sur le bloc des 2 paragraphes seulement
+     (finitions V4, 2026-08-28 - règle géométrique stricte du pack,
+     "CENTRE Y pile logos = CENTRE Y bloc 2 paragraphes", titre/01/
+     section exclus du calcul) : grid align-items:stretch fait que
+     .about-v2__chaire-partners occupe exactement la même hauteur que
+     .about-v2__chaire-text (les 2 <p>, rien d'autre), et
+     justify-content:center centre la pile dedans - aucun offset
+     manuel nécessaire, vérifié à 0px d'écart via getBoundingClientRect.
+     La correction optique tentée en finitions V3 (margin-top négatif)
+     est retirée : ce pack demande explicitement un centrage exact via
+     un vrai mécanisme CSS, pas un ajustement approximatif. */
   .about-v2__chaire-partners-logos {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: clamp(1.5rem, 3vw, 2rem);
-    margin-top: -0.75rem;
   }
   .about-v2__chaire-partners-logos img {
     max-width: 12.5rem;
@@ -1843,16 +1854,18 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      --mp-navy (même bleu marine que Notre Mission, aucune nouvelle
      nuance). Chiffres à l'échelle de .about-v2__clinical-stat (déjà la
      référence "élégante, non-dashboard" retenue lors des correctifs V4). */
-  /* Largeur pleine (finitions V3, 2026-08-28) : le bandeau doit occuper
-     exactement la même largeur que .about-v2__chaire (le même .wrap /
-     var(--max-width) que tout le reste du contenu de cette partie),
-     bord à bord - annule le width:90% centré de finitions V2, l'owner
-     ayant vu en place que ça le faisait paraître comme un petit
-     rectangle plutôt qu'un vrai bandeau éditorial. Hauteur réduite
-     seulement via le padding vertical (les pictos/chiffres/libellés
-     internes restent à leur taille exacte, non touchés ici). */
+  /* Largeur (finitions V4, 2026-08-28) : troisième réglage sur cette
+     seule propriété - pleine largeur du .wrap (V3) jugée toujours trop
+     large une fois vu en place. Fixé à 58rem/928px cette fois (un vrai
+     plafond en rem, pas un pourcentage qui redevient flou à mesurer),
+     nettement plus étroit, centré via margin:auto - vérifié que
+     "Communications orales" (le libellé le plus long) reste sur une
+     seule ligne à cette largeur (retour à la ligne mesuré en dessous
+     de 900px). Hauteur/padding vertical NON touchés ce pack (l'owner :
+     hauteur actuelle bonne) - seule la largeur extérieure change. */
   .about-v2__chaire-band {
-    margin-top: clamp(2rem, 3.5vw, 3rem);
+    max-width: 58rem;
+    margin: clamp(2rem, 3.5vw, 3rem) auto 0;
     display: flex;
     background: var(--mp-navy);
     border-radius: 1rem;
