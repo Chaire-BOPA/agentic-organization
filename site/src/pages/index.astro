@@ -555,9 +555,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             <div class="about-v2__impact-partners">
               <div class="about-v2__impact-partner">
                 <p class="about-v2__impact-partner-label">Le tiers lieu d'expérimentation<br />BOPEX</p>
-                <a href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">
-                  <img src="/logos/partenaires/logo-bopex.png" alt="BOpEx" loading="lazy" />
-                </a>
+                <div class="about-v2__impact-partner-logo">
+                  <a href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">
+                    <img src="/logos/partenaires/logo-bopex.png" alt="BOpEx" loading="lazy" />
+                  </a>
+                </div>
                 <p class="about-v2__impact-partner-text">
                   Le guichet d'entrée pour l'innovation numérique au bloc opératoire
                   pour l'AP-HP.
@@ -568,7 +570,9 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
               </div>
               <div class="about-v2__impact-partner">
                 <p class="about-v2__impact-partner-label">La plateforme<br />BOPTECH</p>
-                <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
+                <div class="about-v2__impact-partner-logo">
+                  <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
+                </div>
                 <p class="about-v2__impact-partner-text">
                   Une plateforme dédiée spécifiquement à l'innovation en chirurgie du
                   foie avec une machine de perfusion et une salle hybride.
@@ -2110,20 +2114,34 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     font-size: 0.86rem;
     font-weight: 700;
     line-height: 1.35;
+    text-align: center;
   }
-  .about-v2__impact-partner img {
+  /* Zone logo à hauteur fixe partagée (2026-08-28, retour owner) - BOpEx
+     (wordmark large et plat) et BOPTECH (badge carré) ont des tailles
+     très différentes ; sans cette réservation de hauteur commune, la
+     description de chaque colonne démarrait à une hauteur différente
+     selon la taille réelle du logo. Les deux logos sont centrés dans
+     ce même espace, quelle que soit leur taille propre. */
+  .about-v2__impact-partner-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 9.5rem;
+    margin-bottom: 1rem;
+  }
+  .about-v2__impact-partner-logo img {
     display: block;
     width: auto;
     object-fit: contain;
-    margin: 0 auto 1rem;
   }
-  .about-v2__impact-partner:first-child img { max-height: 4.75rem; max-width: 13rem; }
-  .about-v2__impact-partner:last-child img { max-height: 7.5rem; max-width: 7.5rem; }
+  .about-v2__impact-partner:first-child img { max-height: 3rem; max-width: 8rem; }
+  .about-v2__impact-partner:last-child img { max-height: 9rem; max-width: 9rem; }
   .about-v2__impact-partner-text {
     margin: 0;
     color: var(--about-ink);
     font-size: 0.86rem;
     line-height: 1.55;
+    text-align: center;
   }
   .about-v2__impact-partner-cta {
     display: inline-flex;
