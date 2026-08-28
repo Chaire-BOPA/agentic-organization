@@ -112,10 +112,27 @@ const bandIcons = [
   '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="17" cy="9" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M15 20c.2-2.2 1.8-3.8 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
 ];
 
-const impactStats = [
-  { value: '2', label: 'Start-up créées' },
-  { value: '2', label: 'Logiciels médicaux' },
-  { value: '1', label: "Chatbot d'éducation thérapeutique" },
+// "De la recherche à l'impact" (2026-08-28) - remplace les anciens
+// blocs "De la recherche au terrain"/"Faire sortir l'innovation du
+// laboratoire" (BOpEx/BOPTECH + impactStats), dont le contenu est
+// repris et développé ici. Colette/MesGardes sont citées en texte
+// (checklist), jamais en logo - aucun asset validé pour ces deux
+// projets, conformément à la consigne du pack.
+const researchResults = [
+  { title: '2 start-ups créées', text: 'pour porter et développer des innovations de rupture' },
+  { title: '2 logiciels médicaux déployés', text: 'au plus près des besoins des professionnels de santé' },
+  { title: 'Colette', text: "chatbot d'éducation thérapeutique pour les patients greffés" },
+  { title: 'MesGardes', text: 'application facilitant la gestion des gardes au bloc opératoire' },
+];
+
+const impactCheckIcon =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8 12.3l2.6 2.6L16.2 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+const impactCardIcons = [
+  // Fusée - "Des résultats concrets au service du terrain"
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5c2.8 2 4.5 5.6 4.5 9.3 0 2-.8 3.9-1.9 5.1l-.9 2.8-1.7-1.9-1.7 1.9-.9-2.8c-1.1-1.2-1.9-3.1-1.9-5.1 0-3.7 1.7-7.3 4.5-9.3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="10.5" r="1.9" stroke="currentColor" stroke-width="1.6"/><path d="M8.3 16.5l-1.8 2.7M15.7 16.5l1.8 2.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  // Hôpital - même pictogramme que le bandeau institutionnel sous le Hero
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="9" width="14" height="12" rx="1" stroke="currentColor" stroke-width="1.6" /><path d="M9 3h6v6H9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /><path d="M12 13v4M10 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>',
 ];
 
 const clinicalStats = [
@@ -486,45 +503,77 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         ))}
       </div>
 
-      <div class="about-v2__chaire-section">
-        <p class="about-v2__chaire-heading">De la recherche au terrain</p>
+      <div class="about-v2__impact">
+        <p class="about-v2__impact-title">De la recherche à l'impact</p>
         <p class="about-v2__chaire-lede about-v2__chaire-lede--narrow">
-          Pour faire passer les innovations de l'idée à l'usage, BOPA a fait émerger
-          des dispositifs dédiés à leur expérimentation et à leur déploiement.
+          La volonté de la Chaire BOPA est de transformer la recherche en solutions
+          concrètes et réellement utiles. Cette ambition se traduit de
+          <span class="about-v2__chaire-highlight"> deux manières complémentaires</span> :
+          par des réalisations déjà concrètes et par le renforcement des liens entre
+          la recherche hospitalo-universitaire et les acteurs industriels.
         </p>
-        <div class="about-v2__chaire-programs">
-          <div class="about-v2__chaire-program about-v2__chaire-program--bopex">
-            <img src="/logos/partenaires/logo-bopex.png" alt="BOpEx" loading="lazy" />
-            <p>
-              Un tiers-lieu d'expérimentation pour co-développer, tester et évaluer
-              les innovations numériques destinées au bloc opératoire.
-            </p>
-            <a class="about-v2__chaire-cta" href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">Découvrir BOpEx →</a>
-          </div>
-          <div class="about-v2__chaire-program about-v2__chaire-program--boptech">
-            <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
-            <p>
-              Une plateforme technologique et scientifique au cœur du bloc opératoire,
-              dédiée à l'expérimentation en conditions réelles.
-            </p>
-          </div>
-        </div>
-      </div>
 
-      <div class="about-v2__chaire-section">
-        <p class="about-v2__chaire-heading">Faire sortir l'innovation du laboratoire</p>
-        <p class="about-v2__chaire-lede about-v2__chaire-lede--narrow">
-          BOPA accompagne les projets qui ont démontré leur valeur vers des solutions
-          concrètes et diffusables, avec la volonté, lorsque le modèle s'y prête, de
-          favoriser leur valorisation et la création de start-up.
-        </p>
-        <div class="about-v2__chaire-stats about-v2__chaire-stats--valorisation">
-          {impactStats.map((stat) => (
-            <div class="about-v2__chaire-stat">
-              <strong>{stat.value}</strong>
-              <span>{stat.label}</span>
+        <div class="about-v2__impact-cards">
+          <div class="about-v2__impact-card">
+            <div class="about-v2__impact-card-icon" set:html={impactCardIcons[0]} />
+            <p class="about-v2__impact-card-title">
+              Des résultats concrets<br />
+              <span class="about-v2__chaire-highlight">au service du terrain</span>
+            </p>
+            <p class="about-v2__impact-card-text">
+              La recherche menée au sein de BOPA a déjà permis de faire émerger et
+              déployer des solutions concrètes, notamment à travers la création de
+              start-ups et le développement de logiciels médicaux directement utiles
+              aux professionnels de santé et aux patients.
+            </p>
+            <ul class="about-v2__impact-checklist">
+              {researchResults.map((item) => (
+                <li>
+                  <span class="about-v2__impact-check" set:html={impactCheckIcon} />
+                  <span class="about-v2__impact-result">
+                    <strong>{item.title}</strong>
+                    <span class="about-v2__impact-result-text">{item.text}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="about-v2__impact-card">
+            <div class="about-v2__impact-card-icon" set:html={impactCardIcons[1]} />
+            <p class="about-v2__impact-card-title">
+              Renforcer les liens<br />
+              <span class="about-v2__chaire-highlight">entre l'AP-HP et les industriels
+              de la pharma ou de la medtech</span>
+            </p>
+            <p class="about-v2__impact-card-text">
+              Le deuxième axe est de créer et renforcer les passerelles entre l'AP-HP
+              et les industriels de la pharma et de la medtech, afin de favoriser le
+              développement, l'expérimentation et le déploiement d'innovations au
+              plus près des besoins du terrain.
+            </p>
+            <div class="about-v2__impact-partners">
+              <div class="about-v2__impact-partner">
+                <a href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">
+                  <img src="/logos/partenaires/logo-bopex.png" alt="BOpEx" loading="lazy" />
+                </a>
+                <p>
+                  <span class="about-v2__chaire-highlight">Une démarche dédiée à
+                  l'innovation au bloc opératoire au sens large</span>, favorisant
+                  les collaborations entre l'hôpital et les acteurs industriels.
+                </p>
+              </div>
+              <div class="about-v2__impact-partner">
+                <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
+                <p>
+                  Une plateforme dédiée plus spécifiquement à
+                  <span class="about-v2__chaire-highlight"> l'innovation en chirurgie du foie</span>,
+                  permettant aux équipes hospitalières et aux industriels de développer
+                  et expérimenter ensemble de nouvelles solutions.
+                </p>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     </div>
@@ -1768,22 +1817,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     line-height: 1.15;
   }
 
-  /* Niveau 2 interne, commun aux 3 titres de sous-bloc (correctifs V4) -
-     nouveau palier, entre .about-v2__chaire-marker-title (01, "Niveau 1"
-     de cette sous-section) et le texte courant : pas d'équivalent réel
-     ailleurs dans le projet à réutiliser tel quel, donc une valeur neuve
-     mais volontairement sobre (pas de majuscules/tiret, contrairement à
-     l'ancien .about-v2__chaire-label qu'il remplace ici). */
-  .about-v2__chaire-heading {
-    margin: 0 0 1.1rem;
-    color: var(--color-navy);
-    font-family: var(--font-display);
-    font-size: 1.2rem;
-    font-weight: 700;
-    letter-spacing: -0.005em;
-    line-height: 1.25;
-  }
-
   .about-v2__chaire-lede {
     max-width: 50rem;
     color: var(--about-ink);
@@ -1911,64 +1944,157 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     line-height: 1.4;
   }
 
-  .about-v2__chaire-section { margin-top: clamp(3.5rem, 6vw, 5rem); }
-
-  .about-v2__chaire-stats {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 2rem clamp(1.5rem, 4vw, 3rem);
-    margin-top: clamp(1.5rem, 3vw, 2rem);
-  }
-  .about-v2__chaire-stats--valorisation {
-    justify-content: flex-start;
-    gap: 2rem clamp(3rem, 6vw, 5rem);
-  }
-  .about-v2__chaire-stat strong {
-    display: block;
+  /* ------------------------------------------------------------
+     "De la recherche à l'impact" (2026-08-28) - directement sous le
+     bandeau bleu (figé, non touché). Remplace les anciens blocs
+     "De la recherche au terrain"/"Faire sortir l'innovation du
+     laboratoire". Deux vraies cartes cette fois (fond blanc, bordure
+     fine var(--about-line), coins arrondis) - contrairement au reste
+     de la sous-section 01, volontairement sans carte jusqu'ici - la
+     référence fournie les demande explicitement. Palette strictement
+     BOPA (--color-navy/--bopa-cyan/--about-bg/blanc) : le modèle
+     utilisait du orange pour différencier le 2e bloc, remplacé ici
+     par le même cyan que le premier - aucune nouvelle teinte. Pas de
+     logos Colette/MesGardes (aucun asset validé) : cités en texte
+     dans la checklist seulement, à la demande explicite de l'owner.
+     ------------------------------------------------------------ */
+  .about-v2__impact { margin-top: clamp(3rem, 5vw, 4rem); }
+  .about-v2__impact-title {
+    position: relative;
+    display: inline-block;
+    margin: 0 0 1.1rem;
+    padding-bottom: 0.75rem;
     color: var(--color-navy);
     font-family: var(--font-display);
-    font-size: clamp(1.9rem, 3vw, 2.7rem);
-    font-weight: 700;
-    line-height: 1;
+    font-size: clamp(1.7rem, 2.6vw, 2.15rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
   }
-  .about-v2__chaire-stat span {
-    display: block;
-    margin-top: 0.55rem;
-    color: var(--about-muted);
-    font-size: 0.85rem;
-    line-height: 1.4;
+  .about-v2__impact-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 2.5rem;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--bopa-cyan);
   }
 
-  .about-v2__chaire-programs {
+  .about-v2__impact-cards {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(2.5rem, 5vw, 4rem);
-    margin-top: clamp(2rem, 4vw, 2.75rem);
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin-top: clamp(2rem, 3.5vw, 2.75rem);
   }
-  .about-v2__chaire-program img {
-    display: block;
-    width: auto;
-    object-fit: contain;
+  .about-v2__impact-card {
+    background: #fff;
+    border: 1px solid var(--about-line);
+    border-radius: 1rem;
+    padding: clamp(1.75rem, 3vw, 2.25rem);
+  }
+  .about-v2__impact-card-icon {
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    background: var(--about-bg);
+    color: var(--bopa-cyan);
     margin-bottom: 1.1rem;
   }
-  .about-v2__chaire-program--bopex img { max-height: 2.6rem; max-width: 9rem; }
-  .about-v2__chaire-program--boptech img { max-height: 4.5rem; max-width: 4.5rem; }
-  .about-v2__chaire-program p {
-    max-width: 26rem;
+  .about-v2__impact-card-icon svg { width: 1.6rem; height: 1.6rem; }
+  .about-v2__impact-card-title {
+    position: relative;
+    display: inline-block;
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.65rem;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .about-v2__impact-card-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 1.75rem;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--bopa-cyan);
+  }
+  .about-v2__impact-card-text {
+    max-width: none;
+    margin: 0 0 1.5rem;
     color: var(--about-ink);
     font-size: 0.92rem;
     line-height: 1.6;
   }
-  .about-v2__chaire-cta {
-    display: inline-block;
-    margin-top: 0.85rem;
-    color: var(--bopa-cyan);
-    font-size: 0.88rem;
-    font-weight: 700;
-    text-decoration: none;
+
+  .about-v2__impact-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
   }
-  .about-v2__chaire-cta:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+  .about-v2__impact-checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .about-v2__impact-check {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-top: 0.1rem;
+    color: var(--bopa-cyan);
+  }
+  .about-v2__impact-check svg { width: 1.4rem; height: 1.4rem; }
+  .about-v2__impact-result strong {
+    display: block;
+    color: var(--color-navy);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .about-v2__impact-result-text {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--about-muted);
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .about-v2__impact-partners {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin-top: clamp(1.5rem, 2.5vw, 1.75rem);
+  }
+  .about-v2__impact-partner:last-child {
+    padding-left: clamp(1.5rem, 3vw, 2rem);
+    border-left: 1px solid var(--about-line);
+  }
+  .about-v2__impact-partner img {
+    display: block;
+    width: auto;
+    object-fit: contain;
+    margin-bottom: 0.9rem;
+  }
+  .about-v2__impact-partner:first-child img { max-height: 2rem; max-width: 8rem; }
+  .about-v2__impact-partner:last-child img { max-height: 3.25rem; max-width: 3.25rem; }
+  .about-v2__impact-partner p {
+    margin: 0;
+    color: var(--about-ink);
+    font-size: 0.86rem;
+    line-height: 1.55;
+  }
 
   .about-v2__linkedin {
     color: var(--mp-blue-bright);
@@ -2249,12 +2375,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        et le chevauchement vertical n'ont plus lieu d'être en colonne
        unique - les logos redeviennent simplement centrés sous le texte. */
     .about-v2__chaire-partners-logos { margin-top: 0; margin-left: 0; }
+    .about-v2__impact-cards { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 680px) {
-    .about-v2__chaire-programs { grid-template-columns: 1fr; gap: 2.5rem; }
-    .about-v2__chaire-stats { justify-content: center; text-align: center; }
-    .about-v2__chaire-stats .about-v2__chaire-stat { width: calc(50% - .75rem); }
+    .about-v2__impact-partners { grid-template-columns: 1fr; gap: 1.5rem; }
+    .about-v2__impact-partner:last-child { padding-left: 0; border-left: 0; }
     .about-v2__chaire-band { flex-wrap: wrap; row-gap: 1.75rem; }
     .about-v2__chaire-band-stat { flex: 1 1 calc(50% - .5rem); border-left: 0 !important; }
     .about-v2__clinical-stats { grid-template-columns: repeat(2, 1fr); gap: 1.25rem 0; }
