@@ -1670,9 +1670,14 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   /* Spécificité : .section-block:not(.hero) h2 (site.css) a la même
      spécificité qu'une classe seule et gagnait sur .about-v2__intro-title,
      imposant --text-xl au lieu de l'échelle Mission/Innovations/Vision -
-     préfixer par l'id #qui-sommes-nous pour trancher sans ambiguïté. */
+     préfixer par l'id #qui-sommes-nous pour trancher sans ambiguïté.
+     margin-top à 0 (finitions V2, 2026-08-28) : le vrai écart
+     eyebrow -> titre vient déjà de .about-v2__kicker (margin-bottom
+     .85rem, identique à .bopa-eyebrow/.bopa-vision-v4__eyebrow) - un
+     margin-top ici en plus doublait l'écart (31px mesuré au lieu des
+     13.6px de Mission/Vision). */
   #qui-sommes-nous .about-v2__intro-title {
-    margin: 1.1rem auto 0;
+    margin: 0 auto;
     max-width: 49rem;
     color: var(--color-navy);
     font-family: var(--font-display);
@@ -1771,7 +1776,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   .about-v2__chaire-lede {
-    max-width: 42rem;
+    max-width: 50rem;
     color: var(--about-ink);
     font-size: 1rem;
     line-height: 1.7;
@@ -1783,34 +1788,35 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   .about-v2__chaire-foundation {
     display: grid;
-    grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
-    gap: clamp(3rem, 7vw, 6rem);
+    grid-template-columns: minmax(0, 1.85fr) minmax(180px, 0.5fr);
+    gap: clamp(2rem, 4vw, 3rem);
     align-items: stretch;
   }
 
+  /* Plus de barre verticale (finitions V2, 2026-08-28) - les logos sont
+     centrés sur leur propre axe optique (align-items:center, pas
+     flex-start) plutôt qu'alignés à gauche, pour paraître équilibrés
+     malgré leurs formats très différents. */
   .about-v2__chaire-partners {
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
     gap: clamp(1.1rem, 2vw, 1.5rem);
-    padding-left: clamp(2rem, 4vw, 3rem);
-    border-left: 1px solid var(--about-line);
   }
   .about-v2__chaire-partners-logos {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: clamp(1.5rem, 3vw, 2rem);
   }
   .about-v2__chaire-partners-logos img {
-    max-width: 11.5rem;
-    max-height: 3.75rem;
+    max-width: 12.5rem;
+    max-height: 4.1rem;
     width: auto;
     height: auto;
     object-fit: contain;
-    object-position: left center;
     transform: scale(var(--logo-scale, 1));
-    transform-origin: left center;
   }
 
   /* Bandeau bleu des 4 chiffres académiques (2026-08-28, pack "01 exact") -
@@ -1819,7 +1825,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      nuance). Chiffres à l'échelle de .about-v2__clinical-stat (déjà la
      référence "élégante, non-dashboard" retenue lors des correctifs V4). */
   .about-v2__chaire-band {
-    margin-top: clamp(2rem, 3.5vw, 3rem);
+    margin: clamp(2rem, 3.5vw, 3rem) auto 0;
+    width: 90%;
     display: flex;
     background: var(--mp-navy);
     border-radius: 1rem;
@@ -1840,19 +1847,19 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__chaire-band-icon {
     display: grid;
     place-items: center;
-    width: 3.25rem;
-    height: 3.25rem;
+    width: 2.75rem;
+    height: 2.75rem;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.08);
     color: var(--bopa-cyan);
-    margin-bottom: 0.9rem;
+    margin-bottom: 0.8rem;
   }
-  .about-v2__chaire-band-icon svg { width: 1.5rem; height: 1.5rem; }
+  .about-v2__chaire-band-icon svg { width: 1.25rem; height: 1.25rem; }
   .about-v2__chaire-band-stat strong {
     display: block;
     color: #fff;
     font-family: var(--font-display);
-    font-size: clamp(1.9rem, 3vw, 2.7rem);
+    font-size: clamp(1.6rem, 2.4vw, 2.25rem);
     font-weight: 700;
     line-height: 1;
   }
@@ -2197,7 +2204,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   @media (max-width: 800px) {
     .about-v2__chaire-foundation { grid-template-columns: 1fr; gap: clamp(2rem, 6vw, 2.75rem); }
-    .about-v2__chaire-partners { padding-left: 0; border-left: 0; }
   }
 
   @media (max-width: 680px) {
