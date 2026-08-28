@@ -680,9 +680,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     <div class="about-v2__team-band">
       <div class="wrap about-v2__team" id="equipe" data-reveal>
         <div class="about-v2__team-intro">
-          <h3 class="about-v2__team-title">
-            <span class="about-v2__team-number">03.</span> L'équipe<br />opérationnelle
-          </h3>
+          <div class="about-v2__team-marker">
+            <span class="about-v2__team-number">03</span>
+            <span class="about-v2__team-marker-divider" aria-hidden="true"></span>
+            <span class="about-v2__team-marker-title">L'équipe opérationnelle</span>
+          </div>
           <p>
             Autour d'une communauté pluridisciplinaire réunissant chercheurs, médecins,
             infirmiers, ingénieurs, data scientists et juristes, la Chaire BOPA est
@@ -2253,9 +2255,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__impact-partner-cta:hover { opacity: 0.8; }
 
   .about-v2__linkedin {
-    color: var(--mp-blue-bright);
-    font-size: .85rem;
-    font-weight: 750;
     text-decoration: none;
   }
   .about-v2__linkedin:hover { text-decoration: underline; text-underline-offset: .2em; }
@@ -2440,19 +2439,40 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   .about-v2__team-band {
-    background: #fff;
+    background: var(--about-bg);
   }
 
   .about-v2__team {
     display: grid;
     grid-template-columns: minmax(12rem, .72fr) minmax(0, 2.28fr);
-    align-items: start;
+    align-items: stretch;
     gap: clamp(2rem, 4vw, 4rem);
     padding-top: clamp(1.1rem, 2vw, 1.5rem);
     padding-bottom: clamp(1.25rem, 2vw, 1.75rem);
   }
-  .about-v2__team-title {
-    margin: 0 0 1.1rem;
+  .about-v2__team-intro {
+    display: flex;
+    flex-direction: column;
+  }
+  .about-v2__team-marker {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+  }
+  .about-v2__team-number {
+    color: var(--bopa-cyan);
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .about-v2__team-marker-divider {
+    width: 1px;
+    height: 2.1rem;
+    background: rgba(8, 31, 74, 0.2);
+    flex-shrink: 0;
+  }
+  .about-v2__team-marker-title {
     color: var(--color-navy);
     font-family: var(--font-display);
     font-size: clamp(1.7rem, 2.6vw, 2.15rem);
@@ -2460,12 +2480,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     letter-spacing: -0.01em;
     line-height: 1.15;
   }
-  .about-v2__team-number { color: var(--bopa-cyan); font-weight: 700; }
   .about-v2__team-intro p {
-    margin: 0;
+    margin: auto 0;
     color: var(--about-ink);
-    font-size: .88rem;
-    line-height: 1.65;
+    font-size: 1rem;
+    line-height: 1.7;
   }
   .about-v2__team-grid {
     display: grid;
@@ -2479,7 +2498,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     background: #fff;
     border: 1px solid var(--about-line);
     border-radius: 12px;
-    padding: 1.5rem 1.25rem 1.25rem;
+    overflow: hidden;
     box-shadow: 0 10px 24px rgba(3, 29, 67, .05);
     transition: transform .25s ease, box-shadow .25s ease;
   }
@@ -2487,23 +2506,19 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     .about-v2__person:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(3,29,67,.09); }
   }
   .about-v2__person-photo {
-    flex-shrink: 0;
-    width: 5.5rem;
-    height: 5.5rem;
-    margin-bottom: 1.1rem;
-    border-radius: 50%;
-    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1.45 / 1;
     background: #edf2f8;
   }
   .about-v2__person-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
   .about-v2__photo-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #edf2f8, #f8fbff); }
-  .about-v2__person-body { flex: 1; display: flex; flex-direction: column; }
-  .about-v2__person-body h4 { margin: 0 0 .3rem; color: var(--color-navy); font-size: 1rem; font-weight: 700; }
-  .about-v2__person-body .about-v2__credentials { margin: 0; min-height: 1.3em; color: var(--bopa-cyan); font-size: .82rem; font-weight: 700; line-height: 1.3; }
-  .about-v2__person-divider { display: block; width: 1.75rem; height: 1px; margin: .65rem 0; background: var(--about-line); }
-  .about-v2__person-role { margin: 0; color: var(--about-ink); font-size: .82rem; line-height: 1.5; }
-  .about-v2__linkedin { display: inline-flex; align-items: center; gap: .4rem; margin-top: auto; padding-top: 1.1rem; color: var(--color-accent); font-size: .82rem; font-weight: 700; }
-  .about-v2__linkedin-icon { width: 1.3rem; height: 1.3rem; display: grid; place-items: center; border-radius: 3px; background: var(--color-accent); color: #fff; font-size: .68rem; font-weight: 800; }
+  .about-v2__person-body { flex: 1; display: flex; flex-direction: column; padding: 1.25rem 1.25rem 1.4rem; }
+  .about-v2__person-body h4 { margin: 0 0 .35rem; color: var(--color-navy); font-size: 1.1rem; font-weight: 700; }
+  .about-v2__person-body .about-v2__credentials { margin: 0; min-height: 1.3em; color: var(--bopa-cyan); font-size: .95rem; font-weight: 700; line-height: 1.3; }
+  .about-v2__person-divider { display: block; width: 1.75rem; height: 1px; margin: .75rem 0; background: var(--about-line); }
+  .about-v2__person-role { margin: 0; color: var(--about-ink); font-size: .92rem; line-height: 1.55; }
+  .about-v2__linkedin { display: inline-flex; align-items: center; gap: .4rem; margin-top: auto; padding-top: 1.2rem; color: var(--color-accent); font-size: .9rem; font-weight: 700; }
+  .about-v2__linkedin-icon { width: 1.35rem; height: 1.35rem; display: grid; place-items: center; border-radius: 3px; background: var(--color-accent); color: #fff; font-size: .7rem; font-weight: 800; }
 
   .about-v2__support {
     padding: clamp(4rem, 7vw, 6.5rem) 0 clamp(4.5rem, 7vw, 6.5rem);
