@@ -182,12 +182,14 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
 
           <div class="site-footer__column">
             <p class="site-footer__heading">Nous suivre</p>
-            {footerSocialLinks.map((item) => (
-              <a class="site-footer__social-link" href={item.href} target="_blank" rel="noopener noreferrer">
-                <span class="site-footer__social-icon" set:html={item.icon} />
-                {item.label}
-              </a>
-            ))}
+            <div class="site-footer__social-list">
+              {footerSocialLinks.map((item) => (
+                <a class="site-footer__social-link" href={item.href} target="_blank" rel="noopener noreferrer">
+                  <span class="site-footer__social-icon" set:html={item.icon} />
+                  {item.label}
+                </a>
+              ))}
+            </div>
           </div>
 
           <div class="site-footer__column">

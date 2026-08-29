@@ -182,7 +182,10 @@ button {
      formule clamp que .about-v2__team, pas une valeur réinventée : le
      footer était beaucoup trop bas (padding-top clamp(3.5rem,5vw,4.5rem),
      soit 56-72px) comparé à cette référence (24px à 1425px de large). */
-  padding: clamp(1.1rem, 2vw, 1.5rem) 0 clamp(1.75rem, 3vw, 2.25rem);
+  /* Bas resserré à son tour (owner, 2026-08-29, "beaucoup plus coller la
+     fin du site de © 2026") : clamp(1.75rem,3vw,2.25rem) (36-40px) →
+     0.9rem fixe. */
+  padding: clamp(1.1rem, 2vw, 1.5rem) 0 0.9rem;
 }
 
 .site-footer__grid {
@@ -193,8 +196,13 @@ button {
      (owner, 2026-08-29 - mesuré : 165px/151px de large en une ligne,
      contre 117px alloués avant ce correctif). Nous suivre/Nous trouver
      cèdent la place qu'ils n'utilisaient pas (LinkedIn/YouTube et
-     l'adresse tiennent confortablement dans une colonne plus étroite). */
-  grid-template-columns: minmax(250px, 1.45fr) minmax(320px, 1.5fr) minmax(130px, .6fr) minmax(190px, .85fr);
+     l'adresse tiennent confortablement dans une colonne plus étroite).
+     Second passage (owner, 2026-08-29) : Nous trouver élargie à nouveau
+     pour que "12 avenue Paul Vaillant-Couturier" tienne sur une ligne
+     (mesuré : 249.7px nécessaires) - Navigation et Nous suivre avaient
+     toutes deux plusieurs dizaines de pixels de marge inutilisée, cédée
+     ici à Nous trouver. */
+  grid-template-columns: minmax(250px, 1.45fr) minmax(356px, 1.2fr) minmax(105px, .4fr) minmax(260px, 1fr);
   gap: clamp(2rem, 4vw, 4rem);
   align-items: start;
 }
@@ -227,10 +235,17 @@ button {
   .site-footer__brand .wordmark > img { height: 2.75rem; }
 }
 
+/* Espace titre → contenu resserré (owner, 2026-08-29 - "trop d'espace"
+   entre "NAVIGATION"/"NOUS SUIVRE"/"NOUS TROUVER" et leurs ancres/liens).
+   Ce gap ne gouverne plus QUE cet espace : chaque colonne n'a qu'un seul
+   enfant de contenu sous le titre (.site-footer__nav-grid,
+   .site-footer__social-list, ou le <p> adresse), le rythme ligne à ligne
+   À L'INTÉRIEUR de ce contenu vient exclusivement du line-height (voir
+   plus bas), pas de ce gap. */
 .site-footer__column {
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.4rem;
 }
 
 /* Navigation du footer en 2 colonnes de 3 (pack
@@ -241,18 +256,30 @@ button {
   /* Écart entre les 2 sous-colonnes resserré à 1rem (owner, 2026-08-29) :
      à 768px (palier tablette 2x2), 1.5rem laissait juste 5px de moins que
      "Les innovations BOPA" n'a besoin pour tenir sur une ligne. */
-  gap: 0.65rem 0.75rem;
+  gap: 0 0.75rem;
 }
 
+/* Rythme vertical des ancres calé sur l'interligne de l'adresse (owner,
+   2026-08-29 - "aligner horizontalement toutes les ancres et les
+   différents liens... sur cet interligne") : plus de gap flex, les liens
+   empilent en display:block avec le MÊME line-height que
+   .site-footer__contact ci-dessous (1.8) - un bloc = une ligne, la
+   distance d'un lien au suivant est donc identique à la distance d'une
+   ligne d'adresse à la suivante, ce qui aligne les rangées des 4
+   colonnes entre elles plutôt que d'approcher la valeur avec un gap. */
 .site-footer__nav-col {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
+  display: block;
+}
+
+.site-footer__nav-col a {
+  display: block;
+  line-height: 1.8;
 }
 
 .site-footer__heading {
-  margin: 0 0 0.3rem;
-  font-size: 0.78rem;
+  margin: 0;
+  /* Légèrement agrandi (owner, 2026-08-29) : 0.78rem → 0.85rem. */
+  font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 0.055em;
   text-transform: uppercase;
@@ -271,9 +298,13 @@ button {
 }
 
 .site-footer__social-link {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 0.55rem;
+  /* Même rythme vertical que .site-footer__nav-col a et .site-footer__contact
+     (owner, 2026-08-29) - le line-height s'applique au texte du lien
+     même en contexte flex (l'icône, plus courte, ne le dépasse pas). */
+  line-height: 1.8;
 }
 
 .site-footer__social-icon {
@@ -291,7 +322,11 @@ button {
   font-size: inherit;
   /* Interligne agrandi (owner, 2026-08-29 - 1.55 lisait "trop serré" sur
      les 3 lignes de l'adresse) : 1.8, cohérent avec le corps de texte du
-     site (body en 1.6) plutôt qu'une adresse plus tassée que le reste. */
+     site (body en 1.6) plutôt qu'une adresse plus tassée que le reste.
+     Devenu la RÉFÉRENCE de rythme vertical pour tout le footer le même
+     jour (voir .site-footer__nav-col/.site-footer__social-list a
+     ci-dessus), une fois "12 avenue Paul Vaillant-Couturier" ramené sur
+     une seule ligne (colonne élargie, voir .site-footer__grid). */
   line-height: 1.8;
 }
 
@@ -304,7 +339,8 @@ button {
      avant "03 L'équipe opérationnelle") - resserré depuis
      clamp(2.5rem,4vw,3.5rem) (owner, 2026-08-29). */
   margin-top: clamp(1.1rem, 2vw, 1.5rem);
-  padding-top: 1.1rem;
+  /* Beaucoup plus collé au trait (owner, 2026-08-29) : 1.1rem → 0.35rem. */
+  padding-top: 0.35rem;
   border-top: 1px solid rgba(255, 255, 255, 0.14);
   color: color-mix(in srgb, var(--color-dark-ink) 55%, transparent);
   font-size: 0.8rem;
@@ -312,13 +348,20 @@ button {
 
 .site-footer__bottom p { margin: 0; }
 
-@media (max-width: 980px) {
+/* Seuil remonté de 980px à 1320px (owner, 2026-08-29, second passage) -
+   pas un chiffre arbitraire, c'est le container du site lui-même
+   (.site-footer__inner plafonne à 1320px). Mesuré en direct : même à la
+   largeur MAXIMALE que ce container atteint jamais, les 4 colonnes en
+   ligne ne laissent que ~340px à Navigation - pile son plancher, jamais
+   plus - car .site-footer__brand (besoin réel mesuré : 376px) et
+   .site-footer__grid ont trop de colonnes qui se disputent le même
+   espace pour que "Les innovations BOPA" respire à 1rem. En dessous de
+   1320px de large, le palier 2x2 (Navigation face à Marque seulement,
+   pas face à 4 colonnes) donne en réalité PLUS de place à Navigation
+   qu'en mode 4 colonnes - contre-intuitif mais confirmé en mesurant les
+   deux : mieux vaut y passer plus tôt que de pincer le texte. */
+@media (max-width: 1320px) {
   .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  /* Le palier 2x2 partage la Navigation avec la colonne marque, laissant
-     moins de place qu'au desktop - un cran de taille en moins garantit
-     que "Les innovations BOPA"/"Qui sommes-nous ?" restent sur une seule
-     ligne à toutes les largeurs de ce palier (owner, 2026-08-29), plutôt
-     que de chasser 1-2px via le gap de la grille. */
   .site-footer__nav-grid a { font-size: 0.92rem; }
 }
 
