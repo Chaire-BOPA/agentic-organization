@@ -1,6 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import { phases } from '../data/projects.js';
+
+// Correctif "gabarit vignettes + carrousel" (2026-08-29) : flèches du
+// carrousel, même convention d'icône que le reste du site (24x24,
+// stroke="currentColor", stroke-width 1.6).
+const chevronLeft =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const chevronRight =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 ---
 
 <Base
@@ -88,32 +96,59 @@ import { phases } from '../data/projects.js';
               </div>
             </aside>
 
-            <div class="innovations-v2__cards" aria-label={`Projets ${phase.label}`}>
-              {phase.projects.map((project) => {
-                return (
-                  <article class="bopa-project-card">
-                    <div class="bopa-project-card__media">
-                      <img src={project.image} alt="" loading="lazy" />
-                    </div>
-                    <div class="bopa-project-card__body">
-                      <h3>{project.name}</h3>
-                      <p>{project.description}</p>
-                      {project.action && (
-                        <a
-                          class="innovations-v2__card-action"
-                          href={project.action.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {project.action.type === 'video' && <span aria-hidden="true">▶</span>}
-                          <span>{project.action.label}</span>
-                          {project.action.type === 'external' && <span aria-hidden="true">↗</span>}
-                        </a>
-                      )}
-                    </div>
-                  </article>
-                );
-              })}
+            <div class="innovations-v2__row" data-innovations-row>
+              <div
+                class="innovations-v2__row-viewport"
+                data-innovations-viewport
+                tabindex="0"
+                aria-label={`Projets ${phase.label} - défilement horizontal`}
+              >
+                <div class="innovations-v2__row-track" data-innovations-track>
+                  {phase.projects.map((project) => {
+                    return (
+                      <article class="bopa-project-card" data-innovation-card>
+                        <div class="bopa-project-card__media">
+                          <img src={project.image} alt="" loading="lazy" />
+                        </div>
+                        <div class="bopa-project-card__body">
+                          <h3>{project.name}</h3>
+                          <p>{project.description}</p>
+                          {project.action && (
+                            <a
+                              class="innovations-v2__card-action"
+                              href={project.action.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {project.action.type === 'video' && <span aria-hidden="true">▶</span>}
+                              <span>{project.action.label}</span>
+                              {project.action.type === 'external' && <span aria-hidden="true">↗</span>}
+                            </a>
+                          )}
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+              <div class="innovations-v2__row-fade innovations-v2__row-fade--left" aria-hidden="true"></div>
+              <div class="innovations-v2__row-fade innovations-v2__row-fade--right" aria-hidden="true"></div>
+              <button
+                type="button"
+                class="innovations-v2__row-arrow innovations-v2__row-arrow--left"
+                data-innovations-prev
+                aria-label={`Voir les projets précédents (${phase.label})`}
+                hidden
+                set:html={chevronLeft}
+              />
+              <button
+                type="button"
+                class="innovations-v2__row-arrow innovations-v2__row-arrow--right"
+                data-innovations-next
+                aria-label={`Voir les projets suivants (${phase.label})`}
+                hidden
+                set:html={chevronRight}
+              />
             </div>
           </section>
         ))}
@@ -161,7 +196,69 @@ import { phases } from '../data/projects.js';
           const visible = filter === 'all' || section.getAttribute('data-project-category') === filter;
           section.toggleAttribute('hidden', !visible);
         });
+
+        // Une rangée masquée par un filtre a un scrollWidth/clientWidth de 0
+        // tant qu'elle est display:none - recalculer l'état des flèches/du
+        // fondu une fois qu'un filtre la rend à nouveau visible.
+        requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
       });
+    });
+  }
+</script>
+
+<script>
+  // Rangées de vignettes en carrousel horizontal (correctif "gabarit
+  // vignettes + carrousel", 2026-08-29) - adapté du modèle de logique
+  // fourni dans le pack : IntersectionObserver/ResizeObserver + scroll
+  // natif, aucune librairie. Le scroll horizontal natif + scroll-snap
+  // (CSS) gèrent déjà swipe tactile/trackpad/molette ; ce script ne fait
+  // que piloter les flèches et l'état du fondu.
+  const rowsRoot = document.querySelector('#innovations-v2');
+  if (rowsRoot && !rowsRoot.hasAttribute('data-rows-ready')) {
+    rowsRoot.setAttribute('data-rows-ready', 'true');
+
+    rowsRoot.querySelectorAll<HTMLElement>('[data-innovations-row]').forEach((row) => {
+      const viewport = row.querySelector<HTMLElement>('[data-innovations-viewport]');
+      const track = row.querySelector<HTMLElement>('[data-innovations-track]');
+      const prev = row.querySelector<HTMLButtonElement>('[data-innovations-prev]');
+      const next = row.querySelector<HTMLButtonElement>('[data-innovations-next]');
+      const card = row.querySelector<HTMLElement>('[data-innovation-card]');
+
+      if (!viewport || !track || !card) return;
+
+      const getStep = () => {
+        const cardWidth = card.getBoundingClientRect().width;
+        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0');
+        return cardWidth + gap;
+      };
+
+      const update = () => {
+        const max = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+        const x = viewport.scrollLeft;
+        const epsilon = 4;
+        const canLeft = x > epsilon;
+        const canRight = x < max - epsilon;
+
+        row.dataset.canScrollLeft = String(canLeft);
+        row.dataset.canScrollRight = String(canRight);
+
+        if (prev) prev.hidden = !canLeft;
+        if (next) next.hidden = !canRight;
+      };
+
+      prev?.addEventListener('click', () => {
+        viewport.scrollBy({ left: -getStep(), behavior: 'smooth' });
+      });
+
+      next?.addEventListener('click', () => {
+        viewport.scrollBy({ left: getStep(), behavior: 'smooth' });
+      });
+
+      viewport.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      new ResizeObserver(update).observe(viewport);
+
+      update();
     });
   }
 </script>
@@ -203,8 +300,15 @@ import { phases } from '../data/projects.js';
     box-sizing: border-box;
   }
 
+  /* Largeur alignée sur le container réel des grandes sections de la HOME
+     (correctif "gabarit vignettes + carrousel", 2026-08-29) : 1320px,
+     même valeur et même logique de padding-inline (64px = 2rem de
+     chaque côté) que .bopa-mission-v2__inner/.bopa-vision-v4__inner/
+     .bopa-projects-v2__inner/.bopa-contact__inner/.bopa-support__inner.
+     Cette page utilisait 1500px, un cran plus large - HOME reste la
+     référence, jamais l'inverse. */
   .innovations-v2__container {
-    width: min(1500px, calc(100% - 64px));
+    width: min(1320px, calc(100% - 64px));
     margin-inline: auto;
   }
 
@@ -466,29 +570,115 @@ import { phases } from '../data/projects.js';
     color: var(--bopa-ink);
   }
 
-  /* Rangée de vignettes : .bopa-project-card fournit déjà tout le
-     visuel de la carte (site.css) - on ne pose ici que la mise en
-     page de la rangée.
-     Marge haute/basse : overflow-x: auto force aussi overflow-y à
-     "auto" (règle CSS : un axe non-visible force l'autre à le devenir),
-     donc sans marge la carte se fait rogner par cette même rangée dès
-     qu'elle se soulève au survol (translateY) ou que son ombre
-     s'agrandit - vérifié : au repos, le haut de la carte est
-     exactement au bord de rognage de la rangée, marge zéro. */
-  .innovations-v2__cards {
+  /* Rangée de vignettes en carrousel horizontal (correctif "gabarit
+     vignettes + carrousel", 2026-08-29) - .bopa-project-card fournit déjà
+     tout le visuel de la carte (site.css) ; ce bloc ne pose que la mise
+     en page de la rangée + le carrousel. Gabarit = LiverSight, mesuré en
+     place avant ce correctif (270px de large, 410px de haut, 184px de
+     zone image, déjà la valeur de .bopa-project-card/.bopa-project-card__media
+     partagées avec la home) : chaque carte passe d'une largeur flexible
+     (flex:1 1 0, 205-270px variable selon le nombre de cartes de la
+     rangée - la cause du gabarit incohérent d'une catégorie à l'autre) à
+     une largeur FIXE identique partout, la rangée devenant scrollable
+     plutôt que les cartes rétrécissant.
+     Marge haute/basse sur .innovations-v2__row-track (pas sur le
+     viewport) : overflow-x: auto sur le viewport force aussi son propre
+     overflow-y à "auto", et sans marge la carte se ferait rogner par ce
+     même viewport au survol (translateY) - la marge doit donc vivre sur
+     l'élément qui bouge (track), pas sur celui qui coupe (viewport). */
+  .innovations-v2__row {
+    position: relative;
+  }
+
+  .innovations-v2__row-viewport {
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    scroll-snap-type: x proximity;
+    overscroll-behavior-inline: contain;
+  }
+  .innovations-v2__row-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .innovations-v2__row-track {
     display: flex;
     gap: 16px;
-    min-width: 0;
-    overflow-x: auto;
-    overscroll-behavior-inline: contain;
-    scrollbar-width: thin;
+    width: max-content;
     padding: 10px 4px 24px;
   }
 
-  .innovations-v2__cards .bopa-project-card {
-    flex: 1 1 0;
-    min-width: 205px;
-    max-width: 270px;
+  .innovations-v2__row-track .bopa-project-card {
+    flex: 0 0 270px;
+    width: 270px;
+    scroll-snap-align: start;
+  }
+
+  /* Fondu : couleur réelle du fond de la section (--bopa-bg), jamais
+     blanc en dur - visible uniquement quand il reste du contenu hors
+     champ de ce côté (voir data-can-scroll-* posé par le script). */
+  .innovations-v2__row-fade {
+    position: absolute;
+    top: 0;
+    bottom: 24px;
+    width: clamp(2.5rem, 6vw, 5rem);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+  .innovations-v2__row-fade--right {
+    right: 0;
+    background: linear-gradient(to right, transparent, var(--bopa-bg));
+  }
+  .innovations-v2__row-fade--left {
+    left: 0;
+    background: linear-gradient(to left, transparent, var(--bopa-bg));
+  }
+  .innovations-v2__row[data-can-scroll-right="true"] .innovations-v2__row-fade--right,
+  .innovations-v2__row[data-can-scroll-left="true"] .innovations-v2__row-fade--left {
+    opacity: 1;
+  }
+
+  .innovations-v2__row-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--bopa-border);
+    border-radius: 50%;
+    background: var(--bopa-white);
+    color: var(--bopa-blue-strong);
+    box-shadow: 0 6px 16px rgba(5, 26, 58, 0.14);
+    cursor: pointer;
+    transition: transform 0.18s ease, box-shadow 0.18s ease;
+  }
+  .innovations-v2__row-arrow svg {
+    width: 18px;
+    height: 18px;
+  }
+  .innovations-v2__row-arrow--left {
+    left: 0.35rem;
+  }
+  .innovations-v2__row-arrow--right {
+    right: 0.35rem;
+  }
+  .innovations-v2__row-arrow[hidden] {
+    display: none;
+  }
+  .innovations-v2__row-arrow:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
+    outline-offset: 2px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .innovations-v2__row-arrow:hover {
+      transform: translateY(-50%) scale(1.06);
+      box-shadow: 0 8px 20px rgba(5, 26, 58, 0.2);
+    }
   }
 
   /* Médico-économique : seul accent doré du site, sur ce filtre/label
@@ -650,14 +840,15 @@ import { phases } from '../data/projects.js';
     .innovations-v2__category {
       grid-template-columns: 220px minmax(0, 1fr);
     }
-    .innovations-v2__cards .bopa-project-card {
-      min-width: 220px;
-    }
+    /* Le gabarit (270px) reste inchangé ici - "conserver autant que
+       possible le gabarit" sur tablette (pack, section 8). La rangée
+       devient le carrousel scrollable dès que ça ne tient plus, exactement
+       le comportement déjà en place pour le désktop. */
   }
 
   @media (max-width: 760px) {
     .innovations-v2__container {
-      width: min(calc(100% - 32px), 1500px);
+      width: min(calc(100% - 32px), 1320px);
     }
     .innovations-v2__intro {
       padding-top: 32px;
@@ -711,9 +902,9 @@ import { phases } from '../data/projects.js';
     .innovations-v2__category-label p {
       max-width: none;
     }
-    .innovations-v2__cards .bopa-project-card {
-      flex-basis: 78vw;
-      min-width: min(78vw, 270px);
+    .innovations-v2__row-track .bopa-project-card {
+      flex-basis: min(78vw, 270px);
+      width: min(78vw, 270px);
     }
 
     .innovations-v2__cta-inner {
