@@ -84,13 +84,10 @@ const founders = partnerLogos.slice(0, 3);
 const foundationLogos = partnerLogos.slice(3, 6);
 const patronLogos = partnerLogos.slice(6, 8);
 
-// Descriptions pour les cartes de la section "Nous soutenir" - alignées
-// par index sur foundationLogos/patronLogos ci-dessus.
-const foundationDescriptions = [
-  "Soutenir l'innovation et la recherche au sein de l'AP-HP pour améliorer la santé de demain.",
-  "Accompagner les innovations numériques et technologiques au service de l'intérêt général.",
-  "Soutenir la recherche, la formation et l'innovation dans une dynamique interdisciplinaire et collaborative.",
-];
+// Descriptions pour les cartes mécènes de la section "Nous soutenir" -
+// alignées par index sur patronLogos ci-dessus. Les cartes fondations
+// n'ont plus de texte descriptif (pack "Nous-Soutenir-COMPLET-Exact-V2",
+// 2026-08-29 - logo seul, centré).
 const patronDescriptions = [
   "Relyens soutient les projets innovants de la Chaire BOPA au service des patients et des professionnels de santé.",
   "Vermon accompagne la Chaire BOPA dans le développement de solutions innovantes pour la chirurgie de demain.",
@@ -819,56 +816,14 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   <section class="bopa-support" id="nous-soutenir" aria-labelledby="support-title">
     <div class="bopa-support__inner">
-      <div class="bopa-support__intro" data-reveal>
-        <p class="bopa-support__eyebrow">NOUS SOUTENIR</p>
-        <h2 id="support-title">Votre soutien,<br />moteur d'innovation et de progrès</h2>
-        <p class="bopa-support__lede">
-          La Chaire BOPA développe ses projets grâce au mécénat.<br />
-          Votre soutien permet de financer la recherche, d'accélérer le développement
-          de solutions innovantes et d'améliorer la prise en charge des patients.
-        </p>
-      </div>
-
-      <div class="bopa-support__group" aria-labelledby="foundations-title" data-reveal>
-        <div class="bopa-support__group-title">
-          <span class="bopa-support__group-icon" aria-hidden="true">◎</span>
-          <h3 id="foundations-title">3 fondations partenaires</h3>
-          <span class="bopa-support__rule" aria-hidden="true"></span>
-        </div>
-        <div class="bopa-support__grid bopa-support__grid--three">
-          {foundationLogos.map((logo, i) => (
-            <article class="support-partner-card">
-              <div class="support-partner-card__logo-wrap">
-                <img src={logo.src} alt={logo.alt} loading="lazy" />
-              </div>
-              <p>{foundationDescriptions[i]}</p>
-            </article>
-          ))}
-        </div>
-      </div>
-
-      <div class="bopa-support__group" aria-labelledby="patrons-title" data-reveal>
-        <div class="bopa-support__group-title">
-          <span class="bopa-support__group-icon" aria-hidden="true">♡</span>
-          <h3 id="patrons-title">2 mécènes engagés à nos côtés</h3>
-          <span class="bopa-support__rule" aria-hidden="true"></span>
-        </div>
-        <div class="bopa-support__grid bopa-support__grid--two">
-          {patronLogos.map((logo, i) => (
-            <article class="support-partner-card support-partner-card--wide">
-              <div class="support-partner-card__logo-wrap support-partner-card__logo-wrap--patron">
-                <img src={logo.src} alt={logo.alt} loading="lazy" />
-              </div>
-              <p>{patronDescriptions[i]}</p>
-            </article>
-          ))}
-        </div>
+      <div class="bopa-support__heading" data-reveal>
+        <span class="bopa-support__number" aria-hidden="true">05.</span>
+        <h2 id="support-title" class="bopa-support__eyebrow">Nous soutenir</h2>
       </div>
 
       <div class="support-donation-panel" data-reveal>
         <div class="support-donation-panel__content">
-          <span class="support-donation-panel__accent" aria-hidden="true"></span>
-          <h3>Faites avancer<br />l'innovation en chirurgie<br />avec nous.</h3>
+          <h3>Faites avancer l'innovation<br />en chirurgie avec nous.</h3>
           <p>
             Chaque don, quel que soit son montant, contribue concrètement à faire émerger,
             tester et déployer de nouvelles solutions au service des patients et des équipes soignantes.
@@ -880,6 +835,43 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         </div>
         <div class="support-donation-panel__visual" aria-hidden="true">
           <img src="/images/graphics/hand-heart-bopa.png" alt="" loading="lazy" decoding="async" />
+        </div>
+      </div>
+
+      <div class="bopa-support__group" aria-labelledby="foundations-title" data-reveal>
+        <div class="bopa-support__group-title">
+          <span class="bopa-support__group-icon" aria-hidden="true">◎</span>
+          <h3 id="foundations-title">3 fondations partenaires</h3>
+          <span class="bopa-support__rule" aria-hidden="true"></span>
+        </div>
+        <p class="bopa-support__group-intro">
+          Parce que la Chaire BOPA est le fruit de l'alliance entre trois institutions, elle s'appuie
+          sur leurs fondations pour accompagner la collecte et soutenir la réalisation de ses missions.
+        </p>
+        <div class="bopa-support__grid bopa-support__grid--three">
+          {foundationLogos.map((logo) => (
+            <article class="support-partner-card support-partner-card--foundation">
+              <img src={logo.src} alt={logo.alt} loading="lazy" />
+            </article>
+          ))}
+        </div>
+      </div>
+
+      <div class="bopa-support__group" aria-labelledby="patrons-title" data-reveal>
+        <div class="bopa-support__group-title">
+          <span class="bopa-support__group-icon" aria-hidden="true">♡</span>
+          <h3 id="patrons-title">Ils nous soutiennent déjà</h3>
+          <span class="bopa-support__rule" aria-hidden="true"></span>
+        </div>
+        <div class="bopa-support__grid bopa-support__grid--two">
+          {patronLogos.map((logo, i) => (
+            <article class="support-partner-card support-partner-card--wide">
+              <div class="support-partner-card__logo-wrap support-partner-card__logo-wrap--patron">
+                <img src={logo.src} alt={logo.alt} loading="lazy" />
+              </div>
+              <p>{patronDescriptions[i]}</p>
+            </article>
+          ))}
         </div>
       </div>
     </div>
@@ -2693,7 +2685,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .bopa-support {
     position: relative;
     overflow: hidden;
-    background: #ffffff;
+    background: var(--color-bg-tint);
     color: var(--color-ink);
     padding: clamp(76px, 7vw, 118px) 0 clamp(78px, 7vw, 116px);
   }
@@ -2703,34 +2695,45 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     margin-inline: auto;
   }
 
-  .bopa-support__intro { max-width: 850px; }
-
-  .bopa-support__eyebrow {
-    margin: 0 0 22px;
-    font-size: .84rem;
-    line-height: 1;
-    font-weight: 800;
-    letter-spacing: .08em;
-    color: var(--mp-blue-bright);
+  /* Titre "05. Nous soutenir" (pack "Nous-Soutenir-COMPLET-Exact-V2",
+     2026-08-29) - premier titre de grande section à porter un numéro : les
+     5 autres (Mission/Innovations/Vision/Qui sommes-nous/Contacter) restent
+     sur le petit eyebrow majuscule, ce badge rond est une signature propre
+     à cette section, voulue par la propriétaire sur la référence fournie.
+     .bopa-support__eyebrow reste la classe utilisée (même tiret cyan
+     partagé, site.css) - seules ses propriétés visuelles sont redéfinies
+     ici pour porter un H2 de taille normale plutôt que le petit libellé
+     majuscule des autres sections. */
+  .bopa-support__heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: clamp(40px, 4vw, 56px);
   }
 
-  .bopa-support h2 {
-    margin: 0;
-    max-width: 850px;
+  .bopa-support__number {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 2.6rem;
+    height: 2.6rem;
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--bopa-cyan) 16%, white);
     color: var(--color-navy);
     font-family: var(--font-display);
-    font-size: clamp(2.55rem, 5vw, 4.9rem);
-    line-height: .99;
-    letter-spacing: var(--tracking-tight);
-    font-weight: 600;
+    font-size: 1rem;
+    font-weight: 700;
   }
 
-  .bopa-support__lede {
-    margin: 28px 0 0;
-    max-width: 720px;
-    color: var(--color-muted);
-    font-size: clamp(1rem, 1.25vw, 1.18rem);
-    line-height: 1.62;
+  .bopa-support__eyebrow {
+    margin: 0;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.6vw, 2.15rem);
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: var(--tracking-tight);
+    text-transform: none;
   }
 
   .bopa-support__group { margin-top: clamp(54px, 6vw, 82px); }
@@ -2758,7 +2761,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
   .bopa-support__rule { height: 1px; background: color-mix(in srgb, var(--mp-blue-bright) 60%, transparent); flex: 1; }
 
-  .bopa-support__grid { display: grid; gap: 18px; }
+  .bopa-support__group-intro {
+    margin: 14px 0 0;
+    max-width: 54rem;
+    color: var(--color-muted);
+    font-size: clamp(1rem, 1.15vw, 1.05rem);
+    line-height: 1.6;
+  }
+
+  .bopa-support__grid { display: grid; gap: 18px; margin-top: 26px; }
   .bopa-support__grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .bopa-support__grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
@@ -2773,6 +2784,19 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     border: 1px solid var(--color-line);
   }
   .support-partner-card--wide { min-height: 230px; }
+  /* Cartes fondations : logo seul, centré horizontalement et verticalement,
+     aucun texte descriptif (pack V2, 2026-08-29) - à la différence des
+     cartes mécènes ci-dessous, qui gardent logo + description. */
+  .support-partner-card--foundation {
+    align-items: center;
+    justify-content: center;
+  }
+  .support-partner-card--foundation img {
+    display: block;
+    max-width: 72%;
+    max-height: 6.5rem;
+    object-fit: contain;
+  }
   .support-partner-card__logo-wrap {
     min-height: 92px;
     display: flex;
@@ -2795,14 +2819,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   .support-donation-panel {
-    margin-top: clamp(48px, 5vw, 68px);
     min-height: 430px;
     border: 1px solid color-mix(in srgb, var(--mp-blue-bright) 55%, transparent);
     border-radius: var(--radius-lg);
     overflow: hidden;
     display: grid;
     grid-template-columns: minmax(0, 1.08fr) minmax(350px, .92fr);
-    background: var(--mp-navy-deep);
+    background:
+      radial-gradient(circle at 76% 48%, color-mix(in srgb, var(--bopa-cyan) 22%, transparent), transparent 36%),
+      var(--mp-navy-deep);
   }
   .support-donation-panel__content {
     padding: clamp(38px, 5vw, 62px);
@@ -2811,18 +2836,13 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     align-items: flex-start;
     justify-content: center;
   }
-  .support-donation-panel__accent {
-    width: 54px;
-    height: 2px;
-    background: var(--mp-blue-bright);
-    margin-bottom: 18px;
-  }
   .support-donation-panel h3 {
     margin: 0;
+    max-width: 560px;
     color: #fff;
     font-family: var(--font-display);
-    font-size: clamp(2rem, 3.9vw, 3.6rem);
-    line-height: 1.04;
+    font-size: clamp(1.9rem, 2.7vw, 2.75rem);
+    line-height: 1.14;
     letter-spacing: var(--tracking-tight);
     font-weight: 600;
   }
@@ -2857,24 +2877,41 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .support-donation-panel__visual {
     position: relative;
     min-height: 100%;
-    background: var(--mp-navy-deep);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
   }
+  /* Asset UHD transparent tel que fourni (pack V2, 2026-08-29) - contain +
+     alignement droite, léger débordement autorisé plutôt que cover/crop
+     arbitraire, pour rester fidèle à la référence. */
   .support-donation-panel__visual img {
-    width: 100%;
+    display: block;
+    width: 112%;
+    max-width: none;
     height: 100%;
     min-height: 430px;
-    display: block;
-    object-fit: cover;
-    object-position: center;
+    object-fit: contain;
+    object-position: right center;
   }
 
   @media (max-width: 900px) {
-    .bopa-support__grid--three { grid-template-columns: 1fr; }
-    .bopa-support__grid--two { grid-template-columns: 1fr; }
+    /* Tablette : "2 + 1" plutôt qu'une colonne unique (pack V2, 2026-08-29,
+       section RESPONSIVE) - la 3e carte fondation s'étend sur les deux
+       colonnes ; les 2 cartes mécènes restent côte à côte, déjà lisibles
+       à cette largeur. */
+    .bopa-support__grid--three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .bopa-support__grid--three > :last-child { grid-column: 1 / -1; }
     .support-partner-card { min-height: 0; }
     .support-donation-panel { grid-template-columns: 1fr; }
-    .support-donation-panel__visual { min-height: 300px; order: -1; }
-    .support-donation-panel__visual img { min-height: 300px; max-height: 380px; }
+    .support-donation-panel__visual { min-height: 260px; justify-content: center; }
+    .support-donation-panel__visual img { width: 82%; height: auto; min-height: 0; max-height: 260px; }
+  }
+
+  @media (max-width: 680px) {
+    .bopa-support__grid--three { grid-template-columns: 1fr; }
+    .bopa-support__grid--three > :last-child { grid-column: auto; }
+    .bopa-support__grid--two { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 560px) {
