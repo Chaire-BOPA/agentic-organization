@@ -1792,7 +1792,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      .about-v2__intro n'a plus son propre padding-top. Seul le haut est
      repris ici - le bas de #qui-sommes-nous sert aux sous-sections 02/03,
      hors périmètre de ce correctif. */
-  #qui-sommes-nous { padding-top: var(--space-5); }
+  /* padding-bottom: 0 (2026-08-29) - .about-v2 porte aussi .section-block
+     (site.css), dont la regle generique donne AUSSI un padding-bottom
+     (clamp(5.5rem,10vw,9rem) = 144px a 1440px) en plus du padding-bottom
+     deja calibre sur .about-v2__team lui-meme (91px, cale sur "Nos
+     innovations"). Les deux s'additionnaient sans que rien ne l'indique
+     dans .about-v2__team-band (fond clair, cause du "grand espace vide"
+     vu par l'owner apres la sous-section 03) - un seul padding-bottom
+     doit gouverner la fin de la section, celui deja pense pour ca. */
+  #qui-sommes-nous { padding-top: var(--space-5); padding-bottom: 0; }
 
   .about-v2__intro {
     text-align: center;
