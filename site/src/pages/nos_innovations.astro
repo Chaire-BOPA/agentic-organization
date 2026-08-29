@@ -850,7 +850,17 @@ const chevronRightBig =
   }
   .innovations-v2__nav-btn--prev.is-arrow-hidden { transform: translateX(-10px); }
   .innovations-v2__nav-btn--next.is-arrow-hidden { transform: translateX(10px); }
-  .innovations-v2__nav-btn svg {
+  /* :global() indispensable ici : ce <svg> est injecté via `set:html`
+     (chevronLeftBig/chevronRightBig), donc jamais vu par le compilateur
+     Astro au moment où il ajoute l'attribut de scope (data-astro-cid-*) à
+     chaque élément - un sélecteur scopé normal (`.innovations-v2__nav-btn
+     svg`) se serait donc compilé en exigeant cet attribut SUR LE SVG
+     AUSSI, qui ne l'a jamais, et ne matchait donc jamais : la flèche
+     restait sans dimensions (0×0), invisible malgré `opacity:1`. Bug
+     signalé par la propriétaire (2026-08-29, "je ne vois pas les
+     flèches") - confirmé en lisant `svg.attributes` en direct sur le site
+     publié : aucun `data-astro-cid-*` dessus. */
+  .innovations-v2__nav-btn :global(svg) {
     width: clamp(26px, 2vw, 34px);
     height: clamp(26px, 2vw, 34px);
   }
@@ -1130,7 +1140,7 @@ const chevronRightBig =
       flex-direction: column;
       gap: .3rem;
     }
-    .innovations-v2__nav-btn svg {
+    .innovations-v2__nav-btn :global(svg) {
       width: 22px;
       height: 22px;
     }
