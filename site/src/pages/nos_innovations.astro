@@ -2,13 +2,14 @@
 import Base from '../layouts/Base.astro';
 import { phases } from '../data/projects.js';
 
-// Correctif "gabarit vignettes + carrousel" (2026-08-29) : flèches du
-// carrousel, même convention d'icône que le reste du site (24x24,
-// stroke="currentColor", stroke-width 1.6).
-const chevronLeft =
-  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-const chevronRight =
-  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+// Rail "cartes entières + flèches dédiées" (correctif "Carrousel-Fleches-
+// Fondu-V3", 2026-08-29) : flèches fines et grandes (stroke plus fin que
+// les anciens petits boutons ronds, puisqu'elles sont affichées bien plus
+// grandes ici), même famille de tracé que le reste du site (currentColor).
+const chevronLeftBig =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const chevronRightBig =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 ---
 
 <Base
@@ -97,6 +98,14 @@ const chevronRight =
             </aside>
 
             <div class="innovations-v2__row" data-innovations-row>
+              <button
+                type="button"
+                class="innovations-v2__nav innovations-v2__nav--prev"
+                data-innovations-prev
+                aria-label={`Voir les projets précédents (${phase.label})`}
+                disabled
+                set:html={chevronLeftBig}
+              />
               <div
                 class="innovations-v2__row-viewport"
                 data-innovations-viewport
@@ -131,23 +140,13 @@ const chevronRight =
                   })}
                 </div>
               </div>
-              <div class="innovations-v2__row-fade innovations-v2__row-fade--left" aria-hidden="true"></div>
-              <div class="innovations-v2__row-fade innovations-v2__row-fade--right" aria-hidden="true"></div>
               <button
                 type="button"
-                class="innovations-v2__row-arrow innovations-v2__row-arrow--left"
-                data-innovations-prev
-                aria-label={`Voir les projets précédents (${phase.label})`}
-                hidden
-                set:html={chevronLeft}
-              />
-              <button
-                type="button"
-                class="innovations-v2__row-arrow innovations-v2__row-arrow--right"
+                class="innovations-v2__nav innovations-v2__nav--next"
                 data-innovations-next
                 aria-label={`Voir les projets suivants (${phase.label})`}
-                hidden
-                set:html={chevronRight}
+                disabled
+                set:html={chevronRightBig}
               />
             </div>
           </section>
@@ -248,51 +247,142 @@ const chevronRight =
       resizeTimer = setTimeout(equalizeCardHeights, 150);
     });
 
+    // Rail "cartes entières + flèches dédiées" (correctif "Carrousel-
+    // Fleches-Fondu-V3", 2026-08-29) : remplace l'ancien système à fondu/
+    // peek de bord. Le viewport n'affiche plus jamais qu'un nombre ENTIER
+    // de cartes - calculé depuis les dimensions réelles du DOM (largeur de
+    // rangée, largeur de carte, gap, largeur des zones flèche), pas depuis
+    // un ratio devinable à l'avance. Quand tout tient dans la largeur
+    // disponible, les zones flèche sont entièrement retirées du flux
+    // (`.is-paged` absent) - aucune flèche, aucun espace réservé pour
+    // rien. Dès qu'il faut une navigation, LES DEUX zones flèche restent
+    // en permanence dans le flux (largeur réservée constante) et seul le
+    // bouton lui-même s'estompe (opacity + `disabled`, jamais `display:
+    // none`) selon l'état réel du scroll - sinon le nombre de cartes
+    // visibles changerait entre le départ (une seule flèche visible) et
+    // l'état intermédiaire (les deux), ce que l'énoncé du correctif ne
+    // montre jamais dans ses exemples.
+    const computeFit = (available: number, cardWidth: number, gap: number) => {
+      if (available <= 0 || cardWidth <= 0) return 0;
+      return Math.max(0, Math.floor((available + gap) / (cardWidth + gap)));
+    };
+
     rowsRoot.querySelectorAll<HTMLElement>('[data-innovations-row]').forEach((row) => {
       const viewport = row.querySelector<HTMLElement>('[data-innovations-viewport]');
       const track = row.querySelector<HTMLElement>('[data-innovations-track]');
       const prev = row.querySelector<HTMLButtonElement>('[data-innovations-prev]');
       const next = row.querySelector<HTMLButtonElement>('[data-innovations-next]');
-      const card = row.querySelector<HTMLElement>('[data-innovation-card]');
 
-      if (!viewport || !track || !card) return;
+      if (!viewport || !track || !prev || !next) return;
+
+      const getCards = () => Array.from(track.querySelectorAll<HTMLElement>('[data-innovation-card]'));
+
+      const getGap = () => parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0');
 
       const getStep = () => {
-        const cardWidth = card.getBoundingClientRect().width;
-        const gap = parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0');
-        return cardWidth + gap;
+        const card = getCards()[0];
+        if (!card) return 0;
+        return card.getBoundingClientRect().width + getGap();
       };
 
-      const update = () => {
-        const max = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
-        const x = viewport.scrollLeft;
-        const epsilon = 4;
-        const canLeft = x > epsilon;
-        const canRight = x < max - epsilon;
+      const nearestIndex = () => {
+        const step = getStep();
+        return step ? Math.round(viewport.scrollLeft / step) : 0;
+      };
 
-        row.dataset.canScrollLeft = String(canLeft);
-        row.dataset.canScrollRight = String(canRight);
+      const layout = () => {
+        const cards = getCards();
+        const card = cards[0];
+        if (!card) return;
+        const cardWidth = card.getBoundingClientRect().width;
+        const gap = getGap();
+        if (!cardWidth) return;
 
-        if (prev) prev.hidden = !canLeft;
-        if (next) next.hidden = !canRight;
+        // Toujours repartir d'une mesure "non contrainte" de la rangée :
+        // sa largeur dépend de sa cellule de grille parente, pas de son
+        // propre mode précédent, mais on réinitialise quand même par
+        // prudence avant de mesurer.
+        row.classList.remove('is-paged');
+        viewport.style.width = '';
+        const fullWidth = row.getBoundingClientRect().width;
+
+        if (computeFit(fullWidth, cardWidth, gap) >= cards.length) {
+          // Tout tient : aucune flèche, aucune largeur réservée pour rien.
+          viewport.scrollLeft = 0;
+          return;
+        }
+
+        row.classList.add('is-paged');
+        const navWidth = parseFloat(getComputedStyle(row).getPropertyValue('--innovations-nav-width')) || 72;
+        const rowGap = parseFloat(getComputedStyle(row).columnGap || getComputedStyle(row).gap || '0');
+        const availableForViewport = fullWidth - navWidth * 2 - rowGap * 2;
+        const visibleCount = Math.max(1, computeFit(availableForViewport, cardWidth, gap));
+        viewport.style.width = `${visibleCount * (cardWidth + gap) - gap}px`;
+      };
+
+      const updateControls = () => {
+        if (!row.classList.contains('is-paged')) {
+          prev.disabled = true;
+          next.disabled = true;
+          return;
+        }
+        const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+        // Epsilon à 5px (pas 3) : .innovations-v2__row-track a un padding
+        // horizontal de 4px, donc son scrollLeft "au repos" (tout à gauche)
+        // vaut réellement 4, jamais 0 - un epsilon plus serré lirait ça
+        // comme "déjà déplacé" et activerait la flèche gauche dès le départ.
+        const epsilon = 5;
+        prev.disabled = viewport.scrollLeft <= epsilon;
+        next.disabled = viewport.scrollLeft >= maxScroll - epsilon;
       };
 
       const scrollBehavior = () =>
         window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 
-      prev?.addEventListener('click', () => {
-        viewport.scrollBy({ left: -getStep(), behavior: scrollBehavior() });
+      const scrollByOne = (direction: number) => {
+        const step = getStep();
+        if (!step) return;
+        const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+        const target = Math.min(maxScroll, Math.max(0, (nearestIndex() + direction) * step));
+        viewport.scrollTo({ left: target, behavior: scrollBehavior() });
+      };
+
+      prev.addEventListener('click', () => scrollByOne(-1));
+      next.addEventListener('click', () => scrollByOne(1));
+
+      let scrollRaf = 0;
+      viewport.addEventListener('scroll', () => {
+        cancelAnimationFrame(scrollRaf);
+        scrollRaf = requestAnimationFrame(updateControls);
+      }, { passive: true });
+
+      const relayout = () => {
+        layout();
+        // Recaler au pas de carte pour ne jamais laisser une carte
+        // partielle visible après un resize (ou un changement de filtre,
+        // qui fait aussi varier la taille réelle de la rangée observée).
+        const step = getStep();
+        if (step) viewport.scrollLeft = nearestIndex() * step;
+        updateControls();
+      };
+
+      new ResizeObserver(relayout).observe(row);
+
+      // Filet de sécurité en plus du ResizeObserver : un redimensionnement
+      // de fenêtre ne déclenche pas toujours une notification exploitable
+      // au bon moment, et le texte est encore rendu avec une police de
+      // repli (largeur différente) au tout premier calcul avant que la
+      // vraie police n'arrive - les deux peuvent fausser la largeur de
+      // carte/rangée mesurée par `layout()`.
+      let resizeTimer: ReturnType<typeof setTimeout>;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(relayout, 150);
       });
+      document.fonts?.ready?.then(relayout);
 
-      next?.addEventListener('click', () => {
-        viewport.scrollBy({ left: getStep(), behavior: scrollBehavior() });
-      });
-
-      viewport.addEventListener('scroll', update, { passive: true });
-      window.addEventListener('resize', update);
-      new ResizeObserver(update).observe(viewport);
-
-      update();
+      layout();
+      updateControls();
     });
   }
 </script>
@@ -604,35 +694,45 @@ const chevronRight =
     color: var(--bopa-ink);
   }
 
-  /* Rangée de vignettes en carrousel horizontal (correctif "gabarit
-     vignettes + carrousel", 2026-08-29 ; largeur recalée sur le gabarit
-     HOME, correctif "Gabarit-Home-Video-Carrousel-Premium-V2", même jour)
-     - .bopa-project-card fournit déjà tout le visuel de la carte
+  /* Rangée de vignettes = rail "cartes entières + flèches dédiées"
+     (correctif "Carrousel-Fleches-Fondu-V3", 2026-08-29, remplace le
+     système à fondu/peek de bord du correctif du même jour précédent) -
+     .bopa-project-card fournit déjà tout le visuel de la carte
      (site.css) ; ce bloc ne pose que la mise en page de la rangée + le
-     carrousel. Référence ABSOLUE = le gabarit réel des cartes de "Nos
-     innovations" sur la HOME (.bopa-projects-v2__rail .bopa-project-card),
-     mesuré en place : 226.8px de large (rail à 1320px, colonnes
-     minmax(240px,.92fr)/minmax(0,3fr), 4 cartes 1fr) - jamais l'inverse,
-     la HOME n'est pas retouchée. Hauteur (410px min) et zone image (184px)
-     étaient déjà partagées via le même .bopa-project-card/.bopa-project-card__media
-     - seule la largeur (précédemment 270px, mesurée sur cette page avant
-     d'avoir la HOME comme référence officielle) change ici. Chaque carte
-     garde une largeur FIXE identique partout (pas de flex:1 1 0
-     variable), la rangée devenant scrollable plutôt que les cartes
-     rétrécissant.
-     Marge haute/basse sur .innovations-v2__row-track (pas sur le
-     viewport) : overflow-x: auto sur le viewport force aussi son propre
-     overflow-y à "auto", et sans marge la carte se ferait rogner par ce
-     même viewport au survol (translateY) - la marge doit donc vivre sur
-     l'élément qui bouge (track), pas sur celui qui coupe (viewport).
-     scroll-snap-type "mandatory" (pas "proximity") + scroll-snap-stop
-     "always" sur chaque carte : rail "premium" plus net, un swipe/molette
-     ne peut jamais s'arrêter entre deux cartes ni en sauter une. */
+     rail. Référence ABSOLUE pour le gabarit = les cartes "Nos innovations"
+     de la HOME (.bopa-projects-v2__rail .bopa-project-card, 226.8px) -
+     inchangé ici, seul le comportement de navigation change.
+     Plus AUCUN dégradé/masque de bord : le viewport n'affiche jamais
+     qu'un nombre ENTIER de cartes (largeur calculée en JS depuis les
+     dimensions réelles du DOM), et la navigation n'est suggérée QUE par
+     les zones flèche .innovations-v2__nav, jamais par un bout de carte
+     suivante qui dépasserait.
+     .innovations-v2__row est un flex row à 3 enfants (flèche gauche /
+     viewport / flèche droite) - centré (`justify-content:center`)
+     uniquement quand une navigation est active (`.is-paged`, largeur du
+     groupe alors inférieure à la largeur de la rangée), sinon aligné à
+     gauche comme n'importe quelle rangée de cartes qui tient déjà tout
+     entière. */
   .innovations-v2__row {
-    position: relative;
+    --innovations-nav-width: clamp(56px, 4.5vw, 76px);
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 12px;
+  }
+  .innovations-v2__row.is-paged {
+    justify-content: center;
   }
 
   .innovations-v2__row-viewport {
+    /* Filet de sécurité : un enfant flex a par défaut min-width:auto, donc
+       "au moins aussi large que son contenu" - sans ce reset, si jamais le
+       calcul JS de largeur (plus bas) ne s'applique pas encore/plus, le
+       viewport s'étirerait pour montrer .innovations-v2__row-track en
+       entier (width:max-content) plutôt que de le contenir, provoquant
+       exactement le débordement de carte que ce correctif doit éliminer. */
+    min-width: 0;
+    max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
@@ -657,71 +757,54 @@ const chevronRight =
     scroll-snap-stop: always;
   }
 
-  /* Fondu : couleur réelle du fond de la section (--bopa-bg), jamais
-     blanc en dur - visible uniquement quand il reste du contenu hors
-     champ de ce côté (voir data-can-scroll-* posé par le script). */
-  .innovations-v2__row-fade {
-    position: absolute;
-    top: 0;
-    bottom: 24px;
-    width: clamp(2.5rem, 6vw, 5rem);
-    pointer-events: none;
-    z-index: 2;
-    opacity: 0;
-    transition: opacity 180ms ease;
-  }
-  .innovations-v2__row-fade--right {
-    right: 0;
-    background: linear-gradient(to right, transparent, var(--bopa-bg));
-  }
-  .innovations-v2__row-fade--left {
-    left: 0;
-    background: linear-gradient(to left, transparent, var(--bopa-bg));
-  }
-  .innovations-v2__row[data-can-scroll-right="true"] .innovations-v2__row-fade--right,
-  .innovations-v2__row[data-can-scroll-left="true"] .innovations-v2__row-fade--left {
-    opacity: 0.9;
-  }
-
-  .innovations-v2__row-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 3;
-    display: grid;
-    place-items: center;
-    width: 40px;
-    height: 40px;
-    border: 1px solid var(--bopa-border);
-    border-radius: 50%;
-    background: var(--bopa-white);
-    color: var(--bopa-blue-strong);
-    box-shadow: 0 6px 16px rgba(5, 26, 58, 0.14);
-    cursor: pointer;
-    transition: transform 0.18s ease, box-shadow 0.18s ease;
-  }
-  .innovations-v2__row-arrow svg {
-    width: 18px;
-    height: 18px;
-  }
-  .innovations-v2__row-arrow--left {
-    left: 0.35rem;
-  }
-  .innovations-v2__row-arrow--right {
-    right: 0.35rem;
-  }
-  .innovations-v2__row-arrow[hidden] {
+  /* Zones de navigation : ni carte, ni fond, ni bordure - juste une
+     grande flèche fine cyan, beaucoup d'air, pour ne surtout pas
+     ressembler à une carte vide. Toujours montées dans le DOM une fois
+     `.is-paged` actif (largeur réservée constante entre le début, le
+     milieu et la fin), seul le bouton s'estompe individuellement selon
+     l'état réel du scroll - piloté par `disabled`, pas par `hidden`, pour
+     que le nombre de cartes visibles ne change jamais entre ces états. */
+  .innovations-v2__nav {
     display: none;
+    flex: 0 0 var(--innovations-nav-width);
+    width: var(--innovations-nav-width);
+    place-items: center;
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0;
+    margin: 0;
+    color: var(--bopa-cyan);
+    cursor: pointer;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 220ms ease, transform 220ms ease, color 180ms ease;
   }
-  .innovations-v2__row-arrow:focus-visible {
+  .innovations-v2__row.is-paged .innovations-v2__nav {
+    display: grid;
+  }
+  .innovations-v2__nav svg {
+    width: clamp(28px, 2.2vw, 36px);
+    height: clamp(28px, 2.2vw, 36px);
+  }
+  .innovations-v2__nav:disabled {
+    opacity: 0;
+    pointer-events: none;
+    cursor: default;
+  }
+  .innovations-v2__nav--prev:disabled { transform: translateX(-10px); }
+  .innovations-v2__nav--next:disabled { transform: translateX(10px); }
+  .innovations-v2__nav:focus-visible {
     outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
-    outline-offset: 2px;
+    outline-offset: 4px;
+    border-radius: 10px;
   }
   @media (hover: hover) and (pointer: fine) {
-    .innovations-v2__row-arrow:hover {
-      transform: translateY(-50%) scale(1.06);
-      box-shadow: 0 8px 20px rgba(5, 26, 58, 0.2);
+    .innovations-v2__nav:not(:disabled):hover {
+      color: var(--bopa-blue);
     }
+    .innovations-v2__nav--prev:not(:disabled):hover { transform: translateX(-4px); }
+    .innovations-v2__nav--next:not(:disabled):hover { transform: translateX(4px); }
   }
 
   /* Médico-économique : seul accent doré du site, sur ce filtre/label
@@ -935,7 +1018,17 @@ const chevronRight =
     }
 
     .innovations-v2__category {
-      grid-template-columns: 1fr;
+      /* minmax(0, 1fr), pas 1fr seul (correctif "Carrousel-Fleches-Fondu-V3",
+         2026-08-29) : une piste de grille "1fr" a un minimum implicite
+         "auto" (= au moins la taille de son contenu), pas 0 - avec
+         .innovations-v2__row-track en width:max-content (largeur des 227px
+         + gap de TOUTES les cartes) dans cette colonne, l'ancienne valeur
+         forçait la rangée, donc la page entière, à s'élargir au-delà du
+         viewport mobile réel plutôt que de laisser le rail interne défiler.
+         Bug préexistant (les deux breakpoints plus larges utilisaient déjà
+         minmax(0,1fr) correctement), simplement invisible avant que cette
+         colonne ne contienne un enfant à largeur intrinsèque large. */
+      grid-template-columns: minmax(0, 1fr);
       gap: 18px;
       padding-block: 26px;
     }
@@ -948,6 +1041,10 @@ const chevronRight =
     .innovations-v2__row-track .bopa-project-card {
       flex-basis: min(78vw, 227px);
       width: min(78vw, 227px);
+    }
+    .innovations-v2__row {
+      --innovations-nav-width: 44px;
+      gap: 6px;
     }
 
     .innovations-v2__cta-inner {
@@ -963,6 +1060,9 @@ const chevronRight =
   @media (prefers-reduced-motion: reduce) {
     .innovations-v2__filters button,
     .innovations-v2__cta-button {
+      transition: none;
+    }
+    .innovations-v2__nav {
       transition: none;
     }
   }
