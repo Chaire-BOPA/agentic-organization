@@ -16,7 +16,7 @@ export const phases = [
         name: 'LiverSight',
         description: "Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du foie, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.",
         image: '/images/projets-v2/liversight.png',
-        action: { label: 'Voir la vidéo de présentation', href: 'https://www.youtube.com/watch?v=MF1ysshoNVM', type: 'video' },
+        action: { label: 'En vidéo!', href: 'https://www.youtube.com/watch?v=MF1ysshoNVM', type: 'video' },
       },
       {
         name: 'PancreasSight',

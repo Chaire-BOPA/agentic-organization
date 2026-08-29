@@ -1963,6 +1963,34 @@ p {
   line-height: 1.48;
 }
 
+/* Petit lien CTA discret dans une carte projet (ex. LiverSight "En
+   vidéo!") - correctif "Gabarit-Home-Video-Carrousel-Premium-V2"
+   (2026-08-29). Partagé HOME/nos_innovations : même classe, même style,
+   pour rester "un seul et même composant" plutôt que deux CTA divergents.
+   --bopa-blue-3 vaut --bopa-cyan (tokens.css) - utilisé ici directement
+   puisque ce fichier est global (pas de scope local .innovations-v2). */
+.bopa-project-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-top: auto;
+  padding-top: 14px;
+  color: var(--bopa-cyan);
+  text-decoration: none;
+  font-size: 0.88rem;
+  line-height: 1.25;
+  font-weight: 650;
+  transition: color 0.18s ease;
+}
+.bopa-project-card__cta:hover {
+  color: var(--color-accent);
+}
+.bopa-project-card__cta:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
+  outline-offset: 3px;
+}
+
 /* Le pictogramme "postopératoire" a son centre optique légèrement à
    droite dans son propre SVG - recentré de 3px dans son cercle
    (correctif owner 2026-08-27, contrôlé visuellement). */

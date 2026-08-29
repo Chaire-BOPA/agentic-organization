@@ -217,6 +217,37 @@ const chevronRight =
   if (rowsRoot && !rowsRoot.hasAttribute('data-rows-ready')) {
     rowsRoot.setAttribute('data-rows-ready', 'true');
 
+    // "Même hauteur totale" pour TOUTES les cartes de la page (correctif
+    // "Gabarit-Home-Video-Carrousel-Premium-V2", 2026-08-29), pas
+    // seulement au sein d'une même catégorie : chaque
+    // .innovations-v2__row-track est un flex container séparé, donc
+    // l'étirement automatique (align-items: stretch) n'égalise les
+    // hauteurs qu'à l'intérieur d'une rangée - une catégorie au texte plus
+    // long (donc plus de lignes, une fois la largeur alignée sur celle,
+    // plus étroite, de la HOME) reste naturellement plus haute que les
+    // autres. Mesuré plutôt que codé en dur : reste correct si un texte de
+    // projet change plus tard, sans valeur magique à retenir/mettre à jour.
+    const equalizeCardHeights = () => {
+      const cards = Array.from(
+        rowsRoot.querySelectorAll<HTMLElement>('.innovations-v2__row-track .bopa-project-card'),
+      );
+      if (!cards.length) return;
+      cards.forEach((c) => { c.style.height = ''; });
+      const maxHeight = Math.max(...cards.map((c) => c.getBoundingClientRect().height));
+      cards.forEach((c) => { c.style.height = `${maxHeight}px`; });
+    };
+    equalizeCardHeights();
+    // Re-mesurer une fois la police d'affichage réellement chargée : à
+    // l'exécution initiale, le texte est encore rendu avec une police de
+    // repli (largeur différente -> retours à la ligne différents), ce qui
+    // fausse la hauteur max mesurée avant que la vraie police n'arrive.
+    document.fonts?.ready?.then(equalizeCardHeights);
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(equalizeCardHeights, 150);
+    });
+
     rowsRoot.querySelectorAll<HTMLElement>('[data-innovations-row]').forEach((row) => {
       const viewport = row.querySelector<HTMLElement>('[data-innovations-viewport]');
       const track = row.querySelector<HTMLElement>('[data-innovations-track]');
@@ -246,12 +277,15 @@ const chevronRight =
         if (next) next.hidden = !canRight;
       };
 
+      const scrollBehavior = () =>
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
       prev?.addEventListener('click', () => {
-        viewport.scrollBy({ left: -getStep(), behavior: 'smooth' });
+        viewport.scrollBy({ left: -getStep(), behavior: scrollBehavior() });
       });
 
       next?.addEventListener('click', () => {
-        viewport.scrollBy({ left: getStep(), behavior: 'smooth' });
+        viewport.scrollBy({ left: getStep(), behavior: scrollBehavior() });
       });
 
       viewport.addEventListener('scroll', update, { passive: true });
@@ -571,21 +605,29 @@ const chevronRight =
   }
 
   /* Rangée de vignettes en carrousel horizontal (correctif "gabarit
-     vignettes + carrousel", 2026-08-29) - .bopa-project-card fournit déjà
-     tout le visuel de la carte (site.css) ; ce bloc ne pose que la mise
-     en page de la rangée + le carrousel. Gabarit = LiverSight, mesuré en
-     place avant ce correctif (270px de large, 410px de haut, 184px de
-     zone image, déjà la valeur de .bopa-project-card/.bopa-project-card__media
-     partagées avec la home) : chaque carte passe d'une largeur flexible
-     (flex:1 1 0, 205-270px variable selon le nombre de cartes de la
-     rangée - la cause du gabarit incohérent d'une catégorie à l'autre) à
-     une largeur FIXE identique partout, la rangée devenant scrollable
-     plutôt que les cartes rétrécissant.
+     vignettes + carrousel", 2026-08-29 ; largeur recalée sur le gabarit
+     HOME, correctif "Gabarit-Home-Video-Carrousel-Premium-V2", même jour)
+     - .bopa-project-card fournit déjà tout le visuel de la carte
+     (site.css) ; ce bloc ne pose que la mise en page de la rangée + le
+     carrousel. Référence ABSOLUE = le gabarit réel des cartes de "Nos
+     innovations" sur la HOME (.bopa-projects-v2__rail .bopa-project-card),
+     mesuré en place : 226.8px de large (rail à 1320px, colonnes
+     minmax(240px,.92fr)/minmax(0,3fr), 4 cartes 1fr) - jamais l'inverse,
+     la HOME n'est pas retouchée. Hauteur (410px min) et zone image (184px)
+     étaient déjà partagées via le même .bopa-project-card/.bopa-project-card__media
+     - seule la largeur (précédemment 270px, mesurée sur cette page avant
+     d'avoir la HOME comme référence officielle) change ici. Chaque carte
+     garde une largeur FIXE identique partout (pas de flex:1 1 0
+     variable), la rangée devenant scrollable plutôt que les cartes
+     rétrécissant.
      Marge haute/basse sur .innovations-v2__row-track (pas sur le
      viewport) : overflow-x: auto sur le viewport force aussi son propre
      overflow-y à "auto", et sans marge la carte se ferait rogner par ce
      même viewport au survol (translateY) - la marge doit donc vivre sur
-     l'élément qui bouge (track), pas sur celui qui coupe (viewport). */
+     l'élément qui bouge (track), pas sur celui qui coupe (viewport).
+     scroll-snap-type "mandatory" (pas "proximity") + scroll-snap-stop
+     "always" sur chaque carte : rail "premium" plus net, un swipe/molette
+     ne peut jamais s'arrêter entre deux cartes ni en sauter une. */
   .innovations-v2__row {
     position: relative;
   }
@@ -594,7 +636,7 @@ const chevronRight =
     overflow-x: auto;
     overflow-y: hidden;
     scrollbar-width: none;
-    scroll-snap-type: x proximity;
+    scroll-snap-type: x mandatory;
     overscroll-behavior-inline: contain;
   }
   .innovations-v2__row-viewport::-webkit-scrollbar {
@@ -609,9 +651,10 @@ const chevronRight =
   }
 
   .innovations-v2__row-track .bopa-project-card {
-    flex: 0 0 270px;
-    width: 270px;
+    flex: 0 0 227px;
+    width: 227px;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
   /* Fondu : couleur réelle du fond de la section (--bopa-bg), jamais
@@ -637,7 +680,7 @@ const chevronRight =
   }
   .innovations-v2__row[data-can-scroll-right="true"] .innovations-v2__row-fade--right,
   .innovations-v2__row[data-can-scroll-left="true"] .innovations-v2__row-fade--left {
-    opacity: 1;
+    opacity: 0.9;
   }
 
   .innovations-v2__row-arrow {
@@ -840,7 +883,7 @@ const chevronRight =
     .innovations-v2__category {
       grid-template-columns: 220px minmax(0, 1fr);
     }
-    /* Le gabarit (270px) reste inchangé ici - "conserver autant que
+    /* Le gabarit (227px) reste inchangé ici - "conserver autant que
        possible le gabarit" sur tablette (pack, section 8). La rangée
        devient le carrousel scrollable dès que ça ne tient plus, exactement
        le comportement déjà en place pour le désktop. */
@@ -903,8 +946,8 @@ const chevronRight =
       max-width: none;
     }
     .innovations-v2__row-track .bopa-project-card {
-      flex-basis: min(78vw, 270px);
-      width: min(78vw, 270px);
+      flex-basis: min(78vw, 227px);
+      width: min(78vw, 227px);
     }
 
     .innovations-v2__cta-inner {
