@@ -26,7 +26,7 @@ export function initBopaContactMesh(root) {
       x: Math.random() * w, y: h * (0.25 + Math.pow(Math.random(), 0.72) * 0.75),
       bx: Math.random() * w, by: h * (0.25 + Math.pow(Math.random(), 0.72) * 0.75),
       vx: (Math.random() - 0.5) * 0.08, vy: (Math.random() - 0.5) * 0.06,
-      r: 1 + Math.random() * 1.2, p: Math.random() * Math.PI * 2,
+      r: 1.3 + Math.random() * 1.4, p: Math.random() * Math.PI * 2,
     }));
     pts.forEach((p) => { p.x = p.bx; p.y = p.by; });
   }
@@ -58,18 +58,22 @@ export function initBopaContactMesh(root) {
     for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
       const a = pts[i], b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
       if (d < max) {
-        let alpha = (1 - d / max) * 0.12;
+        // Alpha de base et boost au survol relevés (correctif
+        // "Nous-Contacter-FINAL", 2026-08-29) - "plus lumineux/visible",
+        // sans toucher au nombre de points ni à la distance de connexion
+        // (`max`), qui pilotent la densité/complexité du maillage.
+        let alpha = (1 - d / max) * 0.27;
         if (pointer.active) {
           const pd = Math.hypot((a.x + b.x) / 2 - pointer.x, (a.y + b.y) / 2 - pointer.y);
-          if (pd < 120) alpha += (1 - pd / 120) * 0.09;
+          if (pd < 120) alpha += (1 - pd / 120) * 0.18;
         }
-        ctx.strokeStyle = rgba(c, alpha); ctx.lineWidth = 0.7; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+        ctx.strokeStyle = rgba(c, alpha); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
       }
     }
     for (const p of pts) {
-      let a = 0.28;
-      if (pointer.active) { const d = Math.hypot(p.x - pointer.x, p.y - pointer.y); if (d < 120) a += (1 - d / 120) * 0.3; }
-      ctx.fillStyle = rgba(c, Math.min(a, 0.58)); ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+      let a = 0.52;
+      if (pointer.active) { const d = Math.hypot(p.x - pointer.x, p.y - pointer.y); if (d < 120) a += (1 - d / 120) * 0.35; }
+      ctx.fillStyle = rgba(c, Math.min(a, 0.85)); ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
     }
   }
 
