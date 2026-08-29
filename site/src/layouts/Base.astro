@@ -43,13 +43,14 @@ const footerNavLinks: NavLink[] = [
   navCta,
 ];
 
-// Footer "Liens utiles" - mêmes routes/URLs réelles que celles déjà
-// utilisées ailleurs sur le site (page /nos_innovations, BOPEX, don
-// fondation AP-HP) : aucune URL inventée.
-const footerUsefulLinks = [
-  { href: '/nos_innovations', label: 'Nos innovations' },
-  { href: 'https://www.aphp.fr/bopex', label: 'BOPEX ↗', external: true },
-  { href: 'https://soutenir.fondationaphp.fr/BOPA/', label: 'Soutenir la Chaire ↗', external: true },
+// Footer "Nous suivre" (pack "Footer-Pleine-Largeur-Header-Mirror-V2",
+// 2026-08-29) - remplace "Liens utiles". LinkedIn = la page entreprise de
+// la Chaire (déjà utilisée/confirmée dans source/brief.md, 2026-08-27),
+// pas un profil personnel. YouTube = chaîne réelle de la Chaire, transmise
+// par l'owner en direct dans cette session (aucune URL inventée).
+const footerSocialLinks = [
+  { href: 'https://www.linkedin.com/company/chaire-innovation-bopa/?viewAsMember=true', label: 'LinkedIn' },
+  { href: 'https://www.youtube.com/channel/UCEkgkM4yxb_mQPnMHaaK4lQ', label: 'YouTube' },
 ];
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
@@ -152,30 +153,33 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
                 <span class="wordmark-title">Le bloc opératoire<br /><em>Augmenté</em></span>
               </span>
             </a>
-            <p class="site-footer__tagline">Le numérique au service de la chirurgie de demain.</p>
-            <p class="site-footer__institutional">
-              Chaire co-portée par l'AP-HP, l'Institut Mines-Télécom (IMT) et l'Université Paris-Saclay.
-            </p>
           </div>
 
           <nav class="site-footer__column" aria-label="Navigation de pied de page">
             <p class="site-footer__heading">Navigation</p>
-            {footerNavLinks.map((item) => (
-              <a href={item.href}>{item.label}</a>
-            ))}
+            <div class="site-footer__nav-grid">
+              <div class="site-footer__nav-col">
+                {footerNavLinks.slice(0, 3).map((item) => (
+                  <a href={item.href}>{item.label}</a>
+                ))}
+              </div>
+              <div class="site-footer__nav-col">
+                {footerNavLinks.slice(3).map((item) => (
+                  <a href={item.href}>{item.label}</a>
+                ))}
+              </div>
+            </div>
           </nav>
 
           <div class="site-footer__column">
-            <p class="site-footer__heading">Liens utiles</p>
-            {footerUsefulLinks.map((item) => (
-              <a href={item.href} target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}>
-                {item.label}
-              </a>
+            <p class="site-footer__heading">Nous suivre</p>
+            {footerSocialLinks.map((item) => (
+              <a href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a>
             ))}
           </div>
 
           <div class="site-footer__column">
-            <p class="site-footer__heading">Contact</p>
+            <p class="site-footer__heading">Nous trouver</p>
             <p class="site-footer__contact">
               Hôpital Paul-Brousse<br />
               12 avenue Paul Vaillant-Couturier<br />

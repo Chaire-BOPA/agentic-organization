@@ -187,26 +187,49 @@ button {
   align-items: start;
 }
 
-.site-footer__brand .wordmark { margin-left: 0; }
-.site-footer__brand .wordmark-text { color: var(--color-dark-ink); }
-
-.site-footer__tagline {
-  margin: 1rem 0 0;
-  max-width: 26rem;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--color-dark-ink);
+/* Bloc marque du footer : reprend EXACTEMENT l'agencement du header
+   (pack "Footer-Pleine-Largeur-Header-Mirror-V2", 2026-08-29) - logo et
+   texte ne partageaient pas encore ces règles côté footer (seul
+   .wordmark-text/.wordmark-title, non scopés à .site-header, s'y
+   appliquaient déjà). Valeurs copiées telles quelles depuis
+   .site-header .wordmark / > img plus bas dans ce fichier, pas
+   réinventées. margin-left reste à 0 (le footer n'a pas le
+   justify-content:space-between du header qui justifiait cette marge). */
+.site-footer__brand .wordmark {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--space-2) + 4px);
+  margin-left: 0;
+  text-decoration: none;
 }
 
-.site-footer__institutional {
-  margin: 0.65rem 0 0;
-  max-width: 28rem;
-  font-size: 0.85rem;
-  line-height: 1.55;
-  color: color-mix(in srgb, var(--color-dark-ink) 68%, transparent);
+.site-footer__brand .wordmark > img {
+  height: 3rem;
+  width: auto;
+  max-width: none;
+}
+
+.site-footer__brand .wordmark-text { color: var(--color-dark-ink); }
+
+@media (max-width: 30rem) {
+  .site-footer__brand .wordmark > img { height: 2.75rem; }
 }
 
 .site-footer__column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+/* Navigation du footer en 2 colonnes de 3 (pack
+   "Footer-Pleine-Largeur-Header-Mirror-V2", 2026-08-29). */
+.site-footer__nav-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1.5rem;
+}
+
+.site-footer__nav-col {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
@@ -232,10 +255,14 @@ button {
   color: var(--bopa-cyan);
 }
 
+/* Même niveau typographique que les liens du footer (pack
+   "Footer-Pleine-Largeur-Header-Mirror-V2", 2026-08-29) - avant ça
+   l'adresse était sensiblement plus petite/plus pâle (0.92rem, 72%) que
+   les ancres de navigation, ce qui la faisait paraître secondaire. */
 .site-footer__contact {
   margin: 0;
-  color: color-mix(in srgb, var(--color-dark-ink) 72%, transparent);
-  font-size: 0.92rem;
+  color: color-mix(in srgb, var(--color-dark-ink) 82%, transparent);
+  font-size: inherit;
   line-height: 1.55;
 }
 
@@ -395,8 +422,13 @@ button {
   /* Wordmark + nav together overflowed the viewport below ~400px
      (.site-header-inner is nowrap by design, so nothing could shrink
      into place). Drop the two-line title text and keep just the mark -
-     the logo alone still identifies the site. */
-  .wordmark-text {
+     the logo alone still identifies the site.
+     Scoped to .site-header only (2026-08-29 fix, footer mirror pack):
+     this rule used to be bare `.wordmark-text`, so it also hid the
+     footer's brand text on mobile - the footer stacks vertically and
+     has no such width conflict, and the owner wants the exact same
+     text there at every breakpoint, not just the logo. */
+  .site-header .wordmark-text {
     display: none;
   }
 
