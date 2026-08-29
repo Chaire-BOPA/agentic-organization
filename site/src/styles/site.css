@@ -1558,14 +1558,19 @@ p {
   padding: clamp(4.75rem, 7vw, 7rem) 2rem clamp(5.25rem, 8vw, 7.5rem);
 }
 
-/* Largeur alignée sur les autres grandes sections de la home (Notre
-   Vision, Nos innovations : min(1320px, 100%)) - Mission était restée à
-   1180px, un cran plus étroit, donnant des marges gauche/droite visibly
-   plus grandes qu'ailleurs (owner, pack "Correctif Global", 2026-08-28).
-   Rien d'autre ne change : padding vertical, titre, intro, frise, fond
-   et animations restent ceux de .bopa-mission-v2 lui-même. */
+/* Largeur revenue a 1180px (2026-08-29) - le premier correctif l'avait
+   au contraire elargie a 1320px pour la faire correspondre a Notre
+   Vision/Nos innovations, en pensant que c'etait "les autres grandes
+   sections" de reference. Erreur : mesure reelle (getBoundingClientRect
+   sur .bopa-mission-v2__inner/.bopa-vision-v4__inner/.bopa-projects-v2__inner/
+   .bopa-contact__inner/.bopa-support__inner/.about-v2 .wrap a 1440px)
+   montre que la VRAIE majorite des grandes sections (Nous contacter,
+   Nous soutenir, Qui sommes-nous) est a ~1180-1184px - Vision et
+   Innovations sont les deux exceptions plus larges, pas la reference.
+   Mission etait deja alignee sur la bonne majorite AVANT le premier
+   correctif ; l'elargir l'a rendue incoherente avec elle. Revert pur. */
 .bopa-mission-v2__inner {
-  width: min(1320px, 100%);
+  width: min(1180px, 100%);
   margin: 0 auto;
   text-align: center;
 }
