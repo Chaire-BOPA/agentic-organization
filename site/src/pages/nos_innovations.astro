@@ -329,25 +329,19 @@ const chevronRightBig =
       const scrollBehavior = () =>
         window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 
-      // Léger fondu des cartes entrantes/sortantes pendant un déplacement
-      // (pas de gros slide, pas de zoom, pas de bounce) - classe courte
-      // rejouée à chaque clic, jamais en boucle (pas d'autoplay).
-      let animTimer: ReturnType<typeof setTimeout>;
-      const animate = (direction: number) => {
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        clearTimeout(animTimer);
-        track.classList.remove('is-moving-next', 'is-moving-prev');
-        void track.offsetWidth;
-        track.classList.add(direction > 0 ? 'is-moving-next' : 'is-moving-prev');
-        animTimer = setTimeout(() => track.classList.remove('is-moving-next', 'is-moving-prev'), 260);
-      };
-
       const scrollByOne = (direction: number) => {
         const step = getStep();
         if (!step) return;
         const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
         const target = Math.min(maxScroll, Math.max(0, (nearestIndex() + direction) * step));
-        animate(direction);
+        // Pas de fondu de carte superposé au scroll (correctif "flèche
+        // vers la droite", 2026-08-29) : un transform CSS rejoué sur
+        // TOUTES les cartes de la piste pendant que le scroll natif est
+        // lui-même en train d'animer les fait diverger l'un de l'autre
+        // pendant ~200ms - la carte tout à gauche du viewport se
+        // retrouvait visuellement rognée pendant la transition (confirmé
+        // en figeant l'animation à mi-parcours). Le scroll natif fluide
+        // fournit déjà à lui seul le "léger glissement" demandé.
         viewport.scrollTo({ left: target, behavior: scrollBehavior() });
       };
 
@@ -789,25 +783,6 @@ const chevronRightBig =
     scroll-snap-stop: always;
   }
 
-  /* Fondu léger des cartes pendant un déplacement (pas de gros slide, pas
-     de zoom, pas de bounce) - classe posée brièvement sur le track par le
-     script au clic sur une flèche. */
-  .innovations-v2__row-track.is-moving-next > .bopa-project-card,
-  .innovations-v2__row-track.is-moving-prev > .bopa-project-card {
-    animation-duration: 220ms;
-    animation-timing-function: ease;
-  }
-  .innovations-v2__row-track.is-moving-next > .bopa-project-card { animation-name: innovations-card-in-next; }
-  .innovations-v2__row-track.is-moving-prev > .bopa-project-card { animation-name: innovations-card-in-prev; }
-  @keyframes innovations-card-in-next {
-    from { opacity: .7; transform: translateX(10px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-  @keyframes innovations-card-in-prev {
-    from { opacity: .7; transform: translateX(-10px); }
-    to   { opacity: 1; transform: translateX(0); }
-  }
-
   /* Colonne de navigation : ni carte, ni fond, ni bordure - juste deux
      grandes flèches fines cyan, beaucoup d'air, pour ne surtout pas
      ressembler à une carte vide. Toujours dans le flux (largeur fixe),
@@ -1162,10 +1137,6 @@ const chevronRightBig =
     }
     .innovations-v2__nav-btn {
       transition: none;
-    }
-    .innovations-v2__row-track.is-moving-next > .bopa-project-card,
-    .innovations-v2__row-track.is-moving-prev > .bopa-project-card {
-      animation: none;
     }
   }
 </style>
