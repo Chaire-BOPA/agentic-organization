@@ -34,6 +34,24 @@ const nav: NavItem[] = [
 
 const navCta = { href: '/#nous-soutenir', label: 'Nous soutenir' };
 
+// Footer "Navigation" column (pack "Footer-Header-Interaction-V1",
+// 2026-08-28) - même liste que le header (nav + navCta), aplatie au cas
+// où un groupe à enfants apparaisse un jour dans `nav`. Aucune nouvelle
+// ancre : uniquement celles déjà utilisées par le header lui-même.
+const footerNavLinks: NavLink[] = [
+  ...nav.flatMap((item) => ('children' in item ? item.children : [item])),
+  navCta,
+];
+
+// Footer "Liens utiles" - mêmes routes/URLs réelles que celles déjà
+// utilisées ailleurs sur le site (page /nos_innovations, BOPEX, don
+// fondation AP-HP) : aucune URL inventée.
+const footerUsefulLinks = [
+  { href: '/nos_innovations', label: 'Nos innovations' },
+  { href: 'https://www.aphp.fr/bopex', label: 'BOPEX ↗', external: true },
+  { href: 'https://soutenir.fondationaphp.fr/BOPA/', label: 'Soutenir la Chaire ↗', external: true },
+];
+
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
 ---
@@ -67,7 +85,7 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
     <meta name="twitter:image" content={ogImageUrl} />
   </head>
   <body>
-    <header class="site-header">
+    <header class="site-header" data-site-header>
       <div class="site-header-inner">
         <a class="wordmark" href="/">
           <img
@@ -119,8 +137,57 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
     <main>
       <slot />
     </main>
-    <footer class="site-footer">
-      <p>© {new Date().getFullYear()} {siteName}</p>
+    <footer class="site-footer" id="site-footer" data-site-footer>
+      <div class="site-footer__inner">
+        <div class="site-footer__grid">
+          <div class="site-footer__brand">
+            <a class="wordmark" href="/">
+              <img
+                src="/logos/bopa-wordmark.png"
+                alt="BOPA"
+                width="900"
+                height="415"
+              />
+              <span class="wordmark-text">
+                <span class="wordmark-title">Le bloc opératoire<br /><em>Augmenté</em></span>
+              </span>
+            </a>
+            <p class="site-footer__tagline">Le numérique au service de la chirurgie de demain.</p>
+            <p class="site-footer__institutional">
+              Chaire co-portée par l'AP-HP, l'Institut Mines-Télécom (IMT) et l'Université Paris-Saclay.
+            </p>
+          </div>
+
+          <nav class="site-footer__column" aria-label="Navigation de pied de page">
+            <p class="site-footer__heading">Navigation</p>
+            {footerNavLinks.map((item) => (
+              <a href={item.href}>{item.label}</a>
+            ))}
+          </nav>
+
+          <div class="site-footer__column">
+            <p class="site-footer__heading">Liens utiles</p>
+            {footerUsefulLinks.map((item) => (
+              <a href={item.href} target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}>
+                {item.label}
+              </a>
+            ))}
+          </div>
+
+          <div class="site-footer__column">
+            <p class="site-footer__heading">Contact</p>
+            <p class="site-footer__contact">
+              Hôpital Paul-Brousse<br />
+              12 avenue Paul Vaillant-Couturier<br />
+              94804 Villejuif Cedex
+            </p>
+          </div>
+        </div>
+
+        <div class="site-footer__bottom">
+          <p>© {new Date().getFullYear()} Chaire {siteName}</p>
+        </div>
+      </div>
     </footer>
     <script>
       // Click-to-open nav dropdown (just "Nos innovations" for now):
@@ -198,6 +265,59 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
         };
         applyScrollState();
         window.addEventListener('scroll', applyScrollState, { passive: true });
+      }
+    </script>
+    <script>
+      // Header disparaît en glissant vers le haut à l'approche du footer
+      // (pack "Footer-Header-Interaction-V1", 2026-08-28). IntersectionObserver
+      // sur le footer plutôt qu'un listener scroll permanent. Le header reste
+      // sticky et garde sa place dans le flux : aucun saut de page, aucune
+      // hauteur qui change.
+      // Deux pièges réels rencontrés en testant ceci en direct (vrai scroll +
+      // vrai observer, pas seulement des manipulations manuelles) :
+      // 1) donner un transform à un ANCÊTRE non-sticky du header (ex. un
+      //    wrapper dédié à porter cette classe) casse entièrement son
+      //    collage - il redevient un élément qui défile normalement avec la
+      //    page (un ancêtre transformé change la référence de
+      //    positionnement du sticky, comportement CSS réel).
+      // 2) sur CE header sticky une fois réellement "collé", un simple
+      //    classList.toggle() qui ajoute une règle CSS (transform, top OU
+      //    margin-top) dans une feuille de style ne se répercute jamais
+      //    visuellement, alors que modifier directement `element.style.*`
+      //    en JS fonctionne de façon fiable - ce site n'utilise donc PAS de
+      //    classe pour l'effet visuel, seulement pour l'état sémantique/CSS
+      //    (garde `is-hidden-by-footer` pour ça), et pose le transform en
+      //    style inline dans le callback lui-même.
+      const header = document.querySelector<HTMLElement>('[data-site-header]');
+      const footer = document.querySelector<HTMLElement>('[data-site-footer]');
+
+      if (header && footer && 'IntersectionObserver' in window) {
+        const getHeaderHeight = () => Math.ceil(header.getBoundingClientRect().height || 0);
+        let observer: IntersectionObserver | undefined;
+
+        const setHidden = (hidden: boolean) => {
+          header.classList.toggle('is-hidden-by-footer', hidden);
+          header.style.transform = hidden ? 'translateY(-100%)' : '';
+          header.style.pointerEvents = hidden ? 'none' : '';
+        };
+
+        const createObserver = () => {
+          observer?.disconnect();
+          const headerHeight = getHeaderHeight();
+          observer = new IntersectionObserver(
+            ([entry]) => setHidden(entry.isIntersecting),
+            { root: null, threshold: 0, rootMargin: `0px 0px -${Math.max(headerHeight * 0.15, 8)}px 0px` }
+          );
+          observer.observe(footer);
+        };
+
+        createObserver();
+
+        let resizeTimer: ReturnType<typeof setTimeout>;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = setTimeout(createObserver, 150);
+        });
       }
     </script>
     <script>

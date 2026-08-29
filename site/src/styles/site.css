@@ -162,14 +162,105 @@ button {
 
 /* Bleu marine plein, même valeur que .donate juste au-dessus : le footer
    prolonge la section "Nous soutenir" sans coupure, comme un retour
-   naturel au bleu du Hero. */
+   naturel au bleu du Hero. Contenu institutionnel complet (pack
+   "Footer-Header-Interaction-V1", 2026-08-28) - remplace l'ancien footer
+   minimal (juste un copyright centré). --color-dark-ink/--color-accent-2
+   sont déjà les tokens dédiés "texte/lien sur fond sombre" utilisés par
+   le Hero (.section-block.dark) - repris ici tels quels plutôt que
+   d'inventer une nouvelle opacité de blanc. */
 .site-footer {
   width: 100%;
-  padding: var(--space-4);
   background: var(--color-navy);
-  color: rgba(244, 248, 251, 0.6);
-  font-size: var(--text-sm);
-  text-align: center;
+  color: var(--color-dark-ink);
+}
+
+.site-footer__inner {
+  width: min(1320px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: clamp(3.5rem, 5vw, 4.5rem) 0 clamp(1.75rem, 3vw, 2.25rem);
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(250px, 1.45fr) repeat(3, minmax(150px, 1fr));
+  gap: clamp(2rem, 4vw, 4rem);
+  align-items: start;
+}
+
+.site-footer__brand .wordmark { margin-left: 0; }
+.site-footer__brand .wordmark-text { color: var(--color-dark-ink); }
+
+.site-footer__tagline {
+  margin: 1rem 0 0;
+  max-width: 26rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--color-dark-ink);
+}
+
+.site-footer__institutional {
+  margin: 0.65rem 0 0;
+  max-width: 28rem;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--color-dark-ink) 68%, transparent);
+}
+
+.site-footer__column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.site-footer__heading {
+  margin: 0 0 0.3rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+  color: var(--bopa-cyan);
+}
+
+.site-footer a {
+  color: color-mix(in srgb, var(--color-dark-ink) 82%, transparent);
+  text-decoration: none;
+  transition: color 0.18s ease;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  color: var(--bopa-cyan);
+}
+
+.site-footer__contact {
+  margin: 0;
+  color: color-mix(in srgb, var(--color-dark-ink) 72%, transparent);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
+
+.site-footer__bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: clamp(2.5rem, 4vw, 3.5rem);
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  color: color-mix(in srgb, var(--color-dark-ink) 55%, transparent);
+  font-size: 0.8rem;
+}
+
+.site-footer__bottom p { margin: 0; }
+
+@media (max-width: 980px) {
+  .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 640px) {
+  .site-footer__inner { width: min(1320px, calc(100% - 32px)); }
+  .site-footer__grid { grid-template-columns: 1fr; gap: 2rem; }
+  .site-footer__bottom { flex-direction: column; align-items: flex-start; }
 }
 
 /* Hauteur réelle du header une fois replié au scroll (2026-08-27,
@@ -204,7 +295,7 @@ button {
   top: 0;
   background: #fff;
   z-index: 10;
-  transition: padding 0.35s ease, background-color 0.35s ease, box-shadow 0.35s ease;
+  transition: padding 0.35s ease, background-color 0.35s ease, box-shadow 0.35s ease, transform 0.3s ease;
 }
 
 /* Au scroll : header plus compact encore, légèrement transparent avec un
@@ -214,6 +305,28 @@ button {
   background: rgba(255, 255, 255, 0.78);
   backdrop-filter: blur(14px);
   box-shadow: 0 8px 28px rgba(4, 35, 56, 0.08);
+}
+
+/* Disparition à l'approche du footer (pack "Footer-Header-Interaction-V1",
+   2026-08-28) - `.is-hidden-by-footer` est l'état sémantique (posé par
+   Base.astro), mais le `transform` qui déplace réellement le header est
+   posé en style INLINE par le même script, pas ici : un classList.toggle()
+   seul qui ferait porter le transform à cette règle s'est révélé sans
+   aucun effet visuel une fois le header réellement "collé" (vérifié via un
+   vrai scroll utilisateur + le vrai IntersectionObserver de production),
+   alors que modifier `header.style.transform` en JS fonctionne de façon
+   fiable. Cette règle documente donc l'intention (et fournit `transition`
+   ci-dessus + le point d'accroche CSS `.is-hidden-by-footer` pour tout
+   futur besoin), sans dupliquer une valeur qui ne s'appliquerait pas de
+   toute façon. Le header reste sticky (position/top jamais touchés), donc
+   aucun saut de page ni changement de hauteur. Logique de déclenchement
+   (IntersectionObserver + rootMargin) dans Base.astro. */
+.site-header.is-hidden-by-footer {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header { transition-duration: 1ms; }
 }
 
 /* Separate rule, not a second declaration in the block above: the build's
