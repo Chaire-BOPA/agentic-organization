@@ -2457,7 +2457,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   .about-v2__team {
     padding-top: clamp(1.1rem, 2vw, 1.5rem);
-    padding-bottom: var(--space-5);
+    /* var(--space-5) seul ne suffit pas ici : sous "Nos innovations",
+       l'espace visible sous les vignettes = var(--space-5) (64px) PLUS
+       la marge de centrage verticale entre la colonne intro (plus
+       haute, texte + CTA) et le rail de cartes (align-items:center sur
+       .bopa-projects-v2__inner) - mesuree a ~26.7px a 1440px. Comme
+       .about-v2__team-row n'a pas cet ecart (les cartes y sont l'element
+       le plus haut), on l'ajoute explicitement pour retrouver la meme
+       respiration visible sous les vignettes (owner, 2026-08-29). */
+    padding-bottom: calc(var(--space-5) + 1.7rem);
   }
   .about-v2__team-row {
     display: grid;
