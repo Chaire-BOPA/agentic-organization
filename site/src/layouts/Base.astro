@@ -48,9 +48,18 @@ const footerNavLinks: NavLink[] = [
 // la Chaire (déjà utilisée/confirmée dans source/brief.md, 2026-08-27),
 // pas un profil personnel. YouTube = chaîne réelle de la Chaire, transmise
 // par l'owner en direct dans cette session (aucune URL inventée).
+// Icônes décorées à la main (owner, 2026-08-29 : "les petits symboles de
+// LinkedIn... et le symbole de youtube") - pas de librairie d'icônes
+// importée pour deux pictos, juste deux petits SVG inline comme partout
+// ailleurs sur ce site. Couleurs de marque réelles (bleu LinkedIn officiel,
+// rouge YouTube officiel), pas les tokens BOPA : ce sont des logos
+// reconnaissables, pas des icônes du design system.
+const linkedinIcon = `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="1" y="1" width="22" height="22" rx="5" fill="#0A66C2"/><text x="12" y="16.8" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="700" font-size="12.5" fill="#fff">in</text></svg>`;
+const youtubeIcon = `<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect x="1" y="4" width="22" height="16" rx="5" fill="#FF0000"/><path d="M10 8.7v6.6l6-3.3z" fill="#fff"/></svg>`;
+
 const footerSocialLinks = [
-  { href: 'https://www.linkedin.com/company/chaire-innovation-bopa/?viewAsMember=true', label: 'LinkedIn' },
-  { href: 'https://www.youtube.com/channel/UCEkgkM4yxb_mQPnMHaaK4lQ', label: 'YouTube' },
+  { href: 'https://www.linkedin.com/company/chaire-innovation-bopa/?viewAsMember=true', label: 'LinkedIn', icon: linkedinIcon },
+  { href: 'https://www.youtube.com/channel/UCEkgkM4yxb_mQPnMHaaK4lQ', label: 'YouTube', icon: youtubeIcon },
 ];
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
@@ -174,7 +183,10 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
           <div class="site-footer__column">
             <p class="site-footer__heading">Nous suivre</p>
             {footerSocialLinks.map((item) => (
-              <a href={item.href} target="_blank" rel="noopener noreferrer">{item.label}</a>
+              <a class="site-footer__social-link" href={item.href} target="_blank" rel="noopener noreferrer">
+                <span class="site-footer__social-icon" set:html={item.icon} />
+                {item.label}
+              </a>
             ))}
           </div>
 
