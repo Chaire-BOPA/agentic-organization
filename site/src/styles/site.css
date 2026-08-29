@@ -174,18 +174,29 @@ button {
   color: var(--color-dark-ink);
 }
 
+/* Bornes horizontales identiques au header, au pixel près (owner,
+   2026-08-29, "le footer doit utiliser exactement les mêmes bornes
+   horizontales que le header") - avant ce correctif, le footer était un
+   container centré plafonné à 1320px (width:min(1320px,...);margin:auto)
+   alors que .site-header n'a JAMAIS de max-width : c'est juste
+   `padding: ... var(--space-4)` sur toute la largeur de l'écran
+   (voir .site-header plus bas dans ce fichier). Un container centré et
+   un padding plein-largeur ne donnent le même bord gauche/droit qu'à une
+   seule largeur d'écran par coïncidence - passer au MÊME mécanisme
+   (var(--space-4) de padding-inline, aucune largeur max) les rend
+   identiques mathématiquement, à toutes les largeurs, pas seulement
+   "visuellement proches". */
 .site-footer__inner {
-  width: min(1320px, calc(100% - 48px));
-  margin: 0 auto;
+  width: 100%;
   /* Espace du haut resserré sur celui qui précède "03 L'équipe
      opérationnelle" dans Qui sommes-nous (owner, 2026-08-29) - même
      formule clamp que .about-v2__team, pas une valeur réinventée : le
      footer était beaucoup trop bas (padding-top clamp(3.5rem,5vw,4.5rem),
-     soit 56-72px) comparé à cette référence (24px à 1425px de large). */
-  /* Bas resserré à son tour (owner, 2026-08-29, "beaucoup plus coller la
+     soit 56-72px) comparé à cette référence (24px à 1425px de large).
+     Bas resserré à son tour (owner, 2026-08-29, "beaucoup plus coller la
      fin du site de © 2026") : clamp(1.75rem,3vw,2.25rem) (36-40px) →
      0.9rem fixe. */
-  padding: clamp(1.1rem, 2vw, 1.5rem) 0 0.9rem;
+  padding: clamp(1.1rem, 2vw, 1.5rem) var(--space-4) 0.9rem;
 }
 
 .site-footer__grid {
@@ -194,15 +205,17 @@ button {
      colonnes courtes voisines pour que ses 2 sous-colonnes de 3 ancres
      ne wrappent jamais sur "Les innovations BOPA"/"Qui sommes-nous ?"
      (owner, 2026-08-29 - mesuré : 165px/151px de large en une ligne,
-     contre 117px alloués avant ce correctif). Nous suivre/Nous trouver
-     cèdent la place qu'ils n'utilisaient pas (LinkedIn/YouTube et
-     l'adresse tiennent confortablement dans une colonne plus étroite).
-     Second passage (owner, 2026-08-29) : Nous trouver élargie à nouveau
-     pour que "12 avenue Paul Vaillant-Couturier" tienne sur une ligne
-     (mesuré : 249.7px nécessaires) - Navigation et Nous suivre avaient
-     toutes deux plusieurs dizaines de pixels de marge inutilisée, cédée
-     ici à Nous trouver. */
-  grid-template-columns: minmax(250px, 1.45fr) minmax(356px, 1.2fr) minmax(105px, .4fr) minmax(260px, 1fr);
+     contre 117px alloués avant ce correctif). Nous suivre cède la place
+     qu'elle n'utilisait pas (LinkedIn/YouTube tient confortablement dans
+     une colonne plus étroite).
+     Nous trouver (dernière colonne) passée en `max-content` (owner,
+     2026-08-29, troisième passage) - elle ne doit plus prendre une part
+     flexible de l'espace mais exactement la largeur de sa ligne
+     d'adresse la plus longue, pour que son bord droit (donc le
+     caractère le plus à droite de l'adresse) tombe pile sur la borne
+     droite du footer - les 3 autres colonnes (déjà en fr) absorbent
+     automatiquement tout le reste de la largeur disponible. */
+  grid-template-columns: minmax(250px, 1.45fr) minmax(356px, 1.2fr) minmax(105px, .4fr) max-content;
   gap: clamp(2rem, 4vw, 4rem);
   align-items: start;
 }
@@ -213,13 +226,20 @@ button {
    .wordmark-text/.wordmark-title, non scopés à .site-header, s'y
    appliquaient déjà). Valeurs copiées telles quelles depuis
    .site-header .wordmark / > img plus bas dans ce fichier, pas
-   réinventées. margin-left reste à 0 (le footer n'a pas le
-   justify-content:space-between du header qui justifiait cette marge). */
+   réinventées.
+   Correctif du 2026-08-29 (troisième passage) : margin-left remis à
+   var(--space-3), comme le header - l'ancienne justification ("le
+   footer n'a pas le justify-content:space-between du header") était
+   fausse : cette marge n'a rien à voir avec space-between, c'est
+   simplement le décalage réel du logo par rapport au bord du header
+   (padding var(--space-4) + margin-left var(--space-3) = 48px du bord
+   d'écran, mesuré en direct). La mettre à 0 cassait l'alignement exact
+   demandé entre les deux blocs marque. */
 .site-footer__brand .wordmark {
   display: flex;
   align-items: center;
   gap: calc(var(--space-2) + 4px);
-  margin-left: 0;
+  margin-left: var(--space-3);
   text-decoration: none;
 }
 
@@ -286,10 +306,17 @@ button {
   color: var(--bopa-cyan);
 }
 
+/* Taille des ancres/liens réduite à var(--text-sm) - un pied de page ne
+   doit pas lire au même corps que le texte courant (owner, 2026-08-29,
+   "les textes du footer sont actuellement trop gros"). Poids explicitement
+   normal (400) : l'owner a insisté pour qu'aucun lien/adresse ne soit en
+   gras, seuls les titres de colonne (NAVIGATION, etc.) restent en 700. */
 .site-footer a {
   color: color-mix(in srgb, var(--color-dark-ink) 82%, transparent);
   text-decoration: none;
   transition: color 0.18s ease;
+  font-size: var(--text-sm);
+  font-weight: 400;
 }
 
 .site-footer a:hover,
@@ -319,7 +346,10 @@ button {
 .site-footer__contact {
   margin: 0;
   color: color-mix(in srgb, var(--color-dark-ink) 82%, transparent);
-  font-size: inherit;
+  /* Même taille et même graisse que les ancres/liens du footer (owner,
+     2026-08-29) - var(--text-sm), poids 400, pas de gras. */
+  font-size: var(--text-sm);
+  font-weight: 400;
   /* Interligne agrandi (owner, 2026-08-29 - 1.55 lisait "trop serré" sur
      les 3 lignes de l'adresse) : 1.8, cohérent avec le corps de texte du
      site (body en 1.6) plutôt qu'une adresse plus tassée que le reste.
@@ -359,14 +389,17 @@ button {
    1320px de large, le palier 2x2 (Navigation face à Marque seulement,
    pas face à 4 colonnes) donne en réalité PLUS de place à Navigation
    qu'en mode 4 colonnes - contre-intuitif mais confirmé en mesurant les
-   deux : mieux vaut y passer plus tôt que de pincer le texte. */
+   deux : mieux vaut y passer plus tôt que de pincer le texte.
+   Le cran de police dédié à ce palier (1rem → 0.92rem) a été retiré
+   (owner, 2026-08-29, troisième passage) : la taille de base des liens
+   est désormais var(--text-sm) (0.875rem, plus petite que ces 0.92rem),
+   donc ce correctif est devenu inutile - la nouvelle taille tient déjà
+   confortablement à cette largeur sans cran supplémentaire. */
 @media (max-width: 1320px) {
   .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .site-footer__nav-grid a { font-size: 0.92rem; }
 }
 
 @media (max-width: 640px) {
-  .site-footer__inner { width: min(1320px, calc(100% - 32px)); }
   .site-footer__grid { grid-template-columns: 1fr; gap: 2rem; }
   .site-footer__bottom { flex-direction: column; align-items: flex-start; }
 }
