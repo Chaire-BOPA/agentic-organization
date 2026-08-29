@@ -286,6 +286,95 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
       }
     </script>
     <script>
+      // Offset d'ancre dynamique (owner, 2026-08-29 : "le header ne masque
+      // pas totalement la section du dessus" en cliquant "Les innovations
+      // BOPA"). Root cause réelle : --bopa-header-height (utilisé par
+      // scroll-margin-top en CSS, site.css) est une constante FIXE calculée
+      // pour le header replié à une seule ligne de nav - mais dès qu'une
+      // largeur desktop "moyenne" ne laisse plus assez de place à la nav
+      // (mesuré : ~1410px et en dessous, avant que le hamburger mobile ne
+      // prenne le relais), le bouton "Nous soutenir" passe à la ligne et le
+      // header devient bien plus haut que cette constante ne le prévoit -
+      // la valeur fixe ne peut pas suivre un header dont la hauteur dépend
+      // du nombre de lignes de nav à une largeur donnée. Corrige en
+      // mesurant la vraie hauteur du header EN DIRECT à chaque clic/chargement
+      // plutôt que de se fier à une constante.
+      const anchorHeader = document.querySelector<HTMLElement>('[data-site-header]');
+      const reduceMotionForAnchors = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function getAnchorHeaderOffset(): number {
+        if (!anchorHeader) return 0;
+        const wasScrolled = anchorHeader.classList.contains('is-scrolled');
+        if (!wasScrolled) {
+          // Seul l'état "replié" compte une fois arrivé à l'ancre (le
+          // script "Header compact au scroll" le déclenche dès 24px de
+          // scroll, bien avant la fin de l'animation) - mesuré ici sans
+          // attendre la transition CSS (coupée le temps de la lecture
+          // synchrone) pour ne jamais capturer une hauteur intermédiaire.
+          anchorHeader.style.transitionDuration = '0s';
+          anchorHeader.classList.add('is-scrolled');
+        }
+        const height = anchorHeader.getBoundingClientRect().height;
+        if (!wasScrolled) {
+          anchorHeader.classList.remove('is-scrolled');
+          anchorHeader.style.transitionDuration = '';
+        }
+        return height;
+      }
+
+      function scrollToAnchorHash(hash: string, smooth: boolean) {
+        const id = decodeURIComponent(hash.replace(/^#/, ''));
+        const target = id ? document.getElementById(id) : null;
+        if (!target) return;
+        const top = target.getBoundingClientRect().top + window.scrollY - getAnchorHeaderOffset();
+        // 'auto' déférerait au `scroll-behavior:smooth` global (html,
+        // site.css) au lieu de sauter instantanément - piège réel trouvé en
+        // testant ce correctif : un window.scrollTo({behavior:'auto'})
+        // s'est mis à animer lentement au lieu de sauter, alors que 'auto'
+        // était censé vouloir dire "instantané" ici. 'instant' force le vrai
+        // saut sans animation quand `smooth` est false.
+        window.scrollTo({ top, behavior: smooth && !reduceMotionForAnchors ? 'smooth' : 'instant' });
+      }
+
+      document.querySelectorAll<HTMLAnchorElement>('a[href*="#"]').forEach((link) => {
+        let url: URL;
+        try {
+          url = new URL(link.href, window.location.href);
+        } catch {
+          return;
+        }
+        if (url.pathname !== window.location.pathname || !url.hash) return;
+        link.addEventListener('click', (event) => {
+          event.preventDefault();
+          scrollToAnchorHash(url.hash, true);
+          history.pushState(null, '', url.hash);
+        });
+      });
+
+      if (window.location.hash) {
+        // Correction immédiate, puis une seconde une fois les polices
+        // chargées (une police tardive peut décaler les hauteurs, même
+        // prudence que le script d'égalisation des cartes de "Nos
+        // innovations"), puis une troisième une fois TOUTES les ressources
+        // chargées (`load`, pas juste les polices) - les images `loading`
+        // (lazy) sous l'ancre ciblée peuvent réserver leur place via leurs
+        // attributs width/height mais décaler quand même de quelques px une
+        // fois réellement chargées (mesuré : ~7px résiduels avec les deux
+        // premières corrections seules). Couvre le cas d'un lien profond
+        // partagé direct (ex. quelqu'un partage /#qui-sommes-nous).
+        scrollToAnchorHash(window.location.hash, false);
+        document.fonts.ready.then(() => scrollToAnchorHash(window.location.hash, false));
+        // `load` peut déjà être passé au moment où ce script s'exécute
+        // (script de module, différé) - un addEventListener('load', ...)
+        // tardif ne se déclencherait alors jamais.
+        if (document.readyState === 'complete') {
+          scrollToAnchorHash(window.location.hash, false);
+        } else {
+          window.addEventListener('load', () => scrollToAnchorHash(window.location.hash, false));
+        }
+      }
+    </script>
+    <script>
       // Header disparaît en glissant vers le haut à l'approche du footer
       // (pack "Footer-Header-Interaction-V1", 2026-08-28). IntersectionObserver
       // sur le footer plutôt qu'un listener scroll permanent. Le header reste
