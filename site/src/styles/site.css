@@ -1558,8 +1558,14 @@ p {
   padding: clamp(4.75rem, 7vw, 7rem) 2rem clamp(5.25rem, 8vw, 7.5rem);
 }
 
+/* Largeur alignée sur les autres grandes sections de la home (Notre
+   Vision, Nos innovations : min(1320px, 100%)) - Mission était restée à
+   1180px, un cran plus étroit, donnant des marges gauche/droite visibly
+   plus grandes qu'ailleurs (owner, pack "Correctif Global", 2026-08-28).
+   Rien d'autre ne change : padding vertical, titre, intro, frise, fond
+   et animations restent ceux de .bopa-mission-v2 lui-même. */
 .bopa-mission-v2__inner {
-  width: min(1180px, 100%);
+  width: min(1320px, 100%);
   margin: 0 auto;
   text-align: center;
 }
@@ -1847,21 +1853,19 @@ p {
   transform: translateX(-3px);
 }
 
-/* Home only (2026-08-27, correctif) : les petites flèches de bas de
-   vignette ont été retirées ici (voir index.astro), laissant un grand
-   vide variable en bas de carte selon la longueur du texte (jusqu'à
-   ~97px sur les descriptions courtes) - un simple margin-bottom:auto
-   sur le dernier enfant ne change rien ici (c'est déjà le comportement
-   par défaut d'un flex-start pour le dernier item). Centrer le contenu
-   verticalement à la place répartit l'espace en trop au-dessus et en
-   dessous, ce qui garde une respiration constante et volontaire sous
-   le texte plutôt qu'un vide qui grandit avec les descriptions
-   courtes. Scopé à .bopa-projects-v2__rail : les vignettes de
-   /innovations partagent ce même composant mais n'ont jamais eu de
-   flèche et ne doivent pas changer. */
-.bopa-projects-v2__rail .bopa-project-card__body {
-  justify-content: center;
-}
+/* Home only : les titres/descriptions des 4 cartes doivent commencer
+   exactement à la même hauteur (owner, pack "Correctif Global", 2026-08-28).
+   Un `justify-content: center` vertical avait été utilisé un temps pour
+   éviter un grand vide variable en bas de carte selon la longueur du
+   texte - mais centrer un bloc dont la hauteur varie avec la longueur
+   du texte désaligne mécaniquement titres et descriptions d'une carte
+   à l'autre (une description longue pousse moins le titre vers le bas
+   qu'une courte). Priorité donnée à l'alignement explicitement demandé :
+   retour à un flex-start (comportement par défaut), qui ancre h3/p à
+   une position fixe identique sur les 4 cartes puisque le bandeau média
+   a déjà une hauteur fixe (184px). Scopé à .bopa-projects-v2__rail : les
+   vignettes de /innovations partagent ce même composant mais n'ont
+   jamais eu ce traitement et ne doivent pas changer. */
 
 @media (max-width: 1100px) {
   .bopa-projects-v2__inner {
