@@ -84,15 +84,6 @@ const founders = partnerLogos.slice(0, 3);
 const foundationLogos = partnerLogos.slice(3, 6);
 const patronLogos = partnerLogos.slice(6, 8);
 
-// Descriptions pour les cartes mécènes de la section "Nous soutenir" -
-// alignées par index sur patronLogos ci-dessus. Les cartes fondations
-// n'ont plus de texte descriptif (pack "Nous-Soutenir-COMPLET-Exact-V2",
-// 2026-08-29 - logo seul, centré).
-const patronDescriptions = [
-  "Relyens soutient les projets innovants de la Chaire BOPA au service des patients et des professionnels de santé.",
-  "Vermon accompagne la Chaire BOPA dans le développement de solutions innovantes pour la chirurgie de demain.",
-];
-
 const researchStats = [
   { value: '55', label: 'Publications' },
   { value: '51', label: 'Communications orales' },
@@ -877,7 +868,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <span class="bopa-support__rule" aria-hidden="true"></span>
         </div>
         <div class="bopa-support__grid bopa-support__grid--two">
-          {patronLogos.map((logo, i) => (
+          {patronLogos.map((logo) => (
             <article class="support-partner-card support-partner-card--wide">
               <div class="support-partner-card__logo-wrap support-partner-card__logo-wrap--patron">
                 <img
@@ -887,7 +878,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
                   class={logo.src.includes('logo-relyens') ? 'support-partner-card__logo--relyens' : logo.src.includes('logo-vermon') ? 'support-partner-card__logo--vermon' : undefined}
                 />
               </div>
-              <p>{patronDescriptions[i]}</p>
             </article>
           ))}
         </div>
@@ -2870,10 +2860,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     min-height: 0;
     padding-block: 22px;
     align-items: center;
+    justify-content: center;
   }
-  /* Cartes fondations : logo seul, centré horizontalement et verticalement,
-     aucun texte descriptif (pack V2, 2026-08-29) - à la différence des
-     cartes mécènes ci-dessous, qui gardent logo + description. */
+  /* Cartes fondations ET cartes mécènes : logo seul, centré horizontalement
+     et verticalement, aucun texte descriptif (pack V2, 2026-08-29 pour les
+     fondations ; descriptions Relyens/Vermon retirées le 2026-08-30, owner :
+     "enlève les textes dans les encadrés"). */
   /* Resserrées largement autour du logo (owner, 2026-08-30, pack
      "3-Fondations-Compact-V1") - min-height:270px (hérité de la base
      partagée avec les cartes mécènes ci-dessous, qui restent inchangées)
@@ -2918,10 +2910,9 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Gap logo -> texte resserré (owner : "rapprocher le texte du logo",
-       22px -> 12px) tout en gardant une respiration distincte du padding
-       de carte lui-même. */
-    margin-bottom: 12px;
+    /* Plus de margin-bottom (owner, 2026-08-30 : "enlève les textes") -
+       les descriptions Relyens/Vermon ont été retirées, le logo est
+       désormais seul dans la carte, centré comme les cartes fondations. */
   }
   .support-partner-card__logo-wrap img {
     display: block;
@@ -2939,17 +2930,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      ~27 400px² (logo très allongé et dense, ratio 5.6, quasiment aucune
      marge dans son propre fichier) - d'où le "trop léger"/"trop lourd"
      ressenti à l'œil malgré une hauteur identique. Relyens agrandi UN PEU
-     (70->84px, ratio inchangé), Vermon réduit BEAUCOUP (70->48px) : largeurs
-     différentes par construction, pas de largeur CSS brute partagée. */
+     (70->84px, ratio inchangé) ; Vermon rediminué une seconde fois (owner,
+     2026-08-30, même jour : "diminue encore le logo vermon", après les
+     descriptions retirées) - 70->48px puis 48->36px, largeurs différentes
+     par construction, pas de largeur CSS brute partagée. */
   .support-partner-card__logo-wrap img.support-partner-card__logo--relyens { max-height: 84px; }
-  .support-partner-card__logo-wrap img.support-partner-card__logo--vermon { max-height: 48px; }
-  .support-partner-card p {
-    margin: 0;
-    max-width: 42ch;
-    text-align: center;
-    font-size: .98rem;
-    line-height: 1.52;
-  }
+  .support-partner-card__logo-wrap img.support-partner-card__logo--vermon { max-height: 36px; }
 
   /* Compacté ~25% (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
      plus de min-height rigide - c'est justement lui (avec le min-height:430px
