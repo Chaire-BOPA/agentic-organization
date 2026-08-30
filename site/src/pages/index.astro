@@ -1601,6 +1601,27 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     padding-bottom: var(--space-5);
   }
 
+  /* Marges horizontales de "Nos innovations" alignées sur "Qui sommes-nous"
+     (owner, 2026-08-30) - `.bopa-projects-v2__inner`'s propre
+     width:min(1320px,100%) (site.css) laissait le contenu toucher le bord
+     du viewport dès que l'écran descendait sous 1320px, rendant cette
+     section plus "étalée" que Mission/Qui sommes-nous à toute largeur
+     intermédiaire. PAS la formule `calc(100% - 3rem)` du conteneur
+     générique `.section-block .wrap` : `.bopa-projects-v2` a son PROPRE
+     padding horizontal (2rem, site.css) - contrairement à `.about-v2` qui
+     n'en a aucun - donc soustraire 3rem une seconde fois double-comptait
+     la marge. Même correctif que `.bopa-mission-v2__inner`/
+     `.bopa-vision-v4__inner` (qui partagent ce même padding de section) :
+     un plafond simple, sans soustraction supplémentaire.
+     Scopé à `#innovations-bopa` (l'id de CETTE section sur la HOME)
+     plutôt que modifié dans site.css directement : `.bopa-projects-v2__inner`
+     est une classe partagée avec la page `/nos_innovations`, qui a son
+     propre schéma de largeur à 1320px ailleurs sur cette page - un
+     changement dans site.css l'aurait rendue incohérente avec elle-même. */
+  #innovations-bopa .bopa-projects-v2__inner {
+    width: min(var(--max-width), 100%);
+  }
+
   .team-gallery-wrap {
     margin-top: var(--space-5);
   }
@@ -3422,8 +3443,21 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     box-sizing: border-box;
   }
 
+  /* Marges horizontales alignées sur "Qui sommes-nous" (owner, 2026-08-30) -
+     width:min(1320px,100%) laissait le contenu toucher le bord du viewport
+     dès que la largeur d'écran descendait sous 1320px (aucune marge
+     propre, seulement le centrage du plafond de largeur), rendant Vision
+     plus "étalée" que Mission/Qui sommes-nous à toute largeur
+     intermédiaire. PAS la formule `calc(100% - 3rem)` du conteneur
+     générique `.section-block .wrap` : `.bopa-vision-v4` a son PROPRE
+     padding horizontal (2rem, ligne ci-dessus) - contrairement à
+     `.about-v2` qui n'en a aucun - donc soustraire 3rem une seconde fois
+     dans `__inner` double-comptait la marge (mesuré : 1152.8px au lieu de
+     1184px visés à 1280px de large). Même correctif que
+     `.bopa-mission-v2__inner` (qui partage exactement le même padding de
+     section) : un plafond simple, sans soustraction supplémentaire. */
   .bopa-vision-v4__inner {
-    width: min(1320px, 100%);
+    width: min(var(--max-width), 100%);
     margin: 0 auto;
     text-align: center;
     position: relative;
