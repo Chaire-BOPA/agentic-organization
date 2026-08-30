@@ -739,12 +739,16 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <p class="bopa-contact__kicker">Parlons-en.</p>
         </div>
 
-        <p class="bopa-contact__text">
-          Vous souhaitez collaborer avec la Chaire BOPA, nous proposer un projet ou échanger autour de nos travaux ?
-        </p>
-        <p class="bopa-contact__text">
-          <span class="bopa-contact__highlight">Notre équipe est à votre écoute</span> pour imaginer de nouvelles collaborations et faire émerger des projets au service de la chirurgie de demain.
-        </p>
+        <div class="bopa-contact__intro-middle">
+          <div class="bopa-contact__intro-group">
+            <p class="bopa-contact__text">
+              Vous souhaitez collaborer avec la Chaire BOPA, nous proposer un projet ou échanger autour de nos travaux ?
+            </p>
+            <p class="bopa-contact__text">
+              <span class="bopa-contact__highlight">Notre équipe est à votre écoute</span> pour imaginer de nouvelles collaborations et faire émerger des projets au service de la chirurgie de demain.
+            </p>
+          </div>
+        </div>
       </div>
 
       <form id="soutenir-form" class="bopa-contact__form" novalidate>
@@ -3171,16 +3175,39 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     align-items: stretch;
   }
 
-  /* 3 groupes logiques distincts (en-tête+kicker, 1er paragraphe, 2e
-     paragraphe) plutôt que 2 (`.bopa-contact__intro-middle` regroupant
-     les deux paragraphes a été aplati dans le markup) : space-between
-     répartit les 3 sur toute la hauteur étirée (= hauteur du formulaire),
-     sans marge arbitraire ajoutée bloc par bloc (owner, 2026-08-30, pack
-     "Nous-Contacter-Equilibrage-Final-V3"). */
+  /* Les 2 paragraphes lisaient comme "jetés" à deux hauteurs plutôt que
+     comme un seul bloc éditorial une fois répartis individuellement via
+     space-between (owner, 2026-08-30, pack "Nous-Contacter-Paragraphes-
+     Groupe-Centre-V4") - corrigé en repassant à 2 groupes seulement :
+     le bloc titre (fixe, en haut) et une zone restante `flex:1` qui
+     centre verticalement le groupe des deux paragraphes (regroupés dans
+     leur propre wrapper, voir `.bopa-contact__intro-middle`/`-group`
+     juste plus bas) - plus de justify-content:space-between ici. */
   .bopa-contact__intro {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+  }
+
+  /* Zone restante entre le bloc titre et le bas du formulaire (stretch
+     hérité de `.bopa-contact__inner` juste au-dessus) : `flex:1` occupe
+     tout l'espace non pris par `.intro-top`, `align-items:center` centre
+     verticalement le groupe des paragraphes dedans - exactement la
+     recommandation du pack (bloc titre en haut / zone flex:1 / groupe
+     centré dedans), pas de margin-top ni de translateY arbitraires. */
+  .bopa-contact__intro-middle {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Les deux paragraphes forment un seul groupe éditorial : gap d'environ
+     une ligne de texte (1.1em, dans la fourchette 1-1.2em demandée),
+     plus le `margin-top:10px` fixe d'avant qui traitait les paragraphes
+     comme deux blocs indépendants. */
+  .bopa-contact__intro-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1em;
   }
 
   /* Titre principal : même échelle "Niveau 1" que "De l'innovation au
@@ -3384,14 +3411,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     .bopa-contact__inner {
       grid-template-columns: 1fr;
     }
-    /* space-between désactivé ici (owner, 2026-08-30, pack "Nous-
-       Contacter-Equilibrage-Final-V3") : empilé en une seule colonne à
-       cette largeur, le texte n'a plus besoin de "remplir" une hauteur
-       étirée au formulaire - un espacement fluide normal entre les 3
-       groupes suffit et reste responsive (pas de grand vide forcé). */
+    /* Empilé en une seule colonne à cette largeur (owner, 2026-08-30,
+       pack "Nous-Contacter-Paragraphes-Groupe-Centre-V4") : le centrage
+       vertical de `.intro-middle` (hérité du stretch desktop) devient
+       naturellement inerte ici puisqu'il n'y a plus de hauteur étirée à
+       partager avec le formulaire (empilement normal) - juste un gap
+       fluide entre le bloc titre et le groupe de paragraphes, pas de
+       centrage vertical artificiel forcé. */
     .bopa-contact__intro {
       max-width: 620px;
-      justify-content: flex-start;
       gap: clamp(18px, 3vh, 28px);
     }
   }
