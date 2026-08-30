@@ -739,14 +739,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <p class="bopa-contact__kicker">Parlons-en.</p>
         </div>
 
-        <div class="bopa-contact__intro-middle">
-          <p class="bopa-contact__text">
-            Vous souhaitez collaborer avec la Chaire BOPA, nous proposer un projet ou échanger autour de nos travaux ?
-          </p>
-          <p class="bopa-contact__text">
-            <span class="bopa-contact__highlight">Notre équipe est à votre écoute</span> pour imaginer de nouvelles collaborations et faire émerger des projets au service de la chirurgie de demain.
-          </p>
-        </div>
+        <p class="bopa-contact__text">
+          Vous souhaitez collaborer avec la Chaire BOPA, nous proposer un projet ou échanger autour de nos travaux ?
+        </p>
+        <p class="bopa-contact__text">
+          <span class="bopa-contact__highlight">Notre équipe est à votre écoute</span> pour imaginer de nouvelles collaborations et faire émerger des projets au service de la chirurgie de demain.
+        </p>
       </div>
 
       <form id="soutenir-form" class="bopa-contact__form" novalidate>
@@ -3161,17 +3159,28 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        accepter un plancher plus bas qu'avant). */
     grid-template-columns: minmax(300px, .95fr) minmax(420px, 1.05fr);
     gap: clamp(48px, 7vw, 100px);
-    /* Plus de stretch (owner, 2026-08-30, pack "Nous-Contacter-Compact-V2") :
-       maintenant que le bloc adresse a disparu, chaque colonne peut
-       reprendre sa propre hauteur naturelle - `start` évite d'étirer le
-       formulaire pour matcher la colonne de texte (ou l'inverse), ce qui
-       créait précisément le "grand vide sous le bouton" signalé. */
-    align-items: start;
+    /* Stretch réintroduit sciemment (owner, 2026-08-30, pack "Nous-
+       Contacter-Equilibrage-Final-V3") : le formulaire reste la colonne
+       la plus haute (sa propre hauteur ne dépend pas de ce stretch), mais
+       la colonne de texte peut désormais s'étirer pour occuper la même
+       hauteur et répartir ses 3 groupes dessus (voir .bopa-contact__intro
+       juste en dessous) - contrairement au retrait du pack précédent, qui
+       compensait la disparition du bloc adresse, cette fois le stretch
+       sert un vrai objectif : mieux répartir un contenu qui reste plus
+       court que le formulaire. */
+    align-items: stretch;
   }
 
+  /* 3 groupes logiques distincts (en-tête+kicker, 1er paragraphe, 2e
+     paragraphe) plutôt que 2 (`.bopa-contact__intro-middle` regroupant
+     les deux paragraphes a été aplati dans le markup) : space-between
+     répartit les 3 sur toute la hauteur étirée (= hauteur du formulaire),
+     sans marge arbitraire ajoutée bloc par bloc (owner, 2026-08-30, pack
+     "Nous-Contacter-Equilibrage-Final-V3"). */
   .bopa-contact__intro {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
   }
 
   /* Titre principal : même échelle "Niveau 1" que "De l'innovation au
@@ -3195,10 +3204,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     line-height: 1.3;
   }
 
-  .bopa-contact__intro-middle {
-    margin: clamp(18px, 2.6vh, 28px) 0;
-  }
-
   /* max-width élargi (owner, 2026-08-30, pack "Nous-Contacter-Compact-V2") :
      390px était déjà plus étroit que la colonne elle-même AVANT même le
      rééquilibrage des deux colonnes ci-dessus - élargir la colonne seule
@@ -3213,7 +3218,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.7;
   }
-  .bopa-contact__text + .bopa-contact__text { margin-top: 10px; }
+  /* Plus de margin-top fixe entre les deux paragraphes (owner, 2026-08-30,
+     pack "Nous-Contacter-Equilibrage-Final-V3") : chaque paragraphe est
+     maintenant son propre groupe flex direct de `.bopa-contact__intro`
+     (voir markup), l'écart entre eux vient de `justify-content:
+     space-between` sur la colonne entière, pas d'une marge arbitraire. */
   .bopa-contact__highlight { color: var(--bopa-cyan); }
 
   /* Formulaire compacté (correctif "Nous-Contacter-FINAL", 2026-08-29) :
@@ -3226,15 +3235,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     padding: clamp(18px, 2.2vw, 26px);
-    /* padding-bottom réduit à part (owner, 2026-08-30, pack "Nous-
-       Contacter-Compact-V2") : "grand vide sous le bouton" - la carte
-       n'avait ni min-height ni hauteur fixe, le vide venait entièrement
-       de `align-items:stretch` sur `.bopa-contact__inner` (voir plus
-       haut, retiré) qui étirait la carte pour matcher la colonne de
-       texte. Ce padding-bottom plus court est la respiration réellement
-       voulue sous le bouton, une fois la carte enfin taillée à son
-       propre contenu. */
-    padding-bottom: clamp(14px, 1.6vw, 18px);
+    /* padding-bottom réduit une seconde fois (owner, 2026-08-30, pack
+       "Nous-Contacter-Equilibrage-Final-V3") : la carte doit garder
+       EXACTEMENT sa hauteur actuelle pendant que Message grandit - cette
+       respiration, plus le margin-top du `.form-status` juste en dessous
+       (voir plus bas), sont les deux seules sources de "vide" restant
+       une fois les champs déjà compacts ; les deux sont resserrées pour
+       financer la croissance de Message sans changer la hauteur totale
+       de la carte. */
+    padding-bottom: clamp(6px, .8vw, 9px);
     box-shadow: 0 18px 48px rgba(18,46,92,.09);
   }
 
@@ -3289,19 +3298,16 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     padding-block: 5px;
   }
 
-  /* Le textarea avait un `min-height:96px` depuis toujours, mais
-     l'attribut HTML `rows="7"` (markup) dominait silencieusement ce
-     min-height - mesuré en direct : 184px de haut réels, jamais 96px,
-     min-height ne pouvant jamais RÉDUIRE une taille intrinsèque plus
-     grande, seulement la plafonner par en dessous. `height` (au lieu de
-     min-height seul) force la valeur réellement voulue, rows="7" ou pas -
-     c'est le principal levier de ce correctif, ramené à sa valeur
-     `min-height` déjà prévue à l'origine (96px), jamais réellement
-     appliquée jusqu'ici. */
+  /* Message agrandi (owner, 2026-08-30, pack "Nous-Contacter-Equilibrage-
+     Final-V3") : 96px -> 113px, financé intégralement par le padding-bottom
+     de la carte et le margin-top du statut de formulaire resserrés
+     juste au-dessus/plus bas - la hauteur totale de la carte blanche
+     reste donc exactement la même, comme demandé explicitement, tout
+     en faisant de Message le bloc vertical dominant du formulaire. */
   .bopa-contact textarea {
     resize: vertical;
-    height: 96px;
-    min-height: 96px;
+    height: 113px;
+    min-height: 113px;
     padding-block: 8px;
   }
 
@@ -3369,16 +3375,25 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     opacity: .85;
   }
 
-  .bopa-contact .form-status { grid-column: 1 / -1; margin-top: 12px; }
+  /* margin-top resserré (owner, 2026-08-30, pack "Nous-Contacter-
+     Equilibrage-Final-V3") : finance une partie de la croissance du
+     textarea Message sans changer la hauteur totale de la carte. */
+  .bopa-contact .form-status { grid-column: 1 / -1; margin-top: 4px; }
 
   @media (max-width: 900px) {
     .bopa-contact__inner {
       grid-template-columns: 1fr;
     }
+    /* space-between désactivé ici (owner, 2026-08-30, pack "Nous-
+       Contacter-Equilibrage-Final-V3") : empilé en une seule colonne à
+       cette largeur, le texte n'a plus besoin de "remplir" une hauteur
+       étirée au formulaire - un espacement fluide normal entre les 3
+       groupes suffit et reste responsive (pas de grand vide forcé). */
     .bopa-contact__intro {
       max-width: 620px;
+      justify-content: flex-start;
+      gap: clamp(18px, 3vh, 28px);
     }
-    .bopa-contact__intro-middle { margin: 18px 0; }
   }
 
   @media (max-width: 620px) {
