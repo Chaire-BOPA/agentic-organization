@@ -880,7 +880,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           {patronLogos.map((logo, i) => (
             <article class="support-partner-card support-partner-card--wide">
               <div class="support-partner-card__logo-wrap support-partner-card__logo-wrap--patron">
-                <img src={logo.src} alt={logo.alt} loading="lazy" />
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  loading="lazy"
+                  class={logo.src.includes('logo-relyens') ? 'support-partner-card__logo--relyens' : logo.src.includes('logo-vermon') ? 'support-partner-card__logo--vermon' : undefined}
+                />
               </div>
               <p>{patronDescriptions[i]}</p>
             </article>
@@ -2821,7 +2826,16 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     flex-direction: column;
     border: 1px solid var(--color-line);
   }
-  .support-partner-card--wide { min-height: 230px; }
+  /* Resserrées avec la même logique que les cartes fondations juste au-dessus
+     (owner, 2026-08-30, pack "Ils-Nous-Soutiennent-Déjà-Harmonisation-V1") :
+     min-height:230px forçait un grand vide sous logo+texte - remplacé par la
+     même paire min-height:0 / padding-block:22px que `--foundation`, la
+     hauteur vient maintenant uniquement du contenu réel. */
+  .support-partner-card--wide {
+    min-height: 0;
+    padding-block: 22px;
+    align-items: center;
+  }
   /* Cartes fondations : logo seul, centré horizontalement et verticalement,
      aucun texte descriptif (pack V2, 2026-08-29) - à la différence des
      cartes mécènes ci-dessous, qui gardent logo + description. */
@@ -2868,19 +2882,36 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     min-height: 92px;
     display: flex;
     align-items: center;
-    margin-bottom: 22px;
+    justify-content: center;
+    /* Gap logo -> texte resserré (owner : "rapprocher le texte du logo",
+       22px -> 12px) tout en gardant une respiration distincte du padding
+       de carte lui-même. */
+    margin-bottom: 12px;
   }
   .support-partner-card__logo-wrap img {
     display: block;
     max-width: 100%;
     max-height: 76px;
     object-fit: contain;
-    object-position: left center;
+    object-position: center;
   }
-  .support-partner-card__logo-wrap--patron img { max-height: 70px; }
+  /* Logos Relyens/Vermon harmonisés au poids visuel des logos fondations
+     juste au-dessus (owner, 2026-08-30, pack "Ils-Nous-Soutiennent-Déjà-
+     Harmonisation-V1") - mesuré, pas estimé : les 3 logos fondations rendus
+     occupent en moyenne ~18 200px² (167-236px de large, 71-104px de haut).
+     Avant ce correctif, à hauteur égale (70px) Relyens ne pesait que
+     ~13 200px² (logo plus étroit, ratio 2.7) quand Vermon en pesait déjà
+     ~27 400px² (logo très allongé et dense, ratio 5.6, quasiment aucune
+     marge dans son propre fichier) - d'où le "trop léger"/"trop lourd"
+     ressenti à l'œil malgré une hauteur identique. Relyens agrandi UN PEU
+     (70->84px, ratio inchangé), Vermon réduit BEAUCOUP (70->48px) : largeurs
+     différentes par construction, pas de largeur CSS brute partagée. */
+  .support-partner-card__logo-wrap img.support-partner-card__logo--relyens { max-height: 84px; }
+  .support-partner-card__logo-wrap img.support-partner-card__logo--vermon { max-height: 48px; }
   .support-partner-card p {
     margin: 0;
     max-width: 42ch;
+    text-align: center;
     font-size: .98rem;
     line-height: 1.52;
   }
