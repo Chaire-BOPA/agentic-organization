@@ -842,7 +842,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <p class="support-donation-panel__security">Paiement sécurisé sur la plateforme de don de l'AP-HP.</p>
         </div>
         <div class="support-donation-panel__visual" aria-hidden="true">
-          <img src="/images/graphics/hand-heart-bopa.png" alt="" loading="lazy" decoding="async" />
+          <img src="/images/graphics/hand-heart-bopa-transparent.png" alt="" width="1136" height="1094" loading="lazy" decoding="async" />
         </div>
       </div>
 
@@ -2964,28 +2964,28 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        haut (owner, 2026-08-30). */
     min-height: 220px;
   }
-  /* Nouvel asset "validé" (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
-     01-ASSET-MAIN-COEUR-VALIDE.png, fond noir plein (pas de transparence,
-     contrairement à l'ancien asset UHD) et avant-bras trop long à droite.
-     Crop géré en CSS, pas dans le fichier: l'image est agrandie et ancrée
-     à gauche dans un wrapper overflow:hidden, ce qui pousse l'excédent
-     d'avant-bras hors du cadre visible - donc pas de "grosse marge
-     négative bricolée", juste une largeur/position calculées. Le fond noir
-     de l'image (RGB 0,0,0 vérifié aux quatre coins) est fondu vers
-     transparent sur les bords via mask-image pour se fondre dans le
-     dégradé bleu nuit du panneau plutôt que de dessiner un rectangle noir
-     dessus. */
+  /* Nouvel asset transparent (owner, 2026-08-30, pack "Image-Source-Inbox-A-Fleur-V2") :
+     hand-heart-bopa-transparent.png, PNG déjà croppé au poignet et déjà cadré,
+     fourni prêt à l'emploi - contrairement à l'ancien asset (fond noir plein,
+     nécessitant un crop CSS + mask-image), celui-ci ne doit recevoir AUCUNE
+     transformation qui changerait son cadrage (pas de translate/scale/
+     object-position/clip-path) : juste un ancrage à droite et un
+     dimensionnement proportionnel qui respecte ses proportions naturelles.
+     Le bleu nuit du panneau apparaît naturellement à travers la transparence.
+     IMPORTANT : dimensionner via `width` (valeur définie, dérivée de la
+     largeur - toujours définie - de la colonne grille), PAS via `height`
+     couplée à un `max-width` de secours : testé en vrai sur ce moteur de
+     rendu, "height défini + width:auto + max-width" ÉCRASE le ratio naturel
+     dès que le max-width devient la contrainte active (colonne étroite,
+     ~900-1150px de largeur d'écran) au lieu de recalculer les deux axes -
+     l'image ressort visiblement déformée. Piloter par la largeur évite tout
+     bras de fer entre contraintes puisque `min(92%, 480px)` est toujours
+     ≤ 100% de la colonne : aucun filet de secours n'est jamais nécessaire. */
   .support-donation-panel__visual img {
     display: block;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 142%;
-    max-width: none;
+    width: min(92%, 480px);
     height: auto;
-    transform: translateY(-46%);
-    -webkit-mask-image: linear-gradient(to right, #000 78%, transparent 100%);
-    mask-image: linear-gradient(to right, #000 78%, transparent 100%);
+    margin: 0;
   }
 
   @media (max-width: 900px) {
@@ -2996,24 +2996,16 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     .bopa-support__grid--three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .bopa-support__grid--three > :last-child { grid-column: 1 / -1; }
     .support-partner-card { min-height: 0; }
-    /* Panneau empilé (image sous le texte) : le crop ancré à gauche du
-       desktop (pensé pour un visuel qui partage la ligne avec le texte)
-       montrait tout le fond noir de l'image en pile pleine largeur - vraie
-       régression trouvée en vérifiant ce palier, pas juste "adapter la même
-       recette". object-fit:cover recadre pour remplir le cadre sans aucune
-       marge noire visible, quel que soit le ratio du conteneur. */
+    /* Panneau empilé (image sous le texte) : asset transparent, déjà cadré -
+       plus besoin d'object-fit:cover/recadrage, juste une hauteur plafonnée
+       pour que l'image reste entièrement visible sans imposer sa propre
+       hauteur au panneau. */
     .support-donation-panel { grid-template-columns: 1fr; }
-    .support-donation-panel__visual { height: 260px; min-height: 0; }
+    .support-donation-panel__visual { height: auto; min-height: 0; padding: 18px 0; }
     .support-donation-panel__visual img {
-      position: static;
-      width: 100%;
-      height: 100%;
-      max-width: none;
-      object-fit: cover;
-      object-position: 46% 42%;
-      transform: none;
-      -webkit-mask-image: none;
-      mask-image: none;
+      height: 220px;
+      width: auto;
+      max-width: 100%;
     }
   }
 
