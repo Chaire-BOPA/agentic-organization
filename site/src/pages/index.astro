@@ -1822,18 +1822,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     color: var(--about-ink);
   }
 
-  /* 1320px, la largeur de "Nos innovations" - toutes les grandes
-     sections de la home partagent desormais cette meme largeur
-     (owner, 2026-08-29, decision explicite et finale). Doit ecraser
-     DEUX regles generiques de site.css qui s'appliquent toutes les
-     deux simultanement (ce ne sont pas deux versions dont une serait
-     "morte" : width et max-width sont deux proprietes distinctes qui
-     se combinent) : `.section-block .wrap { max-width:
-     var(--max-width) }` (1184px) ET `.section-block .wrap { width:
-     min(calc(100% - 3rem), var(--max-width)) }`. Un simple width plus
-     large ne suffit pas tant que l'ancien max-width:1184px reste actif
-     par-dessus - d'ou les deux proprietes forcees ici. */
-  .about-v2 .wrap { width: min(calc(100% - 3rem), 1320px); max-width: 1320px; }
+  .about-v2 .wrap { max-width: var(--max-width); }
   .about-v2 h2,
   .about-v2 h3,
   .about-v2 h4,
@@ -2758,7 +2747,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   .bopa-support__inner {
-    width: min(1320px, calc(100% - 48px));
+    width: min(1180px, calc(100% - 48px));
     margin-inline: auto;
   }
 
@@ -2837,7 +2826,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   /* Toute la largeur utile du container HOME, plus le max-width éditorial
      de 54rem/864px (owner, 2026-08-30) - même conteneur que le reste de
-     Nous soutenir (.bopa-support__inner, 1320px), pas une nouvelle valeur.
+     Nous soutenir (.bopa-support__inner), pas une nouvelle valeur.
      margin-top à 0 : avec .bopa-support__group-title resserré ci-dessus,
      c'est lui qui fixe déjà l'écart trait -> paragraphe (les marges
      adjacentes se combinent au plus grand des deux, pas en s'additionnant). */
@@ -3087,7 +3076,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   @media (max-width: 560px) {
-    .bopa-support__inner { width: min(calc(100% - 28px), 1320px); }
+    .bopa-support__inner { width: min(calc(100% - 28px), 1180px); }
     .support-partner-card { padding: 27px 24px; }
     .bopa-support__group-title { gap: 11px; }
     .bopa-support__group-title h3 { font-size: .9rem; }
@@ -3146,7 +3135,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .bopa-contact__inner {
     position: relative;
     z-index: 1;
-    width: min(1320px, calc(100% - 48px));
+    width: min(1180px, calc(100% - 48px));
     margin: 0 auto;
     /* padding-top fixé à var(--space-5) (owner, 2026-08-30) : même espace
        eyebrow -> haut de section que Notre Mission/Notre vision/Qui
@@ -3389,7 +3378,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   @media (max-width: 620px) {
     .bopa-contact__inner {
-      width: min(calc(100% - 32px), 1320px);
+      width: min(calc(100% - 32px), 1180px);
     }
     .bopa-contact__grid { grid-template-columns: 1fr; gap: 0; }
     .bopa-contact__actions { justify-content: stretch; }

@@ -1818,18 +1818,15 @@ p {
   padding: clamp(4.75rem, 7vw, 7rem) 2rem clamp(5.25rem, 8vw, 7.5rem);
 }
 
-/* Largeur unifiee a 1320px, la largeur de "Nos innovations" (2026-08-29,
-   decision explicite et finale de l'owner : TOUTES les sections de la
-   home doivent partager cette meme largeur, pas seulement s'aligner
-   sur une "majorite"). Meme valeur que .bopa-vision-v4__inner et
-   .bopa-projects-v2__inner ; .bopa-contact__inner, .bopa-support__inner
-   et .about-v2 .wrap (Qui sommes-nous) reprennent aussi 1320px pour la
-   meme raison - voir chacun plus bas. Hero et le bandeau de contexte
-   restent hors perimetre (colonne de texte / bandeau plein-bleed
-   intentionnellement differents, pas des "sections encadrees"
-   comparables). */
+/* Largeur revenue a 1180px (owner, 2026-08-30) - la decision "unifier a
+   1320px sur toutes les grandes sections" du 2026-08-29 est annulee : le
+   contenu paraissait trop etale horizontalement une fois vu en vrai sur
+   la HOME complete. Mission, Qui sommes-nous, Nous soutenir et Nous
+   contacter reviennent a 1180px ; Notre Vision et Nos innovations restent
+   a 1320px (elles l'etaient deja avant le 2026-08-29, jamais concernees
+   par ce va-et-vient). */
 .bopa-mission-v2__inner {
-  width: min(1320px, 100%);
+  width: min(1180px, 100%);
   margin: 0 auto;
   text-align: center;
 }
