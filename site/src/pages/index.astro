@@ -826,13 +826,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   <section class="bopa-support" id="nous-soutenir" aria-labelledby="support-title">
     <div class="bopa-support__inner">
       <div class="bopa-support__heading" data-reveal>
-        <span class="bopa-support__number" aria-hidden="true">05.</span>
         <h2 id="support-title" class="bopa-support__eyebrow">Nous soutenir</h2>
       </div>
 
       <div class="support-donation-panel" data-reveal>
         <div class="support-donation-panel__content">
-          <h3>Faites avancer l'innovation<br />en chirurgie avec nous.</h3>
+          <h3>Faites avancer l'innovation</h3>
           <p>
             Chaque don, quel que soit son montant, contribue concrètement à faire émerger,
             tester et déployer de nouvelles solutions au service des patients et des équipes soignantes.
@@ -2727,45 +2726,26 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     margin-inline: auto;
   }
 
-  /* Titre "05. Nous soutenir" (pack "Nous-Soutenir-COMPLET-Exact-V2",
-     2026-08-29) - premier titre de grande section à porter un numéro : les
-     5 autres (Mission/Innovations/Vision/Qui sommes-nous/Contacter) restent
-     sur le petit eyebrow majuscule, ce badge rond est une signature propre
-     à cette section, voulue par la propriétaire sur la référence fournie.
-     .bopa-support__eyebrow reste la classe utilisée (même tiret cyan
-     partagé, site.css) - seules ses propriétés visuelles sont redéfinies
-     ici pour porter un H2 de taille normale plutôt que le petit libellé
-     majuscule des autres sections. */
+  /* Titre "Nous soutenir" revenu au petit eyebrow standard (owner,
+     2026-08-30) : le badge rond "05." (pack "Nous-Soutenir-COMPLET-Exact-V2",
+     2026-08-29) est retiré - l'owner veut désormais exactement le même
+     traitement que "Notre mission" (petit label majuscule + tiret cyan
+     partagé, site.css), pas un H2 de grande taille avec un numéro. Le
+     grand titre équivalent au H2 de Notre Mission vit maintenant dans
+     l'encadré bleu juste en dessous ("Faites avancer l'innovation",
+     .support-donation-panel h3). */
   .bopa-support__heading {
-    display: flex;
-    align-items: center;
-    gap: 16px;
     margin-bottom: clamp(40px, 4vw, 56px);
   }
 
-  .bopa-support__number {
-    flex: 0 0 auto;
-    display: grid;
-    place-items: center;
-    width: 2.6rem;
-    height: 2.6rem;
-    border-radius: 50%;
-    background: color-mix(in srgb, var(--bopa-cyan) 16%, white);
-    color: var(--color-navy);
-    font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 700;
-  }
-
   .bopa-support__eyebrow {
-    margin: 0;
-    color: var(--color-navy);
-    font-family: var(--font-display);
-    font-size: clamp(1.7rem, 2.6vw, 2.15rem);
-    line-height: 1.1;
+    margin: 0 0 0.85rem;
+    color: var(--mp-blue-bright);
+    font-size: 0.82rem;
     font-weight: 700;
-    letter-spacing: var(--tracking-tight);
-    text-transform: none;
+    line-height: 1.2;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
   }
 
   .bopa-support__group { margin-top: clamp(54px, 6vw, 82px); }
@@ -2868,14 +2848,18 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     align-items: flex-start;
     justify-content: center;
   }
+  /* Même typo exacte que le H2 de Notre Mission "Améliorer la chirurgie,
+     grâce au numérique" (.bopa-mission-v2 h2, site.css) - owner, 2026-08-30.
+     letter-spacing en dur (-0.035em, pas le token --tracking-tight/-0.02em)
+     pour matcher au pixel près, comme Notre Mission le fait déjà. */
   .support-donation-panel h3 {
     margin: 0;
     max-width: 560px;
     color: #fff;
-    font-family: var(--font-display);
-    font-size: clamp(1.9rem, 2.7vw, 2.75rem);
-    line-height: 1.14;
-    letter-spacing: var(--tracking-tight);
+    font-family: var(--font-display, "Space Grotesk", system-ui, sans-serif);
+    font-size: clamp(2rem, 3.1vw, 3.15rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
     font-weight: 600;
   }
   .support-donation-panel__content > p:not(.support-donation-panel__security) {
@@ -3008,7 +2992,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     z-index: 1;
     width: min(1320px, calc(100% - 48px));
     margin: 0 auto;
-    padding: clamp(72px, 8vw, 104px) 0;
+    /* padding-top fixé à var(--space-5) (owner, 2026-08-30) : même espace
+       eyebrow -> haut de section que Notre Mission/Notre vision/Qui
+       sommes-nous (64px) - le clamp(72px,8vw,104px) précédent donnait
+       104px à cette largeur, mesuré en direct. Le bas garde son propre
+       clamp, non concerné par cette demande. */
+    padding: var(--space-5) 0 clamp(72px, 8vw, 104px);
     display: grid;
     grid-template-columns: minmax(260px, .78fr) minmax(520px, 1.22fr);
     gap: clamp(48px, 7vw, 100px);

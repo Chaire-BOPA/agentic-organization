@@ -1965,7 +1965,10 @@ p {
 
 .bopa-projects-v2__intro {
   grid-area: intro;
-  padding-top: 0.45rem;
+  /* padding-top retiré (owner, 2026-08-30) : l'espace eyebrow -> haut de
+     section doit être identique à Notre Mission (64px, var(--space-5)) -
+     ces 0.45rem (7.2px) en trop, sans justification documentée, cassaient
+     l'alignement demandé. Mesuré en direct : 71.2px avant, 64px après. */
 }
 
 /* Harmonisation typographique Niveau 1 (2026-08-27) : mêmes métriques
