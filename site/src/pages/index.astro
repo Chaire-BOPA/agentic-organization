@@ -1317,54 +1317,60 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      bord droit - jamais de second stop vers une teinte différente : un
      changement de teinte pile dans la bande de transition (essayé plus tôt)
      créait une sensation de "photo coupée en deux".
-     Renforcé et rendu plus progressif (owner, 2026-08-30, pack "Hero-
-     Degrade-Sans-Flou-V2") : la baisse d'opacité se percevait encore vers
-     30-55% de la largeur - 7 paliers au lieu de 6, plus rapprochés dans
-     cette zone médiane (35/50/65% au lieu de 43/63%), et légèrement plus
-     opaques sur presque toute la largeur (vérifié point par point contre
-     l'ancienne courbe : plus haut partout sauf à 0%, où la différence
-     97%->95% est cosmétique). Aucun flou nulle part sur ce calque - la
-     fusion vient uniquement de cette interpolation d'opacité. */
+     Gauche rendue franchement opaque (owner, 2026-08-30, pack "Hero-
+     Degrade-Opaque-Gauche-V3") : 0-20% est un plateau à 100% (la photo doit
+     être quasi invisible sous le texte), puis la baisse est étalée sur 9
+     paliers pour rester continue - pente vérifiée segment par segment
+     (0.5/1.0/1.5/1.5/1.5/1.25/0.67 pt d'opacité par % de largeur), aucun
+     saut brutal donc pas de retour à l'effet "deux moitiés". Aucun flou
+     nulle part sur ce calque - la fusion vient uniquement de cette
+     interpolation d'opacité. */
   .hero-gradient {
     position: absolute;
     inset: 0;
     z-index: 2;
     background: linear-gradient(
       to right,
-      color-mix(in srgb, var(--hero-blue-dark) 95%, transparent) 0%,
-      color-mix(in srgb, var(--hero-blue-dark) 89%, transparent) 20%,
-      color-mix(in srgb, var(--hero-blue-dark) 80%, transparent) 35%,
-      color-mix(in srgb, var(--hero-blue-dark) 66%, transparent) 50%,
-      color-mix(in srgb, var(--hero-blue-dark) 50%, transparent) 65%,
-      color-mix(in srgb, var(--hero-blue-dark) 34%, transparent) 80%,
-      color-mix(in srgb, var(--hero-blue-dark) 20%, transparent) 100%
+      color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 0%,
+      color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 20%,
+      color-mix(in srgb, var(--hero-blue-dark) 95%, transparent) 30%,
+      color-mix(in srgb, var(--hero-blue-dark) 85%, transparent) 40%,
+      color-mix(in srgb, var(--hero-blue-dark) 70%, transparent) 50%,
+      color-mix(in srgb, var(--hero-blue-dark) 55%, transparent) 60%,
+      color-mix(in srgb, var(--hero-blue-dark) 40%, transparent) 70%,
+      color-mix(in srgb, var(--hero-blue-dark) 25%, transparent) 82%,
+      color-mix(in srgb, var(--hero-blue-dark) 13%, transparent) 100%
     );
     pointer-events: none;
   }
 
-  /* Le dégradé desktop, mesuré en vivo, retombe à ~25% d'opacité vers 85%
-     de la largeur - or le H1 s'étend justement jusqu'à 85% de la largeur
-     du Hero sur mobile (--hero-text-max-width plafonne à 35rem, plus
-     large que le viewport en dessous de ~640px), donc le texte finissait
-     sur un fond quasi transparent. Même logique de dégradé progressif
-     multi-stops, un seul bleu, mais une courbe globalement plus opaque et
-     étalée plus loin (owner : "accepté que l'overlay soit plus opaque sur
-     petit écran, tant qu'il reste progressif") - la baisse ne devient
-     marquée qu'après 70%, une fois le texte passé. Placé APRÈS la règle de
-     base (pas dans le bloc média `.hero` plus haut) : à spécificité égale,
-     une règle non conditionnelle placée plus bas dans le fichier bat une
-     règle conditionnelle placée plus haut, peu importe si son media query
-     matche - piège vérifié en vivo (owner, 2026-08-30). */
+  /* Le H1 s'étend jusqu'à 85% de la largeur du Hero sur mobile
+     (--hero-text-max-width plafonne à 35rem, plus large que le viewport en
+     dessous de ~640px) : le texte a donc besoin d'un fond au moins aussi
+     opaque que le desktop à chaque point, jamais moins. Repassé au plateau
+     0-20%=100% (owner, 2026-08-30, pack "Hero-Degrade-Opaque-Gauche-V3")
+     pour rester cohérent avec le nouveau desktop, puis étalé un peu plus
+     loin vers la droite (paliers à 35/50/65/75/85/92% au lieu de
+     25/50/70/85%) puisque le texte mobile va plus loin. Valeurs vérifiées
+     point par point >= la courbe desktop interpolée à chaque palier
+     commun. Placé APRÈS la règle de base (pas dans le bloc média `.hero`
+     plus haut) : à spécificité égale, une règle non conditionnelle placée
+     plus bas dans le fichier bat une règle conditionnelle placée plus
+     haut, peu importe si son media query matche - piège vérifié en vivo
+     (owner, 2026-08-30). */
   @media (max-width: 40rem) {
     .hero-gradient {
       background: linear-gradient(
         to right,
-        color-mix(in srgb, var(--hero-blue-dark) 97%, transparent) 0%,
-        color-mix(in srgb, var(--hero-blue-dark) 90%, transparent) 25%,
-        color-mix(in srgb, var(--hero-blue-dark) 78%, transparent) 50%,
-        color-mix(in srgb, var(--hero-blue-dark) 62%, transparent) 70%,
-        color-mix(in srgb, var(--hero-blue-dark) 48%, transparent) 85%,
-        color-mix(in srgb, var(--hero-blue-dark) 35%, transparent) 100%
+        color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 0%,
+        color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 20%,
+        color-mix(in srgb, var(--hero-blue-dark) 95%, transparent) 35%,
+        color-mix(in srgb, var(--hero-blue-dark) 85%, transparent) 50%,
+        color-mix(in srgb, var(--hero-blue-dark) 70%, transparent) 65%,
+        color-mix(in srgb, var(--hero-blue-dark) 55%, transparent) 75%,
+        color-mix(in srgb, var(--hero-blue-dark) 40%, transparent) 85%,
+        color-mix(in srgb, var(--hero-blue-dark) 25%, transparent) 92%,
+        color-mix(in srgb, var(--hero-blue-dark) 15%, transparent) 100%
       );
     }
   }
