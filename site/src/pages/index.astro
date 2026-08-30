@@ -2820,7 +2820,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     height: 34px;
     font-size: 1.65rem;
   }
-  .bopa-support__rule { height: 1px; background: color-mix(in srgb, var(--mp-blue-bright) 60%, transparent); flex: 1; }
+  /* Filet de secours (owner a signalé le trait invisible, 2026-08-30) :
+     un navigateur sans support de color-mix() ignore silencieusement la
+     déclaration suivante et ignorerait tout aussi silencieusement le
+     background entier - sans cette ligne, le trait resterait totalement
+     transparent (aucune couleur de repli), invisible même si tout le reste
+     du site s'affiche normalement. rgba() ci-dessous est l'équivalent
+     figé de --bopa-cyan (#2db9e3) à 60% ; la ligne color-mix() suivante
+     prend le relais avec la vraie variable dès qu'elle est supportée. */
+  .bopa-support__rule {
+    height: 1px;
+    background: rgba(45, 185, 227, 0.6);
+    background: color-mix(in srgb, var(--mp-blue-bright) 60%, transparent);
+    flex: 1;
+  }
 
   /* Toute la largeur utile du container HOME, plus le max-width éditorial
      de 54rem/864px (owner, 2026-08-30) - même conteneur que le reste de
