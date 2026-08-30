@@ -833,7 +833,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <p class="support-donation-panel__security">Paiement sécurisé sur la plateforme de don de l'AP-HP.</p>
         </div>
         <div class="support-donation-panel__visual" aria-hidden="true">
-          <img src="/images/graphics/hand-heart-bopa-transparent.png" alt="" width="1136" height="1094" loading="lazy" decoding="async" />
+          <img src="/images/graphics/hand-heart-bopa-final.png" alt="" width="1438" height="1094" loading="lazy" decoding="async" />
         </div>
       </div>
 
@@ -2961,9 +2961,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     overflow: hidden;
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
-    background:
-      radial-gradient(circle at 76% 48%, color-mix(in srgb, var(--bopa-cyan) 22%, transparent), transparent 36%),
-      var(--mp-navy-deep);
+    /* Le radial-gradient cyan décoratif (centré à 76% - à peu près là où
+       vit le visuel main+cœur) a été retiré (owner, 2026-08-30 : "je ne
+       veux plus de grande auréole bleu ciel/bleu pétrole derrière le cœur
+       et la main") - fond bleu nuit uni, le maillage du PNG repose
+       directement dessus. */
+    background: var(--mp-navy-deep);
   }
   .support-donation-panel__content {
     padding: clamp(36px, 5vw, 64px);
@@ -3029,14 +3032,17 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        haut (owner, 2026-08-30). */
     min-height: 220px;
   }
-  /* Nouvel asset transparent (owner, 2026-08-30, pack "Image-Source-Inbox-A-Fleur-V2") :
-     hand-heart-bopa-transparent.png, PNG déjà croppé au poignet et déjà cadré,
-     fourni prêt à l'emploi - contrairement à l'ancien asset (fond noir plein,
-     nécessitant un crop CSS + mask-image), celui-ci ne doit recevoir AUCUNE
-     transformation qui changerait son cadrage (pas de translate/scale/
-     object-position/clip-path) : juste un ancrage à droite et un
-     dimensionnement proportionnel qui respecte ses proportions naturelles.
-     Le bleu nuit du panneau apparaît naturellement à travers la transparence.
+  /* Asset FINAL (owner, 2026-08-30, pack "Remplacement-Image-Transparent-
+     FINAL") : hand-heart-bopa-final.png - l'image d'origine validée,
+     nettoyée techniquement (fond noir et grande nappe/halo bleu diffus
+     supprimés, maillage/traits/points conservés, vraie transparence).
+     Remplace hand-heart-bopa-transparent.png, dont le halo restait visible.
+     Ratio différent du précédent (1438x1094 ≈ 1.314 contre 1136x1094 ≈
+     1.038) - ne doit recevoir AUCUNE transformation qui changerait son
+     cadrage (pas de translate/scale/object-position/clip-path) : juste un
+     ancrage à droite et un dimensionnement proportionnel qui respecte ses
+     proportions naturelles. Le bleu nuit du panneau apparaît naturellement
+     à travers la transparence.
      IMPORTANT : dimensionner via `width` (valeur définie, dérivée de la
      largeur - toujours définie - de la colonne grille), PAS via `height`
      couplée à un `max-width` de secours : testé en vrai sur ce moteur de
