@@ -198,8 +198,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     <div class="hero-wash" aria-hidden="true"></div>
     <div class="hero-gradient" aria-hidden="true"></div>
     <div class="hero-vignette" aria-hidden="true"></div>
-    <!-- 3. Flou de lisibilité, limité à la zone du texte (gauche). -->
-    <div class="hero-text-blur" aria-hidden="true"></div>
     <canvas id="hero-network" class="hero-network" aria-hidden="true"></canvas>
     <div class="wrap" data-reveal>
       <h1>Nous façonnons<br />le bloc opératoire<br /><em>de demain.</em></h1>
@@ -1316,24 +1314,30 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      pour le texte), transition longue et progressive sur presque toute la
      largeur, léger voile bleu nuit conservé jusqu'au bord droit (jamais de
      transparence totale). Un seul bleu (--hero-blue-dark) du bord gauche au
-     bord droit - un ancien deuxième stop vers --hero-blue-light (supprimé
-     avec ce correctif, 2026-08-30) changeait de teinte pile au centre de la
-     bande de transition, ce qui, combiné à une chute d'opacité concentrée
-     sur ~30% de la largeur (48%->78%), créait la sensation de "photo coupée
-     en deux" remontée par l'owner - six paliers d'opacité du même bleu,
-     étalés sur toute la largeur, corrigent les deux causes à la fois. */
+     bord droit - jamais de second stop vers une teinte différente : un
+     changement de teinte pile dans la bande de transition (essayé plus tôt)
+     créait une sensation de "photo coupée en deux".
+     Renforcé et rendu plus progressif (owner, 2026-08-30, pack "Hero-
+     Degrade-Sans-Flou-V2") : la baisse d'opacité se percevait encore vers
+     30-55% de la largeur - 7 paliers au lieu de 6, plus rapprochés dans
+     cette zone médiane (35/50/65% au lieu de 43/63%), et légèrement plus
+     opaques sur presque toute la largeur (vérifié point par point contre
+     l'ancienne courbe : plus haut partout sauf à 0%, où la différence
+     97%->95% est cosmétique). Aucun flou nulle part sur ce calque - la
+     fusion vient uniquement de cette interpolation d'opacité. */
   .hero-gradient {
     position: absolute;
     inset: 0;
     z-index: 2;
     background: linear-gradient(
       to right,
-      color-mix(in srgb, var(--hero-blue-dark) 97%, transparent) 0%,
-      color-mix(in srgb, var(--hero-blue-dark) 85%, transparent) 22%,
-      color-mix(in srgb, var(--hero-blue-dark) 64%, transparent) 43%,
-      color-mix(in srgb, var(--hero-blue-dark) 42%, transparent) 63%,
-      color-mix(in srgb, var(--hero-blue-dark) 26%, transparent) 83%,
-      color-mix(in srgb, var(--hero-blue-dark) 18%, transparent) 100%
+      color-mix(in srgb, var(--hero-blue-dark) 95%, transparent) 0%,
+      color-mix(in srgb, var(--hero-blue-dark) 89%, transparent) 20%,
+      color-mix(in srgb, var(--hero-blue-dark) 80%, transparent) 35%,
+      color-mix(in srgb, var(--hero-blue-dark) 66%, transparent) 50%,
+      color-mix(in srgb, var(--hero-blue-dark) 50%, transparent) 65%,
+      color-mix(in srgb, var(--hero-blue-dark) 34%, transparent) 80%,
+      color-mix(in srgb, var(--hero-blue-dark) 20%, transparent) 100%
     );
     pointer-events: none;
   }
@@ -1377,35 +1381,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     );
     opacity: var(--hero-vignette-opacity);
     pointer-events: none;
-  }
-
-  /* 3. Flou de lisibilité : seulement une bande à gauche, derrière le
-     texte, en flou dégressif (jamais un bord net) ; backdrop-filter
-     floute ce qu'il y a dessous (la photo), pas la photo elle-même. */
-  .hero-text-blur {
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    width: max(37rem, min(56vw, 45rem)); /* élargi (2026-08-27) pour suivre --hero-text-max-width, avec ~2rem de marge */
-    backdrop-filter: blur(16px);
-    mask-image: linear-gradient(to right, black 0%, black 55%, transparent 100%);
-    pointer-events: none;
-  }
-
-  /* Separate rules, not extra declarations above: the build's CSS
-     minifier treats a standard/-webkit- pair in the same block as
-     redundant duplicates and silently drops one (see the identical fix
-     on .site-header.is-scrolled in site.css for the full story). */
-  @supports not (backdrop-filter: blur(1px)) {
-    .hero-text-blur {
-      -webkit-backdrop-filter: blur(16px);
-    }
-  }
-
-  @supports not (mask-image: linear-gradient(black, black)) {
-    .hero-text-blur {
-      -webkit-mask-image: linear-gradient(to right, black 0%, black 55%, transparent 100%);
-    }
   }
 
   /* Canvas du maillage : dernière couche visuelle, au-dessus du texte.
@@ -1454,9 +1429,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     margin: var(--space-3) 0 0;
     /* Assez large pour que "hépato-bilio-pancréatique" (voir la balise
        .nowrap dessus) tienne sur 3 lignes sans se retrouver seul sur une
-       4e ; suit le même ratio vw que .hero-text-blur pour ne jamais
-       déborder de la zone floutée/lisible. Un simple ratio vw (même
-       généreux) ne suffisait pas : entre ~640px et ~1230px la police
+       4e ; suit le même ratio vw que --hero-text-max-width pour ne jamais
+       déborder de la zone où le dégradé garde le texte lisible (plus de
+       zone floutée depuis le 2026-08-30, la lisibilité vient uniquement
+       du dégradé). Un simple ratio vw (même généreux) ne suffisait pas :
+       entre ~640px et ~1230px la police
        reste bloquée à son minimum (clamp), donc la largeur disponible
        continuait de rétrécir avec le viewport sans que le texte
        rétrécisse - d'où le plancher fixe (34rem) qui garantit 3 lignes
@@ -1469,7 +1446,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   /* --hero-text-max-width and .lede's own max-width above are vw-based
-     to track the desktop blur zone - on a narrow phone that same ratio
+     to track the desktop text-legible zone (gradient-driven, no blur
+     since 2026-08-30) - on a narrow phone that same ratio
      caps the text at half the screen for no reason (there's no second
      column to leave room for). Full width instead, with a matching
      right inset. Placed after the base rules above so it actually wins
