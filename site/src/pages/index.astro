@@ -2712,13 +2712,14 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     overflow: hidden;
     background: var(--color-bg-tint);
     color: var(--color-ink);
-    /* Bottom padding fixed to var(--space-5) (2026-08-29 correctif),
-       pas un clamp() : c'est la même valeur exacte que #notre-vision (voir
-       son propre override d'id plus haut dans ce fichier), pour que
-       l'espace entre le bas des cartes et la fin de section soit
-       identique aux deux endroits, à toutes les largeurs - un clamp()
-       responsive ici ne pouvait matcher un fixe qu'à une seule largeur. */
-    padding: clamp(76px, 7vw, 118px) 0 var(--space-5);
+    /* Haut ET bas fixés à var(--space-5) (owner, 2026-08-29 puis 2026-08-30) -
+       pas des clamp() : même valeur exacte que #notre-vision (voir son
+       propre override d'id plus haut dans ce fichier) en bas, et même
+       espace eyebrow -> haut de section que Notre mission/Innovations/
+       Vision/Qui sommes-nous/Nous contacter en haut (mesuré 99.8px avant
+       ce correctif, contre 64px partout ailleurs) - un clamp() responsive
+       ne pouvait matcher un fixe qu'à une seule largeur. */
+    padding: var(--space-5) 0;
   }
 
   .bopa-support__inner {
