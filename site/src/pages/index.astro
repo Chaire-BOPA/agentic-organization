@@ -3148,12 +3148,17 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     z-index: 1;
     width: min(1180px, calc(100% - 48px));
     margin: 0 auto;
-    /* padding-top fixé à var(--space-5) (owner, 2026-08-30) : même espace
-       eyebrow -> haut de section que Notre Mission/Notre vision/Qui
-       sommes-nous (64px) - le clamp(72px,8vw,104px) précédent donnait
-       104px à cette largeur, mesuré en direct. Le bas garde son propre
-       clamp, non concerné par cette demande. */
-    padding: var(--space-5) 0 clamp(72px, 8vw, 104px);
+    /* padding-top ET padding-bottom fixés à var(--space-5) (owner,
+       2026-08-30, pack "Nous-Contacter-Equilibre-Haut-Bas-V5") : le haut
+       (64px, inchangé depuis le 2026-08-30 précédent) reste la référence
+       - le bas utilisait encore son propre clamp(72px,8vw,104px), qui
+       résolvait à 102.4px à 1280px de large (mesuré en direct) contre
+       64px en haut, donc visuellement asymétrique. Même valeur FIXE des
+       deux côtés (pas juste un clamp ajusté pour matcher à une seule
+       largeur) garantit A = B à toute largeur d'écran, pas seulement au
+       point de mesure. Seul le padding-bottom change ici ; le cadre
+       blanc lui-même ne bouge pas (padding-top intact). */
+    padding: var(--space-5) 0;
     display: grid;
     /* Rééquilibré (owner, 2026-08-30, pack "Nous-Contacter-Compact-V2") :
        ~39%/61% (.78fr/1.22fr) avant correctif -> ~47%/53%, pour que les
