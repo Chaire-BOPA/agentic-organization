@@ -3200,15 +3200,24 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   .bopa-contact__kicker {
-    margin: 10px 0 0;
+    margin: 6px 0 0;
     color: var(--mp-blue-bright);
     font-weight: 650;
     font-size: clamp(1.05rem, 1.4vw, 1.3rem);
     line-height: 1.3;
   }
 
+  /* Réduit (owner, 2026-08-30, pack "Nous-Contacter-Compact-Hauteur-V1") :
+     `.bopa-contact__intro` est un flex-column étiré à la hauteur du
+     formulaire (`align-items:stretch` sur le grid parent,
+     `justify-content:space-between`) - cette marge est l'un des rares
+     leviers à vraiment abaisser la hauteur NATURELLE (non étirée) de la
+     colonne de texte elle-même, qui devient la contrainte dès que le
+     formulaire est rendu plus compact qu'elle (measured en direct :
+     réduire cette seule marge fait bien baisser la hauteur réelle de
+     section une fois le formulaire déjà compacté plus bas). */
   .bopa-contact__intro-middle {
-    margin: clamp(28px, 4vh, 44px) 0;
+    margin: clamp(18px, 2.6vh, 28px) 0;
   }
 
   .bopa-contact__text {
@@ -3217,7 +3226,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.7;
   }
-  .bopa-contact__text + .bopa-contact__text { margin-top: 14px; }
+  .bopa-contact__text + .bopa-contact__text { margin-top: 10px; }
   .bopa-contact__highlight { color: var(--bopa-cyan); }
 
   .bopa-contact__details {
@@ -3277,7 +3286,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .bopa-contact__grid label {
     display: grid;
     gap: 5px;
-    margin-bottom: 11px;
+    margin-bottom: 6px;
   }
 
   .bopa-contact__form label > span:first-child,
@@ -3316,14 +3325,36 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 12%, transparent);
   }
 
-  .bopa-contact textarea { resize: vertical; min-height: 96px; }
+  /* Champs Nom/Prénom/Email/Sujet resserrés verticalement (owner,
+     2026-08-30, pack "Nous-Contacter-Compact-Hauteur-V1") - padding-block
+     seul touché, taille de police et padding-inline inchangés. */
+  .bopa-contact input,
+  .bopa-contact select {
+    padding-block: 5px;
+  }
+
+  /* Le textarea avait un `min-height:96px` depuis toujours, mais
+     l'attribut HTML `rows="7"` (markup) dominait silencieusement ce
+     min-height - mesuré en direct : 184px de haut réels, jamais 96px,
+     min-height ne pouvant jamais RÉDUIRE une taille intrinsèque plus
+     grande, seulement la plafonner par en dessous. `height` (au lieu de
+     min-height seul) force la valeur réellement voulue, rows="7" ou pas -
+     c'est le principal levier de ce correctif, ramené à sa valeur
+     `min-height` déjà prévue à l'origine (96px), jamais réellement
+     appliquée jusqu'ici. */
+  .bopa-contact textarea {
+    resize: vertical;
+    height: 96px;
+    min-height: 96px;
+    padding-block: 8px;
+  }
 
   .bopa-contact__consent {
     display: flex !important;
     grid-template-columns: none !important;
     gap: 9px !important;
     align-items: flex-start;
-    margin: 3px 0 0 !important;
+    margin: 2px 0 0 !important;
     color: var(--color-muted);
     font-size: .78rem;
     line-height: 1.4;
@@ -3340,7 +3371,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .bopa-contact__actions {
     display: flex;
     justify-content: flex-end;
-    margin-top: 16px;
+    margin-top: 8px;
   }
 
   /* Bouton corrigé (correctif "Nous-Contacter-FINAL", 2026-08-29) : largeur
@@ -3393,7 +3424,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       justify-content: flex-start;
       min-height: auto;
     }
-    .bopa-contact__intro-middle { margin: 24px 0; }
+    /* Resserré (owner, 2026-08-30, pack "Nous-Contacter-Compact-Hauteur-V1") :
+       ici, contrairement au desktop, `.bopa-contact__intro` n'est plus
+       étiré/space-between (justify-content:flex-start, min-height:auto
+       juste au-dessus) - cette marge est le SEUL mécanisme d'espacement,
+       donc la réduire a un effet direct et réel sur l'écart visuel. */
+    .bopa-contact__intro-middle { margin: 18px 0; }
     .bopa-contact__details { margin-top: 4px; }
   }
 
