@@ -968,9 +968,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     // n'en a pas non plus - l'intensité vient uniquement de l'opacité).
     // Densité et taille des points réduites (~42% et ~35%) pour rester plus
     // aérien qu'un "Nous contacter" en plus petit format.
+    // Densité relevée de ~12% (pack "Hero-Maillage-Densite-Legere-V2",
+    // 2026-08-30), concentrée dans deux poches via densityZoneWeight()
+    // ci-dessous - style des points/lignes intact, seul le nombre change.
     const NETWORK_CONFIG = {
-      pointCountDesktop: 46, // nombre de points sur grand écran (était 80, -42.5%)
-      pointCountMobile: 18, // nombre de points sur mobile (était 32, -43.75%)
+      pointCountDesktop: 52, // nombre de points sur grand écran (était 46, +13%)
+      pointCountMobile: 20, // nombre de points sur mobile (était 18, +11%)
       mobileBreakpoint: 640, // largeur (px) en dessous de laquelle on est "mobile"
 
       baseOpacity: 0.42, // opacité cyan au repos, modérée (fixe, plus de respiration)
@@ -1062,6 +1065,26 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           return Math.min(1, weight * centerFactor);
         }
 
+        // Multiplicateur additionnel (pack "Hero-Maillage-Densite-Legere-
+        // V2") appliqué par-dessus presenceWeight, sans le remplacer : +10%
+        // en bas gauche/centre-gauche (sous le texte), +8% en centre-droit
+        // (zone écran/bras), -10% directement derrière le titre/paragraphe
+        // pour que cette zone reste la plus calme malgré la densité globale
+        // en hausse. Neutre (1) partout ailleurs.
+        function densityZoneWeight(xRatio: number, yRatio: number) {
+          let weight = 1;
+
+          const zoneA = xRatio >= 0.1 && xRatio <= 0.45 && yRatio >= 0.55 && yRatio <= 0.95;
+          const zoneB = xRatio >= 0.5 && xRatio <= 0.82 && yRatio >= 0.3 && yRatio <= 0.85;
+          const titleZone = xRatio <= 0.4 && yRatio <= 0.55;
+
+          if (zoneA) weight += 0.1;
+          if (zoneB) weight += 0.08;
+          if (titleZone) weight -= 0.1;
+
+          return weight;
+        }
+
         // Génère les points par échantillonnage pondéré : on tire des
         // positions uniformes et on ne garde que celles dont le poids de
         // présence "gagne" un tirage aléatoire, jusqu'à atteindre le
@@ -1077,7 +1100,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             attempts++;
             const xRatio = Math.random();
             const yRatio = Math.random();
-            const weight = presenceWeight(xRatio, yRatio);
+            const weight = Math.min(1, presenceWeight(xRatio, yRatio) * densityZoneWeight(xRatio, yRatio));
             if (Math.random() > weight) continue;
 
             const baseX = xRatio * width;
