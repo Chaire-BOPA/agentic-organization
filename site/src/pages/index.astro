@@ -831,7 +831,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
       <div class="support-donation-panel" data-reveal>
         <div class="support-donation-panel__content">
-          <h3>Faites avancer l'innovation</h3>
+          <h3>Faites avancer l'innovation en chirurgie avec nous.</h3>
           <p>
             Chaque don, quel que soit son montant, contribue concrètement à faire émerger,
             tester et déployer de nouvelles solutions au service des patients et des équipes soignantes.
@@ -2735,8 +2735,13 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      grand titre équivalent au H2 de Notre Mission vit maintenant dans
      l'encadré bleu juste en dessous ("Faites avancer l'innovation",
      .support-donation-panel h3). */
+  /* Resserré franchement (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
+     clamp(40px,4vw,56px) laissait un grand vide entre "Nous soutenir" et le
+     CTA - la vraie source du vide (le seul enfant entre le titre et le CTA
+     dans .bopa-support__inner, en flux normal). Réduit à une respiration
+     courte, pas une marge négative bricolée. */
   .bopa-support__heading {
-    margin-bottom: clamp(40px, 4vw, 56px);
+    margin-bottom: clamp(16px, 1.6vw, 22px);
   }
 
   .bopa-support__eyebrow {
@@ -2831,19 +2836,23 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     line-height: 1.52;
   }
 
+  /* Compacté ~25% (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
+     plus de min-height rigide - c'est justement lui (avec le min-height:430px
+     jumeau sur l'image plus bas) qui forçait le bloc à rester haut même une
+     fois le padding et les marges internes réduits. La hauteur vient
+     maintenant uniquement du contenu + padding, responsive par nature. */
   .support-donation-panel {
-    min-height: 430px;
     border: 1px solid color-mix(in srgb, var(--mp-blue-bright) 55%, transparent);
     border-radius: var(--radius-lg);
     overflow: hidden;
     display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(350px, .92fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
     background:
       radial-gradient(circle at 76% 48%, color-mix(in srgb, var(--bopa-cyan) 22%, transparent), transparent 36%),
       var(--mp-navy-deep);
   }
   .support-donation-panel__content {
-    padding: clamp(38px, 5vw, 62px);
+    padding: clamp(36px, 5vw, 64px);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -2864,18 +2873,21 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     font-weight: 600;
   }
   .support-donation-panel__content > p:not(.support-donation-panel__security) {
-    margin: 25px 0 29px;
+    margin: 14px 0 18px;
     max-width: 47ch;
     color: rgba(255,255,255,.9);
     line-height: 1.58;
   }
+  /* Padding vertical réduit ~25% (17px -> 13px) pour un bouton nettement
+     moins haut (owner, 2026-08-30) - horizontal inchangé, garde un bouton
+     premium, pas une bannière. */
   .support-donation-panel__cta {
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
     gap: 28px;
     min-width: min(100%, 325px);
-    padding: 17px 23px;
+    padding: 13px 23px;
     background: var(--mp-blue-bright);
     color: #fff;
     text-decoration: none;
@@ -2887,29 +2899,44 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     .support-donation-panel__cta:hover { background: var(--bopa-blue-1); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35); }
   }
   .support-donation-panel__security {
-    margin: 14px 0 0;
+    margin: 9px 0 0;
     color: rgba(255,255,255,.68);
     font-size: .82rem;
   }
   .support-donation-panel__visual {
     position: relative;
-    min-height: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     overflow: hidden;
+    /* Hauteur calée sur la colonne texte (align-items:stretch hérité de la
+       grille .support-donation-panel), plus de min-height:100% + image en
+       min-height:430px qui forçaient la hauteur du bloc entier - voir plus
+       haut (owner, 2026-08-30). */
+    min-height: 220px;
   }
-  /* Asset UHD transparent tel que fourni (pack V2, 2026-08-29) - contain +
-     alignement droite, léger débordement autorisé plutôt que cover/crop
-     arbitraire, pour rester fidèle à la référence. */
+  /* Nouvel asset "validé" (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
+     01-ASSET-MAIN-COEUR-VALIDE.png, fond noir plein (pas de transparence,
+     contrairement à l'ancien asset UHD) et avant-bras trop long à droite.
+     Crop géré en CSS, pas dans le fichier: l'image est agrandie et ancrée
+     à gauche dans un wrapper overflow:hidden, ce qui pousse l'excédent
+     d'avant-bras hors du cadre visible - donc pas de "grosse marge
+     négative bricolée", juste une largeur/position calculées. Le fond noir
+     de l'image (RGB 0,0,0 vérifié aux quatre coins) est fondu vers
+     transparent sur les bords via mask-image pour se fondre dans le
+     dégradé bleu nuit du panneau plutôt que de dessiner un rectangle noir
+     dessus. */
   .support-donation-panel__visual img {
     display: block;
-    width: 112%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 142%;
     max-width: none;
-    height: 100%;
-    min-height: 430px;
-    object-fit: contain;
-    object-position: right center;
+    height: auto;
+    transform: translateY(-46%);
+    -webkit-mask-image: linear-gradient(to right, #000 78%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 78%, transparent 100%);
   }
 
   @media (max-width: 900px) {
@@ -2920,9 +2947,25 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     .bopa-support__grid--three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .bopa-support__grid--three > :last-child { grid-column: 1 / -1; }
     .support-partner-card { min-height: 0; }
+    /* Panneau empilé (image sous le texte) : le crop ancré à gauche du
+       desktop (pensé pour un visuel qui partage la ligne avec le texte)
+       montrait tout le fond noir de l'image en pile pleine largeur - vraie
+       régression trouvée en vérifiant ce palier, pas juste "adapter la même
+       recette". object-fit:cover recadre pour remplir le cadre sans aucune
+       marge noire visible, quel que soit le ratio du conteneur. */
     .support-donation-panel { grid-template-columns: 1fr; }
-    .support-donation-panel__visual { min-height: 260px; justify-content: center; }
-    .support-donation-panel__visual img { width: 82%; height: auto; min-height: 0; max-height: 260px; }
+    .support-donation-panel__visual { height: 260px; min-height: 0; }
+    .support-donation-panel__visual img {
+      position: static;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      object-fit: cover;
+      object-position: 46% 42%;
+      transform: none;
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
   }
 
   @media (max-width: 680px) {
