@@ -1272,7 +1272,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      ======================================================================= */
   .hero {
     --hero-blue-dark: #081f4a; /* bleu marine profond et saturé (bord gauche du dégradé) - jamais noir */
-    --hero-blue-light: #4fb8e0; /* bleu clair (bord droit, légèrement teinté, pas transparent) */
     --hero-wash-opacity: 0.35; /* colorisation froide uniforme sur toute la photo */
     --hero-vignette-opacity: 0.55; /* intensité de la vignette (jamais noire) */
     --hero-text-max-width: max(35rem, min(54vw, 43rem)); /* largeur du bloc de texte - plancher fixe ajouté (2026-08-27) pour garder le lede en 3 lignes après l'harmonisation typographique, y compris aux largeurs où la police reste bloquée à son minimum */
@@ -1334,20 +1333,56 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   /* 2b. Le grand dégradé horizontal : nuit profonde à gauche (contraste
-     pour le texte), transition douce, bleu clair à droite qui laisse la
-     photo se révéler presque nature. */
+     pour le texte), transition longue et progressive sur presque toute la
+     largeur, léger voile bleu nuit conservé jusqu'au bord droit (jamais de
+     transparence totale). Un seul bleu (--hero-blue-dark) du bord gauche au
+     bord droit - un ancien deuxième stop vers --hero-blue-light (supprimé
+     avec ce correctif, 2026-08-30) changeait de teinte pile au centre de la
+     bande de transition, ce qui, combiné à une chute d'opacité concentrée
+     sur ~30% de la largeur (48%->78%), créait la sensation de "photo coupée
+     en deux" remontée par l'owner - six paliers d'opacité du même bleu,
+     étalés sur toute la largeur, corrigent les deux causes à la fois. */
   .hero-gradient {
     position: absolute;
     inset: 0;
     z-index: 2;
     background: linear-gradient(
       to right,
-      color-mix(in srgb, var(--hero-blue-dark) 99%, transparent) 0%,
-      color-mix(in srgb, var(--hero-blue-dark) 90%, transparent) 48%,
-      color-mix(in srgb, var(--hero-blue-light) 40%, transparent) 78%,
-      color-mix(in srgb, var(--hero-blue-light) 22%, transparent) 100%
+      color-mix(in srgb, var(--hero-blue-dark) 97%, transparent) 0%,
+      color-mix(in srgb, var(--hero-blue-dark) 85%, transparent) 22%,
+      color-mix(in srgb, var(--hero-blue-dark) 64%, transparent) 43%,
+      color-mix(in srgb, var(--hero-blue-dark) 42%, transparent) 63%,
+      color-mix(in srgb, var(--hero-blue-dark) 26%, transparent) 83%,
+      color-mix(in srgb, var(--hero-blue-dark) 18%, transparent) 100%
     );
     pointer-events: none;
+  }
+
+  /* Le dégradé desktop, mesuré en vivo, retombe à ~25% d'opacité vers 85%
+     de la largeur - or le H1 s'étend justement jusqu'à 85% de la largeur
+     du Hero sur mobile (--hero-text-max-width plafonne à 35rem, plus
+     large que le viewport en dessous de ~640px), donc le texte finissait
+     sur un fond quasi transparent. Même logique de dégradé progressif
+     multi-stops, un seul bleu, mais une courbe globalement plus opaque et
+     étalée plus loin (owner : "accepté que l'overlay soit plus opaque sur
+     petit écran, tant qu'il reste progressif") - la baisse ne devient
+     marquée qu'après 70%, une fois le texte passé. Placé APRÈS la règle de
+     base (pas dans le bloc média `.hero` plus haut) : à spécificité égale,
+     une règle non conditionnelle placée plus bas dans le fichier bat une
+     règle conditionnelle placée plus haut, peu importe si son media query
+     matche - piège vérifié en vivo (owner, 2026-08-30). */
+  @media (max-width: 40rem) {
+    .hero-gradient {
+      background: linear-gradient(
+        to right,
+        color-mix(in srgb, var(--hero-blue-dark) 97%, transparent) 0%,
+        color-mix(in srgb, var(--hero-blue-dark) 90%, transparent) 25%,
+        color-mix(in srgb, var(--hero-blue-dark) 78%, transparent) 50%,
+        color-mix(in srgb, var(--hero-blue-dark) 62%, transparent) 70%,
+        color-mix(in srgb, var(--hero-blue-dark) 48%, transparent) 85%,
+        color-mix(in srgb, var(--hero-blue-dark) 35%, transparent) 100%
+      );
+    }
   }
 
   /* 2c. Vignette discrète, toujours dans les tons bleu nuit (jamais noire). */
