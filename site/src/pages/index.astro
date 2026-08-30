@@ -959,35 +959,40 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     // ---------------------------------------------------------------------
 
     // ---- Réglages principaux : à ajuster ici, rien d'autre à toucher ----
+    // Repris sur la logique EXACTE du maillage de "Nous contacter"
+    // (site/src/scripts/contact-mesh.js, pack "Hero-Maillage-Cyan-Alleger-V1",
+    // 2026-08-30) : cyan du design system au lieu du blanc-bleuté codé en dur,
+    // opacité de base statique (la respiration sinusoïdale précédente est
+    // retirée - contact-mesh n'en a pas, et sa combinaison avec le glow
+    // lisait comme un "clignotement"), et aucun glow/shadowBlur (contact-mesh
+    // n'en a pas non plus - l'intensité vient uniquement de l'opacité).
+    // Densité et taille des points réduites (~42% et ~35%) pour rester plus
+    // aérien qu'un "Nous contacter" en plus petit format.
     const NETWORK_CONFIG = {
-      pointCountDesktop: 80, // nombre de points sur grand écran
-      pointCountMobile: 32, // nombre de points sur mobile (perf)
+      pointCountDesktop: 46, // nombre de points sur grand écran (était 80, -42.5%)
+      pointCountMobile: 18, // nombre de points sur mobile (était 32, -43.75%)
       mobileBreakpoint: 640, // largeur (px) en dessous de laquelle on est "mobile"
 
-      opacityMin: 0.32, // opacité minimale au repos (respiration) - nettement plus visible
-      opacityMax: 0.75, // opacité maximale au repos (respiration)
-      breatheSpeed: 0.0006, // vitesse de la respiration (plus petit = plus lent)
+      baseOpacity: 0.42, // opacité cyan au repos, modérée (fixe, plus de respiration)
+      hoverOpacityBoost: 0.38, // supplément d'opacité max apporté par la proximité souris
+      maxOpacity: 0.85, // plafond, identique à celui de contact-mesh
 
       driftSpeed: 0.0004, // vitesse du léger déplacement de certains points
       driftAmount: 3, // amplitude du déplacement (px)
       driftPointRatio: 0.35, // proportion de points qui dérivent un peu (les autres restent fixes)
 
       connectionDistance: 120, // distance max (px) pour relier deux points par une ligne
-      lineOpacityMax: 0.38, // opacité max d'une ligne (à distance nulle)
+      lineOpacityMax: 0.2, // opacité max d'une ligne au repos (était 0.38 - plus discrète)
+      lineHoverBoost: 0.12, // supplément d'opacité pour les lignes proches de la souris (reste secondaire)
       lineWidth: 0.8, // épaisseur des lignes (px)
 
       mouseRadius: 200, // rayon (px) d'influence de la souris autour d'un point
-      mouseBoost: 0.4, // opacité supplémentaire max apportée par la proximité de la souris
       mouseDisplace: 7, // déplacement max (px) d'un point proche du curseur
       mouseConnectionBoost: 1.4, // multiplicateur de connectionDistance près du curseur
       mouseEase: 0.08, // vitesse de rappel/suivi vers la position cible (0-1, plus petit = plus doux)
 
-      dotSizeMin: 2, // taille mini d'un point (px)
-      dotSizeMax: 4, // taille maxi d'un point (px)
-      glowBlur: 15, // flou du halo autour des points (shadowBlur) - halo bien plus présent
-
-      dotColor: '225, 242, 255', // couleur des points, "r, g, b" (blanc légèrement bleuté, plus lumineux)
-      lineColor: '225, 242, 255', // couleur des lignes, même teinte
+      dotSizeMin: 1.3, // taille mini d'un point (px) (était 2, -35%)
+      dotSizeMax: 2.6, // taille maxi d'un point (px) (était 4, -35%)
     };
 
     const canvas = document.getElementById('hero-network') as HTMLCanvasElement | null;
@@ -996,6 +1001,17 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     if (canvas && heroSection) {
       const ctx = canvas.getContext('2d');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Lit --bopa-cyan sur le Hero plutôt qu'une couleur codée en dur (même
+      // principe que contact-mesh.js) : si le token change un jour, ce
+      // maillage suit sans retouche.
+      const cyanHex = getComputedStyle(heroSection).getPropertyValue('--bopa-cyan').trim() || '#2db9e3';
+      function cyanRgba(alpha: number) {
+        let s = cyanHex.replace('#', '');
+        if (s.length === 3) s = s.split('').map((c) => c + c).join('');
+        const n = parseInt(s, 16);
+        return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
+      }
 
       if (ctx) {
         type Point = {
@@ -1118,12 +1134,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           ctx.clearRect(0, 0, width, height);
 
           for (const p of points) {
-            // Respiration lente de l'opacité (indépendante par point via phase).
-            const breathe =
-              NETWORK_CONFIG.opacityMin +
-              (NETWORK_CONFIG.opacityMax - NETWORK_CONFIG.opacityMin) *
-                (0.5 + 0.5 * Math.sin(time * NETWORK_CONFIG.breatheSpeed + p.phase));
-
             // Léger déplacement, seulement pour une partie des points.
             if (p.drifts) {
               p.x = p.baseX + Math.sin(time * NETWORK_CONFIG.driftSpeed + p.phase) * NETWORK_CONFIG.driftAmount;
@@ -1160,12 +1170,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
             const drawX = p.x + p.offsetX;
             const drawY = p.y + p.offsetY;
-            const opacity = Math.min(1, breathe + NETWORK_CONFIG.mouseBoost * mouseInfluence) * p.fade;
+            const opacity =
+              Math.min(NETWORK_CONFIG.maxOpacity, NETWORK_CONFIG.baseOpacity + NETWORK_CONFIG.hoverOpacityBoost * mouseInfluence) *
+              p.fade;
 
             ctx.beginPath();
-            ctx.fillStyle = `rgba(${NETWORK_CONFIG.dotColor}, ${opacity})`;
-            ctx.shadowColor = `rgba(${NETWORK_CONFIG.dotColor}, ${opacity * 0.8})`;
-            ctx.shadowBlur = NETWORK_CONFIG.glowBlur;
+            ctx.fillStyle = cyanRgba(opacity);
             ctx.arc(drawX, drawY, p.size, 0, Math.PI * 2);
             ctx.fill();
 
@@ -1174,8 +1184,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             (p as any)._drawY = drawY;
             (p as any)._mouseInfluence = mouseInfluence;
           }
-
-          ctx.shadowBlur = 0;
 
           // Lignes entre points proches (+ connexions temporaires élargies
           // près du curseur).
@@ -1193,11 +1201,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
                 : NETWORK_CONFIG.connectionDistance;
 
               if (dist < maxDist) {
-                const lineOpacity =
+                let lineOpacity =
                   (1 - dist / maxDist) * NETWORK_CONFIG.lineOpacityMax * Math.min(a.fade, b.fade);
+                lineOpacity += NETWORK_CONFIG.lineHoverBoost * Math.max(a._mouseInfluence, b._mouseInfluence);
                 if (lineOpacity <= 0.005) continue;
                 ctx.beginPath();
-                ctx.strokeStyle = `rgba(${NETWORK_CONFIG.lineColor}, ${lineOpacity})`;
+                ctx.strokeStyle = cyanRgba(lineOpacity);
                 ctx.lineWidth = NETWORK_CONFIG.lineWidth;
                 ctx.moveTo(a._drawX, a._drawY);
                 ctx.lineTo(b._drawX, b._drawY);
@@ -1213,10 +1222,9 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         // pas de boucle d'animation, pas de suivi de souris.
         function drawStaticFrame() {
           ctx.clearRect(0, 0, width, height);
-          const midOpacity = (NETWORK_CONFIG.opacityMin + NETWORK_CONFIG.opacityMax) / 2;
           for (const p of points) {
             ctx.beginPath();
-            ctx.fillStyle = `rgba(${NETWORK_CONFIG.dotColor}, ${midOpacity * p.fade})`;
+            ctx.fillStyle = cyanRgba(NETWORK_CONFIG.baseOpacity * p.fade);
             ctx.arc(p.baseX, p.baseY, p.size, 0, Math.PI * 2);
             ctx.fill();
           }
