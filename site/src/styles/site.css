@@ -443,7 +443,8 @@ button {
    flou premium derrière, et une ombre discrète qui le détache du contenu. */
 .site-header.is-scrolled {
   padding: 0.5rem var(--space-4);
-  background: rgba(255, 255, 255, 0.78);
+  /* Un peu plus transparent (owner, 2026-08-30) : 0.78 -> 0.62. */
+  background: rgba(255, 255, 255, 0.62);
   backdrop-filter: blur(14px);
   box-shadow: 0 8px 28px rgba(4, 35, 56, 0.08);
 }
