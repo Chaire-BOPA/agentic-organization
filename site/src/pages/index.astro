@@ -1318,16 +1318,18 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      changement de teinte pile dans la bande de transition (essayé plus tôt)
      créait une sensation de "photo coupée en deux".
      Gauche rendue franchement opaque (owner, 2026-08-30, pack "Hero-
-     Degrade-Opaque-Gauche-V3") : 0-20% est un plateau à 100% (la photo doit
-     être quasi invisible sous le texte). Zone gauche validée telle quelle
-     depuis - le pack suivant ("Hero-Degrade-Bleu-Prolonge-V4") n'a touché
-     QUE les paliers 40/50/60/70/82% (bleu nuit prolongé plus loin dans le
-     centre de la photo, 85/70/55/40/25 -> 88/78/65/50/32), 0/20/30/100%
-     restant identiques à V3. Pente vérifiée segment par segment après ce
-     changement (0.5/0.7/1.0/1.3/1.5/1.5/1.06 pt d'opacité par % de largeur)
-     - aucun saut brutal, pas de retour à l'effet "deux moitiés". Aucun flou
-     nulle part sur ce calque - la fusion vient uniquement de cette
-     interpolation d'opacité. */
+     Degrade-Opaque-Gauche-V3") : plateau à 100% en tête de courbe (la photo
+     doit être quasi invisible sous le texte), suivi de paliers dégressifs.
+     Deux ajustements ultérieurs le même jour ont affiné cette même courbe
+     sans en changer le principe : "Hero-Degrade-Bleu-Prolonge-V4" a monté
+     les paliers du centre (85/70/55/40/25 -> 88/78/65/50/32) et "Hero-
+     Opaque-Plus-Etendu-V5" a très légèrement étendu le plateau (20% -> 24%)
+     et remonté encore le centre (88/78/65/50/32 -> 96/90/82/70/56/36),
+     l'idée du bleu soutenu accompagnant la photo jusqu'à ~70-75% avant de
+     s'effacer. Pente vérifiée segment par segment après V5 (0.5/0.6/0.8/
+     1.2/1.4/1.67/1.375 pt d'opacité par % de largeur) - aucun saut brutal,
+     pas de retour à l'effet "deux moitiés". Aucun flou nulle part sur ce
+     calque - la fusion vient uniquement de cette interpolation d'opacité. */
   .hero-gradient {
     position: absolute;
     inset: 0;
@@ -1335,14 +1337,14 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     background: linear-gradient(
       to right,
       color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 0%,
-      color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 20%,
-      color-mix(in srgb, var(--hero-blue-dark) 95%, transparent) 30%,
-      color-mix(in srgb, var(--hero-blue-dark) 88%, transparent) 40%,
-      color-mix(in srgb, var(--hero-blue-dark) 78%, transparent) 50%,
-      color-mix(in srgb, var(--hero-blue-dark) 65%, transparent) 60%,
-      color-mix(in srgb, var(--hero-blue-dark) 50%, transparent) 70%,
-      color-mix(in srgb, var(--hero-blue-dark) 32%, transparent) 82%,
-      color-mix(in srgb, var(--hero-blue-dark) 13%, transparent) 100%
+      color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 24%,
+      color-mix(in srgb, var(--hero-blue-dark) 96%, transparent) 32%,
+      color-mix(in srgb, var(--hero-blue-dark) 90%, transparent) 42%,
+      color-mix(in srgb, var(--hero-blue-dark) 82%, transparent) 52%,
+      color-mix(in srgb, var(--hero-blue-dark) 70%, transparent) 62%,
+      color-mix(in srgb, var(--hero-blue-dark) 56%, transparent) 72%,
+      color-mix(in srgb, var(--hero-blue-dark) 36%, transparent) 84%,
+      color-mix(in srgb, var(--hero-blue-dark) 14%, transparent) 100%
     );
     pointer-events: none;
   }
@@ -1360,17 +1362,22 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      simplement étalée sur les mêmes paliers x plus tardifs qu'avant
      (35/50/65/75/85/92% au lieu de 25/50/70/85%) puisque le texte mobile va
      plus loin - vérifiée point par point >= la courbe desktop interpolée à
-     chaque palier commun. Placé APRÈS la règle de base (pas dans le bloc
-     média `.hero` plus haut) : à spécificité égale, une règle non
-     conditionnelle placée plus bas dans le fichier bat une règle
-     conditionnelle placée plus haut, peu importe si son media query
-     matche - piège vérifié en vivo (owner, 2026-08-30). */
+     chaque palier commun. Pack "Hero-Opaque-Plus-Etendu-V5" (même jour) :
+     seul le début du plateau a dû bouger (20% -> 24%, identique au
+     desktop) pour que l'invariant tienne encore - le desktop avait
+     temporairement dépassé ce mobile dans la fenêtre 24-35% (jusqu'à ~1.2pt
+     d'écart, recalculé point par point) une fois son propre plateau étendu,
+     sans que le reste de la forme mobile ait besoin de changer. Placé
+     APRÈS la règle de base (pas dans le bloc média `.hero` plus haut) : à
+     spécificité égale, une règle non conditionnelle placée plus bas dans
+     le fichier bat une règle conditionnelle placée plus haut, peu importe
+     si son media query matche - piège vérifié en vivo (owner, 2026-08-30). */
   @media (max-width: 40rem) {
     .hero-gradient {
       background: linear-gradient(
         to right,
         color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 0%,
-        color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 20%,
+        color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 24%,
         color-mix(in srgb, var(--hero-blue-dark) 95%, transparent) 35%,
         color-mix(in srgb, var(--hero-blue-dark) 88%, transparent) 50%,
         color-mix(in srgb, var(--hero-blue-dark) 78%, transparent) 65%,
