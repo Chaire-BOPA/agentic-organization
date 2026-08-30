@@ -2754,12 +2754,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     text-transform: uppercase;
   }
 
-  .bopa-support__group { margin-top: clamp(54px, 6vw, 82px); }
+  /* Remonté franchement sous le CTA (owner, 2026-08-30, pack
+     "3-Fondations-Compact-V1") : 82px (clamp 54-82) mesuré en direct à
+     1425px - beaucoup plus qu'une "petite respiration élégante". Seule
+     source réelle du vide (rien d'autre ne sépare le CTA de ce groupe en
+     flux normal), pas de marge négative bricolée. */
+  .bopa-support__group { margin-top: clamp(28px, 2.6vw, 34px); }
   .bopa-support__group-title {
     display: flex;
     align-items: center;
     gap: 18px;
-    margin-bottom: 24px;
+    /* Resserré (owner, 2026-08-30) : 24px collapsait déjà avec le
+       margin-top du paragraphe (24px mesuré en direct, le max des deux) -
+       trop pour "beaucoup moins de vide" entre le trait et le texte. */
+    margin-bottom: 10px;
     color: var(--mp-blue-bright);
   }
   .bopa-support__group-title h3 {
@@ -2779,9 +2787,16 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
   .bopa-support__rule { height: 1px; background: color-mix(in srgb, var(--mp-blue-bright) 60%, transparent); flex: 1; }
 
+  /* Toute la largeur utile du container HOME, plus le max-width éditorial
+     de 54rem/864px (owner, 2026-08-30) - même conteneur que le reste de
+     Nous soutenir (.bopa-support__inner, 1320px), pas une nouvelle valeur.
+     margin-top à 0 : avec .bopa-support__group-title resserré ci-dessus,
+     c'est lui qui fixe déjà l'écart trait -> paragraphe (les marges
+     adjacentes se combinent au plus grand des deux, pas en s'additionnant). */
   .bopa-support__group-intro {
-    margin: 14px 0 0;
-    max-width: 54rem;
+    margin: 0;
+    max-width: none;
+    width: 100%;
     color: var(--color-muted);
     font-size: clamp(1rem, 1.15vw, 1.05rem);
     line-height: 1.6;
@@ -2805,7 +2820,16 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   /* Cartes fondations : logo seul, centré horizontalement et verticalement,
      aucun texte descriptif (pack V2, 2026-08-29) - à la différence des
      cartes mécènes ci-dessous, qui gardent logo + description. */
+  /* Resserrées largement autour du logo (owner, 2026-08-30, pack
+     "3-Fondations-Compact-V1") - min-height:270px (hérité de la base
+     partagée avec les cartes mécènes ci-dessous, qui restent inchangées)
+     forçait ces cartes à rester hautes bien au-delà du logo. Seul
+     `--foundation` est touché ici, pas `.support-partner-card` ni
+     `--wide` : largeur, logo, fond, bordure, radius restent ceux de la
+     base partagée, seule la hauteur de CETTE variante change. */
   .support-partner-card--foundation {
+    min-height: 0;
+    padding-block: 22px;
     align-items: center;
     justify-content: center;
   }
