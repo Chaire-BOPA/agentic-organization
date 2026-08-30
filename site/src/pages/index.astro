@@ -170,11 +170,6 @@ const ecoPoints = [
 const ecoConclusionIcon =
   '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="9.5" r="5.5" stroke="currentColor" stroke-width="1.6"/><path d="M9 14l-1.6 6.5 4.6-2.3 4.6 2.3L15 14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.6 9.5l1.7 1.7 3.1-3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-// "Nous contacter" (pack "Nous-Contacter-Exact-V1", 2026-08-29) - même
-// picto localisation que ecoIcons[1], réutilisé pour "Nous trouver".
-const contactPinIcon =
-  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.3 7-11.5A7 7 0 0 0 5 9.5C5 14.7 12 21 12 21Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6"/></svg>';
-
 // Déposée une fois dans public/photos/centre-hepato-biliaire.(jpg|png|webp),
 // la vraie photo apparaît ici automatiquement - même mécanisme que
 // team-photos/ ci-dessus. Tant qu'aucun fichier réel n'est présent, la
@@ -751,13 +746,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <p class="bopa-contact__text">
             <span class="bopa-contact__highlight">Notre équipe est à votre écoute</span> pour imaginer de nouvelles collaborations et faire émerger des projets au service de la chirurgie de demain.
           </p>
-        </div>
-
-        <div class="bopa-contact__details">
-          <div class="bopa-contact__detail">
-            <span class="bopa-contact__detail-icon" aria-hidden="true" set:html={contactPinIcon} />
-            <span><strong>Nous trouver</strong><small>Hôpital Paul-Brousse<br />12 avenue Paul Vaillant-Couturier<br />94804 Villejuif Cedex</small></span>
-          </div>
         </div>
       </div>
 
@@ -3165,25 +3153,25 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        clamp, non concerné par cette demande. */
     padding: var(--space-5) 0 clamp(72px, 8vw, 104px);
     display: grid;
-    grid-template-columns: minmax(260px, .78fr) minmax(520px, 1.22fr);
+    /* Rééquilibré (owner, 2026-08-30, pack "Nous-Contacter-Compact-V2") :
+       ~39%/61% (.78fr/1.22fr) avant correctif -> ~47%/53%, pour que les
+       paragraphes de gauche s'étalent sur moins de lignes. Planchers
+       ajustés dans le même esprit (colonne de texte plus large mérite un
+       plancher un peu plus haut ; le formulaire, plus étroit, peut
+       accepter un plancher plus bas qu'avant). */
+    grid-template-columns: minmax(300px, .95fr) minmax(420px, 1.05fr);
     gap: clamp(48px, 7vw, 100px);
-    align-items: stretch;
+    /* Plus de stretch (owner, 2026-08-30, pack "Nous-Contacter-Compact-V2") :
+       maintenant que le bloc adresse a disparu, chaque colonne peut
+       reprendre sa propre hauteur naturelle - `start` évite d'étirer le
+       formulaire pour matcher la colonne de texte (ou l'inverse), ce qui
+       créait précisément le "grand vide sous le bouton" signalé. */
+    align-items: start;
   }
 
-  /* Colonne gauche répartie sur toute la hauteur disponible (correctif
-     "Nous-Contacter-FINAL", 2026-08-29) : titre en haut, texte au milieu,
-     adresse en bas - une vraie colonne flex + space-between plutôt que des
-     marges fixes, pour absorber le "trou vide" qui apparaissait sous
-     l'adresse une fois le formulaire (colonne de droite) plus haut que le
-     texte de gauche. `align-items: stretch` sur `.bopa-contact__inner`
-     (juste au-dessus) donne à cette colonne une hauteur réelle égale à
-     celle du formulaire, sur laquelle `space-between` peut agir - sans ça,
-     `min-height: 100%` n'aurait rien eu de concret pour se répartir. */
   .bopa-contact__intro {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    min-height: 100%;
   }
 
   /* Titre principal : même échelle "Niveau 1" que "De l'innovation au
@@ -3207,67 +3195,26 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     line-height: 1.3;
   }
 
-  /* Réduit (owner, 2026-08-30, pack "Nous-Contacter-Compact-Hauteur-V1") :
-     `.bopa-contact__intro` est un flex-column étiré à la hauteur du
-     formulaire (`align-items:stretch` sur le grid parent,
-     `justify-content:space-between`) - cette marge est l'un des rares
-     leviers à vraiment abaisser la hauteur NATURELLE (non étirée) de la
-     colonne de texte elle-même, qui devient la contrainte dès que le
-     formulaire est rendu plus compact qu'elle (measured en direct :
-     réduire cette seule marge fait bien baisser la hauteur réelle de
-     section une fois le formulaire déjà compacté plus bas). */
   .bopa-contact__intro-middle {
     margin: clamp(18px, 2.6vh, 28px) 0;
   }
 
+  /* max-width élargi (owner, 2026-08-30, pack "Nous-Contacter-Compact-V2") :
+     390px était déjà plus étroit que la colonne elle-même AVANT même le
+     rééquilibrage des deux colonnes ci-dessus - élargir la colonne seule
+     n'aurait donc rien changé au nombre de lignes, ce cap agissait comme
+     goulot d'étranglement invisible. Élargi à 480px, en dessous de la
+     largeur réelle de la colonne (~518px à 1280px de large) pour garder
+     une longueur de ligne confortable, mais assez pour vraiment gagner
+     les 1-2 lignes visées. */
   .bopa-contact__text {
-    max-width: 390px;
+    max-width: 480px;
     margin: 0;
     color: rgba(255, 255, 255, 0.75);
     line-height: 1.7;
   }
   .bopa-contact__text + .bopa-contact__text { margin-top: 10px; }
   .bopa-contact__highlight { color: var(--bopa-cyan); }
-
-  .bopa-contact__details {
-    display: grid;
-    gap: 20px;
-  }
-
-  .bopa-contact__detail {
-    display: grid;
-    grid-template-columns: 44px minmax(0,1fr);
-    gap: 14px;
-    align-items: start;
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .bopa-contact__detail-icon {
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--bopa-cyan);
-    font-weight: 800;
-    font-size: 1.05rem;
-  }
-  .bopa-contact__detail-icon svg { width: 1.3rem; height: 1.3rem; }
-
-  .bopa-contact__detail strong,
-  .bopa-contact__detail small {
-    display: block;
-  }
-
-  /* Adresse agrandie (correctif "Nous-Contacter-FINAL", 2026-08-29) : elle
-     se perdait à .84rem/.95rem, bien plus petite que le texte éditorial
-     juste au-dessus (line-height 1.7, hérite du 1rem de base) - amenée
-     près de ce même niveau plutôt que laissée en petit texte de pied de
-     colonne. */
-  .bopa-contact__detail strong { margin-top: 2px; font-size: 1.05rem; color: #fff; }
-  .bopa-contact__detail small { margin-top: 6px; color: rgba(255, 255, 255, 0.78); line-height: 1.6; font-size: 1rem; }
 
   /* Formulaire compacté (correctif "Nous-Contacter-FINAL", 2026-08-29) :
      padding du bloc, hauteur des champs, espace label->champ et espace
@@ -3279,6 +3226,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-lg);
     padding: clamp(18px, 2.2vw, 26px);
+    /* padding-bottom réduit à part (owner, 2026-08-30, pack "Nous-
+       Contacter-Compact-V2") : "grand vide sous le bouton" - la carte
+       n'avait ni min-height ni hauteur fixe, le vide venait entièrement
+       de `align-items:stretch` sur `.bopa-contact__inner` (voir plus
+       haut, retiré) qui étirait la carte pour matcher la colonne de
+       texte. Ce padding-bottom plus court est la respiration réellement
+       voulue sous le bouton, une fois la carte enfin taillée à son
+       propre contenu. */
+    padding-bottom: clamp(14px, 1.6vw, 18px);
     box-shadow: 0 18px 48px rgba(18,46,92,.09);
   }
 
@@ -3421,16 +3377,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     }
     .bopa-contact__intro {
       max-width: 620px;
-      justify-content: flex-start;
-      min-height: auto;
     }
-    /* Resserré (owner, 2026-08-30, pack "Nous-Contacter-Compact-Hauteur-V1") :
-       ici, contrairement au desktop, `.bopa-contact__intro` n'est plus
-       étiré/space-between (justify-content:flex-start, min-height:auto
-       juste au-dessus) - cette marge est le SEUL mécanisme d'espacement,
-       donc la réduire a un effet direct et réel sur l'écart visuel. */
     .bopa-contact__intro-middle { margin: 18px 0; }
-    .bopa-contact__details { margin-top: 4px; }
   }
 
   @media (max-width: 620px) {
