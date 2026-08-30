@@ -2994,8 +2994,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        vit le visuel main+cœur) a été retiré (owner, 2026-08-30 : "je ne
        veux plus de grande auréole bleu ciel/bleu pétrole derrière le cœur
        et la main") - fond bleu nuit uni, le maillage du PNG repose
-       directement dessus. */
-    background: var(--mp-navy-deep);
+       directement dessus. Aligné sur le bleu nuit exact de "Nous
+       contacter" (owner, 2026-08-30) : --mp-navy-deep (#041a3b) remplacé
+       par --mp-navy (#071f46, `.bopa-contact`'s own background) - les deux
+       teintes étaient proches mais pas identiques. */
+    background: var(--mp-navy);
   }
   .support-donation-panel__content {
     padding: clamp(36px, 5vw, 64px);
