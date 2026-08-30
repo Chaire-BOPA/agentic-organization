@@ -859,7 +859,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         <div class="bopa-support__grid bopa-support__grid--three">
           {foundationLogos.map((logo) => (
             <article class="support-partner-card support-partner-card--foundation">
-              <img src={logo.src} alt={logo.alt} loading="lazy" />
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                loading="lazy"
+                class={logo.src.includes('logo-faphp') ? 'support-partner-card__logo--recenter' : undefined}
+              />
             </article>
           ))}
         </div>
@@ -2838,6 +2843,26 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     max-width: 72%;
     max-height: 6.5rem;
     object-fit: contain;
+  }
+  /* Logo AP-HP recentré (owner, 2026-08-30 : "le logo de la fondation de
+     l'AP-HP il est pas centré") - le fichier lui-même n'a pas de marge
+     asymétrique (sa boîte englobante touche déjà les deux bords), mais
+     son poids visuel réel est décalé à gauche : le pictogramme cœur+oiseau
+     et le texte en gras concentrent l'essentiel de l'encre sur la moitié
+     gauche du canevas, le trait pointillé fin ne faisant qu'effleurer le
+     bord droit. Centre de masse mesuré par échantillonnage des pixels
+     (alpha pondéré) à 42.9 % de la largeur du fichier au lieu de 50 % -
+     confirmé en comparant aux deux autres logos (44,1 % et 48,9 %, assez
+     proches de 50 % pour rester visuellement corrects, non touchés).
+     object-position n'a ici AUCUN effet : la boîte de cette image épouse
+     déjà exactement son propre ratio (largeur pilotée par max-width:72%,
+     hauteur en `auto` qui suit), donc object-fit:contain ne laisse aucun
+     espace mort à redistribuer. Le vrai décalage vient du CONTENU dans
+     cette boîte pile ajustée - translateX (en %, donc proportionnel à la
+     taille réellement rendue à chaque largeur d'écran) déplace l'image
+     entière pour amener son centre de masse au centre de l'encadré. */
+  .support-partner-card--foundation img.support-partner-card__logo--recenter {
+    transform: translateX(7.2%);
   }
   .support-partner-card__logo-wrap {
     min-height: 92px;
