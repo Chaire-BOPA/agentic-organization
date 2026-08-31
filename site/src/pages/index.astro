@@ -2943,9 +2943,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      espace mort à redistribuer. Le vrai décalage vient du CONTENU dans
      cette boîte pile ajustée - translateX (en %, donc proportionnel à la
      taille réellement rendue à chaque largeur d'écran) déplace l'image
-     entière pour amener son centre de masse au centre de l'encadré. */
+     entière pour amener son centre de masse au centre de l'encadré.
+     Réduit de 7.2% à 3.5% (owner, 2026-08-31) : mesuré en vivo, le 7.2%
+     plaçait le centre géométrique du logo ~16px à droite du centre exact
+     de l'encadré (à 1280px de large) - l'ancienne valeur surcorrigeait.
+     3.5% ramène ça à ~8px, un compromis entre le centrage géométrique pur
+     (0%) et la compensation du poids visuel mesurée ci-dessus - à ajuster
+     encore si l'owner le juge nécessaire une fois vérifié en ligne. */
   .support-partner-card--foundation img.support-partner-card__logo--recenter {
-    transform: translateX(7.2%);
+    transform: translateX(3.5%);
   }
   .support-partner-card__logo-wrap {
     min-height: 92px;
