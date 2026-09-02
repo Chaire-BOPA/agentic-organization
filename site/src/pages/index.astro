@@ -2972,11 +2972,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .bopa-support__patrons-thanks {
     margin: 28px auto 0;
     max-width: 42rem;
-    /* Bleu nuit des FONDS (--mp-navy, encadré de don/Nous contacter), pas
-       --color-ink (bleu nuit du corps de texte, plus clair) - demandé
-       explicitement par l'owner, 2026-09-02, pour "à toutes celles et
-       ceux..." précisément. */
-    color: var(--mp-navy);
+    /* --mp-navy (essayé d'abord, owner : "même bleu nuit que les fonds")
+       se lisait comme un quasi-noir sur ce texte de petite taille - un
+       aplat de fond profite du bleu, un texte fin beaucoup moins à cette
+       profondeur. Owner, 2026-09-02, confirmé après vérification en
+       direct : veut un bleu "plus visible/vif" plutôt que la correspondance
+       exacte avec le fond. --color-accent (#03529c) est le bleu "emphase/
+       liens" déjà établi du site (tokens.css) - nettement plus lisible
+       comme bleu à cette taille, sans inventer une nouvelle valeur. */
+    color: var(--color-accent);
     text-align: center;
     font-size: clamp(1.05rem, 1.5vw, 1.3rem);
     font-weight: 600;
