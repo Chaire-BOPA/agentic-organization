@@ -868,6 +868,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <h3 id="patrons-title">Ils nous soutiennent</h3>
           <span class="bopa-support__rule" aria-hidden="true"></span>
         </div>
+        <p class="bopa-support__patrons-intro">
+          Entreprises et donateurs particuliers contribuent à faire avancer les projets de la Chaire BOPA.
+          Le soutien de nos partenaires et donateurs est essentiel pour accélérer l’innovation et améliorer
+          la prise en charge des patients.
+        </p>
+        <p class="bopa-support__patrons-thanks">
+          <span class="bopa-support__patrons-thanks-accent">Un immense merci</span> à toutes celles et ceux
+          qui, par leur don, rendent cette aventure possible.
+        </p>
         <div class="bopa-support__grid bopa-support__grid--four">
           {patronLogos.map((logo) => {
             const brand = logo.src.match(/logo-([a-z-]+)\.png$/)?.[1];
@@ -2878,6 +2887,47 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     background: rgba(45, 185, 227, 0.6);
     background: color-mix(in srgb, var(--mp-blue-bright) 60%, transparent);
     flex: 1;
+  }
+
+  /* Texte explicatif + remerciement ajoutés au-dessus de la grille 8 logos
+     (pack "Nous-Soutenir-Remerciements-Logos-2x4-V2", 2026-09-02) - centrés
+     et largeur maîtrisée, contrairement à `.bopa-support__group-intro`
+     (fondations, plein largeur, aligné à gauche) juste en dessous : deux
+     traitements volontairement différents pour deux blocs différents, pas
+     une incohérence à corriger. Bleu nuit = --color-ink (même token que le
+     corps de texte du site, "deep navy, not pure black" dans tokens.css),
+     pas --mp-navy qui est un fond, pas une couleur de texte. Taille du
+     texte explicatif = même échelle "Niveau 2 / lead" que Notre Mission et
+     le lede du Hero (clamp(1rem,1.3vw,1.2rem), voir design.md), pour rester
+     cohérent avec la hiérarchie typographique du reste du site plutôt que
+     d'inventer une nouvelle taille. */
+  .bopa-support__patrons-intro {
+    margin: 0 auto 0;
+    max-width: 42rem;
+    color: var(--color-ink);
+    text-align: center;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    line-height: 1.55;
+  }
+  /* Remerciement : plus impactant que le texte explicatif ci-dessus (owner :
+     "une graisse/taille suffisamment présente"), mais délibérément sous
+     l'échelle "Niveau 1 / grand titre" (clamp(2rem,3.1vw,3.15rem) - voir
+     Notre Mission/l'encadré de don) pour rester "élégant et humain, pas
+     publicitaire" plutôt que de crier aussi fort qu'un titre de section.
+     Aucun pictogramme (cœur/rayon/étoile) : l'impact vient uniquement de
+     la graisse et du cyan sur "Un immense merci", comme demandé. */
+  .bopa-support__patrons-thanks {
+    margin: 14px auto 0;
+    max-width: 46rem;
+    color: var(--color-ink);
+    text-align: center;
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+  .bopa-support__patrons-thanks-accent {
+    color: var(--bopa-cyan);
   }
 
   /* Toute la largeur utile du container HOME, plus le max-width éditorial
