@@ -840,7 +840,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
       <div class="bopa-support__group" aria-labelledby="foundations-title" data-reveal>
         <div class="bopa-support__group-title">
-          <span class="bopa-support__group-icon" aria-hidden="true">◎</span>
+          <span class="bopa-support__group-icon bopa-support__group-icon--circle" aria-hidden="true">◎</span>
           <h3 id="foundations-title">3 fondations partenaires</h3>
           <span class="bopa-support__rule" aria-hidden="true"></span>
         </div>
@@ -864,7 +864,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
       <div class="bopa-support__group" aria-labelledby="patrons-title" data-reveal>
         <div class="bopa-support__group-title">
-          <span class="bopa-support__group-icon" aria-hidden="true">♡</span>
+          <span class="bopa-support__group-icon bopa-support__group-icon--heart" aria-hidden="true">♡</span>
           <h3 id="patrons-title">Ils nous soutiennent</h3>
           <span class="bopa-support__rule" aria-hidden="true"></span>
         </div>
@@ -872,10 +872,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           Entreprises et donateurs particuliers contribuent à faire avancer les projets de la Chaire BOPA.
           Le soutien de nos partenaires et donateurs est essentiel pour accélérer l’innovation et améliorer
           la prise en charge des patients.
-        </p>
-        <p class="bopa-support__patrons-thanks">
-          <span class="bopa-support__patrons-thanks-accent">Un immense merci</span> à toutes celles et ceux
-          qui, par leur don, rendent cette aventure possible.
         </p>
         <div class="bopa-support__grid bopa-support__grid--four">
           {patronLogos.map((logo) => {
@@ -894,6 +890,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             );
           })}
         </div>
+        <p class="bopa-support__patrons-thanks">
+          <span class="bopa-support__patrons-thanks-accent">Un immense merci</span> à toutes celles et ceux
+          qui, par leur don, rendent cette aventure possible.
+        </p>
       </div>
     </div>
   </section>
@@ -2874,6 +2874,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     height: 34px;
     font-size: 1.65rem;
   }
+  /* Les deux glyphes (♡, ◎) sont géométriquement centrés dans leur boîte
+     34x34 (vérifié en direct : centre de la boîte = centre de la boîte du
+     h3, écart 0px) mais leur ENCRE ne l'est pas optiquement - ni l'un ni
+     l'autre ne remplit son em-carré symétriquement. Nudge visuel par
+     glyphe (owner, 2026-09-02 : "les pictos ne sont pas alignés sur leurs
+     titres") plutôt qu'un correctif partagé, puisque chaque caractère a
+     son propre décalage optique. */
+  .bopa-support__group-icon--circle { transform: translateY(-1px); }
+  .bopa-support__group-icon--heart { transform: translateY(-3px); }
   /* Filet de secours (owner a signalé le trait invisible, 2026-08-30) :
      un navigateur sans support de color-mix() ignore silencieusement la
      déclaration suivante et ignorerait tout aussi silencieusement le
@@ -2889,42 +2898,38 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     flex: 1;
   }
 
-  /* Texte explicatif + remerciement ajoutés au-dessus de la grille 8 logos
-     (pack "Nous-Soutenir-Remerciements-Logos-2x4-V2", 2026-09-02) - centrés
-     et largeur maîtrisée, contrairement à `.bopa-support__group-intro`
-     (fondations, plein largeur, aligné à gauche) juste en dessous : deux
-     traitements volontairement différents pour deux blocs différents, pas
-     une incohérence à corriger. Bleu nuit = --color-ink (même token que le
-     corps de texte du site, "deep navy, not pure black" dans tokens.css),
-     pas --mp-navy qui est un fond, pas une couleur de texte. Taille du
-     texte explicatif = même échelle "Niveau 2 / lead" que Notre Mission et
-     le lede du Hero (clamp(1rem,1.3vw,1.2rem), voir design.md), pour rester
-     cohérent avec la hiérarchie typographique du reste du site plutôt que
-     d'inventer une nouvelle taille. */
+  /* Texte explicatif au-dessus de la grille 8 logos (pack "Nous-Soutenir-
+     Remerciements-Logos-2x4-V2", 2026-09-02) - centré et largeur maîtrisée,
+     contrairement à `.bopa-support__group-intro` (fondations, plein
+     largeur, aligné à gauche) juste en dessous : deux traitements
+     volontairement différents pour deux blocs différents, pas une
+     incohérence à corriger. Bleu nuit = --color-ink (même token que le
+     corps de texte du site). Taille calée sur `.bopa-support__group-intro`
+     (owner, 2026-09-02 : "trop gros, calle-toi sur la taille du texte
+     fondations") - même clamp/line-height exactement, seuls la couleur, le
+     centrage et le max-width diffèrent. */
   .bopa-support__patrons-intro {
     margin: 0 auto 0;
     max-width: 42rem;
     color: var(--color-ink);
     text-align: center;
-    font-size: clamp(1rem, 1.3vw, 1.2rem);
-    line-height: 1.55;
+    font-size: clamp(1rem, 1.15vw, 1.05rem);
+    line-height: 1.6;
   }
-  /* Remerciement : plus impactant que le texte explicatif ci-dessus (owner :
-     "une graisse/taille suffisamment présente"), mais délibérément sous
-     l'échelle "Niveau 1 / grand titre" (clamp(2rem,3.1vw,3.15rem) - voir
-     Notre Mission/l'encadré de don) pour rester "élégant et humain, pas
-     publicitaire" plutôt que de crier aussi fort qu'un titre de section.
-     Aucun pictogramme (cœur/rayon/étoile) : l'impact vient uniquement de
-     la graisse et du cyan sur "Un immense merci", comme demandé. */
+  /* Remerciement déplacé SOUS la grille de logos (owner, 2026-09-02),
+     toujours centré. Taille réduite (owner : "trop gros aussi") - reste
+     un cran au-dessus du corps de texte (weight 600) pour garder un peu
+     de présence, sans plus viser un "moment" aussi marqué qu'au premier
+     jet. Aucun pictogramme (cœur/rayon/étoile) : l'impact vient
+     uniquement de la graisse et du cyan sur "Un immense merci". */
   .bopa-support__patrons-thanks {
-    margin: 14px auto 0;
-    max-width: 46rem;
+    margin: 28px auto 0;
+    max-width: 42rem;
     color: var(--color-ink);
     text-align: center;
-    font-size: clamp(1.3rem, 2vw, 1.7rem);
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
     font-weight: 600;
-    line-height: 1.35;
-    letter-spacing: -0.01em;
+    line-height: 1.45;
   }
   .bopa-support__patrons-thanks-accent {
     color: var(--bopa-cyan);
