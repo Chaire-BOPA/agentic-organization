@@ -2972,7 +2972,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .bopa-support__patrons-thanks {
     margin: 28px auto 0;
     max-width: 42rem;
-    color: var(--color-ink);
+    /* Bleu nuit des FONDS (--mp-navy, encadré de don/Nous contacter), pas
+       --color-ink (bleu nuit du corps de texte, plus clair) - demandé
+       explicitement par l'owner, 2026-09-02, pour "à toutes celles et
+       ceux..." précisément. */
+    color: var(--mp-navy);
     text-align: center;
     font-size: clamp(1.05rem, 1.5vw, 1.3rem);
     font-weight: 600;
