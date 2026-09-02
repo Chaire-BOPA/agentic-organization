@@ -29,8 +29,6 @@ const partnerLogos = [
   { src: '/logos/partenaires/logo-faphp.png', alt: 'Fondation AP-HP' },
   { src: '/logos/partenaires/logo-fondation-imt.png', alt: 'Fondation Mines-Télécom', scale: 1.15 },
   { src: '/logos/partenaires/logo-fondation-upsaclay.png', alt: "Fondation de l'Université Paris-Saclay", scale: 1.15 },
-  { src: '/logos/partenaires/logo-relyens.png', alt: 'Relyens' },
-  { src: '/logos/partenaires/logo-vermon.png', alt: 'Vermon', scale: 0.85 },
 ];
 
 // Real headshots are optional, dropped into site/public/images/team-photos/
@@ -82,7 +80,22 @@ const team = [
 // jamais les placeholders du pack.
 const founders = partnerLogos.slice(0, 3);
 const foundationLogos = partnerLogos.slice(3, 6);
-const patronLogos = partnerLogos.slice(6, 8);
+
+// "Ils nous soutiennent" (pack "Nous-Soutenir-Logos-2x4-V1", 2026-09-02) :
+// 8 partenaires, 2 lignes de 4 - ordre volontaire (pas alphabétique),
+// demandé explicitement par l'owner. Assets traités depuis source/inbox
+// (recadrés au contenu réel, fond transparent) sauf Relyens/Vermon qui
+// gardent leurs assets existants (meilleure qualité).
+const patronLogos = [
+  { src: '/logos/partenaires/logo-relyens.png', alt: 'Relyens' },
+  { src: '/logos/partenaires/logo-vermon.png', alt: 'Vermon' },
+  { src: '/logos/partenaires/logo-jnj.png', alt: 'Johnson & Johnson MedTech' },
+  { src: '/logos/partenaires/logo-medtronic.png', alt: 'Medtronic' },
+  { src: '/logos/partenaires/logo-boston-scientific.png', alt: 'Boston Scientific Foundation' },
+  { src: '/logos/partenaires/logo-fujifilm.png', alt: 'Fujifilm' },
+  { src: '/logos/partenaires/logo-orange.png', alt: 'Orange' },
+  { src: '/logos/partenaires/logo-richard-wolf.png', alt: 'Richard Wolf' },
+];
 
 const researchStats = [
   { value: '55', label: 'Publications' },
@@ -852,22 +865,25 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       <div class="bopa-support__group" aria-labelledby="patrons-title" data-reveal>
         <div class="bopa-support__group-title">
           <span class="bopa-support__group-icon" aria-hidden="true">♡</span>
-          <h3 id="patrons-title">Ils nous soutiennent déjà</h3>
+          <h3 id="patrons-title">Ils nous soutiennent</h3>
           <span class="bopa-support__rule" aria-hidden="true"></span>
         </div>
-        <div class="bopa-support__grid bopa-support__grid--two">
-          {patronLogos.map((logo) => (
-            <article class="support-partner-card support-partner-card--wide">
-              <div class="support-partner-card__logo-wrap support-partner-card__logo-wrap--patron">
-                <img
-                  src={logo.src}
-                  alt={logo.alt}
-                  loading="lazy"
-                  class={logo.src.includes('logo-relyens') ? 'support-partner-card__logo--relyens' : logo.src.includes('logo-vermon') ? 'support-partner-card__logo--vermon' : undefined}
-                />
-              </div>
-            </article>
-          ))}
+        <div class="bopa-support__grid bopa-support__grid--four">
+          {patronLogos.map((logo) => {
+            const brand = logo.src.match(/logo-([a-z-]+)\.png$/)?.[1];
+            return (
+              <article class="support-partner-card support-partner-card--patron">
+                <div class="support-partner-card__logo-wrap support-partner-card__logo-wrap--patron">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    loading="lazy"
+                    class={brand ? `support-partner-card__logo--${brand}` : undefined}
+                  />
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </div>
@@ -2881,7 +2897,13 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   .bopa-support__grid { display: grid; gap: 18px; margin-top: 26px; }
   .bopa-support__grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .bopa-support__grid--two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* "Ils nous soutiennent" passé de 2 grandes cartes à 8 (pack "Nous-
+     Soutenir-Logos-2x4-V1", 2026-09-02) - 4 colonnes x 2 lignes sur
+     desktop, gap resserré pour rester aéré à cette densité. */
+  .bopa-support__grid--four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
 
   .support-partner-card {
     background: #ffffff;
@@ -2893,14 +2915,14 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     flex-direction: column;
     border: 1px solid var(--color-line);
   }
-  /* Resserrées avec la même logique que les cartes fondations juste au-dessus
-     (owner, 2026-08-30, pack "Ils-Nous-Soutiennent-Déjà-Harmonisation-V1") :
-     min-height:230px forçait un grand vide sous logo+texte - remplacé par la
-     même paire min-height:0 / padding-block:22px que `--foundation`, la
-     hauteur vient maintenant uniquement du contenu réel. */
-  .support-partner-card--wide {
+  /* Ancienne carte "grande" (2 logos Relyens/Vermon côte à côte) devenue
+     `--patron` : 8 logos en grille 4x2 (pack "Nous-Soutenir-Logos-2x4-V1",
+     2026-09-02) - padding horizontal réduit (32px -> 22px) pour rester
+     confortable dans des colonnes deux fois plus étroites, même logique de
+     centrage compact que `--foundation` juste en dessous. */
+  .support-partner-card--patron {
     min-height: 0;
-    padding-block: 22px;
+    padding: 22px;
     align-items: center;
     justify-content: center;
   }
@@ -2913,8 +2935,9 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      partagée avec les cartes mécènes ci-dessous, qui restent inchangées)
      forçait ces cartes à rester hautes bien au-delà du logo. Seul
      `--foundation` est touché ici, pas `.support-partner-card` ni
-     `--wide` : largeur, logo, fond, bordure, radius restent ceux de la
-     base partagée, seule la hauteur de CETTE variante change. */
+     `--patron` (ex-`--wide`) : largeur, logo, fond, bordure, radius
+     restent ceux de la base partagée, seule la hauteur de CETTE variante
+     change. */
   .support-partner-card--foundation {
     min-height: 0;
     padding-block: 22px;
@@ -2959,21 +2982,33 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     object-fit: contain;
     object-position: center;
   }
-  /* Logos Relyens/Vermon harmonisés au poids visuel des logos fondations
-     juste au-dessus (owner, 2026-08-30, pack "Ils-Nous-Soutiennent-Déjà-
-     Harmonisation-V1") - mesuré, pas estimé : les 3 logos fondations rendus
-     occupent en moyenne ~18 200px² (167-236px de large, 71-104px de haut).
-     Avant ce correctif, à hauteur égale (70px) Relyens ne pesait que
-     ~13 200px² (logo plus étroit, ratio 2.7) quand Vermon en pesait déjà
-     ~27 400px² (logo très allongé et dense, ratio 5.6, quasiment aucune
-     marge dans son propre fichier) - d'où le "trop léger"/"trop lourd"
-     ressenti à l'œil malgré une hauteur identique. Relyens agrandi UN PEU
-     (70->84px, ratio inchangé) ; Vermon rediminué une seconde fois (owner,
-     2026-08-30, même jour : "diminue encore le logo vermon", après les
-     descriptions retirées) - 70->48px puis 48->36px, largeurs différentes
-     par construction, pas de largeur CSS brute partagée. */
-  .support-partner-card__logo-wrap img.support-partner-card__logo--relyens { max-height: 84px; }
-  .support-partner-card__logo-wrap img.support-partner-card__logo--vermon { max-height: 36px; }
+  /* Grille 4x2 "Ils nous soutiennent" (pack "Nous-Soutenir-Logos-2x4-V1",
+     2026-09-02) : gabarit réduit proprement pour 8 logos au lieu de 2
+     (base 44px, contre 76px générique / 84px Relyens ci-dessus). Poids
+     visuel harmonisé PAR MARQUE, pas par simple hauteur partagée - même
+     principe que Relyens/Vermon plus haut, mais poussé plus loin ici car
+     les 8 fichiers vont d'un simple mot-symbole fin (Medtronic, ratio ~5.9,
+     très peu d'encre par rapport à sa boîte) à un aplat plein (Orange,
+     carré quasi 100% rempli) : à hauteur identique, un aplat plein pèse
+     visuellement beaucoup plus qu'un mot-symbole fin, donc l'égalisation
+     par simple hauteur ou même par aire de boîte engloutissante (utilisée
+     pour les fondations, toutes des pictos+mots comparables) ne suffit
+     plus ici - chaque hauteur ci-dessous est ajustée à l'œil pour un poids
+     comparable, à revoir si l'owner signale un déséquilibre après
+     publication. Sélecteur ancré sur les deux classes du wrap (spécificité
+     0,2,1) pour battre la règle générique juste au-dessus sans dépendre de
+     l'ordre dans le fichier - piège déjà rencontré sur ce même bloc. */
+  .support-partner-card__logo-wrap.support-partner-card__logo-wrap--patron img {
+    max-height: 44px;
+  }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--relyens { max-height: 48px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--vermon { max-height: 26px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--jnj { max-height: 40px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--medtronic { max-height: 34px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--boston-scientific { max-height: 40px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--fujifilm { max-height: 28px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--orange { max-height: 44px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--richard-wolf { max-height: 36px; }
 
   /* Compacté ~25% (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
      plus de min-height rigide - c'est justement lui (avec le min-height:430px
@@ -3090,10 +3125,14 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   @media (max-width: 900px) {
     /* Tablette : "2 + 1" plutôt qu'une colonne unique (pack V2, 2026-08-29,
        section RESPONSIVE) - la 3e carte fondation s'étend sur les deux
-       colonnes ; les 2 cartes mécènes restent côte à côte, déjà lisibles
-       à cette largeur. */
+       colonnes. */
     .bopa-support__grid--three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .bopa-support__grid--three > :last-child { grid-column: 1 / -1; }
+    /* "Ils nous soutiennent" : 4x2 -> 2x4 (pack "Nous-Soutenir-Logos-2x4-V1",
+       2026-09-02) - demandé explicitement ("tablette = 2x4 si nécessaire"),
+       4 colonnes devenaient trop étroites pour les logos les plus larges
+       (Medtronic, J&J) en dessous de ~900px. */
+    .bopa-support__grid--four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .support-partner-card { min-height: 0; }
     /* Panneau empilé (image sous le texte) : asset transparent, déjà cadré -
        plus besoin d'object-fit:cover/recadrage, juste une hauteur plafonnée
@@ -3111,7 +3150,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   @media (max-width: 680px) {
     .bopa-support__grid--three { grid-template-columns: 1fr; }
     .bopa-support__grid--three > :last-child { grid-column: auto; }
-    .bopa-support__grid--two { grid-template-columns: 1fr; }
   }
 
   @media (max-width: 560px) {
