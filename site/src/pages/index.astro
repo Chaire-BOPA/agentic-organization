@@ -2899,20 +2899,22 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   /* Texte explicatif au-dessus de la grille 8 logos (pack "Nous-Soutenir-
-     Remerciements-Logos-2x4-V2", 2026-09-02) - centré et largeur maîtrisée,
-     contrairement à `.bopa-support__group-intro` (fondations, plein
-     largeur, aligné à gauche) juste en dessous : deux traitements
-     volontairement différents pour deux blocs différents, pas une
-     incohérence à corriger. Bleu nuit = --color-ink (même token que le
-     corps de texte du site). Taille calée sur `.bopa-support__group-intro`
-     (owner, 2026-09-02 : "trop gros, calle-toi sur la taille du texte
-     fondations") - même clamp/line-height exactement, seuls la couleur, le
-     centrage et le max-width diffèrent. */
+     Remerciements-Logos-2x4-V2", 2026-09-02). Initialement centré et
+     largeur maîtrisée ; repassé au même traitement que
+     `.bopa-support__group-intro` (fondations) juste en dessous - aligné à
+     gauche, pleine largeur (owner, 2026-09-02 : d'abord "calle-toi sur la
+     taille du texte fondations", puis "aligne ça à gauche") - les deux
+     retours convergent vers le même traitement que le bloc fondations,
+     donc plus de raison de garder un centrage/max-width différents.
+     Bleu nuit = --color-ink (même token que le corps de texte du site,
+     seule différence residuelle avec `.bopa-support__group-intro`, qui
+     utilise --color-muted). */
   .bopa-support__patrons-intro {
-    margin: 0 auto 0;
-    max-width: 42rem;
+    margin: 0;
+    max-width: none;
+    width: 100%;
     color: var(--color-ink);
-    text-align: center;
+    text-align: left;
     font-size: clamp(1rem, 1.15vw, 1.05rem);
     line-height: 1.6;
   }
