@@ -916,11 +916,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         <p class="bopa-support__accompany-intro">
           Nous avons également la chance d’avoir à nos côtés des structures expertes dans leurs domaines et
           pleinement investies dans nos missions, qui mettent à notre disposition du temps, de l’expertise
-          et/ou du matériel.
-        </p>
-        <p class="bopa-support__accompany-thanks">
-          <span class="bopa-support__accompany-thanks-accent">Leur implication contribue largement à faire
-          de la Chaire BOPA ce qu’elle est aujourd’hui</span> et nous les en remercions sincèrement.
+          et/ou du matériel. Leur implication contribue largement à faire de la Chaire BOPA ce qu’elle est
+          aujourd’hui et nous les en remercions sincèrement.
         </p>
         <div class="bopa-support__grid bopa-support__grid--four">
           {accompanyLogos.map((logo) => {
@@ -2992,13 +2989,16 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   /* "Ils nous accompagnent" (pack "Ils-Nous-Accompagnent-V2", 2026-09-02) -
      même logique graphique que "Ils nous soutiennent" juste au-dessus,
-     source de vérité gelée : classes séparées (pas de renommage de
+     source de vérité gelée : classe séparée (pas de renommage de
      `.bopa-support__patrons-*`, pour ne pas toucher au bloc validé) mais
      valeurs COPIÉES à l'identique de `.bopa-support__patrons-intro`, pas
-     réinventées. Seule différence volontaire : tout le texte reste aligné
-     à gauche ici (owner : "texte ALIGNÉ À GAUCHE"), y compris la seconde
-     phrase - contrairement à `.bopa-support__patrons-thanks` qui est
-     centrée. */
+     réinventées. Aligné à gauche (owner : "texte ALIGNÉ À GAUCHE").
+     Les deux phrases ont fusionné en UN seul paragraphe (owner, 2026-09-02 :
+     "mets cette phrase à la suite... en respectant exactement la typo" du
+     premier paragraphe) - l'ancien second paragraphe distinct
+     (`.bopa-support__accompany-thanks`, gras + cyan sur "Leur implication…")
+     est retiré : plus de mise en avant typographique différenciée, tout le
+     texte partage désormais cette seule règle. */
   .bopa-support__accompany-intro {
     margin: 0;
     max-width: none;
@@ -3007,25 +3007,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     text-align: left;
     font-size: clamp(1rem, 1.15vw, 1.05rem);
     line-height: 1.6;
-  }
-  /* Poids inversé par rapport à "Un immense merci" (owner) : ici c'est la
-     LONGUE clause qui est grasse + cyan, et la clause finale qui reste en
-     graisse normale - même échelle de taille que `.bopa-support__patrons-
-     thanks` (clamp identique), mais poids de base 400 au lieu de 600
-     puisque seul l'accent doit être gras ici. Aucun pictogramme. */
-  .bopa-support__accompany-thanks {
-    margin: 14px 0 0;
-    max-width: none;
-    width: 100%;
-    color: var(--color-ink);
-    text-align: left;
-    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
-    font-weight: 400;
-    line-height: 1.45;
-  }
-  .bopa-support__accompany-thanks-accent {
-    color: var(--bopa-cyan);
-    font-weight: 600;
   }
 
   /* Toute la largeur utile du container HOME, plus le max-width éditorial
