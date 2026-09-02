@@ -97,6 +97,18 @@ const patronLogos = [
   { src: '/logos/partenaires/logo-richard-wolf.png', alt: 'Richard Wolf' },
 ];
 
+// "Ils nous accompagnent" (pack "Ils-Nous-Accompagnent-V2", 2026-09-02) :
+// 4 partenaires, 1 seule ligne desktop - ordre volontaire demandé par
+// l'owner. Assets traités depuis source/inbox (recadrés, fond transparent)
+// sauf Bayes Impact : fourni déjà prêt sur fond blanc, utilisé TEL QUEL,
+// aucune retouche (consigne explicite de l'owner).
+const accompanyLogos = [
+  { src: '/logos/partenaires/logo-nvidia.png', alt: 'NVIDIA' },
+  { src: '/logos/partenaires/logo-s3ns.png', alt: 'S3NS' },
+  { src: '/logos/partenaires/logo-bayes-impact.png', alt: 'Bayes Impact' },
+  { src: '/logos/partenaires/logo-toys-films.png', alt: 'Toys Films' },
+];
+
 const researchStats = [
   { value: '55', label: 'Publications' },
   { value: '51', label: 'Communications orales' },
@@ -894,6 +906,39 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <span class="bopa-support__patrons-thanks-accent">Un immense merci</span> à toutes celles et ceux
           qui, par leur don, rendent cette aventure possible.
         </p>
+      </div>
+
+      <div class="bopa-support__group" aria-labelledby="accompany-title" data-reveal>
+        <div class="bopa-support__group-title">
+          <h3 id="accompany-title">Ils nous accompagnent</h3>
+          <span class="bopa-support__rule" aria-hidden="true"></span>
+        </div>
+        <p class="bopa-support__accompany-intro">
+          Nous avons également la chance d’avoir à nos côtés des structures expertes dans leurs domaines et
+          pleinement investies dans nos missions, qui mettent à notre disposition du temps, de l’expertise
+          et/ou du matériel.
+        </p>
+        <p class="bopa-support__accompany-thanks">
+          <span class="bopa-support__accompany-thanks-accent">Leur implication contribue largement à faire
+          de la Chaire BOPA ce qu’elle est aujourd’hui</span> et nous les en remercions sincèrement.
+        </p>
+        <div class="bopa-support__grid bopa-support__grid--four">
+          {accompanyLogos.map((logo) => {
+            const brand = logo.src.match(/logo-([a-z-]+)\.png$/)?.[1];
+            return (
+              <article class="support-partner-card support-partner-card--patron">
+                <div class="support-partner-card__logo-wrap support-partner-card__logo-wrap--patron">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    loading="lazy"
+                    class={brand ? `support-partner-card__logo--${brand}` : undefined}
+                  />
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
     </div>
   </section>
@@ -2935,6 +2980,44 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
   .bopa-support__patrons-thanks-accent {
     color: var(--bopa-cyan);
+  }
+
+  /* "Ils nous accompagnent" (pack "Ils-Nous-Accompagnent-V2", 2026-09-02) -
+     même logique graphique que "Ils nous soutiennent" juste au-dessus,
+     source de vérité gelée : classes séparées (pas de renommage de
+     `.bopa-support__patrons-*`, pour ne pas toucher au bloc validé) mais
+     valeurs COPIÉES à l'identique de `.bopa-support__patrons-intro`, pas
+     réinventées. Seule différence volontaire : tout le texte reste aligné
+     à gauche ici (owner : "texte ALIGNÉ À GAUCHE"), y compris la seconde
+     phrase - contrairement à `.bopa-support__patrons-thanks` qui est
+     centrée. */
+  .bopa-support__accompany-intro {
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    color: var(--color-ink);
+    text-align: left;
+    font-size: clamp(1rem, 1.15vw, 1.05rem);
+    line-height: 1.6;
+  }
+  /* Poids inversé par rapport à "Un immense merci" (owner) : ici c'est la
+     LONGUE clause qui est grasse + cyan, et la clause finale qui reste en
+     graisse normale - même échelle de taille que `.bopa-support__patrons-
+     thanks` (clamp identique), mais poids de base 400 au lieu de 600
+     puisque seul l'accent doit être gras ici. Aucun pictogramme. */
+  .bopa-support__accompany-thanks {
+    margin: 14px 0 0;
+    max-width: none;
+    width: 100%;
+    color: var(--color-ink);
+    text-align: left;
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    font-weight: 400;
+    line-height: 1.45;
+  }
+  .bopa-support__accompany-thanks-accent {
+    color: var(--bopa-cyan);
+    font-weight: 600;
   }
 
   /* Toute la largeur utile du container HOME, plus le max-width éditorial
