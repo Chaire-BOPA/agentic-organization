@@ -3161,6 +3161,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .support-partner-card__logo-wrap--patron img.support-partner-card__logo--fujifilm { max-height: 28px; }
   .support-partner-card__logo-wrap--patron img.support-partner-card__logo--orange { max-height: 58px; }
   .support-partner-card__logo-wrap--patron img.support-partner-card__logo--richard-wolf { max-height: 44px; }
+  /* "Ils nous accompagnent" : NVIDIA/Bayes Impact/Toys Films agrandis par
+     rapport à la base 44px (owner, 2026-09-02) - S3NS non touché, reste à
+     44px. Même sélecteur partagé que "Ils nous soutiennent" ci-dessus. */
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--nvidia { max-height: 52px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--bayes-impact { max-height: 52px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--toys-films { max-height: 52px; }
 
   /* Compacté ~25% (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
      plus de min-height rigide - c'est justement lui (avec le min-height:430px
