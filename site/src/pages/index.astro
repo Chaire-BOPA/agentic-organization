@@ -3146,10 +3146,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      rapport à la base 44px (owner, 2026-09-02) - S3NS non touché, reste à
      44px. Même sélecteur partagé que "Ils nous soutiennent" ci-dessus.
      Deuxième passe le même jour (owner : "augmente encore NVIDIA et Bayes
-     Impact") : 52->60px pour ces deux-là seulement, Toys Films inchangé. */
-  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--nvidia { max-height: 60px; }
-  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--bayes-impact { max-height: 60px; }
-  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--toys-films { max-height: 52px; }
+     Impact") : 52->60px pour ces deux-là. Troisième passe le même jour
+     (owner : "agrandit encore NVIDIA, Bayes Impact et Toys Films") :
+     60->68px pour NVIDIA/Bayes Impact, 52->60px pour Toys Films. */
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--nvidia { max-height: 68px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--bayes-impact { max-height: 68px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--toys-films { max-height: 60px; }
 
   /* Compacté ~25% (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
      plus de min-height rigide - c'est justement lui (avec le min-height:430px
