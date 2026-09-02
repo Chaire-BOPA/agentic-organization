@@ -2994,20 +2994,22 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      par simple hauteur ou même par aire de boîte engloutissante (utilisée
      pour les fondations, toutes des pictos+mots comparables) ne suffit
      plus ici - chaque hauteur ci-dessous est ajustée à l'œil pour un poids
-     comparable, à revoir si l'owner signale un déséquilibre après
-     publication. Sélecteur ancré sur les deux classes du wrap (spécificité
+     comparable. Sélecteur ancré sur les deux classes du wrap (spécificité
      0,2,1) pour battre la règle générique juste au-dessus sans dépendre de
-     l'ordre dans le fichier - piège déjà rencontré sur ce même bloc. */
+     l'ordre dans le fichier - piège déjà rencontré sur ce même bloc.
+     Ajusté une première fois après publication (owner, 2026-09-02) :
+     Vermon et Medtronic réduits (26->22, 34->29), Relyens/Orange/Boston
+     Scientific agrandis (48->54, 44->50, 40->46). */
   .support-partner-card__logo-wrap.support-partner-card__logo-wrap--patron img {
     max-height: 44px;
   }
-  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--relyens { max-height: 48px; }
-  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--vermon { max-height: 26px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--relyens { max-height: 54px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--vermon { max-height: 22px; }
   .support-partner-card__logo-wrap--patron img.support-partner-card__logo--jnj { max-height: 40px; }
-  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--medtronic { max-height: 34px; }
-  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--boston-scientific { max-height: 40px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--medtronic { max-height: 29px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--boston-scientific { max-height: 46px; }
   .support-partner-card__logo-wrap--patron img.support-partner-card__logo--fujifilm { max-height: 28px; }
-  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--orange { max-height: 44px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--orange { max-height: 50px; }
   .support-partner-card__logo-wrap--patron img.support-partner-card__logo--richard-wolf { max-height: 36px; }
 
   /* Compacté ~25% (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
