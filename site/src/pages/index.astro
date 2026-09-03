@@ -3088,10 +3088,16 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     align-items: center;
     justify-content: center;
   }
+  /* max-height ramené à 92px (owner, 2026-09-03 : "trop gros par rapport
+     aux logos au-dessus") pour que la carte fondation fasse exactement la
+     même hauteur que les cartes "Ils nous soutiennent"/"Ils nous
+     accompagnent" (138px : padding 22px*2 + logo-wrap min-height:92px +
+     bordures) - avant, 6.5rem/104px de plafond faisait dépasser la carte
+     de 12px (150px). */
   .support-partner-card--foundation img {
     display: block;
     max-width: 72%;
-    max-height: 6.5rem;
+    max-height: 92px;
     object-fit: contain;
   }
   /* Logo AP-HP - historique de correctifs le 2026-08-30/31, tous dans le
