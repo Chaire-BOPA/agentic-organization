@@ -13,7 +13,7 @@
   --color-surface: #ffffff;     /* cards, raised areas */
   --color-ink: #0d2338;         /* body text: deep navy, not pure black */
   --color-muted: #55697d;       /* secondary text, captions */
-  --color-muted-light: #9fadb9; /* light gray: de-emphasized inline UI (e.g. the inactive language in the FR/EN switch) */
+  --color-muted-light: #9fadb9; /* light gray: de-emphasized inline UI */
   --color-line: #dbe4ec;        /* hairlines, borders */
 
   --color-accent: #03529c;      /* links, emphasis, primary buttons */

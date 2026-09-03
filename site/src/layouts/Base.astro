@@ -76,9 +76,9 @@ const footerSocialLinks = [
 // vice versa. Anchor ids match the ones actually used in en/index.astro.
 const navEn: NavItem[] = [
   { href: '/en/#our-mission', label: 'Our mission' },
-  { href: '/en/#bopa-innovations', label: 'BOPA innovations' },
+  { href: '/en/#bopa-innovations', label: 'Our innovations' },
   { href: '/en/#our-vision', label: 'Our vision' },
-  { href: '/en/#who-we-are', label: 'Who we are' },
+  { href: '/en/#who-we-are', label: 'Who we are?' },
   { href: '/en/#contact-us', label: 'Contact us' },
 ];
 const navCtaEn = { href: '/en/#support-us', label: 'Support us' };
@@ -181,10 +181,13 @@ const enAlternateUrl = new URL(enPath, Astro.site);
                 <a href={item.href}>{item.label}</a>
               )
             )}
-            <LangSwitch lang={lang} frPath={frPath} enPath={enPath} variant="desktop" />
-            <a class="btn nav-cta btn-filled-premium" href={activeNavCta.href}>
-              {activeNavCta.label}
-            </a>
+            <div class="nav-cta-group">
+              <a class="btn nav-cta btn-filled-premium" href={activeNavCta.href}>
+                {activeNavCta.label}
+              </a>
+              <span class="nav-lang-divider" aria-hidden="true"></span>
+              <LangSwitch lang={lang} frPath={frPath} enPath={enPath} variant="desktop" />
+            </div>
           </nav>
           <LangSwitch lang={lang} frPath={frPath} enPath={enPath} variant="mobile" />
           <button

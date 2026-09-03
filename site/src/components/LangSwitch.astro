@@ -36,27 +36,34 @@ const isEn = lang === 'en';
 <style>
   /* No background/border/pill/underline anywhere here (owner's explicit
      "doit se fondre dans le header") - only color + weight distinguish the
-     active language, exactly as specced. */
+     active language, exactly as specced. Font-size 0.8rem (< nav links'
+     var(--text-sm)/0.875rem) : owner, 2026-09-03, "typo légèrement plus
+     petite et plus légère que les liens de navigation", pour ne jamais
+     lire comme une catégorie du menu. */
   .lang-switch {
     display: inline-flex;
     align-items: center;
     gap: 3px;
-    font-size: var(--text-sm);
+    font-size: 0.8rem;
     line-height: 1;
   }
 
-  /* Claws back part of #site-nav's shared 16px flex gap on both sides
-     (site.css, `.site-header nav { gap: var(--space-3) }`) - this switch
-     reads as "very compact" text, not a full nav item, so it shouldn't
-     cost two full nav-item gaps. Desktop only: the mobile instance sits in
-     `.site-header-controls` next to the hamburger, a different gap
-     context where this offset would be wrong. */
-  .lang-switch--desktop {
-    margin-inline: -10px;
-  }
+  /* Owner correction 2026-09-03 (pack "Version-Anglaise-Correctifs-V2") :
+     le switch vit maintenant APRÈS le CTA, dans .nav-cta-group
+     (Base.astro/site.css) dont le `gap: 12px` régit déjà l'espacement
+     CTA -> séparateur -> switch - plus besoin de marges négatives ici
+     pour compenser le gap de nav lui-même, puisque le switch n'est plus
+     un enfant direct de nav. */
 
+  /* Couleur : owner, 2026-09-03 - "NE CRÉE PAS un nouveau bleu, récupère
+     EXACTEMENT le bleu nuit plus clair déjà utilisé dans la phrase
+     française 'à toutes celles et ceux qui, par leur don, rendent cette
+     aventure possible'" -> --color-accent (#03529c ; voir
+     .bopa-support__patrons-thanks, index.astro). L'inactive réutilise le
+     même token, atténué via color-mix plutôt qu'un gris indépendant -
+     jamais de nouvelle couleur inventée pour cet état. */
   .lang-switch__link {
-    color: var(--color-muted-light);
+    color: color-mix(in srgb, var(--color-accent) 48%, transparent);
     font-weight: 400;
     text-decoration: none;
     padding: 2px;
@@ -72,12 +79,12 @@ const isEn = lang === 'en';
   }
 
   .lang-switch__link.is-active {
-    color: var(--color-navy);
-    font-weight: 600;
+    color: var(--color-accent);
+    font-weight: 500;
   }
 
   .lang-switch__sep {
-    color: var(--color-muted-light);
+    color: color-mix(in srgb, var(--color-accent) 45%, transparent);
     font-size: 0.9em;
   }
 

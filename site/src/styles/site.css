@@ -752,8 +752,11 @@ button {
 }
 
 /* Couleur/animation : .btn-filled-premium, partagée avec le hero.
-   Ici, uniquement l'espacement propre au contexte du menu. */
-.site-header nav > a.nav-cta {
+   Ici, uniquement l'espacement propre au contexte du menu. Sélecteur
+   descendant (pas `>`) depuis le pack "Version-Anglaise-Correctifs-V2" :
+   le CTA vit maintenant dans .nav-cta-group (voir plus bas), plus un
+   enfant direct de nav. */
+.site-header nav a.nav-cta {
   margin-left: var(--space-5);
 }
 
@@ -762,21 +765,64 @@ button {
    source order decides. It didn't: the CTA kept the desktop
    margin-left on mobile and overflowed the menu panel's right edge. */
 @media (max-width: 76rem) {
-  .site-header nav > a.nav-cta {
+  .site-header nav a.nav-cta {
+    width: 100%;
     margin-left: 0;
     margin-top: var(--space-2);
     justify-content: center;
   }
 }
 
+/* Regroupe CTA + séparateur + switch (pack "Version-Anglaise-Correctifs-
+   V2", 2026-09-03) : owner - "déplace le switch APRÈS le bouton Nous
+   soutenir... je veux qu'il soit clairement perçu comme un contrôle
+   secondaire". Un seul enfant flex de nav plutôt que trois éléments
+   séparés : sans ce regroupement, à une largeur où la ligne déborde tout
+   juste, seul le switch (le dernier élément) retombait seul à la ligne
+   suivante, isolé loin à gauche - visuellement détaché du CTA auquel il
+   est censé être rattaché. Groupés, les trois passent à la ligne
+   ENSEMBLE, ce qui se lit comme un bloc d'actions cohérent, pas un
+   fragment de menu égaré. */
+.nav-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (max-width: 76rem) {
+  .nav-cta-group {
+    width: 100%;
+  }
+}
+
+/* Séparateur FR/EN : trait vertical très fin entre le CTA et le switch,
+   pour que le switch se lise comme un contrôle secondaire et non comme
+   une catégorie du menu. var(--color-line) : le token "hairline" déjà
+   utilisé pour tous les traits discrets du site - jamais une nouvelle
+   couleur. Masqué sous 76rem : la nav (et donc le CTA) passe derrière le
+   hamburger à cette largeur, et le switch mobile (hors #site-nav) n'a
+   pas besoin de ce séparateur (consigne owner : "pas besoin ... s'il
+   surcharge"). */
+.nav-lang-divider {
+  width: 1px;
+  height: 1.1em;
+  background: var(--color-line);
+}
+
+@media (max-width: 76rem) {
+  .nav-lang-divider {
+    display: none;
+  }
+}
+
 /* Le CTA du header doit être un bouton .btn identique à ceux du hero -
    rectangle arrondi (var(--radius-md)), texte en minuscules, comme
    .hero-actions .btn - plutôt qu'un lien de nav habillé en bleu.
-   .site-header nav > a (0,1,2) est plus spécifique que .btn seul (0,1,0)
+   .site-header nav a (0,1,2) est plus spécifique que .btn seul (0,1,0)
    et écrasait son padding/radius/transform : on regagne la priorité ici,
    sans !important, pour que les deux boutons soient rigoureusement le
-   même composant. */
-.site-header nav > a.btn {
+   même composant. Sélecteur descendant : voir .nav-cta-group ci-dessus. */
+.site-header nav a.btn {
   padding: var(--space-2) var(--space-4);
   border-radius: var(--radius-md);
   text-transform: none;
@@ -785,7 +831,7 @@ button {
   font-weight: 700;
 }
 
-.site-header nav > a.btn-filled-premium {
+.site-header nav a.btn-filled-premium {
   color: #fff;
 }
 
