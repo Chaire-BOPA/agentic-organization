@@ -1763,6 +1763,16 @@ p {
   --mp-white: #ffffff;
   --mp-offwhite: #fbfcfe;
   --mp-line: #dce6f1;
+  /* Gabarit de carte projet, unique source pour Home ET /nos_innovations/
+     (pack "Home-Nos-Innovations-3-Cartes-V1", 2026-09-03 - /nos_innovations/
+     est la référence explicite). nos_innovations.astro redéclare ces deux
+     mêmes valeurs localement sur `.innovations-v2` (pack "Rail-3Cartes-
+     Nav-Fixe-V4", 2026-08-29, avant que cette liste partagée existe) - la
+     redéclaration est désormais redondante avec celle-ci mais harmless
+     (même sélecteur, même valeur), volontairement laissée intacte pour ne
+     pas toucher à cette page hors périmètre de ce pack. */
+  --innovations-card-width: 227px;
+  --innovations-card-gap: 16px;
   font-family: var(--font-text, "Inter", system-ui, sans-serif);
 }
 
@@ -2022,12 +2032,30 @@ p {
   font-weight: 400;
 }
 
+/* Passé de 4 cartes en grille 1fr à 3 cartes à largeur FIXE (pack "Home-
+   Nos-Innovations-3-Cartes-V1", 2026-09-03, owner : "Goldfinger retiré de
+   la Home uniquement, gabarit Home = gabarit exact /nos_innovations/") -
+   `--innovations-card-width`/`--innovations-card-gap` (227px/16px, voir
+   plus haut) sont la même paire de variables que celles de la page
+   Innovations, pas une valeur recopiée à l'oeil : les cartes ont donc
+   exactement la même largeur des deux côtés, sans avoir besoin d'un rail
+   scrollable ici (Home n'affiche jamais plus de 3 cartes, contrairement à
+   /nos_innovations/ qui peut en avoir davantage par catégorie). flex plutôt
+   que grid : les cartes gardent leur largeur intrinsèque au lieu de
+   s'étirer pour remplir la largeur du rail (qui reste dictée par le grid
+   parent .bopa-projects-v2__inner, minmax(0,3fr) - inchangé), ce qui
+   évite justement l'effet "carte étirée artificiellement plus large que
+   sur /nos_innovations/" que la grille 1fr aurait produit. */
 .bopa-projects-v2__rail {
   grid-area: rail;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
+  display: flex;
+  gap: var(--innovations-card-gap);
   min-width: 0;
+}
+
+.bopa-projects-v2__rail .bopa-project-card {
+  flex: 0 0 var(--innovations-card-width);
+  width: var(--innovations-card-width);
 }
 
 .bopa-project-card {
@@ -2145,7 +2173,7 @@ p {
   transform: translateX(-3px);
 }
 
-/* Home only : les titres/descriptions des 4 cartes doivent commencer
+/* Home only : les titres/descriptions des 3 cartes doivent commencer
    exactement à la même hauteur (owner, pack "Correctif Global", 2026-08-28).
    Un `justify-content: center` vertical avait été utilisé un temps pour
    éviter un grand vide variable en bas de carte selon la longueur du
@@ -2171,8 +2199,12 @@ p {
   }
 
   .bopa-projects-v2__rail {
+    /* Plus de grid-template-columns ici : .bopa-projects-v2__rail est
+       passé en flex avec des cartes à largeur fixe (voir la règle de
+       base) - un rail flex dont les enfants dépassent la largeur
+       disponible défile déjà horizontalement tout seul, pas besoin de
+       redéfinir une grille à ce palier. */
     overflow-x: auto;
-    grid-template-columns: repeat(4, minmax(230px, 1fr));
     scroll-snap-type: x mandatory;
     scrollbar-width: thin;
     padding-bottom: .5rem;
