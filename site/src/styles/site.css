@@ -2035,16 +2035,39 @@ p {
    ne peut donc plus jamais être plus large que son contenu. Le bloc
    éditorial passe en `1fr` et absorbe automatiquement tout l'espace ainsi
    libéré, ce qui a le double effet demandé : plus de vide à droite (le
-   bord droit de Colette tombe pile sur la largeur `min(1320px, 100%)` du
-   conteneur, comme les autres sections), et un bloc éditorial visiblement
-   plus large qu'avant (titre/paragraphe cassent moins de lignes) sans
-   avoir touché un seul pixel des cartes. */
+   bord droit de Colette tombe pile sur la largeur réelle du conteneur,
+   comme les autres sections), et un bloc éditorial visiblement plus
+   large qu'avant (titre/paragraphe cassent moins de lignes) sans avoir
+   touché un seul pixel des cartes.
+   `width` ci-dessous n'est PAS la vraie largeur utilisée : `index.astro`/
+   `en/index.astro` la re-déclarent chacun sur `#innovations-bopa`/
+   `#bopa-innovations .bopa-projects-v2__inner` avec `min(var(--max-width),
+   100%)` (owner, 2026-08-30, alignement sur "Qui sommes-nous") - une
+   règle id-scopée plus spécifique qui gagne toujours sur celle-ci. Mise à
+   jour ici à la même valeur réelle plutôt que laissée à l'ancienne valeur
+   trompeuse (1320px, qui ne s'applique en fait jamais sur Home).
+   Rééquilibrage (pack "Equilibrage-Gaps-V3", 2026-09-03) : le rythme
+   bloc-éditorial -> GRAND VIDE -> cartes-très-serrées venait de deux
+   valeurs opposées à la mauvaise place - `column-gap` (l'espace avant
+   LiverSight) bien plus généreux que `--innovations-card-gap` (l'espace
+   entre cartes, resté au gabarit /nos_innovations/, gelé). Correctif :
+   un `--innovations-rail-gap-home` dédié à Home (24px, ~24-28px demandé)
+   pour l'espace ENTRE les 3 cartes uniquement sur cette page - jamais
+   `--innovations-card-gap` lui-même, qui reste la valeur partagée et gelée
+   avec /nos_innovations/ - et un `column-gap` ramené à `var(--space-4)`
+   (32px, un token existant plutôt qu'un clamp() vw-dépendant) pour
+   l'espace bloc-éditorial -> LiverSight. Le total (intro + column-gap +
+   rail) restant égal à la largeur réelle du conteneur, agrandir le rail
+   (gap inter-cartes plus grand) réduit mécaniquement soit l'intro soit le
+   column-gap - ici c'est le column-gap qui absorbe la réduction, donc
+   Colette ne bouge pas et le bloc éditorial peut même très légèrement
+   grandir. */
 .bopa-projects-v2__inner {
   display: grid;
-  grid-template-columns: minmax(250px, 1fr) calc(var(--innovations-card-width) * 3 + var(--innovations-card-gap) * 2);
+  grid-template-columns: minmax(250px, 1fr) calc(var(--innovations-card-width) * 3 + var(--innovations-rail-gap-home) * 2);
   grid-template-areas: "intro rail";
-  column-gap: clamp(2.5rem, 5vw, 5rem);
-  width: min(1320px, 100%);
+  column-gap: var(--space-4);
+  width: min(var(--max-width), 100%);
   margin: 0 auto;
   align-items: center;
 }
@@ -2119,21 +2142,33 @@ p {
 /* Passé de 4 cartes en grille 1fr à 3 cartes à largeur FIXE (pack "Home-
    Nos-Innovations-3-Cartes-V1", 2026-09-03, owner : "Goldfinger retiré de
    la Home uniquement, gabarit Home = gabarit exact /nos_innovations/") -
-   `--innovations-card-width`/`--innovations-card-gap` (227px/16px, voir
-   plus haut) sont la même paire de variables que celles de la page
-   Innovations, pas une valeur recopiée à l'oeil : les cartes ont donc
-   exactement la même largeur des deux côtés, sans avoir besoin d'un rail
-   scrollable ici (Home n'affiche jamais plus de 3 cartes, contrairement à
-   /nos_innovations/ qui peut en avoir davantage par catégorie). flex plutôt
-   que grid : les cartes gardent leur largeur intrinsèque au lieu de
-   s'étirer pour remplir la largeur du rail (qui reste dictée par le grid
-   parent .bopa-projects-v2__inner, minmax(0,3fr) - inchangé), ce qui
-   évite justement l'effet "carte étirée artificiellement plus large que
-   sur /nos_innovations/" que la grille 1fr aurait produit. */
+   `--innovations-card-width` (227px, voir plus haut) est la même variable
+   que celle de la page Innovations, pas une valeur recopiée à l'oeil : les
+   cartes ont donc exactement la même largeur des deux côtés, sans avoir
+   besoin d'un rail scrollable ici (Home n'affiche jamais plus de 3 cartes,
+   contrairement à /nos_innovations/ qui peut en avoir davantage par
+   catégorie). flex plutôt que grid : les cartes gardent leur largeur
+   intrinsèque au lieu de s'étirer pour remplir la largeur du rail (qui
+   reste dictée par le grid parent .bopa-projects-v2__inner, une largeur
+   fixe dérivée des mêmes variables - voir son commentaire), ce qui évite
+   justement l'effet "carte étirée artificiellement plus large que sur
+   /nos_innovations/" que la grille 1fr aurait produit.
+   `--innovations-rail-gap-home` (pack "Equilibrage-Gaps-V3", 2026-09-03,
+   24px) - PAS `--innovations-card-gap` (16px, resté le gabarit gelé et
+   partagé avec /nos_innovations/) - pour l'espace entre LiverSight/
+   BOPCAM/Colette spécifiquement sur Home : l'owner voulait plus d'air ici
+   sans toucher au gabarit de carte lui-même ni à l'autre page. Home-only,
+   défini juste en dessous plutôt que dans le bloc de variables partagées
+   plus haut (`.bopa-mission-v2, .bopa-projects-v2, .innovations-v2, ...`)
+   pour ne jamais laisser croire que /nos_innovations/ l'utilise aussi. */
+.bopa-projects-v2 {
+  --innovations-rail-gap-home: 24px;
+}
+
 .bopa-projects-v2__rail {
   grid-area: rail;
   display: flex;
-  gap: var(--innovations-card-gap);
+  gap: var(--innovations-rail-gap-home);
   min-width: 0;
 }
 
