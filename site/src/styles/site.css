@@ -558,10 +558,18 @@ button {
   gap: var(--space-3);
 }
 
+/* Compactage nav (pack "Header-Compactage-Navigation-FR-EN-V1",
+   2026-09-03) : 16px -> 12px (--space-2-5), une réduction de 25% -
+   l'owner voulait la nav "moins étalée" d'environ 20-25%. Un seul point
+   de réglage pour tout l'espacement horizontal entre catégories (et
+   entre la dernière catégorie et .nav-cta-group, seul enfant flex de nav
+   après elles) : le mobile a déjà son propre `gap` dédié plus bas
+   (colonne verticale, @media max-width:76rem), donc ce changement ne
+   touche que la ligne desktop. */
 .site-header nav {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2-5);
   flex-wrap: wrap;
 }
 
@@ -755,9 +763,17 @@ button {
    Ici, uniquement l'espacement propre au contexte du menu. Sélecteur
    descendant (pas `>`) depuis le pack "Version-Anglaise-Correctifs-V2" :
    le CTA vit maintenant dans .nav-cta-group (voir plus bas), plus un
-   enfant direct de nav. */
+   enfant direct de nav.
+   64px -> 32px (pack "Header-Compactage-Navigation-FR-EN-V1",
+   2026-09-03) : l'owner signalait spécifiquement "Nous contacter -> Nous
+   soutenir" comme le point le plus détaché du header - une coupe plus
+   nette que la réduction générale de 25% du gap de nav ci-dessus
+   (combinées : 16+64=80px avant, 12+32=44px après, un vrai resserrement
+   plutôt qu'un ajustement uniforme). Le CTA lui-même (taille, padding,
+   couleur) et tout ce qui le suit (séparateur, switch) restent
+   strictement gelés - seul l'espace qui le précède change. */
 .site-header nav a.nav-cta {
-  margin-left: var(--space-5);
+  margin-left: var(--space-4);
 }
 
 /* Placed after the base rule above (not inside the big mobile block
