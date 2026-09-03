@@ -3241,6 +3241,39 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     color: rgba(255,255,255,.68);
     font-size: .82rem;
   }
+  /* Respiration du bloc éditorial gauche (pack "CTA-Respiration-V1",
+     2026-09-03, desktop uniquement - owner : "conserver le responsive
+     existant" sur tablette/mobile) - la main+cœur et le ratio de grille
+     (1.1fr/.9fr) NE SONT PAS touchés : à ≥1228px la colonne droite fait
+     531px, tout juste au-dessus du seuil de 521.7px (480px / 92%) sous
+     lequel l'image cesserait d'être plafonnée par son max-width:480px et
+     rétrécirait - aucune marge pour toucher au ratio sans enfreindre "ne
+     touche pas à l'image". Le décalage vers la droite (+30px de padding-
+     left) et l'élargissement (padding-right réduit) jouent donc uniquement
+     sur le padding et les marges internes de .support-donation-panel__content,
+     jamais sur la grille. Padding vertical réduit de 21px de chaque côté
+     pour financer exactement l'augmentation des 3 gaps ci-dessous (+8/+28/+4
+     = +40, contre -42 de padding retiré) : la hauteur totale du bloc ne
+     grandit pas (léger -2px), conformément à "NE PAS augmenter la hauteur
+     globale de l'encadré". */
+  @media (min-width: 901px) {
+    .support-donation-panel__content {
+      padding-left: calc(clamp(36px, 5vw, 64px) + 30px);
+      padding-right: clamp(14px, 2vw, 20px);
+      padding-top: calc(clamp(36px, 5vw, 64px) - 21px);
+      padding-bottom: calc(clamp(36px, 5vw, 64px) - 21px);
+    }
+    /* Paragraphe élargi : ancien plafond 47ch sous-utilisait déjà la
+       colonne (474px rendus sur ~520px disponibles) - 58ch est
+       volontairement généreux, la largeur réelle s'auto-plafonne à la
+       largeur de la colonne (align-items:flex-start, pas de stretch). */
+    .support-donation-panel__content > p:not(.support-donation-panel__security) {
+      margin-top: 22px;
+      margin-bottom: 46px;
+      max-width: 58ch;
+    }
+    .support-donation-panel__security { margin-top: 13px; }
+  }
   .support-donation-panel__visual {
     position: relative;
     display: flex;
