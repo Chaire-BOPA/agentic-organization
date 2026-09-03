@@ -3109,7 +3109,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   /* AP-HP et Mines-Télécom réduits (owner, 2026-09-03) - Paris-Saclay non
      touché. La carte garde 138px (grid align-items:stretch par défaut),
      seul le logo à l'intérieur est plus petit. */
-  .support-partner-card--foundation img.support-partner-card__logo--faphp { max-height: 76px; }
+  /* AP-HP est plafonné par la largeur (72% -> 193px -> 58px de haut, sous
+     les 76px de max-height ci-dessus) - réduire encore (owner, 2026-09-03)
+     demande donc de resserrer max-width, pas max-height. */
+  .support-partner-card--foundation img.support-partner-card__logo--faphp { max-height: 76px; max-width: 58%; }
   .support-partner-card--foundation img.support-partner-card__logo--fondation-imt { max-height: 76px; }
   /* Logo AP-HP - historique de correctifs le 2026-08-30/31, tous dans le
      même sens (owner : "il est pas centré" -> encore pas centré à 3.5%) :
