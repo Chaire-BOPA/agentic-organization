@@ -866,16 +866,22 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           sur leurs fondations pour accompagner la collecte et soutenir la réalisation de ses missions.
         </p>
         <div class="bopa-support__grid bopa-support__grid--three">
-          {foundationLogos.map((logo) => (
-            <article class="support-partner-card support-partner-card--foundation">
-              <img
-                src={logo.src}
-                alt={logo.alt}
-                loading="lazy"
-                class={logo.src.includes('logo-faphp') ? 'support-partner-card__logo--recenter' : undefined}
-              />
-            </article>
-          ))}
+          {foundationLogos.map((logo) => {
+            const brand = logo.src.match(/logo-([a-z-]+)\.png$/)?.[1];
+            return (
+              <article class="support-partner-card support-partner-card--foundation">
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  loading="lazy"
+                  class={[
+                    brand ? `support-partner-card__logo--${brand}` : undefined,
+                    logo.src.includes('logo-faphp') ? 'support-partner-card__logo--recenter' : undefined,
+                  ].filter(Boolean).join(' ') || undefined}
+                />
+              </article>
+            );
+          })}
         </div>
       </div>
 
@@ -3100,6 +3106,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     max-height: 92px;
     object-fit: contain;
   }
+  /* AP-HP et Mines-Télécom réduits (owner, 2026-09-03) - Paris-Saclay non
+     touché. La carte garde 138px (grid align-items:stretch par défaut),
+     seul le logo à l'intérieur est plus petit. */
+  .support-partner-card--foundation img.support-partner-card__logo--faphp { max-height: 76px; }
+  .support-partner-card--foundation img.support-partner-card__logo--fondation-imt { max-height: 76px; }
   /* Logo AP-HP - historique de correctifs le 2026-08-30/31, tous dans le
      même sens (owner : "il est pas centré" -> encore pas centré à 3.5%) :
      un premier correctif avait posé translateX(7.2%) sur la théorie d'un
