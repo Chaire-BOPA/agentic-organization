@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  lang="en"
+  title="Scientific publications - BOPA"
+  description="The scientific publications and research areas of the BOPA Innovation Chair."
+>
+  <section class="section-block">
+    <div class="mesh-echo" aria-hidden="true"></div>
+    <div class="wrap" data-reveal>
+      <span class="kicker">Innovations</span>
+      <h1>Scientific publications</h1>
+      <p class="lede">
+        Thanks to the support of its partners, the BOPA Innovation Chair has
+        been able to fund extensive research, resulting in 46 published
+        scientific articles and 48 presentations at specialist conferences
+        and congresses.
+      </p>
+      <div class="stat-row">
+        <div class="stat">
+          <span class="stat-value" data-reveal>46</span>
+          <span class="stat-label">Scientific articles</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" data-reveal style="--reveal-delay: 0.1s">48</span>
+          <span class="stat-label">Conference presentations</span>
+        </div>
+        <div class="stat">
+          <span class="stat-value" data-reveal style="--reveal-delay: 0.2s">3</span>
+          <span class="stat-label">Research areas</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap section-sub" data-reveal>
+      <h2>Three research areas</h2>
+      <p class="lede">
+        Research within the Chair is organized around three main areas.
+      </p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Data</h3>
+          <p>Harnessing the data generated and available in the operating room.</p>
+        </article>
+        <article class="card">
+          <h3>Digital twins</h3>
+          <p>
+            Developing anatomical and hemodynamic digital models to better
+            understand and anticipate clinical situations.
+          </p>
+        </article>
+        <article class="card">
+          <h3>Human sciences</h3>
+          <p>
+            Analyzing the impact of the operating room's digital
+            transformation, to identify the optimal conditions for effective
+            collaboration between humans and machines.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section-sub {
+    margin-top: var(--space-6);
+  }
+</style>

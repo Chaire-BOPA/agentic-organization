@@ -1,0 +1,4049 @@
+---
+import { existsSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import Base from '../../layouts/Base.astro';
+
+// Any image dropped into site/public/images/equipe/ becomes a gallery
+// slide automatically - see source/brand/assets/equipe/README.md for
+// where the owner drops originals. process.cwd() (not import.meta.url)
+// because the build bundles this file elsewhere, breaking a
+// URL-relative path that only worked in dev. The folder itself may not
+// exist (e.g. every photo removed) - same try/catch as team-photos below.
+let teamPhotos: { src: string; alt: string }[] = [];
+try {
+  teamPhotos = readdirSync(join(process.cwd(), 'public', 'images', 'equipe'))
+    .filter((file) => /\.(jpe?g|png|webp)$/i.test(file))
+    .sort()
+    .map((file) => ({
+      src: `/images/equipe/${file}`,
+      alt: "A moment with the BOPA Innovation Chair team.",
+    }));
+} catch {
+  // Folder doesn't exist - no gallery photos dropped in currently.
+}
+
+const partnerLogos = [
+  { src: '/logos/partenaires/logo-aphp.png', alt: 'AP-HP - Assistance Publique-Hôpitaux de Paris' },
+  { src: '/logos/partenaires/logo-imt.png', alt: 'Institut Mines-Télécom', scale: 0.85 },
+  { src: '/logos/partenaires/logo-upsaclay.png', alt: 'Université Paris-Saclay' },
+  { src: '/logos/partenaires/logo-faphp.png', alt: 'Fondation AP-HP' },
+  { src: '/logos/partenaires/logo-fondation-imt.png', alt: 'Fondation Mines-Télécom', scale: 1.15 },
+  { src: '/logos/partenaires/logo-fondation-upsaclay.png', alt: "Fondation de l'Université Paris-Saclay", scale: 1.15 },
+];
+
+// Real headshots are optional, dropped into site/public/images/team-photos/
+// (see source/brand/assets/team-photos/README.md) named after the person's
+// slug - a card falls back to initials until a matching file shows up, never
+// a fabricated stock photo standing in for a named person.
+let teamPhotoFiles: string[] = [];
+try {
+  teamPhotoFiles = readdirSync(join(process.cwd(), 'public', 'images', 'team-photos')).filter((file) =>
+    /\.(jpe?g|png|webp)$/i.test(file)
+  );
+} catch {
+  // Folder doesn't exist yet - no headshots dropped in so far.
+}
+
+const slugify = (name: string) =>
+  name
+    .replace(/^(Pr|Dr|Prof\.)\s+/i, '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036F]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-');
+
+const team = [
+  { name: 'Prof. Éric Vibert', credentials: 'MD, PhD', role: 'Founder of the BOPA Innovation Chair', linkedin: 'https://www.linkedin.com/in/eric-vibert-md-phd-iko-koh-bab30469/' },
+  { name: 'Charles Hellec', credentials: 'PhD', role: 'Operations Director of the BOPA Innovation Chair', linkedin: 'https://www.linkedin.com/in/charles-hellec/' },
+  { name: 'Elie Farha', credentials: 'MD', role: 'Operations Director of the BOPTECH platform', linkedin: 'https://www.linkedin.com/in/elie-farha-md/' },
+  { name: 'Axelle Piguet', role: 'Machine Learning Engineer', linkedin: 'https://fr.linkedin.com/in/axelle-piguet' },
+].map((person) => {
+  const slug = slugify(person.name);
+  const photoFile = teamPhotoFiles.find((file) => file.replace(/\.[^.]+$/, '') === slug);
+  return {
+    ...person,
+    initials: person.name
+      .replace(/^(Pr|Dr|Prof\.)\s+/i, '')
+      .split(/\s+/)
+      .map((word) => word[0])
+      .join('')
+      .toUpperCase(),
+    photo: photoFile ? `/images/team-photos/${photoFile}` : null,
+  };
+});
+
+// "Qui sommes-nous" (about-v2) - réutilise les mêmes assets réels que
+// partnerLogos/team ci-dessus. Chiffres et intitulés validés par la
+// propriétaire (pack CLAUDE-INTEGRATION.md, 2026-08-27) ; les liens
+// BOpEx/BOPTECH et la photo du CHB sont les vraies ressources du projet,
+// jamais les placeholders du pack.
+const founders = partnerLogos.slice(0, 3);
+const foundationLogos = partnerLogos.slice(3, 6);
+
+// "Ils nous soutiennent" (pack "Nous-Soutenir-Logos-2x4-V1", 2026-09-02) :
+// 8 partenaires, 2 lignes de 4 - ordre volontaire (pas alphabétique),
+// demandé explicitement par l'owner. Assets traités depuis source/inbox
+// (recadrés au contenu réel, fond transparent) sauf Relyens/Vermon qui
+// gardent leurs assets existants (meilleure qualité).
+const patronLogos = [
+  { src: '/logos/partenaires/logo-relyens.png', alt: 'Relyens' },
+  { src: '/logos/partenaires/logo-vermon.png', alt: 'Vermon' },
+  { src: '/logos/partenaires/logo-jnj.png', alt: 'Johnson & Johnson MedTech' },
+  { src: '/logos/partenaires/logo-medtronic.png', alt: 'Medtronic' },
+  { src: '/logos/partenaires/logo-boston-scientific.png', alt: 'Boston Scientific Foundation' },
+  { src: '/logos/partenaires/logo-fujifilm.png', alt: 'Fujifilm' },
+  { src: '/logos/partenaires/logo-orange.png', alt: 'Orange' },
+  { src: '/logos/partenaires/logo-richard-wolf.png', alt: 'Richard Wolf' },
+];
+
+// "Ils nous accompagnent" (pack "Ils-Nous-Accompagnent-V2", 2026-09-02) :
+// 4 partenaires, 1 seule ligne desktop - ordre volontaire demandé par
+// l'owner. Assets traités depuis source/inbox (recadrés, fond transparent)
+// sauf Bayes Impact : fourni déjà prêt sur fond blanc, utilisé TEL QUEL,
+// aucune retouche (consigne explicite de l'owner).
+const accompanyLogos = [
+  { src: '/logos/partenaires/logo-nvidia.png', alt: 'NVIDIA' },
+  { src: '/logos/partenaires/logo-s3ns.png', alt: 'S3NS' },
+  { src: '/logos/partenaires/logo-bayes-impact.png', alt: 'Bayes Impact' },
+  { src: '/logos/partenaires/logo-toys-films.png', alt: 'Toys Films' },
+];
+
+const researchStats = [
+  { value: '55', label: 'Publications' },
+  { value: '51', label: 'Conference talks' },
+  { value: '7', label: 'PhD students' },
+  { value: '8', label: "Master's students" },
+];
+
+// Pictogrammes du bandeau bleu "01" - même langage graphique fin/24x24
+// que les icônes du bandeau institutionnel sous le Hero (#environnement).
+const bandIcons = [
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M6 11a6 6 0 0 0 12 0" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 17v4M9 21h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 4 2 9l10 5 10-5-10-5Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M6 12v5c0 1.5 3 3 6 3s6-1.5 6-3v-5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 10v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="9" cy="8" r="3" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 20c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><circle cx="17" cy="9" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M15 20c.2-2.2 1.8-3.8 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+];
+
+// "De la recherche à l'impact" (2026-08-28) - remplace les anciens
+// blocs "De la recherche au terrain"/"Faire sortir l'innovation du
+// laboratoire" (BOpEx/BOPTECH + impactStats), dont le contenu est
+// repris et développé ici. Colette/MesGardes sont citées en texte
+// (checklist), jamais en logo - aucun asset validé pour ces deux
+// projets, conformément à la consigne du pack.
+const researchResults = [
+  { title: '2 start-ups created', text: 'to drive and develop breakthrough innovations' },
+  { title: '2 medical software tools deployed', text: "closely tailored to healthcare professionals' needs" },
+  { title: "Colette, a therapeutic education chatbot", text: 'for transplant patients' },
+  { title: 'MesGardes, an app that simplifies scheduling', text: 'of on-call duty in the operating room' },
+];
+
+const impactCheckIcon =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8 12.3l2.6 2.6L16.2 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+const impactCardIcons = [
+  // Fusée - "Des résultats concrets au service du terrain"
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2.5c2.8 2 4.5 5.6 4.5 9.3 0 2-.8 3.9-1.9 5.1l-.9 2.8-1.7-1.9-1.7 1.9-.9-2.8c-1.1-1.2-1.9-3.1-1.9-5.1 0-3.7 1.7-7.3 4.5-9.3Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="10.5" r="1.9" stroke="currentColor" stroke-width="1.6"/><path d="M8.3 16.5l-1.8 2.7M15.7 16.5l1.8 2.7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  // Hôpital - même pictogramme que le bandeau institutionnel sous le Hero
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="5" y="9" width="14" height="12" rx="1" stroke="currentColor" stroke-width="1.6" /><path d="M9 3h6v6H9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" /><path d="M12 13v4M10 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" /></svg>',
+];
+
+const clinicalStats = [
+  { value: '1,500', label: 'procedures in the OR' },
+  { value: '180', label: 'hepatectomies' },
+  { value: '50', label: 'pancreatectomies' },
+  { value: '180', label: 'liver transplants / year' },
+];
+
+// Sous-section 02 "Un écosystème unique dédié à l'innovation" (2026-08-28) -
+// 4 pictos cyan simples (même gabarit que bandIcons/impactCardIcons : 24x24,
+// stroke="currentColor", stroke-width 1.6, pas de remplissage).
+const ecoIcons = [
+  // 1. Espace / plan - "Un espace dédié au cœur de l'hôpital"
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M3.5 12h17M12 3.5v17" stroke="currentColor" stroke-width="1.6"/></svg>',
+  // 2. Localisation - "À 500 mètres du Centre Hépato-Biliaire"
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 21s7-6.3 7-11.5A7 7 0 0 0 5 9.5C5 14.7 12 21 12 21Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4" stroke="currentColor" stroke-width="1.6"/></svg>',
+  // 3. Excellence / trophée - "Une expertise chirurgicale de classe mondiale"
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0V4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M7 5H4v1.5A3.5 3.5 0 0 0 7 10M17 5h3v1.5A3.5 3.5 0 0 1 17 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M12 14v3.5M9 20.5h6M9.5 20.5c0-1.8.9-3 2.5-3s2.5 1.2 2.5 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+  // 4. Activité / progression - "Une activité clinique de très haut niveau"
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 20V10M10 20V6M16 20v-8M21 5l-5.5 5.5L12.5 7 9 10.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 5h4v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+];
+
+const ecoPoints = [
+  {
+    title: 'A dedicated space at the heart of the hospital',
+    text: '<strong>158 m²</strong> dedicated to BOPA within Paul-Brousse hospital.',
+  },
+  {
+    title: '<strong>500 meters</strong> from the Hepato-Biliary Center',
+    text: 'Immediate proximity to surgical teams and the operating room.',
+  },
+  {
+    title: 'World-class surgical expertise',
+    text: 'A pioneering center for liver transplantation in France and Europe.',
+    strong: true,
+  },
+  {
+    title: 'Clinical activity of the highest caliber',
+    text: 'Expertise spanning the full scope of hepato-biliary surgery.',
+  },
+];
+
+// Encadré de conclusion en fin de sous-section 02 (pack "FINAL", 2026-08-28) -
+// picto rosette/distinction, même convention 24x24/stroke=1.6/currentColor
+// que ecoIcons ci-dessus.
+const ecoConclusionIcon =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="9.5" r="5.5" stroke="currentColor" stroke-width="1.6"/><path d="M9 14l-1.6 6.5 4.6-2.3 4.6 2.3L15 14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.6 9.5l1.7 1.7 3.1-3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+// Déposée une fois dans public/photos/centre-hepato-biliaire.(jpg|png|webp),
+// la vraie photo apparaît ici automatiquement - même mécanisme que
+// team-photos/ ci-dessus. Tant qu'aucun fichier réel n'est présent, la
+// section garde un fond uni, jamais une photo générée ou de stock.
+const chbPhotoFile = ['jpg', 'jpeg', 'png', 'webp']
+  .map((ext) => `centre-hepato-biliaire.${ext}`)
+  .find((file) => existsSync(join(process.cwd(), 'public', 'photos', file)));
+const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
+---
+
+<Base
+  lang="en"
+  title="BOPA - The Augmented Operating Room Innovation Chair"
+  description="The BOPA Innovation Chair is inventing tomorrow's hepato-bilio-pancreatic surgery, at Paul-Brousse hospital (AP-HP)."
+>
+  <section id="home" class="section-block dark hero">
+    <!-- 1. Photo brute, intacte : object-fit cover + object-position pour
+         cadrer, jamais de filter/blur/scale dessus. -->
+    <img
+      class="hero-photo"
+      src="/photos/hero-bloc-op-natural.jpg"
+      alt="A surgical team in the operating room, around a computer displaying a 3D model of a liver"
+      width="2800"
+      height="1758"
+    />
+    <!-- 2. Calques de teinte : uniquement dégradés/opacités, jamais un filter sur la photo. -->
+    <div class="hero-wash" aria-hidden="true"></div>
+    <div class="hero-gradient" aria-hidden="true"></div>
+    <div class="hero-vignette" aria-hidden="true"></div>
+    <canvas id="hero-network" class="hero-network" aria-hidden="true"></canvas>
+    <div class="wrap" data-reveal>
+      <h1>We are shaping<br />the operating room<br /><em>of tomorrow.</em></h1>
+      <p class="lede">
+        The BOPA Innovation Chair develops innovative digital solutions to
+        improve the quality, safety and experience of patients in <span class="nowrap">hepato-bilio-pancreatic</span> surgery.
+      </p>
+      <div class="btn-row hero-actions">
+        <a class="btn btn-outline-premium" href="/en/our-innovations">Discover our projects</a>
+        <a class="btn btn-filled-premium" href="/en/#support-us">Support us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bandeau institutionnel : répond en un coup d'œil à "pourquoi
+       l'environnement de BOPA est propice à l'innovation" (lieu, proximité
+       clinique, accès terrain, co-construction) - jamais la productivité
+       scientifique (publications/thèses/projets), qui a sa place plus bas
+       dans la page (section Nos projets, section Nous soutenir). Section
+       normale dans le flux, aucune marge négative : ne chevauche jamais
+       le Hero. -->
+  <section id="environment" class="section-block context-band">
+    <div class="context-band-row" data-reveal>
+      <div class="context-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="5" y="9" width="14" height="12" rx="1" stroke="currentColor" stroke-width="1.6" />
+          <path d="M9 3h6v6H9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+          <path d="M12 13v4M10 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+        <p class="context-text"><span class="context-line">At the heart of</span><span class="context-line"><strong>Paul-Brousse AP-HP hospital</strong></span></p>
+      </div>
+      <div class="context-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" />
+          <circle cx="12" cy="9" r="2.5" stroke="currentColor" stroke-width="1.6" />
+        </svg>
+        <p class="context-text"><span class="context-line">Immediately next to the <strong class="context-nowrap">Hepato-Biliary Center</strong></span><span class="context-line"><strong>~180 liver transplants/year</strong></span></p>
+      </div>
+      <div class="context-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 12h13M13 7l5 5-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <p class="context-text"><span class="context-line"><strong>Direct access</strong></span><span class="context-line">to the clinical field</span></p>
+      </div>
+      <div class="context-item">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="9" cy="12" r="5" stroke="currentColor" stroke-width="1.6" />
+          <circle cx="15" cy="12" r="5" stroke="currentColor" stroke-width="1.6" />
+        </svg>
+        <p class="context-text"><span class="context-line"><strong>100%</strong> of projects</span><span class="context-line">co-designed with caregivers</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="our-mission" class="bopa-mission-v2" aria-labelledby="mission-title">
+    <div class="bopa-mission-v2__inner">
+      <p class="bopa-eyebrow">Our mission</p>
+      <h2 id="mission-title">Advancing surgery through digital innovation</h2>
+      <p class="bopa-mission-v2__intro">
+        We develop and integrate innovative technologies to support every step of the surgical patient
+        journey, strengthen patient involvement, improve the safety of the surgical procedure, and follow
+        up with patients after the operation.
+      </p>
+
+      <div class="bopa-mission-v2__timeline" role="list" aria-label="The three phases of the surgical journey">
+        <div class="bopa-mission-v2__timeline-line" aria-hidden="true"></div>
+        <article class="bopa-mission-v2__step" role="listitem">
+          <div class="bopa-mission-v2__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <circle cx="32" cy="32" r="15" stroke="currentColor" stroke-width="2.5"/>
+              <circle cx="32" cy="32" r="5" stroke="currentColor" stroke-width="2.5"/>
+              <path d="M32 10v9M32 45v9M10 32h9M45 32h9M17 17l6.5 6.5M40.5 40.5 47 47M47 17l-6.5 6.5M23.5 40.5 17 47" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Preoperative</h3>
+          <p>Better understanding<br />for better planning</p>
+        </article>
+
+        <article class="bopa-mission-v2__step" role="listitem">
+          <div class="bopa-mission-v2__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M11 34h10l6-16 10 31 7-22 5 7h5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h3>Intraoperative</h3>
+          <p>Better vision, better decisions,<br />better surgery</p>
+        </article>
+
+        <article class="bopa-mission-v2__step bopa-mission-v2__step--postop" role="listitem">
+          <div class="bopa-mission-v2__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M15 47V34M25 47V24M35 47V38M45 47V17M55 47V29" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M12 50h46" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>Postoperative</h3>
+          <p>Better follow-up<br />for better recovery</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="bopa-innovations" class="bopa-projects-v2" aria-labelledby="projects-title">
+    <div class="bopa-projects-v2__inner">
+      <div class="bopa-projects-v2__intro">
+        <p class="bopa-eyebrow">Our innovations</p>
+        <h2 id="projects-title">Projects designed to transform surgery</h2>
+        <p>
+          From planning to recovery, our projects deliver concrete answers to today's
+          challenges to prepare the surgery of tomorrow.
+        </p>
+        <a class="bopa-projects-v2__cta" href="/en/our-innovations">
+          Discover our projects
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="bopa-projects-v2__rail" tabindex="0" aria-label="Featured projects - horizontal scroll on small screens">
+        <article class="bopa-project-card">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/liversight.png" alt="Presentation of the LiverSight project" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
+            <h3>LiverSight</h3>
+            <p>Software developed by BOPA to facilitate communication between surgeon and patient before liver surgery, helping the patient better understand the procedure and take an active role in their own care.</p>
+            <a class="bopa-project-card__cta" href="https://www.youtube.com/watch?v=MF1ysshoNVM" target="_blank" rel="noopener noreferrer">
+              <span>Discover LiverSight</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </article>
+
+        <a class="bopa-project-card" href="/en/our-innovations">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/bopcam.png" alt="Presentation of the BOPCAM project" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
+            <h3>BOPCAM</h3>
+            <p>A "made in BOPA" device to film the surgeon's hands and movements up close during open surgery.</p>
+          </div>
+        </a>
+
+        <a class="bopa-project-card" href="/en/our-innovations">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/goldfinger.png" alt="Presentation of the Goldfinger project" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
+            <h3>Goldfinger</h3>
+            <p>Interact simply and remotely with medical images, without ever breaking sterility.</p>
+          </div>
+        </a>
+
+        <a class="bopa-project-card" href="/en/our-innovations">
+          <div class="bopa-project-card__media">
+            <img src="/images/projets-v2/colette.png" alt="Presentation of the Colette project" loading="lazy" />
+          </div>
+          <div class="bopa-project-card__body">
+            <h3>Colette</h3>
+            <p>A conversational AI that supports transplant patients around the clock.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="our-vision" class="bopa-vision-v4" aria-labelledby="bopa-vision-v4-title">
+    <div class="bopa-vision-v4__network bopa-vision-v4__network--left" aria-hidden="true">
+      <svg viewBox="0 0 260 230">
+        <g fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M10 180 52 112 98 153 144 82 196 120 246 42"/>
+          <path d="M52 112 144 82M98 153l98-33M144 82l102-40M10 180l88-27"/>
+        </g>
+        <g fill="currentColor">
+          <circle cx="10" cy="180" r="3"/><circle cx="52" cy="112" r="3"/>
+          <circle cx="98" cy="153" r="3"/><circle cx="144" cy="82" r="3"/>
+          <circle cx="196" cy="120" r="3"/><circle cx="246" cy="42" r="3"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="bopa-vision-v4__network bopa-vision-v4__network--right" aria-hidden="true">
+      <svg viewBox="0 0 260 230">
+        <g fill="none" stroke="currentColor" stroke-width="1">
+          <path d="M10 180 52 112 98 153 144 82 196 120 246 42"/>
+          <path d="M52 112 144 82M98 153l98-33M144 82l102-40M10 180l88-27"/>
+        </g>
+        <g fill="currentColor">
+          <circle cx="10" cy="180" r="3"/><circle cx="52" cy="112" r="3"/>
+          <circle cx="98" cy="153" r="3"/><circle cx="144" cy="82" r="3"/>
+          <circle cx="196" cy="120" r="3"/><circle cx="246" cy="42" r="3"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="bopa-vision-v4__inner">
+      <p class="bopa-vision-v4__eyebrow">Our vision</p>
+      <h2 id="bopa-vision-v4-title">From innovation to progress</h2>
+
+      <p class="bopa-vision-v4__intro">
+        <strong>Our ambition is not to innovate for innovation's sake, but to turn innovation into progress for everyone.</strong><br />
+        However effective it may be, an innovation only transforms practice if it can truly be adopted and deployed.
+        BOPA builds its projects around three essential conditions to take innovation from prototype to shared progress.
+      </p>
+
+      <div class="bopa-vision-v4__timeline" role="list" aria-label="From innovation to progress for everyone">
+
+        <article class="bopa-vision-v4__step bopa-vision-v4__step--endpoint bopa-vision-v4__step--endpoint-start" role="listitem">
+          <div class="bopa-vision-v4__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64">
+              <path d="M22 43h20M25 49h14M26 55h12"/>
+              <path d="M21 28c0-7 5-13 11-13s11 6 11 13c0 5-2 8-6 12-2 2-3 3-3 6h-4c0-3-1-4-3-6-4-4-6-7-6-12Z"/>
+              <path d="M32 9V5M15 16l-3-3M49 16l3-3"/>
+            </svg>
+          </div>
+          <p class="bopa-vision-v4__endpoint-label">Innovation</p>
+        </article>
+
+        <article class="bopa-vision-v4__step" role="listitem">
+          <div class="bopa-vision-v4__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64">
+              <circle cx="32" cy="22" r="8"/>
+              <circle cx="15" cy="26" r="6"/>
+              <circle cx="49" cy="26" r="6"/>
+              <path d="M19 51v-7c0-8 6-14 13-14s13 6 13 14v7"/>
+              <path d="M5 49v-6c0-6 4-11 10-11 3 0 5 1 7 3M59 49v-6c0-6-4-11-10-11-3 0-5 1-7 3"/>
+            </svg>
+          </div>
+          <h3>Acceptability</h3>
+          <p class="bopa-vision-v4__tagline">An innovation that finds its place<br />with caregivers.</p>
+          <p class="bopa-vision-v4__copy">
+            Designing solutions with healthcare professionals that fit their practices and needs, so they are truly adopted.
+          </p>
+        </article>
+
+        <article class="bopa-vision-v4__step" role="listitem">
+          <div class="bopa-vision-v4__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64">
+              <path d="M10 10h19v19H10zM35 10h19v19H35zM10 35h19v19H10zM35 35h19v19H35z"/>
+              <path d="M29 19h6M19 29v6M45 29v6M29 45h6"/>
+            </svg>
+          </div>
+          <h3>Interoperability</h3>
+          <p class="bopa-vision-v4__tagline">An innovation that integrates with what already exists.</p>
+          <p class="bopa-vision-v4__copy">
+            Developing solutions that work with the equipment, tools and systems already in place in the operating room.
+          </p>
+        </article>
+
+        <article class="bopa-vision-v4__step" role="listitem">
+          <div class="bopa-vision-v4__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64">
+              <path d="M19 38c13 1 24-8 28-22-15 2-25 10-28 22Z"/>
+              <path d="M19 38c7-7 13-12 23-17"/>
+              <path d="M45 47c-5 5-13 8-21 6-4-1-8-3-11-6M13 47l1 5-5-1"/>
+            </svg>
+          </div>
+          <h3>Sustainability</h3>
+          <p class="bopa-vision-v4__tagline">An innovation that can be<br />deployed for the long term.</p>
+          <p class="bopa-vision-v4__copy">
+            Considering its economic viability and environmental impact from the design stage, to enable deployment at scale.
+          </p>
+        </article>
+
+        <article class="bopa-vision-v4__step bopa-vision-v4__step--endpoint bopa-vision-v4__step--endpoint-end" role="listitem">
+          <div class="bopa-vision-v4__icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64">
+              <circle cx="32" cy="21" r="8"/>
+              <circle cx="15" cy="25" r="6"/>
+              <circle cx="49" cy="25" r="6"/>
+              <path d="M19 50v-7c0-8 6-14 13-14s13 6 13 14v7"/>
+              <path d="M5 48v-6c0-6 4-11 10-11 3 0 5 1 7 3M59 48v-6c0-6-4-11-10-11-3 0-5 1-7 3"/>
+            </svg>
+          </div>
+          <p class="bopa-vision-v4__endpoint-label">Progress<br />for all</p>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="who-we-are" class="about-v2 section-block" aria-labelledby="about-v2-title">
+    <div class="wrap about-v2__intro" data-reveal>
+      <span class="about-v2__kicker" id="about-v2-title">Who we are</span>
+      <h2 class="about-v2__intro-title">Academic and clinical expertise in the service of innovation</h2>
+      <p class="about-v2__intro-lede">
+        At the crossroads of research, clinical practice and digital technology, the BOPA
+        Innovation Chair imagines and develops the surgery of tomorrow to improve
+        patient care.
+      </p>
+    </div>
+
+    <div class="wrap about-v2__chaire" data-reveal>
+      <div class="about-v2__chaire-marker">
+        <span class="about-v2__chaire-number">01</span>
+        <span class="about-v2__chaire-marker-divider" aria-hidden="true"></span>
+        <span class="about-v2__chaire-marker-title">Where three institutions meet</span>
+      </div>
+
+      <div class="about-v2__chaire-foundation">
+        <div class="about-v2__chaire-text">
+          <p class="about-v2__chaire-lede">
+            Founded in 2020 by <span class="about-v2__chaire-highlight">Prof. Éric Vibert</span>, a transplant
+            surgeon at Paul-Brousse AP-HP hospital and professor at Université
+            Paris-Saclay, the BOPA Chair is jointly run by AP-HP, the Institut
+            Mines-Télécom (IMT) and Université Paris-Saclay.
+          </p>
+          <p class="about-v2__chaire-lede">
+            The BOPA Chair carries out demanding, proactive academic research.
+            It produces new knowledge day after day, shares it with the
+            scientific community, and helps train the next generation of
+            researchers.
+          </p>
+        </div>
+
+        <div class="about-v2__chaire-partners">
+          <div class="about-v2__chaire-partners-logos">
+            {founders.map((logo) => (
+              <img src={logo.src} alt={logo.alt} loading="lazy" style={`--logo-scale: ${logo.scale ?? 1}`} />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div class="about-v2__chaire-band">
+        {researchStats.map((stat, i) => (
+          <div class="about-v2__chaire-band-stat">
+            <div class="about-v2__chaire-band-icon" set:html={bandIcons[i]} />
+            <strong>{stat.value}</strong>
+            <span>{stat.label}</span>
+          </div>
+        ))}
+      </div>
+
+      <div class="about-v2__impact">
+        <p class="about-v2__impact-title">From research to impact</p>
+        <p class="about-v2__chaire-lede about-v2__impact-intro">
+          The BOPA Chair is committed to turning research into concrete, genuinely
+          useful solutions. This ambition takes shape in
+          <span class="about-v2__chaire-highlight"> two complementary ways</span>:
+          through achievements that already exist, and by strengthening ties
+          between hospital-university research and industry.
+        </p>
+
+        <div class="about-v2__impact-cards">
+          <div class="about-v2__impact-card">
+            <div class="about-v2__impact-card-header">
+              <div class="about-v2__impact-card-icon" set:html={impactCardIcons[0]} />
+              <p class="about-v2__impact-card-title">
+                1. Concrete results <span class="about-v2__chaire-highlight">for the field</span>
+              </p>
+            </div>
+            <p class="about-v2__impact-card-text">
+              Research conducted within BOPA has already helped bring about and
+              deploy concrete solutions, in particular through the creation of
+              start-ups and the development of medical software directly useful
+              to healthcare professionals and patients.
+            </p>
+            <ul class="about-v2__impact-checklist">
+              {researchResults.map((item) => (
+                <li>
+                  <span class="about-v2__impact-check" set:html={impactCheckIcon} />
+                  <span class="about-v2__impact-result">
+                    <strong>{item.title}</strong>
+                    <span class="about-v2__impact-result-text">{item.text}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div class="about-v2__impact-card">
+            <div class="about-v2__impact-card-header">
+              <div class="about-v2__impact-card-icon" set:html={impactCardIcons[1]} />
+              <p class="about-v2__impact-card-title">
+                2. Strengthening ties <span class="about-v2__chaire-highlight">between AP-HP and pharma and medtech companies</span>
+              </p>
+            </div>
+            <p class="about-v2__impact-card-text">
+              The second focus is to build and strengthen bridges between AP-HP
+              and pharma and medtech companies, to foster the development,
+              testing and deployment of innovations as close as possible to
+              real-world needs.
+            </p>
+            <div class="about-v2__impact-partners">
+              <div class="about-v2__impact-partner">
+                <p class="about-v2__impact-partner-label">The BOPEX<br />experimentation hub</p>
+                <div class="about-v2__impact-partner-logo">
+                  <a href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">
+                    <img src="/logos/partenaires/logo-bopex.png" alt="BOPEX" loading="lazy" />
+                  </a>
+                </div>
+                <p class="about-v2__impact-partner-text">
+                  AP-HP's single point of entry for digital innovation in the
+                  operating room.
+                </p>
+                <a class="about-v2__impact-partner-cta" href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">
+                  Discover BOPEX <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+              <div class="about-v2__impact-partner">
+                <p class="about-v2__impact-partner-label">The BOPTECH<br />platform</p>
+                <div class="about-v2__impact-partner-logo">
+                  <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
+                </div>
+                <p class="about-v2__impact-partner-text">
+                  A platform dedicated specifically to innovation in liver
+                  surgery, with a perfusion machine and a hybrid operating room.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-v2__eco">
+      <div class="wrap" data-reveal>
+        <div class="about-v2__eco-marker">
+          <span class="about-v2__eco-number">02</span>
+          <span class="about-v2__eco-marker-divider" aria-hidden="true"></span>
+          <span class="about-v2__eco-marker-title">A unique ecosystem dedicated to innovation</span>
+        </div>
+
+        <div class="about-v2__eco-grid">
+          <div class="about-v2__eco-copy">
+            <div class="about-v2__eco-points">
+              {ecoPoints.map((point, i) => (
+                <div class:list={['about-v2__eco-point', { 'about-v2__eco-point--strong': point.strong }]}>
+                  <div class="about-v2__eco-point-icon" set:html={ecoIcons[i]} />
+                  <div class="about-v2__eco-point-body">
+                    <p class="about-v2__eco-point-title" set:html={point.title} />
+                    <p class="about-v2__eco-point-text" set:html={point.text} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div class="about-v2__eco-stats">
+              {clinicalStats.map((stat) => (
+                <div class="about-v2__eco-stat">
+                  <strong>{stat.value}</strong>
+                  <span>{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="about-v2__eco-photo">
+            {chbPhoto ? (
+              <img src={chbPhoto} alt="The Hepato-Biliary Center, Paul-Brousse AP-HP hospital." loading="lazy" />
+            ) : (
+              <div class="about-v2__eco-photo-placeholder" aria-hidden="true" />
+            )}
+            <p class="about-v2__eco-photo-caption">Hepato-Biliary Center - Paul-Brousse AP-HP Hospital</p>
+          </div>
+        </div>
+
+        <div class="about-v2__eco-conclusion">
+          <span class="about-v2__eco-conclusion-icon" set:html={ecoConclusionIcon} />
+          <p>
+            An exceptional clinical setting to imagine, test and evaluate
+            innovations as close as possible to the needs of surgeons and
+            patients.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="about-v2__team-band">
+      <div class="wrap about-v2__team" id="team" data-reveal>
+        <div class="about-v2__team-marker">
+          <span class="about-v2__team-number">03</span>
+          <span class="about-v2__team-marker-divider" aria-hidden="true"></span>
+          <span class="about-v2__team-marker-title">The operational team</span>
+        </div>
+        <div class="about-v2__team-row">
+        <div class="about-v2__team-intro">
+          <p>
+            Built around a multidisciplinary community of researchers, physicians,
+            nurses, engineers, data scientists and legal experts, the BOPA Chair
+            is run day to day by an operational team fully committed to
+            developing its projects.
+          </p>
+        </div>
+          <div class="about-v2__team-grid">
+          {team.map((person) => (
+            <article class="about-v2__person">
+              <div class="about-v2__person-photo">
+                {person.photo ? (
+                  <img src={person.photo} alt="" loading="lazy" />
+                ) : (
+                  <div class="about-v2__photo-placeholder" aria-hidden="true" />
+                )}
+              </div>
+              <div class="about-v2__person-body">
+                <h4>{person.name}</h4>
+                <p class="about-v2__credentials" aria-hidden={!person.credentials}>{person.credentials || ' '}</p>
+                <span class="about-v2__person-divider" aria-hidden="true"></span>
+                <p class="about-v2__person-role">{person.role}</p>
+                {person.linkedin && (
+                  <a class="about-v2__linkedin" href={person.linkedin} target="_blank" rel="noopener" aria-label={`${person.name}'s LinkedIn profile`}>
+                    <span class="about-v2__linkedin-icon" aria-hidden="true">in</span>
+                    <span>LinkedIn</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+        </div>
+      </div>
+      {teamPhotos.length > 0 && (
+        <div class="wrap team-gallery-wrap" id="team-gallery" style="scroll-margin-top: var(--space-5);" data-reveal>
+          <div class="team-gallery-grid">
+            {teamPhotos.map((photo) => (
+              <div class="team-gallery-photo">
+                <img src={photo.src} alt={photo.alt} loading="lazy" />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="bopa-contact" id="contact-us" aria-labelledby="contact-title">
+    <div class="bopa-contact__mesh" aria-hidden="true">
+      <canvas data-bopa-contact-mesh></canvas>
+    </div>
+    <div class="bopa-contact__inner" data-reveal>
+      <div class="bopa-contact__intro">
+        <div class="bopa-contact__intro-top">
+          <p class="bopa-eyebrow">CONTACT US</p>
+          <h2 id="contact-title">Have an idea, a project, a collaboration in mind?</h2>
+          <p class="bopa-contact__kicker">Let's talk.</p>
+        </div>
+
+        <div class="bopa-contact__intro-middle">
+          <div class="bopa-contact__intro-group">
+            <p class="bopa-contact__text">
+              Want to collaborate with the BOPA Chair, pitch us a project, or discuss our work?
+            </p>
+            <p class="bopa-contact__text">
+              <span class="bopa-contact__highlight">Our team is here to listen</span> and help imagine new collaborations and bring to life projects that serve the surgery of tomorrow.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <form id="soutenir-form" class="bopa-contact__form" novalidate>
+        <input type="hidden" name="access_key" value="89ce7ec3-0341-4abe-a95e-b0f99be8b0d5" />
+        <input type="checkbox" name="botcheck" style="display: none;" tabindex="-1" autocomplete="off" />
+        <div class="bopa-contact__grid">
+          <label>
+            <span>Last name</span>
+            <input type="text" name="nom" autocomplete="family-name" placeholder="Your last name" required />
+          </label>
+          <label>
+            <span>First name</span>
+            <input type="text" name="prenom" autocomplete="given-name" placeholder="Your first name" required />
+          </label>
+        </div>
+
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" autocomplete="email" placeholder="Your email address" required />
+        </label>
+
+        <label>
+          <span>Subject</span>
+          <select name="subject" required>
+            <option value="" disabled selected>Select a subject</option>
+            <option value="Proposer un projet">Propose a project</option>
+            <option value="Collaborer avec BOPA">Collaborate with BOPA</option>
+            <option value="Poser une question à l'équipe">Ask the team a question</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Message</span>
+          <textarea name="message" rows="7" placeholder="Your message" required></textarea>
+        </label>
+
+        <label class="bopa-contact__consent">
+          <input type="checkbox" name="consent" required />
+          <span>I agree that my data may be used to contact me back.</span>
+        </label>
+
+        <div class="bopa-contact__actions">
+          <button type="submit" disabled>Send my request</button>
+        </div>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <script>
+    import { initBopaContactMesh } from '../../scripts/contact-mesh.js';
+    const contactRoot = document.querySelector<HTMLElement>('.bopa-contact');
+    if (contactRoot) initBopaContactMesh(contactRoot);
+  </script>
+
+  <section class="bopa-support" id="support-us" aria-labelledby="support-title">
+    <div class="bopa-support__inner">
+      <div class="bopa-support__heading" data-reveal>
+        <h2 id="support-title" class="bopa-support__eyebrow">Support us</h2>
+      </div>
+
+      <div class="support-donation-panel" data-reveal>
+        <div class="support-donation-panel__content">
+          <h3>Help drive surgical innovation with us.</h3>
+          <p>
+            Every donation, whatever its size, directly helps bring new solutions
+            to life, test them and deploy them for the benefit of patients and care teams.
+          </p>
+          <a class="support-donation-panel__cta" href="https://soutenir.fondationaphp.fr/BOPA/" target="_blank" rel="noopener noreferrer">
+            Support the BOPA Chair <span aria-hidden="true">→</span>
+          </a>
+          <p class="support-donation-panel__security">Secure payment on AP-HP's donation platform.</p>
+        </div>
+        <div class="support-donation-panel__visual" aria-hidden="true">
+          <img src="/images/graphics/hand-heart-bopa-final.png" alt="" width="1438" height="1094" loading="lazy" decoding="async" />
+        </div>
+      </div>
+
+      <div class="bopa-support__group" aria-labelledby="foundations-title" data-reveal>
+        <div class="bopa-support__group-title">
+          <span class="bopa-support__group-icon bopa-support__group-icon--circle" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.6" />
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6" />
+            </svg>
+          </span>
+          <h3 id="foundations-title">3 partner foundations</h3>
+          <span class="bopa-support__rule" aria-hidden="true"></span>
+        </div>
+        <p class="bopa-support__group-intro">
+          Because the BOPA Chair is the fruit of an alliance between three institutions, it relies
+          on their foundations to support fundraising and help carry out its mission.
+        </p>
+        <div class="bopa-support__grid bopa-support__grid--three">
+          {foundationLogos.map((logo) => {
+            const brand = logo.src.match(/logo-([a-z-]+)\.png$/)?.[1];
+            return (
+              <article class="support-partner-card support-partner-card--foundation">
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  loading="lazy"
+                  class={[
+                    brand ? `support-partner-card__logo--${brand}` : undefined,
+                    logo.src.includes('logo-faphp') ? 'support-partner-card__logo--recenter' : undefined,
+                  ].filter(Boolean).join(' ') || undefined}
+                />
+              </article>
+            );
+          })}
+        </div>
+      </div>
+
+      <div class="bopa-support__group" aria-labelledby="patrons-title" data-reveal>
+        <div class="bopa-support__group-title">
+          <span class="bopa-support__group-icon bopa-support__group-icon--heart" aria-hidden="true">♡</span>
+          <h3 id="patrons-title">They support us</h3>
+          <span class="bopa-support__rule" aria-hidden="true"></span>
+        </div>
+        <p class="bopa-support__patrons-intro">
+          Companies and individual donors help drive the BOPA Chair's projects forward.
+          The support of our partners and donors is essential to accelerate innovation and improve
+          patient care.
+        </p>
+        <div class="bopa-support__grid bopa-support__grid--four">
+          {patronLogos.map((logo) => {
+            const brand = logo.src.match(/logo-([a-z-]+)\.png$/)?.[1];
+            return (
+              <article class="support-partner-card support-partner-card--patron">
+                <div class="support-partner-card__logo-wrap support-partner-card__logo-wrap--patron">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    loading="lazy"
+                    class={brand ? `support-partner-card__logo--${brand}` : undefined}
+                  />
+                </div>
+              </article>
+            );
+          })}
+        </div>
+        <p class="bopa-support__patrons-thanks">
+          <span class="bopa-support__patrons-thanks-accent">A huge thank you</span> to everyone
+          whose donations make this journey possible.
+        </p>
+      </div>
+
+      <div class="bopa-support__group" aria-labelledby="accompany-title" data-reveal>
+        <div class="bopa-support__group-title">
+          <span class="bopa-support__group-icon bopa-support__group-icon--link" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <rect x="3.5" y="9" width="9" height="6" rx="3" stroke="currentColor" stroke-width="1.6" transform="rotate(-18 8 12)" />
+              <rect x="11.5" y="9" width="9" height="6" rx="3" stroke="currentColor" stroke-width="1.6" transform="rotate(-18 16 12)" />
+            </svg>
+          </span>
+          <h3 id="accompany-title">They work alongside us</h3>
+          <span class="bopa-support__rule" aria-hidden="true"></span>
+        </div>
+        <p class="bopa-support__accompany-intro">
+          We are also fortunate to have by our side organizations with deep expertise in their
+          fields and full commitment to our mission, contributing their time, expertise
+          and/or equipment. Their involvement plays a major part in making the BOPA Chair what it
+          is today, and we sincerely thank them for it.
+        </p>
+        <div class="bopa-support__grid bopa-support__grid--four">
+          {accompanyLogos.map((logo) => {
+            const brand = logo.src.match(/logo-([a-z-]+)\.png$/)?.[1];
+            return (
+              <article class="support-partner-card support-partner-card--patron">
+                <div class="support-partner-card__logo-wrap support-partner-card__logo-wrap--patron">
+                  <img
+                    src={logo.src}
+                    alt={logo.alt}
+                    loading="lazy"
+                    class={brand ? `support-partner-card__logo--${brand}` : undefined}
+                  />
+                </div>
+              </article>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Envoi direct via Web3Forms : le visiteur n'a plus besoin de sa
+    // propre messagerie, le message part depuis le formulaire.
+    const form = document.getElementById('soutenir-form') as HTMLFormElement | null;
+    const statusEl = form?.querySelector('.form-status') as HTMLElement | null;
+    const submitBtn = form?.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+    const consentInput = form?.querySelector('input[name="consent"]') as HTMLInputElement | null;
+
+    // Consentement RGPD réellement bloquant (correctif "Nous-Contacter-FINAL",
+    // 2026-08-29) : le bouton est `disabled` tant que la case n'est pas
+    // cochée - pas seulement grisé visuellement, réellement non cliquable
+    // et non soumissible. `disabled` est déjà posé dans le markup pour l'état
+    // initial (avant même que ce script ne s'exécute).
+    const syncConsent = () => {
+      if (!submitBtn || !consentInput) return;
+      submitBtn.disabled = !consentInput.checked;
+    };
+    consentInput?.addEventListener('change', syncConsent);
+    syncConsent();
+
+    form?.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!submitBtn || !statusEl || !consentInput?.checked) {
+        syncConsent();
+        consentInput?.focus();
+        return;
+      }
+
+      const originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      statusEl.textContent = '';
+      statusEl.classList.remove('is-error', 'is-success');
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const result = await response.json();
+
+        if (result.success) {
+          form.reset();
+          statusEl.textContent = 'Message sent. Thank you, we will get back to you shortly.';
+          statusEl.classList.add('is-success');
+        } else {
+          throw new Error(result.message ?? 'Failed to send');
+        }
+      } catch {
+        statusEl.textContent = 'The message could not be sent. Please try again or email us directly at charles.hellec@aphp.fr.';
+        statusEl.classList.add('is-error');
+      } finally {
+        submitBtn.textContent = originalLabel;
+        syncConsent();
+      }
+    });
+
+    // Accordions: closing sibling <details> when one opens, so only one
+    // panel per level is expanded at a time (keeps the page scannable).
+    const closeSiblings = (el: HTMLDetailsElement) => {
+      const parent = el.parentElement;
+      if (!parent) return;
+      [...parent.children].forEach((sibling) => {
+        if (sibling !== el && sibling instanceof HTMLDetailsElement) sibling.open = false;
+      });
+    };
+
+    document.querySelectorAll<HTMLDetailsElement>('.accordion-item, .accordion-subitem, .phase-card').forEach((el) => {
+      el.addEventListener('toggle', () => {
+        if (el.open) closeSiblings(el);
+      });
+    });
+
+  </script>
+
+  <script>
+    // ---------------------------------------------------------------------
+    // Maillage numérique du hero : nuage de points reliés par de fines
+    // lignes, posé au-dessus de la photo (jamais superposé au texte grâce
+    // au z-index, jamais bloquant grâce à pointer-events: none sur le
+    // canvas). Purement décoratif : n'ajoute ni organe, ni texte, ni forme
+    // reconnaissable, juste des points + lignes.
+    // ---------------------------------------------------------------------
+
+    // ---- Réglages principaux : à ajuster ici, rien d'autre à toucher ----
+    // Repris sur la logique EXACTE du maillage de "Nous contacter"
+    // (site/src/scripts/contact-mesh.js, pack "Hero-Maillage-Cyan-Alleger-V1",
+    // 2026-08-30) : cyan du design system au lieu du blanc-bleuté codé en dur,
+    // opacité de base statique (la respiration sinusoïdale précédente est
+    // retirée - contact-mesh n'en a pas, et sa combinaison avec le glow
+    // lisait comme un "clignotement"), et aucun glow/shadowBlur (contact-mesh
+    // n'en a pas non plus - l'intensité vient uniquement de l'opacité).
+    // Densité et taille des points réduites (~42% et ~35%) pour rester plus
+    // aérien qu'un "Nous contacter" en plus petit format.
+    // Densité relevée de ~12% (pack "Hero-Maillage-Densite-Legere-V2",
+    // 2026-08-30), concentrée dans deux poches via densityZoneWeight()
+    // ci-dessous - style des points/lignes intact, seul le nombre change.
+    const NETWORK_CONFIG = {
+      pointCountDesktop: 52, // nombre de points sur grand écran (était 46, +13%)
+      pointCountMobile: 20, // nombre de points sur mobile (était 18, +11%)
+      mobileBreakpoint: 640, // largeur (px) en dessous de laquelle on est "mobile"
+
+      baseOpacity: 0.42, // opacité cyan au repos, modérée (fixe, plus de respiration)
+      hoverOpacityBoost: 0.38, // supplément d'opacité max apporté par la proximité souris
+      maxOpacity: 0.85, // plafond, identique à celui de contact-mesh
+
+      driftSpeed: 0.0004, // vitesse du léger déplacement de certains points
+      driftAmount: 3, // amplitude du déplacement (px)
+      driftPointRatio: 0.35, // proportion de points qui dérivent un peu (les autres restent fixes)
+
+      connectionDistance: 120, // distance max (px) pour relier deux points par une ligne
+      lineOpacityMax: 0.2, // opacité max d'une ligne au repos (était 0.38 - plus discrète)
+      lineHoverBoost: 0.12, // supplément d'opacité pour les lignes proches de la souris (reste secondaire)
+      lineWidth: 0.8, // épaisseur des lignes (px)
+
+      mouseRadius: 200, // rayon (px) d'influence de la souris autour d'un point
+      mouseDisplace: 7, // déplacement max (px) d'un point proche du curseur
+      mouseConnectionBoost: 1.4, // multiplicateur de connectionDistance près du curseur
+      mouseEase: 0.08, // vitesse de rappel/suivi vers la position cible (0-1, plus petit = plus doux)
+
+      dotSizeMin: 1.3, // taille mini d'un point (px) (était 2, -35%)
+      dotSizeMax: 2.6, // taille maxi d'un point (px) (était 4, -35%)
+    };
+
+    const canvas = document.getElementById('hero-network') as HTMLCanvasElement | null;
+    const heroSection = canvas?.closest('.hero') as HTMLElement | null;
+
+    if (canvas && heroSection) {
+      const ctx = canvas.getContext('2d');
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Lit --bopa-cyan sur le Hero plutôt qu'une couleur codée en dur (même
+      // principe que contact-mesh.js) : si le token change un jour, ce
+      // maillage suit sans retouche.
+      const cyanHex = getComputedStyle(heroSection).getPropertyValue('--bopa-cyan').trim() || '#2db9e3';
+      function cyanRgba(alpha: number) {
+        let s = cyanHex.replace('#', '');
+        if (s.length === 3) s = s.split('').map((c) => c + c).join('');
+        const n = parseInt(s, 16);
+        return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
+      }
+
+      if (ctx) {
+        type Point = {
+          baseX: number;
+          baseY: number;
+          x: number;
+          y: number;
+          targetOffsetX: number;
+          targetOffsetY: number;
+          offsetX: number;
+          offsetY: number;
+          phase: number;
+          drifts: boolean;
+          fade: number; // facteur d'opacité selon la position (fondu à droite)
+          size: number;
+        };
+
+        let points: Point[] = [];
+        let width = 0;
+        let height = 0;
+        let dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let mouseX = -9999;
+        let mouseY = -9999;
+        let mouseActive = false;
+        let animationFrame = 0;
+
+        // Fondu du maillage vers la droite de l'image.
+        // Poids de présence selon la position (0-1) : fort en bas à gauche,
+        // fort en bas, fort à droite ; nettement plus discret au centre de
+        // l'image pour ne jamais gêner la lecture du texte ni la scène.
+        function presenceWeight(xRatio: number, yRatio: number) {
+          const bottom = yRatio; // 0 en haut, 1 en bas
+          const left = 1 - xRatio; // 1 au bord gauche
+          const right = xRatio; // 1 au bord droit
+
+          const bottomLeft = left * bottom;
+          const bottomEdge = Math.pow(bottom, 1.4) * 0.75;
+          const rightEdge = Math.pow(right, 1.6) * 0.85;
+
+          let weight = Math.max(bottomLeft, bottomEdge, rightEdge);
+
+          // Suppression additionnelle au centre géométrique de l'image.
+          const dx = xRatio - 0.5;
+          const dy = yRatio - 0.42; // le centre "utile" est un peu plus haut que le milieu
+          const distFromCenter = Math.sqrt(dx * dx + dy * dy) / 0.5;
+          const centerFactor = Math.min(1, 0.25 + 0.9 * distFromCenter);
+
+          return Math.min(1, weight * centerFactor);
+        }
+
+        // Multiplicateur additionnel (pack "Hero-Maillage-Densite-Legere-
+        // V2") appliqué par-dessus presenceWeight, sans le remplacer : +10%
+        // en bas gauche/centre-gauche (sous le texte), +8% en centre-droit
+        // (zone écran/bras), -10% directement derrière le titre/paragraphe
+        // pour que cette zone reste la plus calme malgré la densité globale
+        // en hausse. Neutre (1) partout ailleurs.
+        function densityZoneWeight(xRatio: number, yRatio: number) {
+          let weight = 1;
+
+          const zoneA = xRatio >= 0.1 && xRatio <= 0.45 && yRatio >= 0.55 && yRatio <= 0.95;
+          const zoneB = xRatio >= 0.5 && xRatio <= 0.82 && yRatio >= 0.3 && yRatio <= 0.85;
+          const titleZone = xRatio <= 0.4 && yRatio <= 0.55;
+
+          if (zoneA) weight += 0.1;
+          if (zoneB) weight += 0.08;
+          if (titleZone) weight -= 0.1;
+
+          return weight;
+        }
+
+        // Génère les points par échantillonnage pondéré : on tire des
+        // positions uniformes et on ne garde que celles dont le poids de
+        // présence "gagne" un tirage aléatoire, jusqu'à atteindre le
+        // nombre de points visés.
+        function createPoints() {
+          const isMobile = width < NETWORK_CONFIG.mobileBreakpoint;
+          const count = isMobile ? NETWORK_CONFIG.pointCountMobile : NETWORK_CONFIG.pointCountDesktop;
+          const next: Point[] = [];
+          const maxAttempts = count * 40;
+          let attempts = 0;
+
+          while (next.length < count && attempts < maxAttempts) {
+            attempts++;
+            const xRatio = Math.random();
+            const yRatio = Math.random();
+            const weight = Math.min(1, presenceWeight(xRatio, yRatio) * densityZoneWeight(xRatio, yRatio));
+            if (Math.random() > weight) continue;
+
+            const baseX = xRatio * width;
+            const baseY = yRatio * height;
+
+            next.push({
+              baseX,
+              baseY,
+              x: baseX,
+              y: baseY,
+              targetOffsetX: 0,
+              targetOffsetY: 0,
+              offsetX: 0,
+              offsetY: 0,
+              phase: Math.random() * Math.PI * 2,
+              drifts: Math.random() < NETWORK_CONFIG.driftPointRatio,
+              fade: 0.55 + weight * 0.45, // un peu de variation, jamais trop pâle
+              size: NETWORK_CONFIG.dotSizeMin + Math.random() * (NETWORK_CONFIG.dotSizeMax - NETWORK_CONFIG.dotSizeMin),
+            });
+          }
+
+          points = next;
+        }
+
+        // Redimensionne le canvas à la taille exacte de son conteneur.
+        function resize() {
+          const rect = heroSection.getBoundingClientRect();
+          width = rect.width;
+          height = rect.height;
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = Math.round(width * dpr);
+          canvas.height = Math.round(height * dpr);
+          canvas.style.width = `${width}px`;
+          canvas.style.height = `${height}px`;
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          createPoints();
+        }
+
+        function onPointerMove(clientX: number, clientY: number) {
+          const rect = heroSection.getBoundingClientRect();
+          mouseX = clientX - rect.left;
+          mouseY = clientY - rect.top;
+          mouseActive = true;
+        }
+
+        heroSection.addEventListener('mousemove', (e) => onPointerMove(e.clientX, e.clientY));
+        heroSection.addEventListener('mouseleave', () => {
+          mouseActive = false;
+          mouseX = -9999;
+          mouseY = -9999;
+        });
+
+        function drawFrame(time: number) {
+          ctx.clearRect(0, 0, width, height);
+
+          for (const p of points) {
+            // Léger déplacement, seulement pour une partie des points.
+            if (p.drifts) {
+              p.x = p.baseX + Math.sin(time * NETWORK_CONFIG.driftSpeed + p.phase) * NETWORK_CONFIG.driftAmount;
+              p.y = p.baseY + Math.cos(time * NETWORK_CONFIG.driftSpeed + p.phase * 1.3) * NETWORK_CONFIG.driftAmount;
+            } else {
+              p.x = p.baseX;
+              p.y = p.baseY;
+            }
+
+            // Interaction souris : halo plus lumineux + léger déplacement,
+            // avec retour progressif quand le curseur s'éloigne.
+            let mouseInfluence = 0;
+            if (mouseActive) {
+              const dx = p.x - mouseX;
+              const dy = p.y - mouseY;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < NETWORK_CONFIG.mouseRadius) {
+                mouseInfluence = 1 - dist / NETWORK_CONFIG.mouseRadius;
+                const angle = Math.atan2(dy, dx);
+                p.targetOffsetX = Math.cos(angle) * NETWORK_CONFIG.mouseDisplace * mouseInfluence;
+                p.targetOffsetY = Math.sin(angle) * NETWORK_CONFIG.mouseDisplace * mouseInfluence;
+              } else {
+                p.targetOffsetX = 0;
+                p.targetOffsetY = 0;
+              }
+            } else {
+              p.targetOffsetX = 0;
+              p.targetOffsetY = 0;
+            }
+
+            // Interpolation douce vers la cible (pas de saut brusque).
+            p.offsetX += (p.targetOffsetX - p.offsetX) * NETWORK_CONFIG.mouseEase;
+            p.offsetY += (p.targetOffsetY - p.offsetY) * NETWORK_CONFIG.mouseEase;
+
+            const drawX = p.x + p.offsetX;
+            const drawY = p.y + p.offsetY;
+            const opacity =
+              Math.min(NETWORK_CONFIG.maxOpacity, NETWORK_CONFIG.baseOpacity + NETWORK_CONFIG.hoverOpacityBoost * mouseInfluence) *
+              p.fade;
+
+            ctx.beginPath();
+            ctx.fillStyle = cyanRgba(opacity);
+            ctx.arc(drawX, drawY, p.size, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Stocke la position dessinée pour le calcul des lignes ci-dessous.
+            (p as any)._drawX = drawX;
+            (p as any)._drawY = drawY;
+            (p as any)._mouseInfluence = mouseInfluence;
+          }
+
+          // Lignes entre points proches (+ connexions temporaires élargies
+          // près du curseur).
+          for (let i = 0; i < points.length; i++) {
+            const a = points[i] as any;
+            for (let j = i + 1; j < points.length; j++) {
+              const b = points[j] as any;
+              const dx = a._drawX - b._drawX;
+              const dy = a._drawY - b._drawY;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+
+              const nearMouse = Math.max(a._mouseInfluence, b._mouseInfluence) > 0;
+              const maxDist = nearMouse
+                ? NETWORK_CONFIG.connectionDistance * NETWORK_CONFIG.mouseConnectionBoost
+                : NETWORK_CONFIG.connectionDistance;
+
+              if (dist < maxDist) {
+                let lineOpacity =
+                  (1 - dist / maxDist) * NETWORK_CONFIG.lineOpacityMax * Math.min(a.fade, b.fade);
+                lineOpacity += NETWORK_CONFIG.lineHoverBoost * Math.max(a._mouseInfluence, b._mouseInfluence);
+                if (lineOpacity <= 0.005) continue;
+                ctx.beginPath();
+                ctx.strokeStyle = cyanRgba(lineOpacity);
+                ctx.lineWidth = NETWORK_CONFIG.lineWidth;
+                ctx.moveTo(a._drawX, a._drawY);
+                ctx.lineTo(b._drawX, b._drawY);
+                ctx.stroke();
+              }
+            }
+          }
+
+          animationFrame = requestAnimationFrame(drawFrame);
+        }
+
+        // Personnes sensibles au mouvement : un seul rendu statique et discret,
+        // pas de boucle d'animation, pas de suivi de souris.
+        function drawStaticFrame() {
+          ctx.clearRect(0, 0, width, height);
+          for (const p of points) {
+            ctx.beginPath();
+            ctx.fillStyle = cyanRgba(NETWORK_CONFIG.baseOpacity * p.fade);
+            ctx.arc(p.baseX, p.baseY, p.size, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+
+        let resizeTimeout: ReturnType<typeof setTimeout>;
+        window.addEventListener('resize', () => {
+          clearTimeout(resizeTimeout);
+          resizeTimeout = setTimeout(() => {
+            resize();
+            if (reduceMotion) drawStaticFrame();
+          }, 150);
+        });
+
+        resize();
+
+        if (reduceMotion) {
+          drawStaticFrame();
+        } else {
+          animationFrame = requestAnimationFrame(drawFrame);
+        }
+      }
+    }
+  </script>
+</Base>
+
+<style>
+  /* =======================================================================
+     HERO - variables : tout ce qu'on ajuste habituellement vit ici, rien
+     d'autre à toucher pour retoucher le rendu.
+     ======================================================================= */
+  .hero {
+    --hero-blue-dark: #081f4a; /* bleu marine profond et saturé (bord gauche du dégradé) - jamais noir */
+    --hero-wash-opacity: 0.35; /* colorisation froide uniforme sur toute la photo */
+    --hero-vignette-opacity: 0.55; /* intensité de la vignette (jamais noire) */
+    --hero-text-max-width: max(35rem, min(54vw, 43rem)); /* largeur du bloc de texte - plancher fixe ajouté (2026-08-27) pour garder le lede en 3 lignes après l'harmonisation typographique, y compris aux largeurs où la police reste bloquée à son minimum */
+    --hero-image-position-y: 82%; /* cadrage vertical de la photo (object-position) */
+    --hero-height-ratio: 3; /* ratio largeur/hauteur du hero (aspect-ratio) */
+
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: var(--hero-height-ratio) / 1;
+    /* Le ratio 3/1 seul rend le bloc trop bas pour son propre contenu
+       (titre + texte + boutons) sur à peu près tout le spectre "tablette
+       à ordinateur portable" (~640-1590px) : au ratio, la hauteur y est
+       plus courte que le contenu, qui se fait alors couper net par
+       l'overflow:hidden - jusqu'à 130px de boutons invisibles aux
+       largeurs les plus étroites de cette plage. Ce plancher garantit
+       assez de place quel que soit le nombre de lignes du titre ; au-delà
+       d'environ 1590px, le ratio dépasse déjà ce plancher et reprend la main. */
+    min-height: 35rem;
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
+    display: flex;
+    align-items: center;
+    text-align: left;
+  }
+
+  @media (max-width: 40rem) {
+    .hero {
+      aspect-ratio: auto;
+      min-height: 24rem;
+      /* Filtre légèrement renforcé sur mobile : le texte a moins de place
+         pour respirer loin de la photo, il faut plus de contraste. */
+      --hero-wash-opacity: 0.42;
+    }
+  }
+
+  /* 1. La photo, intacte : pas de filter, pas de blur, pas de scale().
+     object-fit: cover garde le niveau de zoom constant quel que soit
+     object-position ; seule la fenêtre de cadrage se déplace. */
+  .hero-photo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center var(--hero-image-position-y);
+  }
+
+  /* 2a. Colorisation froide légère, uniforme : donne l'impression d'une
+     lumière naturellement bleutée plutôt qu'un voile plaqué dessus. */
+  .hero-wash {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: var(--hero-blue-dark);
+    opacity: var(--hero-wash-opacity);
+    mix-blend-mode: color;
+    pointer-events: none;
+  }
+
+  /* 2b. Le grand dégradé horizontal : nuit profonde à gauche (contraste
+     pour le texte), transition longue et progressive sur presque toute la
+     largeur, léger voile bleu nuit conservé jusqu'au bord droit (jamais de
+     transparence totale). Un seul bleu (--hero-blue-dark) du bord gauche au
+     bord droit - jamais de second stop vers une teinte différente : un
+     changement de teinte pile dans la bande de transition (essayé plus tôt)
+     créait une sensation de "photo coupée en deux".
+     Gauche rendue franchement opaque (owner, 2026-08-30, pack "Hero-
+     Degrade-Opaque-Gauche-V3") : plateau à 100% en tête de courbe (la photo
+     doit être quasi invisible sous le texte), suivi de paliers dégressifs.
+     Deux ajustements ultérieurs le même jour ont affiné cette même courbe
+     sans en changer le principe : "Hero-Degrade-Bleu-Prolonge-V4" a monté
+     les paliers du centre (85/70/55/40/25 -> 88/78/65/50/32) et "Hero-
+     Opaque-Plus-Etendu-V5" a très légèrement étendu le plateau (20% -> 24%)
+     et remonté encore le centre (88/78/65/50/32 -> 96/90/82/70/56/36),
+     l'idée du bleu soutenu accompagnant la photo jusqu'à ~70-75% avant de
+     s'effacer. Pente vérifiée segment par segment après V5 (0.5/0.6/0.8/
+     1.2/1.4/1.67/1.375 pt d'opacité par % de largeur) - aucun saut brutal,
+     pas de retour à l'effet "deux moitiés". Aucun flou nulle part sur ce
+     calque - la fusion vient uniquement de cette interpolation d'opacité. */
+  .hero-gradient {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 0%,
+      color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 24%,
+      color-mix(in srgb, var(--hero-blue-dark) 96%, transparent) 32%,
+      color-mix(in srgb, var(--hero-blue-dark) 90%, transparent) 42%,
+      color-mix(in srgb, var(--hero-blue-dark) 82%, transparent) 52%,
+      color-mix(in srgb, var(--hero-blue-dark) 70%, transparent) 62%,
+      color-mix(in srgb, var(--hero-blue-dark) 56%, transparent) 72%,
+      color-mix(in srgb, var(--hero-blue-dark) 36%, transparent) 84%,
+      color-mix(in srgb, var(--hero-blue-dark) 14%, transparent) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* Le H1 s'étend jusqu'à 85% de la largeur du Hero sur mobile
+     (--hero-text-max-width plafonne à 35rem, plus large que le viewport en
+     dessous de ~640px) : le texte a donc besoin d'un fond au moins aussi
+     opaque que le desktop à chaque point, jamais moins - un invariant à
+     revérifier à chaque fois que la courbe desktop change (owner,
+     2026-08-30, pack "Hero-Degrade-Bleu-Prolonge-V4" : le renfort du
+     milieu desktop faisait passer le desktop AU-DESSUS du mobile de
+     l'époque à plusieurs paliers, ex. 50% desktop=78 > mobile=70). Courbe
+     reconstruite en reprenant exactement la même suite de valeurs que le
+     nouveau desktop (100/100/95/88/78/65/50/32, queue à 15 au lieu de 13),
+     simplement étalée sur les mêmes paliers x plus tardifs qu'avant
+     (35/50/65/75/85/92% au lieu de 25/50/70/85%) puisque le texte mobile va
+     plus loin - vérifiée point par point >= la courbe desktop interpolée à
+     chaque palier commun. Pack "Hero-Opaque-Plus-Etendu-V5" (même jour) :
+     seul le début du plateau a dû bouger (20% -> 24%, identique au
+     desktop) pour que l'invariant tienne encore - le desktop avait
+     temporairement dépassé ce mobile dans la fenêtre 24-35% (jusqu'à ~1.2pt
+     d'écart, recalculé point par point) une fois son propre plateau étendu,
+     sans que le reste de la forme mobile ait besoin de changer. Placé
+     APRÈS la règle de base (pas dans le bloc média `.hero` plus haut) : à
+     spécificité égale, une règle non conditionnelle placée plus bas dans
+     le fichier bat une règle conditionnelle placée plus haut, peu importe
+     si son media query matche - piège vérifié en vivo (owner, 2026-08-30). */
+  @media (max-width: 40rem) {
+    .hero-gradient {
+      background: linear-gradient(
+        to right,
+        color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 0%,
+        color-mix(in srgb, var(--hero-blue-dark) 100%, transparent) 24%,
+        color-mix(in srgb, var(--hero-blue-dark) 95%, transparent) 35%,
+        color-mix(in srgb, var(--hero-blue-dark) 88%, transparent) 50%,
+        color-mix(in srgb, var(--hero-blue-dark) 78%, transparent) 65%,
+        color-mix(in srgb, var(--hero-blue-dark) 65%, transparent) 75%,
+        color-mix(in srgb, var(--hero-blue-dark) 50%, transparent) 85%,
+        color-mix(in srgb, var(--hero-blue-dark) 32%, transparent) 92%,
+        color-mix(in srgb, var(--hero-blue-dark) 15%, transparent) 100%
+      );
+    }
+  }
+
+  /* 2c. Vignette discrète, toujours dans les tons bleu nuit (jamais noire). */
+  .hero-vignette {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: radial-gradient(
+      130% 130% at 50% 50%,
+      transparent 55%,
+      color-mix(in srgb, var(--hero-blue-dark) 60%, transparent) 100%
+    );
+    opacity: var(--hero-vignette-opacity);
+    pointer-events: none;
+  }
+
+  /* Canvas du maillage : dernière couche visuelle, au-dessus du texte.
+     pointer-events: none pour ne jamais bloquer les clics/liens - la
+     distribution des points évite le centre pour ne jamais gêner la
+     lecture même si le canvas passe visuellement par-dessus. */
+  .hero-network {
+    position: absolute;
+    inset: 0;
+    z-index: 7;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .hero .wrap {
+    position: relative;
+    z-index: 6;
+    margin: 0;
+    max-width: var(--hero-text-max-width);
+    padding-left: clamp(1.5rem, 5vw, 5rem);
+  }
+
+  /* Harmonisation typographique Niveau 1 (2026-08-27) : mêmes métriques
+     que le H2 de Notre Mission (étalon), quel que soit ce que la
+     règle de base h1/h2/h3 (site.css) impose par ailleurs. */
+  .hero h1 {
+    font-size: clamp(2rem, 3.1vw, 3.15rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    margin: 0;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--bopa-blue-4);
+  }
+
+  /* Harmonisation typographique Niveau 2 (2026-08-27) : mêmes métriques
+     que le lede de Notre Mission (étalon). */
+  .hero .lede {
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.85);
+    margin: var(--space-3) 0 0;
+    /* Assez large pour que "hépato-bilio-pancréatique" (voir la balise
+       .nowrap dessus) tienne sur 3 lignes sans se retrouver seul sur une
+       4e ; suit le même ratio vw que --hero-text-max-width pour ne jamais
+       déborder de la zone où le dégradé garde le texte lisible (plus de
+       zone floutée depuis le 2026-08-30, la lisibilité vient uniquement
+       du dégradé). Un simple ratio vw (même généreux) ne suffisait pas :
+       entre ~640px et ~1230px la police
+       reste bloquée à son minimum (clamp), donc la largeur disponible
+       continuait de rétrécir avec le viewport sans que le texte
+       rétrécisse - d'où le plancher fixe (34rem) qui garantit 3 lignes
+       même dans cette zone, vérifié à 700/768/1024/1150/1440px. */
+    max-width: max(34rem, min(53vw, 42rem));
+  }
+
+  .hero .lede .nowrap {
+    white-space: nowrap;
+  }
+
+  /* --hero-text-max-width and .lede's own max-width above are vw-based
+     to track the desktop text-legible zone (gradient-driven, no blur
+     since 2026-08-30) - on a narrow phone that same ratio
+     caps the text at half the screen for no reason (there's no second
+     column to leave room for). Full width instead, with a matching
+     right inset. Placed after the base rules above so it actually wins
+     the cascade (equal specificity, source order decides). */
+  @media (max-width: 40rem) {
+    .hero .wrap {
+      max-width: none;
+      padding-right: clamp(1.5rem, 5vw, 5rem);
+    }
+
+    .hero .lede {
+      max-width: none;
+    }
+  }
+
+  .hero-actions {
+    justify-content: flex-start;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: calc(var(--space-4) + var(--space-2)); /* un peu plus d'air avant les boutons */
+  }
+
+  /* La couleur/animation vient des classes partagées .btn-outline-premium
+     et .btn-filled-premium (site.css) ; ici on ne fixe que la taille,
+     propre au contexte du hero. */
+  .hero-actions .btn {
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-md);
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 0.93rem; /* +6% sur var(--text-sm) (correctif 2026-08-27) */
+  }
+
+  @media (max-width: 40rem) {
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .hero-actions .btn {
+      /* Le padding horizontal desktop (var(--space-5), 64px) était pensé
+         pour un bouton qui ne fait que la largeur de son texte - une fois
+         étiré pleine largeur (align-items: stretch ci-dessus), il laissait
+         le texte écrasé au centre avec deux grandes zones vides de
+         chaque côté. */
+      padding: var(--space-3) var(--space-4);
+      text-align: center;
+    }
+  }
+
+  /* Bandeau institutionnel juste sous le Hero : section normale dans le
+     flux (aucune marge négative, jamais de superposition sur le Hero),
+     fond blanc à peine teinté de bleu, une bordure basse fine pour créer
+     une vraie rupture visuelle avec la section suivante - sobre, pas de
+     grosse carte flottante ni d'ombre marquée. */
+  .text-muted {
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  .section-sub {
+    margin-top: var(--space-4);
+  }
+
+  /* "Les réalisations institutionnelles" used to be its own big
+     click-to-expand accordion trigger; now it's just a heading (its
+     BOPEX/BOPTECH children stay small accordions, that level of detail
+     still benefits from being collapsed). */
+  .institutional-subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-muted);
+    margin-bottom: var(--space-3);
+  }
+
+  /* Own class on the carousel's wrap so it can override .section-sub's
+     generic margin-top (8rem) - a tighter gap right above the carousel
+     reads better than the rhythm used between the bigger sub-blocks. */
+  .carousel-wrap {
+    margin-top: var(--space-4);
+  }
+
+  .carousel-more {
+    text-align: center;
+    margin-top: var(--space-3);
+  }
+
+  .carousel-more a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-base);
+    font-weight: 700;
+    color: var(--color-accent);
+    text-decoration: none;
+  }
+
+  .carousel-more a:hover {
+    color: var(--color-accent);
+  }
+
+  .carousel-more svg {
+    transition: transform 0.2s ease;
+  }
+
+  .carousel-more a:hover svg {
+    transform: translateX(2px);
+  }
+
+  /* mission -> projets -> vision s'enchaînent directement. Vision ajoutée
+     ici 2026-08-27 (harmonisation V4) : c'est ce qui donne à Mission son
+     padding réel de 64px (pas les clamp() de .bopa-mission-v2, qui sont
+     silencieusement battus par cet id sur la spécificité) - Vision doit
+     avoir exactement le même padding réel, pas seulement la même formule
+     de clamp(), pour rester identique à Mission à toutes les largeurs. */
+  #notre-mission,
+  #innovations-bopa,
+  #notre-vision {
+    padding-top: var(--space-5);
+    padding-bottom: var(--space-5);
+  }
+
+  /* Marges horizontales de "Nos innovations" alignées sur "Qui sommes-nous"
+     (owner, 2026-08-30) - `.bopa-projects-v2__inner`'s propre
+     width:min(1320px,100%) (site.css) laissait le contenu toucher le bord
+     du viewport dès que l'écran descendait sous 1320px, rendant cette
+     section plus "étalée" que Mission/Qui sommes-nous à toute largeur
+     intermédiaire. PAS la formule `calc(100% - 3rem)` du conteneur
+     générique `.section-block .wrap` : `.bopa-projects-v2` a son PROPRE
+     padding horizontal (2rem, site.css) - contrairement à `.about-v2` qui
+     n'en a aucun - donc soustraire 3rem une seconde fois double-comptait
+     la marge. Même correctif que `.bopa-mission-v2__inner`/
+     `.bopa-vision-v4__inner` (qui partagent ce même padding de section) :
+     un plafond simple, sans soustraction supplémentaire.
+     Scopé à `#innovations-bopa` (l'id de CETTE section sur la HOME)
+     plutôt que modifié dans site.css directement : `.bopa-projects-v2__inner`
+     est une classe partagée avec la page `/nos_innovations`, qui a son
+     propre schéma de largeur à 1320px ailleurs sur cette page - un
+     changement dans site.css l'aurait rendue incohérente avec elle-même. */
+  #innovations-bopa .bopa-projects-v2__inner {
+    width: min(var(--max-width), 100%);
+  }
+
+  .team-gallery-wrap {
+    margin-top: var(--space-5);
+  }
+
+  /* Owner found the single full-width crossfade slide "too big" and hard
+     to browse (small corner dots, easy to miss) - a plain grid shows
+     every photo at once, smaller, with nothing to navigate. Any number of
+     photos: auto-fit wraps to more rows as the folder grows. */
+  .team-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .team-gallery-photo {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
+  }
+
+  .team-gallery-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Accordion: wide category triggers, native <details>/<summary> so
+     open/close and keyboard behavior come free from the browser. */
+  .accordion {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .accordion-item-lg > summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    list-style: none;
+    transition: background-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+  }
+
+  .accordion-item-lg > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-item-lg > summary:hover {
+    background: var(--color-bg-tint);
+    box-shadow: 0 8px 20px rgba(4, 35, 56, 0.08);
+    transform: translateY(-2px);
+  }
+
+  .accordion-icon {
+    flex-shrink: 0;
+    color: var(--color-accent);
+  }
+
+  .accordion-title {
+    flex: 1;
+    font-size: var(--text-lg);
+    font-weight: 700;
+  }
+
+  .accordion-chevron {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .accordion-item[open] > summary .accordion-chevron,
+  .accordion-subitem[open] > summary .accordion-chevron,
+  .phase-card[open] > summary .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  .accordion-panel {
+    padding: var(--space-4) var(--space-2) 0;
+  }
+
+  .accordion-subgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--space-3);
+    /* Grid items stretch to the row's tallest sibling by default, so
+       opening BOPEX made the still-closed BOPTECH card grow to match -
+       looked like both expanded together. Let each size to its own
+       content instead, so they're visually independent. */
+    align-items: start;
+  }
+
+  .accordion-subitem {
+    background: var(--color-bg-tint);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+  }
+
+  .accordion-subitem:hover {
+    box-shadow: 0 8px 20px rgba(4, 35, 56, 0.06);
+  }
+
+  .accordion-subitem > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+  }
+
+  .accordion-subitem > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-subpanel {
+    padding: 0 var(--space-4) var(--space-4);
+    color: var(--color-ink);
+    opacity: 0.85;
+  }
+
+  .accordion-subpanel p + p {
+    margin-top: var(--space-2);
+  }
+
+  .phase-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .phase-card {
+    background: color-mix(in srgb, var(--step-color) 10%, var(--color-surface));
+    border: 1px solid color-mix(in srgb, var(--step-color) 22%, var(--color-line));
+    border-top: 3px solid var(--step-color);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+  }
+
+  .phase-card:hover {
+    box-shadow: 0 8px 20px rgba(4, 35, 56, 0.07);
+  }
+
+  .phase-card > summary {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-4);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .phase-card > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .phase-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+  }
+
+  .phase-subtitle {
+    font-size: var(--text-sm);
+    color: var(--step-color);
+    font-weight: 600;
+    margin-top: var(--space-1);
+  }
+
+  .project-entry + .project-entry {
+    margin-top: var(--space-3);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-line);
+  }
+
+  .project-entry h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  .project-entry p {
+    color: var(--color-ink);
+    opacity: 0.85;
+    margin-top: var(--space-1);
+  }
+
+  @media (max-width: 48rem) {
+    .accordion-item-lg > summary {
+      padding: var(--space-3) var(--space-4);
+    }
+
+    .accordion-title {
+      font-size: var(--text-base);
+    }
+  }
+
+  /* ============================================================
+     BOPA - Qui sommes-nous V2
+     Réf. : CLAUDE-INTEGRATION.md + REFERENCE-QUI-SOMMES-NOUS.png (2026-08-27)
+     Réutilise --mp-navy-deep/--mp-blue-bright (voir site.css, scope
+     étendu à .about-v2) pour rester dans le même langage visuel que
+     Mission/Projets/Innovations.
+     ============================================================ */
+  .about-v2 {
+    --about-ink: var(--color-ink);
+    --about-muted: var(--color-muted);
+    --about-line: var(--color-line);
+    --about-bg: var(--color-bg-tint);
+    overflow: clip;
+    background: var(--about-bg);
+    color: var(--about-ink);
+  }
+
+  .about-v2 .wrap { max-width: var(--max-width); }
+  .about-v2 h2,
+  .about-v2 h3,
+  .about-v2 h4,
+  .about-v2 h5 { font-family: var(--font-display); letter-spacing: var(--tracking-tight); }
+  .about-v2 p,
+  .about-v2 span,
+  .about-v2 a { font-family: var(--font-text); }
+
+  /* Espace avant "QUI SOMMES-NOUS ?" harmonisé avec le début des autres
+     grandes sections (2026-08-28, correctifs V4) : .about-v2 porte aussi
+     .section-block, dont la règle générique (site.css) donne déjà un
+     padding-top - .about-v2__intro ajoutait EN PLUS le sien par-dessus,
+     doublant l'espace. Fix : une seule source, le même id-override que
+     Mission/Innovations/Vision (var(--space-5), 64px), et
+     .about-v2__intro n'a plus son propre padding-top. Seul le haut est
+     repris ici - le bas de #qui-sommes-nous sert aux sous-sections 02/03,
+     hors périmètre de ce correctif. */
+  /* padding-bottom: 0 (2026-08-29) - .about-v2 porte aussi .section-block
+     (site.css), dont la regle generique donne AUSSI un padding-bottom
+     (clamp(5.5rem,10vw,9rem) = 144px a 1440px) en plus du padding-bottom
+     deja calibre sur .about-v2__team lui-meme (91px, cale sur "Nos
+     innovations"). Les deux s'additionnaient sans que rien ne l'indique
+     dans .about-v2__team-band (fond clair, cause du "grand espace vide"
+     vu par l'owner apres la sous-section 03) - un seul padding-bottom
+     doit gouverner la fin de la section, celui deja pense pour ca. */
+  #qui-sommes-nous { padding-top: var(--space-5); padding-bottom: 0; }
+
+  .about-v2__intro {
+    text-align: center;
+    padding-bottom: 0;
+  }
+  /* Spécificité : .section-block:not(.hero) h2 (site.css) a la même
+     spécificité qu'une classe seule et gagnait sur .about-v2__intro-title,
+     imposant --text-xl au lieu de l'échelle Mission/Innovations/Vision -
+     préfixer par l'id #qui-sommes-nous pour trancher sans ambiguïté.
+     margin-top à 0 (finitions V2, 2026-08-28) : le vrai écart
+     eyebrow -> titre vient déjà de .about-v2__kicker (margin-bottom
+     .85rem, identique à .bopa-eyebrow/.bopa-vision-v4__eyebrow) - un
+     margin-top ici en plus doublait l'écart (31px mesuré au lieu des
+     13.6px de Mission/Vision). */
+  #qui-sommes-nous .about-v2__intro-title {
+    margin: 0 auto;
+    max-width: 49rem;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.1vw, 3.15rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    text-align: center;
+  }
+  #qui-sommes-nous .about-v2__intro-lede {
+    margin: 1.45rem auto 0;
+    max-width: 52rem;
+    color: var(--about-ink);
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    line-height: 1.55;
+    text-align: center;
+  }
+  /* Même langage graphique que .bopa-eyebrow (Mission/Innovations) et
+     .bopa-vision-v4__eyebrow (Vision) - owner's explicit request,
+     2026-08-27/28, refonte Chaire d'excellence : plus de soulignement
+     décoratif, mêmes taille/graisse/espacement que les 3 autres.
+     display:block + text-align:left (finitions V3, 2026-08-28) :
+     reprend exactement le traitement de .bopa-vision-v4__eyebrow (bloc
+     pleine largeur, aligné à gauche du même conteneur) - seul l'eyebrow
+     passe à gauche, .about-v2__intro-title/-lede gardent leur propre
+     text-align:center explicite juste en dessous. */
+  .about-v2__kicker {
+    display: block;
+    text-align: left;
+    margin-bottom: 0.85rem;
+    color: var(--mp-blue-bright);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+  }
+
+  /* ------------------------------------------------------------
+     "Une Chaire d'excellence" (01) - correctifs V4, 2026-08-28 :
+     harmonisation pure avec Mission/Innovations/Vision, pas de refonte.
+     Plus de maillage/image décorative (retiré, non remplacé) ; plus de
+     trait sous "01" ; plus de "CO-PORTÉE PAR" (les logos remontent) ;
+     un nouveau niveau de hiérarchie interne (.about-v2__chaire-heading)
+     partagé par les 3 titres de sous-bloc ; chiffres académiques et de
+     valorisation ramenés à l'échelle de .about-v2__clinical-stat (02,
+     juste en dessous) - plus élégante, moins "dashboard" que --text-2xl.
+     Fond = --about-bg, texte = --about-ink/--color-navy, accent =
+     --bopa-cyan - aucune nouvelle nuance. .about-v2__chaire-number
+     reste PROPRE à cette sous-section (01) : .about-v2__chapter-number
+     reste partagée par 02/03, non touchée par ce pack.
+     L'espace avant "01" a été réduit deux fois (V3 puis V4, 2026-08-28) :
+     valeur réelle de Mission -> var(--space-5) (64px, encore jugé trop
+     grand) -> var(--space-4) (32px), le palier immédiatement en dessous
+     dans l'échelle --space du projet - une "petite respiration
+     éditoriale" plutôt qu'un grand vide, sans inventer de valeur hors
+     de l'échelle. */
+  .about-v2__chaire {
+    padding-top: var(--space-4);
+    padding-bottom: clamp(1.25rem, 2vw, 1.75rem);
+  }
+
+  .about-v2__chaire-marker {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+  }
+  .about-v2__chaire-number {
+    color: var(--bopa-cyan);
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .about-v2__chaire-marker-divider {
+    width: 1px;
+    height: 2.1rem;
+    background: var(--about-line);
+    flex-shrink: 0;
+  }
+  .about-v2__chaire-marker-title {
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.6vw, 2.15rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  .about-v2__chaire-lede {
+    max-width: 50rem;
+    color: var(--about-ink);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .about-v2__chaire-lede + .about-v2__chaire-lede { margin-top: 1.1rem; }
+  .about-v2__chaire-lede strong { color: var(--color-navy); font-weight: 700; }
+  .about-v2__chaire-lede--narrow { max-width: 34rem; }
+  .about-v2__chaire-highlight { color: var(--bopa-cyan); }
+
+  /* Colonnes à largeur bornée (finitions V4-bis, 2026-08-28) - un vrai
+     bug trouvé et corrigé ici : avec `minmax(0, 1fr)` la colonne de
+     texte absorbait TOUT l'espace restant de la grille (952px mesuré),
+     bien plus large que le texte réellement visible (max-width:50rem
+     du paragraphe, ~800px) - un "espace mort" invisible de ~158px
+     entre la fin réelle du texte et le début de la colonne logos, qui
+     s'ajoutait au `gap` et rendait le rapprochement demandé invisible
+     malgré un gap réduit. Fix : plafonner la colonne de texte à
+     `minmax(0, 50rem)` (le même 50rem que .about-v2__chaire-lede) pour
+     qu'elle épouse exactement la largeur réelle du texte, plus de
+     colonne logos à largeur fixe (12.5rem, le max-width réel des
+     logos - "auto" s'effondre à 0px tant que les <img loading="lazy">
+     n'ont pas chargé). Le `gap` mesure maintenant vraiment la distance
+     visible entre texte et logos, vérifié via getBoundingClientRect
+     sur le texte (Range) et l'image plutôt que sur les cellules de
+     grille. */
+  .about-v2__chaire-foundation {
+    display: grid;
+    grid-template-columns: minmax(0, 50rem) 12.5rem;
+    gap: 2.75rem;
+    align-items: stretch;
+  }
+
+  /* Plus de barre verticale (finitions V2) - logos centrés sur leur
+     propre axe optique (align-items:center, pas flex-start). */
+  .about-v2__chaire-partners {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(1.1rem, 2vw, 1.5rem);
+  }
+  /* Le mécanisme reste le centrage exact sur les 2 paragraphes (grid
+     align-items:stretch + justify-content:center, voir .about-v2__chaire-
+     partners) - mais l'owner a explicitement redemandé de remonter le
+     groupe au-delà de ce centre exact, en autorisant un chevauchement
+     visuel avec ce qu'il y a au-dessus si nécessaire (2026-08-28, retour
+     verbal, remonté une troisième fois). Nudge manuel assumé, pas une
+     correction de bug - le centrage géométrique reste juste, ceci le
+     décale volontairement. Décalage horizontal (8.5rem, dont seule la
+     moitié se voit sur un flex item centré - voir design.md) pour
+     centrer le groupe sur le chiffre "8" (dernier indicateur) du
+     bandeau juste en dessous - calibré à la largeur desktop courante
+     (~1440px), à revérifier si la largeur du bandeau change un jour. */
+  .about-v2__chaire-partners-logos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin-top: -2.25rem;
+    margin-left: 8.5rem;
+  }
+  .about-v2__chaire-partners-logos img {
+    max-width: 12.5rem;
+    max-height: 4.1rem;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    transform: scale(var(--logo-scale, 1));
+  }
+
+  /* Bandeau bleu des 4 chiffres académiques (2026-08-28, pack "01 exact") -
+     seul élément à casser le fond blanc dans cette sous-section, sur
+     --mp-navy (même bleu marine que Notre Mission, aucune nouvelle
+     nuance). Chiffres à l'échelle de .about-v2__clinical-stat (déjà la
+     référence "élégante, non-dashboard" retenue lors des correctifs V4). */
+  /* Largeur : pleine largeur du .wrap (revenu en arrière une fois vu en
+     place plus étroit). Hauteur réduite une troisième fois (2026-08-28,
+     retour verbal) - l'owner autorise cette fois à réduire aussi les
+     pictos/chiffres pour y arriver, plutôt que le padding seul.
+     margin-top réduit fortement une nouvelle fois (2026-08-28, pack
+     "correctifs compacts V3") pour remonter le bandeau vers le contenu
+     académique/logos au-dessus - le bandeau lui-même (dimensions,
+     fond, pictos, chiffres, typo) reste strictement inchangé, seul
+     l'espace au-dessus change. */
+  .about-v2__chaire-band {
+    margin-top: clamp(0.85rem, 1.5vw, 1.25rem);
+    display: flex;
+    background: var(--mp-navy);
+    border-radius: 1rem;
+    padding: clamp(0.75rem, 1.4vw, 1.15rem) clamp(1.25rem, 3vw, 2rem);
+  }
+  .about-v2__chaire-band-stat {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 clamp(0.5rem, 2vw, 1.25rem);
+  }
+  .about-v2__chaire-band-stat + .about-v2__chaire-band-stat {
+    border-left: 1px solid rgba(255, 255, 255, 0.16);
+  }
+  .about-v2__chaire-band-icon {
+    display: grid;
+    place-items: center;
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--bopa-cyan);
+    margin-bottom: 0.6rem;
+  }
+  .about-v2__chaire-band-icon svg { width: 1.05rem; height: 1.05rem; }
+  .about-v2__chaire-band-stat strong {
+    display: block;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .about-v2__chaire-band-stat span {
+    display: block;
+    margin-top: 0.5rem;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  /* ------------------------------------------------------------
+     "De la recherche à l'impact" (2026-08-28) - directement sous le
+     bandeau bleu (figé, non touché). Remplace les anciens blocs
+     "De la recherche au terrain"/"Faire sortir l'innovation du
+     laboratoire". Deux vraies cartes cette fois (fond blanc, bordure
+     fine var(--about-line), coins arrondis) - contrairement au reste
+     de la sous-section 01, volontairement sans carte jusqu'ici - la
+     référence fournie les demande explicitement. Palette strictement
+     BOPA (--color-navy/--bopa-cyan/--about-bg/blanc) : le modèle
+     utilisait du orange pour différencier le 2e bloc, remplacé ici
+     par le même cyan que le premier - aucune nouvelle teinte. Pas de
+     logos Colette/MesGardes (aucun asset validé) : cités en texte
+     dans la checklist seulement, à la demande explicite de l'owner.
+     ------------------------------------------------------------ */
+  /* Espace après le bandeau réduit fortement (2026-08-28, "correctifs
+     compacts V3"), et "De la recherche à l'impact" redevient un vrai
+     sous-titre - il concurrençait trop "Une expertise académique..."
+     (le titre principal de cette sous-section) à sa taille précédente
+     (clamp(1.7rem,2.6vw,2.15rem), la même que "Une Chaire d'excellence").
+     Tiret cyan retiré (::after supprimé) et son padding-bottom (qui ne
+     servait qu'à loger ce tiret) retiré aussi, ce qui rapproche l'intro
+     naturellement sans avoir à toucher .about-v2__impact-intro. */
+  .about-v2__impact { margin-top: clamp(1.75rem, 3vw, 2.25rem); }
+  .about-v2__impact-title {
+    margin: 0 0 0.85rem;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 1.9vw, 1.6rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+  /* Utilise toute la largeur disponible (2026-08-28, retour owner) -
+     pas de max-width étroit comme .about-v2__chaire-lede--narrow. */
+  .about-v2__impact-intro { max-width: none; }
+
+  .about-v2__impact-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin-top: clamp(1.5rem, 2vw, 1.75rem);
+  }
+  /* Fond blanc pur + liseré champagne/doré très fin (2026-08-28, pack
+     "correctifs compacts V3") - remplace le fond dégradé et la bordure
+     --about-line. Réutilise le token --color-gold déjà existant du
+     projet (Médico-économique sur /nos_innovations) plutôt qu'une
+     nouvelle teinte, à la demande explicite du pack : seconde
+     utilisation validée pour ce token, toujours restreinte (ici :
+     uniquement le contour extérieur de ces 2 cartes) - le reste du
+     contenu (pictos/checks/accents/liens/séparateurs) reste cyan,
+     aucun fond doré, aucune ombre. */
+  .about-v2__impact-card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--color-gold);
+    border-radius: 1rem;
+    padding: clamp(1.15rem, 1.8vw, 1.4rem) clamp(1.5rem, 2.6vw, 1.9rem) clamp(1.4rem, 2.2vw, 1.65rem);
+  }
+
+  /* Picto + titre sur la même ligne de tête (pack "impact-cards-exact",
+     2026-08-28) - point explicitement demandé par l'owner et par le
+     visuel de référence, remplace l'ancien empilement vertical.
+     Resserré (2026-08-28, retour owner "trop haut") : titre plus près
+     du bord haut de la carte et espacements internes réduits partout. */
+  .about-v2__impact-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 0.85rem;
+  }
+  .about-v2__impact-card-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    background: var(--about-bg);
+    border: 1px solid var(--about-line);
+    color: var(--bopa-cyan);
+  }
+  .about-v2__impact-card-icon svg { width: 1.6rem; height: 1.6rem; }
+  .about-v2__impact-card-title {
+    position: relative;
+    display: inline-block;
+    margin: 0.15rem 0 0;
+    padding-bottom: 0.65rem;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+  .about-v2__impact-card-title::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 1.75rem;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--bopa-cyan);
+  }
+  .about-v2__impact-card-text {
+    max-width: none;
+    margin: 0 0 1rem;
+    color: var(--about-ink);
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  /* La carte est en colonne flex (voir .about-v2__impact-card) et la
+     checklist grandit pour absorber tout l'espace restant (2026-08-28,
+     retour owner : la carte de gauche laissait un vide en bas car son
+     contenu était naturellement plus court que celui de droite) -
+     justify-content:space-between répartit les 4 items sur toute la
+     hauteur disponible plutôt que de les laisser groupés en haut. */
+  .about-v2__impact-checklist {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .about-v2__impact-checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    padding: 0.55rem 0;
+  }
+  .about-v2__impact-checklist li + li { border-top: 1px dashed var(--about-line); }
+  .about-v2__impact-check {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1.4rem;
+    height: 1.4rem;
+    margin-top: 0.1rem;
+    color: var(--bopa-cyan);
+  }
+  .about-v2__impact-check svg { width: 1.4rem; height: 1.4rem; }
+  .about-v2__impact-result strong {
+    display: block;
+    color: var(--bopa-cyan);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+  .about-v2__impact-result-text {
+    display: block;
+    margin-top: 0.2rem;
+    color: var(--about-muted);
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  /* BOPEX/BOPTECH - logos "beaucoup plus grands" (pack, 2026-08-28) :
+     vrais assets à leur propre ratio (BOpEx = wordmark large et plat,
+     BOPTECH = badge circulaire) - tailles très différentes l'une de
+     l'autre, volontairement, plutôt que forcées à une hauteur commune. */
+  .about-v2__impact-partners {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2rem);
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .about-v2__impact-partner:last-child {
+    padding-left: clamp(1.5rem, 3vw, 2rem);
+    border-left: 1px solid var(--about-line);
+  }
+  .about-v2__impact-partner-label {
+    margin: 0 0 0.65rem;
+    color: var(--color-navy);
+    font-size: 0.86rem;
+    font-weight: 700;
+    line-height: 1.35;
+    text-align: center;
+  }
+  /* Zone logo à hauteur fixe partagée (2026-08-28, retour owner) - BOpEx
+     (wordmark large et plat) et BOPTECH (badge carré) ont des tailles
+     très différentes ; sans cette réservation de hauteur commune, la
+     description de chaque colonne démarrait à une hauteur différente
+     selon la taille réelle du logo. Les deux logos sont centrés dans
+     ce même espace, quelle que soit leur taille propre. */
+  /* Alignés en haut (flex-start) plutôt que centrés (2026-08-28, retour
+     owner) - BOPTECH (le plus grand des deux, 9rem) remonte au sommet
+     du slot ; BOpEx (bien plus petit) s'aligne pareil, sur le même
+     bord haut, plutôt que de flotter au milieu d'un espace réservé
+     pour le plus grand des deux. Hauteur du slot ramenée à 9rem (pile
+     la taille de BOPTECH, plus de marge inutile) et l'écart avant la
+     description resserré - les deux descriptions démarrent toujours
+     à la même hauteur, la hauteur du slot restant partagée. */
+  /* align-items:center (2026-08-28, retour owner) - BOPTECH remplit
+     exactement les 9rem du slot (son propre max-height), donc son
+     rendu est identique en center ou flex-start ; seul BOpEx (bien
+     plus petit) est visuellement affecté, et l'owner veut le voir
+     centré verticalement dans le slot, pas plaqué en haut. */
+  .about-v2__impact-partner-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 9rem;
+    margin-bottom: 0.4rem;
+  }
+  .about-v2__impact-partner-logo img {
+    display: block;
+    width: auto;
+    object-fit: contain;
+  }
+  .about-v2__impact-partner:first-child img { max-height: 3rem; max-width: 8rem; }
+  .about-v2__impact-partner:last-child img { max-height: 9rem; max-width: 9rem; }
+  .about-v2__impact-partner-text {
+    margin: 0;
+    color: var(--about-ink);
+    font-size: 0.86rem;
+    line-height: 1.55;
+    text-align: center;
+  }
+  .about-v2__impact-partner-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: 0.6rem;
+    padding-bottom: 0.15rem;
+    color: var(--bopa-cyan);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid var(--bopa-cyan);
+  }
+  .about-v2__impact-partner-cta:hover { opacity: 0.8; }
+
+  .about-v2__linkedin {
+    text-decoration: none;
+  }
+  .about-v2__linkedin:hover { text-decoration: underline; text-underline-offset: .2em; }
+
+  /* ------------------------------------------------------------
+     Sous-section 02 "Un écosystème unique dédié à l'innovation"
+     (2026-08-28, pack "02 Écosystème V1") - remplace l'ancien bloc
+     sombre "Un environnement clinique d'excellence" (fond
+     --mp-navy-deep). Fond bleu clair BOPA nettement plus soutenu que
+     --about-bg (#f3f7fc) : dérivé mécaniquement de --color-accent via
+     la même technique OKLCH relative que --bopa-filter-navy (voir
+     nos_innovations.astro) - oklch(from var(--color-accent) 0.89
+     0.045 h), vérifié par échantillonnage canvas = #c7ddf9, contraste
+     WCAG 11.6:1 avec le texte navy. Hiérarchie du titre "02." calquée
+     sur .about-v2__chaire-marker de la sous-section 01 (même
+     structure numéro + tiret + titre), mais dans des classes propres
+     à cette sous-section (.about-v2__eco-*) plutôt que réutilisées,
+     pour rester découplée - .about-v2__chaire-number reste propre à
+     01, .about-v2__chapter-number reste partagé par 03 seul
+     désormais. Aucun fond/carte/ombre derrière les 4 statistiques
+     (consigne explicite du pack) : chiffres cyan + libellés navy posés
+     à même le fond, séparateurs fins uniquement. Photo CHB : pipeline
+     chbPhoto existant réutilisé tel quel (recherche auto dans
+     public/photos/), coins très légèrement arrondis (10px), pas de
+     surcouche ni grosse ombre, légende discrète sous l'image. */
+  .about-v2__eco {
+    --eco-bg: oklch(from var(--color-accent) 0.905 0.038 h);
+    background: var(--eco-bg);
+    padding: clamp(1.1rem, 2vw, 1.5rem) 0 clamp(1.25rem, 2vw, 1.75rem);
+  }
+  .about-v2__eco-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 5vw, 4rem);
+    align-items: center;
+  }
+
+  .about-v2__eco-marker {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: clamp(1.5rem, 2.5vw, 2rem);
+  }
+  .about-v2__eco-number {
+    color: var(--bopa-cyan);
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .about-v2__eco-marker-divider {
+    width: 1px;
+    height: 2.1rem;
+    background: rgba(8, 31, 74, 0.2);
+    flex-shrink: 0;
+  }
+  .about-v2__eco-marker-title {
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.6vw, 2.15rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  .about-v2__eco-points {
+    display: grid;
+    gap: 0.9rem;
+    margin-bottom: clamp(1.5rem, 2.5vw, 2rem);
+  }
+  .about-v2__eco-point {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+  }
+  .about-v2__eco-point-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1.6rem;
+    height: 1.6rem;
+    margin-top: 0.1rem;
+    color: var(--bopa-cyan);
+  }
+  .about-v2__eco-point-icon svg { width: 1.5rem; height: 1.5rem; }
+  .about-v2__eco-point-title {
+    margin: 0;
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 1.2vw, 1.1rem);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+  .about-v2__eco-point-title strong { color: var(--bopa-cyan); font-weight: 700; }
+  .about-v2__eco-point-text {
+    margin: 0.25rem 0 0;
+    color: var(--about-ink);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  .about-v2__eco-point-text strong { color: var(--bopa-cyan); font-weight: 700; }
+  /* Point 3 "argument fort" : titre entièrement cyan, pas de carte ni
+     d'effet - juste la couleur, comme demandé explicitement. */
+  .about-v2__eco-point--strong .about-v2__eco-point-title { color: var(--bopa-cyan); }
+
+  .about-v2__eco-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    max-width: 35rem;
+    padding-top: clamp(1.1rem, 2vw, 1.4rem);
+    border-top: 1px solid rgba(8, 31, 74, 0.15);
+  }
+  .about-v2__eco-stat { padding: 0 0.6rem; text-align: center; }
+  .about-v2__eco-stat + .about-v2__eco-stat { border-left: 1px solid rgba(8, 31, 74, 0.2); }
+  .about-v2__eco-stat strong {
+    display: block;
+    color: var(--bopa-cyan);
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .about-v2__eco-stat span {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--color-navy);
+    font-size: 0.8rem;
+    line-height: 1.35;
+  }
+
+  .about-v2__eco-photo {
+    display: flex;
+    flex-direction: column;
+  }
+  .about-v2__eco-photo img,
+  .about-v2__eco-photo-placeholder {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 10px;
+    overflow: hidden;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+  }
+  .about-v2__eco-photo-placeholder {
+    background: linear-gradient(135deg, var(--color-accent), var(--color-navy));
+  }
+  .about-v2__eco-photo-caption {
+    margin: 0.6rem 0 0;
+    color: var(--about-muted);
+    font-size: 0.78rem;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .about-v2__eco-conclusion {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    max-width: 54rem;
+    margin: clamp(2rem, 3.5vw, 2.75rem) auto 0;
+    padding: 1.15rem 1.6rem;
+    background: #fff;
+    border: 1px solid rgba(45, 185, 227, 0.35);
+    border-radius: 14px;
+  }
+  .about-v2__eco-conclusion-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--bopa-cyan);
+  }
+  .about-v2__eco-conclusion-icon svg { width: 1.85rem; height: 1.85rem; }
+  .about-v2__eco-conclusion p {
+    margin: 0;
+    color: var(--color-navy);
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .about-v2__team-band {
+    background: var(--about-bg);
+  }
+
+  .about-v2__team {
+    padding-top: clamp(1.1rem, 2vw, 1.5rem);
+    /* var(--space-5) seul ne suffit pas ici : sous "Nos innovations",
+       l'espace visible sous les vignettes = var(--space-5) (64px) PLUS
+       la marge de centrage verticale entre la colonne intro (plus
+       haute, texte + CTA) et le rail de cartes (align-items:center sur
+       .bopa-projects-v2__inner) - mesuree a ~26.7px a 1440px. Comme
+       .about-v2__team-row n'a pas cet ecart (les cartes y sont l'element
+       le plus haut), on l'ajoute explicitement pour retrouver la meme
+       respiration visible sous les vignettes (owner, 2026-08-29). */
+    padding-bottom: calc(var(--space-5) + 1.7rem);
+  }
+  .about-v2__team-row {
+    display: grid;
+    grid-template-columns: minmax(12rem, .72fr) minmax(0, 2.28fr);
+    align-items: center;
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+  .about-v2__team-marker {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+  }
+  .about-v2__team-number {
+    color: var(--bopa-cyan);
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+  .about-v2__team-marker-divider {
+    width: 2px;
+    height: 2.1rem;
+    background: rgba(8, 31, 74, 0.4);
+    flex-shrink: 0;
+  }
+  .about-v2__team-marker-title {
+    color: var(--color-navy);
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.6vw, 2.15rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .about-v2__team-intro p {
+    margin: 0;
+    color: var(--about-ink);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  .about-v2__team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .about-v2__person {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--about-line);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 24px rgba(3, 29, 67, .05);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  @media (hover:hover) and (pointer:fine) {
+    .about-v2__person:hover { transform: translateY(-4px); box-shadow: 0 16px 34px rgba(3,29,67,.09); }
+  }
+  .about-v2__person-photo {
+    width: 100%;
+    aspect-ratio: 1.34 / 1;
+    background: #edf2f8;
+  }
+  .about-v2__person-photo img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; }
+  .about-v2__photo-placeholder { width: 100%; height: 100%; background: linear-gradient(135deg, #edf2f8, #f8fbff); }
+  .about-v2__person-body { flex: 1; display: flex; flex-direction: column; padding: 1.25rem 1.25rem 1.4rem; }
+  .about-v2__person-body h4 { margin: 0 0 .35rem; color: var(--color-navy); font-size: 1.1rem; font-weight: 700; }
+  .about-v2__person-body .about-v2__credentials { margin: 0; min-height: 1.3em; color: var(--bopa-cyan); font-size: .95rem; font-weight: 700; line-height: 1.3; }
+  .about-v2__person-divider { display: block; width: 1.75rem; height: 1px; margin: .75rem 0; background: var(--about-line); }
+  .about-v2__person-role { margin: 0; min-height: 4.28rem; color: var(--about-ink); font-size: .92rem; line-height: 1.55; }
+  .about-v2__linkedin { display: inline-flex; align-items: center; gap: .4rem; margin-top: .65rem; color: var(--color-accent); font-size: .9rem; font-weight: 700; }
+  .about-v2__linkedin-icon { width: 1.35rem; height: 1.35rem; display: grid; place-items: center; border-radius: 3px; background: var(--color-accent); color: #fff; font-size: .7rem; font-weight: 800; }
+
+  .about-v2__support {
+    padding: clamp(4rem, 7vw, 6.5rem) 0 clamp(4.5rem, 7vw, 6.5rem);
+    border-top: 1px solid var(--about-line);
+  }
+  .about-v2__support-head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 1.35rem;
+    max-width: 56rem;
+    margin: 0 auto clamp(3rem, 5vw, 4.25rem);
+    text-align: center;
+  }
+  .about-v2__support-head > .about-v2__chapter-number { align-self: start; margin-top: .25rem; }
+  .about-v2__support-kicker {
+    display: block;
+    margin-bottom: .7rem;
+    color: var(--mp-blue-bright);
+    font-size: .78rem;
+    font-weight: 800;
+    letter-spacing: .16em;
+    text-transform: uppercase;
+  }
+  .about-v2__support-head h3 {
+    margin: 0 0 1rem;
+    color: var(--color-navy);
+    font-size: clamp(1.85rem, 3.4vw, 2.9rem);
+    line-height: 1.08;
+  }
+  .about-v2__support-head p {
+    max-width: 47rem;
+    margin: 0 auto;
+    color: var(--about-ink);
+    font-size: .98rem;
+    line-height: 1.7;
+  }
+  .about-v2__support-groups {
+    display: grid;
+    gap: clamp(2.6rem, 5vw, 4rem);
+  }
+  .about-v2__support-group h4 {
+    margin: 0 0 1.5rem;
+    color: var(--color-accent);
+    font-size: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: .11em;
+  }
+  .about-v2__support-logos {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .about-v2__support-logos--foundations {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-width: 52rem;
+  }
+  .about-v2__support-logo {
+    min-height: 5.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: .8rem 2rem;
+  }
+  .about-v2__support-logo + .about-v2__support-logo { border-left: 1px solid var(--about-line); }
+  .about-v2__support-logo img {
+    display: block;
+    max-width: 12rem;
+    max-height: 3.8rem;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+  .about-v2__support-group--patrons {
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--about-line);
+  }
+  .about-v2__support-thanks {
+    margin: -.65rem auto 1.25rem;
+    color: var(--about-muted);
+    font-size: .9rem;
+    text-align: center;
+  }
+  .about-v2__support-logos--patrons {
+    grid-template-columns: repeat(2, minmax(11rem, 1fr));
+    max-width: 34rem;
+  }
+  .about-v2__support-logo--patron { min-height: 6.5rem; }
+
+  @media (max-width: 980px) {
+    .about-v2__eco-grid { grid-template-columns: 1fr; }
+    .about-v2__eco-photo { max-width: 32rem; }
+    .about-v2__team-row { grid-template-columns: 1fr; }
+    .about-v2__team-intro { max-width: 36rem; }
+    .about-v2__team-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .about-v2__support-head { max-width: 46rem; }
+  }
+
+  @media (max-width: 800px) {
+    .about-v2__chaire-foundation { grid-template-columns: 1fr; gap: clamp(2rem, 6vw, 2.75rem); }
+    /* Le décalage horizontal desktop (aligner sur le "8" du bandeau,
+       qui n'a plus de sens une fois le bandeau replié en grille 2x2)
+       et le chevauchement vertical n'ont plus lieu d'être en colonne
+       unique - les logos redeviennent simplement centrés sous le texte. */
+    .about-v2__chaire-partners-logos { margin-top: 0; margin-left: 0; }
+    .about-v2__impact-cards { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 680px) {
+    .about-v2__impact-partners { grid-template-columns: 1fr; gap: 1.5rem; }
+    .about-v2__impact-partner:last-child { padding-left: 0; border-left: 0; }
+    .about-v2__chaire-band { flex-wrap: wrap; row-gap: 1.75rem; }
+    .about-v2__chaire-band-stat { flex: 1 1 calc(50% - .5rem); border-left: 0 !important; }
+    .about-v2__eco-stats { grid-template-columns: repeat(2, 1fr); gap: 1.1rem 0; }
+    .about-v2__eco-stat:nth-child(3) { border-left: 0; }
+    .about-v2__eco-stat:nth-child(2n) { border-left: 1px solid rgba(8, 31, 74, 0.2); }
+    .about-v2__eco-stat:nth-child(2n+1) { border-left: 0; }
+    .about-v2__support-head { grid-template-columns: 1fr; gap: .7rem; }
+    .about-v2__support-head > .about-v2__chapter-number { justify-self: center; }
+    .about-v2__support-logos--foundations,
+    .about-v2__support-logos--patrons { grid-template-columns: 1fr; }
+    .about-v2__support-logo + .about-v2__support-logo { border-left: 0; border-top: 1px solid var(--about-line); }
+    .about-v2__team-grid { grid-template-columns: 1fr; }
+    .about-v2__eco-conclusion { flex-direction: column; text-align: center; gap: 0.75rem; padding: 1.25rem 1.4rem; }
+  }
+
+  /* ============================================================
+     BOPA - Nous soutenir (v2, restructuration header/soutenir)
+     Réf. : CLAUDE-INTEGRATION.md (Restructuration-Header-Soutenir) +
+     REFERENCE-NOUS-SOUTENIR.png (2026-08-27). Remplace la version
+     précédente (simple bandeau + CTA) par 3 cartes fondations + 2
+     cartes mécènes + un encadré de don, comme "Ils nous soutiennent"
+     déménagé ici depuis Qui sommes-nous. Reprend --mp-navy/--mp-blue-bright
+     (même fond que Notre Mission/Notre vision, scope étendu dans site.css).
+     ============================================================ */
+  .bopa-support {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-bg-tint);
+    color: var(--color-ink);
+    /* Haut ET bas fixés à var(--space-5) (owner, 2026-08-29 puis 2026-08-30) -
+       pas des clamp() : même valeur exacte que #notre-vision (voir son
+       propre override d'id plus haut dans ce fichier) en bas, et même
+       espace eyebrow -> haut de section que Notre mission/Innovations/
+       Vision/Qui sommes-nous/Nous contacter en haut (mesuré 99.8px avant
+       ce correctif, contre 64px partout ailleurs) - un clamp() responsive
+       ne pouvait matcher un fixe qu'à une seule largeur. */
+    padding: var(--space-5) 0;
+  }
+
+  .bopa-support__inner {
+    width: min(1180px, calc(100% - 48px));
+    margin-inline: auto;
+  }
+
+  /* Titre "Nous soutenir" revenu au petit eyebrow standard (owner,
+     2026-08-30) : le badge rond "05." (pack "Nous-Soutenir-COMPLET-Exact-V2",
+     2026-08-29) est retiré - l'owner veut désormais exactement le même
+     traitement que "Notre mission" (petit label majuscule + tiret cyan
+     partagé, site.css), pas un H2 de grande taille avec un numéro. Le
+     grand titre équivalent au H2 de Notre Mission vit maintenant dans
+     l'encadré bleu juste en dessous ("Faites avancer l'innovation",
+     .support-donation-panel h3). */
+  /* Resserré franchement (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
+     clamp(40px,4vw,56px) laissait un grand vide entre "Nous soutenir" et le
+     CTA - la vraie source du vide (le seul enfant entre le titre et le CTA
+     dans .bopa-support__inner, en flux normal). Réduit à une respiration
+     courte, pas une marge négative bricolée. */
+  .bopa-support__heading {
+    margin-bottom: clamp(16px, 1.6vw, 22px);
+  }
+
+  .bopa-support__eyebrow {
+    margin: 0 0 0.85rem;
+    color: var(--mp-blue-bright);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+  }
+
+  /* Remonté franchement sous le CTA (owner, 2026-08-30, pack
+     "3-Fondations-Compact-V1") : 82px (clamp 54-82) mesuré en direct à
+     1425px - beaucoup plus qu'une "petite respiration élégante". Seule
+     source réelle du vide (rien d'autre ne sépare le CTA de ce groupe en
+     flux normal), pas de marge négative bricolée. */
+  .bopa-support__group { margin-top: clamp(28px, 2.6vw, 34px); }
+  .bopa-support__group-title {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    /* Resserré (owner, 2026-08-30) : 24px collapsait déjà avec le
+       margin-top du paragraphe (24px mesuré en direct, le max des deux) -
+       trop pour "beaucoup moins de vide" entre le trait et le texte. */
+    margin-bottom: 10px;
+    color: var(--mp-blue-bright);
+  }
+  .bopa-support__group-title h3 {
+    margin: 0;
+    color: var(--mp-blue-bright);
+    text-transform: uppercase;
+    letter-spacing: .035em;
+    font-size: clamp(1rem, 1.6vw, 1.25rem);
+    font-weight: 800;
+  }
+  .bopa-support__group-icon {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    font-size: 1.65rem;
+  }
+  /* Le glyphe ♡ est géométriquement centré dans sa boîte 34x34 (centre de
+     boîte = centre de boîte du h3, écart 0px) mais son ENCRE ne l'est pas
+     optiquement - translateY manuel par glyphe (owner, 2026-08-30 : "les
+     pictos ne sont pas alignés sur leurs titres"). Le picto de "3 fondations
+     partenaires" était le même genre de glyphe texte (◎) avec le même
+     correctif ; l'owner l'a signalé de nouveau désaligné le 2026-09-03 -
+     remplacé par un SVG dessiné dans les mêmes conventions que les icônes
+     context-band (viewBox 24, stroke 1.6, currentColor) : son encre est
+     intrinsèquement centrée dans sa propre boîte, donc plus besoin de
+     nudge ni de dépendre du rendu glyphe/police de chaque OS/navigateur.
+     Le nouveau picto "Ils nous accompagnent" (maillon, choisi par l'owner
+     parmi 4 propositions, 2026-09-03) est un SVG pour la même raison. */
+  .bopa-support__group-icon--heart { transform: translateY(-3px); }
+  /* Filet de secours (owner a signalé le trait invisible, 2026-08-30) :
+     un navigateur sans support de color-mix() ignore silencieusement la
+     déclaration suivante et ignorerait tout aussi silencieusement le
+     background entier - sans cette ligne, le trait resterait totalement
+     transparent (aucune couleur de repli), invisible même si tout le reste
+     du site s'affiche normalement. rgba() ci-dessous est l'équivalent
+     figé de --bopa-cyan (#2db9e3) à 60% ; la ligne color-mix() suivante
+     prend le relais avec la vraie variable dès qu'elle est supportée. */
+  .bopa-support__rule {
+    height: 1px;
+    background: rgba(45, 185, 227, 0.6);
+    background: color-mix(in srgb, var(--mp-blue-bright) 60%, transparent);
+    flex: 1;
+  }
+
+  /* Texte explicatif au-dessus de la grille 8 logos (pack "Nous-Soutenir-
+     Remerciements-Logos-2x4-V2", 2026-09-02). Initialement centré et
+     largeur maîtrisée ; repassé au même traitement que
+     `.bopa-support__group-intro` (fondations) juste en dessous - aligné à
+     gauche, pleine largeur (owner, 2026-09-02 : d'abord "calle-toi sur la
+     taille du texte fondations", puis "aligne ça à gauche") - les deux
+     retours convergent vers le même traitement que le bloc fondations,
+     donc plus de raison de garder un centrage/max-width différents.
+     Bleu nuit = --color-ink (même token que le corps de texte du site,
+     seule différence residuelle avec `.bopa-support__group-intro`, qui
+     utilise --color-muted). */
+  .bopa-support__patrons-intro {
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    color: var(--color-ink);
+    text-align: left;
+    font-size: clamp(1rem, 1.15vw, 1.05rem);
+    line-height: 1.6;
+  }
+  /* Remerciement déplacé SOUS la grille de logos (owner, 2026-09-02),
+     toujours centré. Taille réduite (owner : "trop gros aussi") - reste
+     un cran au-dessus du corps de texte (weight 600) pour garder un peu
+     de présence, sans plus viser un "moment" aussi marqué qu'au premier
+     jet. Aucun pictogramme (cœur/rayon/étoile) : l'impact vient
+     uniquement de la graisse et du cyan sur "Un immense merci". */
+  .bopa-support__patrons-thanks {
+    margin: 28px auto 0;
+    max-width: 42rem;
+    /* --mp-navy (essayé d'abord, owner : "même bleu nuit que les fonds")
+       se lisait comme un quasi-noir sur ce texte de petite taille - un
+       aplat de fond profite du bleu, un texte fin beaucoup moins à cette
+       profondeur. Owner, 2026-09-02, confirmé après vérification en
+       direct : veut un bleu "plus visible/vif" plutôt que la correspondance
+       exacte avec le fond. --color-accent (#03529c) est le bleu "emphase/
+       liens" déjà établi du site (tokens.css) - nettement plus lisible
+       comme bleu à cette taille, sans inventer une nouvelle valeur. */
+    color: var(--color-accent);
+    text-align: center;
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    font-weight: 600;
+    line-height: 1.45;
+  }
+  .bopa-support__patrons-thanks-accent {
+    color: var(--bopa-cyan);
+  }
+
+  /* "Ils nous accompagnent" (pack "Ils-Nous-Accompagnent-V2", 2026-09-02) -
+     même logique graphique que "Ils nous soutiennent" juste au-dessus,
+     source de vérité gelée : classe séparée (pas de renommage de
+     `.bopa-support__patrons-*`, pour ne pas toucher au bloc validé) mais
+     valeurs COPIÉES à l'identique de `.bopa-support__patrons-intro`, pas
+     réinventées. Aligné à gauche (owner : "texte ALIGNÉ À GAUCHE").
+     Les deux phrases ont fusionné en UN seul paragraphe (owner, 2026-09-02 :
+     "mets cette phrase à la suite... en respectant exactement la typo" du
+     premier paragraphe) - l'ancien second paragraphe distinct
+     (`.bopa-support__accompany-thanks`, gras + cyan sur "Leur implication…")
+     est retiré : plus de mise en avant typographique différenciée, tout le
+     texte partage désormais cette seule règle. */
+  .bopa-support__accompany-intro {
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    color: var(--color-ink);
+    text-align: left;
+    font-size: clamp(1rem, 1.15vw, 1.05rem);
+    line-height: 1.6;
+  }
+
+  /* Toute la largeur utile du container HOME, plus le max-width éditorial
+     de 54rem/864px (owner, 2026-08-30) - même conteneur que le reste de
+     Nous soutenir (.bopa-support__inner), pas une nouvelle valeur.
+     margin-top à 0 : avec .bopa-support__group-title resserré ci-dessus,
+     c'est lui qui fixe déjà l'écart trait -> paragraphe (les marges
+     adjacentes se combinent au plus grand des deux, pas en s'additionnant). */
+  .bopa-support__group-intro {
+    margin: 0;
+    max-width: none;
+    width: 100%;
+    color: var(--color-muted);
+    font-size: clamp(1rem, 1.15vw, 1.05rem);
+    line-height: 1.6;
+  }
+
+  .bopa-support__grid { display: grid; gap: 18px; margin-top: 26px; }
+  .bopa-support__grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* "Ils nous soutiennent" passé de 2 grandes cartes à 8 (pack "Nous-
+     Soutenir-Logos-2x4-V1", 2026-09-02) - 4 colonnes x 2 lignes sur
+     desktop, gap resserré pour rester aéré à cette densité. */
+  .bopa-support__grid--four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .support-partner-card {
+    background: #ffffff;
+    color: var(--color-ink);
+    border-radius: var(--radius-md);
+    padding: 34px 32px 31px;
+    min-height: 270px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-line);
+  }
+  /* Ancienne carte "grande" (2 logos Relyens/Vermon côte à côte) devenue
+     `--patron` : 8 logos en grille 4x2 (pack "Nous-Soutenir-Logos-2x4-V1",
+     2026-09-02) - padding horizontal réduit (32px -> 22px) pour rester
+     confortable dans des colonnes deux fois plus étroites, même logique de
+     centrage compact que `--foundation` juste en dessous. */
+  .support-partner-card--patron {
+    min-height: 0;
+    padding: 22px;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Cartes fondations ET cartes mécènes : logo seul, centré horizontalement
+     et verticalement, aucun texte descriptif (pack V2, 2026-08-29 pour les
+     fondations ; descriptions Relyens/Vermon retirées le 2026-08-30, owner :
+     "enlève les textes dans les encadrés"). */
+  /* Resserrées largement autour du logo (owner, 2026-08-30, pack
+     "3-Fondations-Compact-V1") - min-height:270px (hérité de la base
+     partagée avec les cartes mécènes ci-dessous, qui restent inchangées)
+     forçait ces cartes à rester hautes bien au-delà du logo. Seul
+     `--foundation` est touché ici, pas `.support-partner-card` ni
+     `--patron` (ex-`--wide`) : largeur, logo, fond, bordure, radius
+     restent ceux de la base partagée, seule la hauteur de CETTE variante
+     change. */
+  .support-partner-card--foundation {
+    min-height: 0;
+    padding-block: 22px;
+    align-items: center;
+    justify-content: center;
+  }
+  /* max-height ramené à 92px (owner, 2026-09-03 : "trop gros par rapport
+     aux logos au-dessus") pour que la carte fondation fasse exactement la
+     même hauteur que les cartes "Ils nous soutiennent"/"Ils nous
+     accompagnent" (138px : padding 22px*2 + logo-wrap min-height:92px +
+     bordures) - avant, 6.5rem/104px de plafond faisait dépasser la carte
+     de 12px (150px). */
+  .support-partner-card--foundation img {
+    display: block;
+    max-width: 72%;
+    max-height: 92px;
+    object-fit: contain;
+  }
+  /* AP-HP et Mines-Télécom réduits (owner, 2026-09-03) - Paris-Saclay non
+     touché. La carte garde 138px (grid align-items:stretch par défaut),
+     seul le logo à l'intérieur est plus petit. */
+  /* AP-HP est plafonné par la largeur (72% -> 193px -> 58px de haut, sous
+     les 76px de max-height ci-dessus) - réduire encore (owner, 2026-09-03)
+     demande donc de resserrer max-width, pas max-height. */
+  .support-partner-card--foundation img.support-partner-card__logo--faphp { max-height: 76px; max-width: 58%; }
+  .support-partner-card--foundation img.support-partner-card__logo--fondation-imt { max-height: 76px; }
+  /* Logo AP-HP - 3e round de correctifs (2026-08-30/31 puis 2026-09-03).
+     Rounds précédents : translateX(7.2%) puis 3.5% VERS LA DROITE (théorie
+     du centre de masse/encre pondérée, mesuré à 42.9% au lieu de 50% dans
+     le fichier) - les deux jugés "encore trop à droite" par l'owner, d'où
+     l'abandon au profit du centrage géométrique pur (transform:none).
+     Round 2026-09-03 : après réduction de taille (max-width 72%->58%),
+     l'owner signale à nouveau "trop à droite" - MAIS cette fois-ci vérifié
+     explicitement via AskUserQuestion à 0% (centrage géométrique pur, donc
+     AUCUN des deux essais précédents) : la réponse confirme "trop à droite"
+     même sans aucun décalage. Puisque la théorie de l'encre pondérée
+     pointait vers la droite (+7.2%) et que l'owner juge le résultat "trop à
+     droite" à 0% ET aux deux essais vers la droite, le sens correct est
+     inverse à la théorie : décalage vers la GAUCHE. Parti d'un essai
+     modéré (-3.5%, symétrique au plus petit essai droit déjà tenté) - à
+     confirmer en vrai, ce logo ayant un historique de désaccord avec toute
+     prédiction théorique. */
+  .support-partner-card--foundation img.support-partner-card__logo--recenter {
+    transform: translateX(-3.5%);
+  }
+  .support-partner-card__logo-wrap {
+    min-height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Plus de margin-bottom (owner, 2026-08-30 : "enlève les textes") -
+       les descriptions Relyens/Vermon ont été retirées, le logo est
+       désormais seul dans la carte, centré comme les cartes fondations. */
+  }
+  .support-partner-card__logo-wrap img {
+    display: block;
+    max-width: 100%;
+    max-height: 76px;
+    object-fit: contain;
+    object-position: center;
+  }
+  /* Grille 4x2 "Ils nous soutiennent" (pack "Nous-Soutenir-Logos-2x4-V1",
+     2026-09-02) : gabarit réduit proprement pour 8 logos au lieu de 2
+     (base 44px, contre 76px générique / 84px Relyens ci-dessus). Poids
+     visuel harmonisé PAR MARQUE, pas par simple hauteur partagée - même
+     principe que Relyens/Vermon plus haut, mais poussé plus loin ici car
+     les 8 fichiers vont d'un simple mot-symbole fin (Medtronic, ratio ~5.9,
+     très peu d'encre par rapport à sa boîte) à un aplat plein (Orange,
+     carré quasi 100% rempli) : à hauteur identique, un aplat plein pèse
+     visuellement beaucoup plus qu'un mot-symbole fin, donc l'égalisation
+     par simple hauteur ou même par aire de boîte engloutissante (utilisée
+     pour les fondations, toutes des pictos+mots comparables) ne suffit
+     plus ici - chaque hauteur ci-dessous est ajustée à l'œil pour un poids
+     comparable. Sélecteur ancré sur les deux classes du wrap (spécificité
+     0,2,1) pour battre la règle générique juste au-dessus sans dépendre de
+     l'ordre dans le fichier - piège déjà rencontré sur ce même bloc.
+     Ajusté une première fois après publication (owner, 2026-09-02) :
+     Vermon et Medtronic réduits (26->22, 34->29), Relyens/Orange/Boston
+     Scientific agrandis (48->54, 44->50, 40->46). Deuxième passe le même
+     jour (owner : "grossit encore") : Orange/Boston Scientific/Richard
+     Wolf agrandis une seconde fois (50->58, 46->54, 36->44). */
+  .support-partner-card__logo-wrap.support-partner-card__logo-wrap--patron img {
+    max-height: 44px;
+  }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--relyens { max-height: 54px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--vermon { max-height: 22px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--jnj { max-height: 40px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--medtronic { max-height: 29px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--boston-scientific { max-height: 54px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--fujifilm { max-height: 28px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--orange { max-height: 58px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--richard-wolf { max-height: 44px; }
+  /* "Ils nous accompagnent" : NVIDIA/Bayes Impact/Toys Films agrandis par
+     rapport à la base 44px (owner, 2026-09-02) - S3NS non touché, reste à
+     44px. Même sélecteur partagé que "Ils nous soutiennent" ci-dessus.
+     Deuxième passe le même jour (owner : "augmente encore NVIDIA et Bayes
+     Impact") : 52->60px pour ces deux-là. Troisième passe le même jour
+     (owner : "agrandit encore NVIDIA, Bayes Impact et Toys Films") :
+     60->68px pour NVIDIA/Bayes Impact, 52->60px pour Toys Films. */
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--nvidia { max-height: 68px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--bayes-impact { max-height: 68px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--toys-films { max-height: 60px; }
+
+  /* Compacté ~25% (owner, 2026-08-30, pack "CTA-Compact-Correctif-V4") :
+     plus de min-height rigide - c'est justement lui (avec le min-height:430px
+     jumeau sur l'image plus bas) qui forçait le bloc à rester haut même une
+     fois le padding et les marges internes réduits. La hauteur vient
+     maintenant uniquement du contenu + padding, responsive par nature. */
+  .support-donation-panel {
+    border: 1px solid color-mix(in srgb, var(--mp-blue-bright) 55%, transparent);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr);
+    /* Le radial-gradient cyan décoratif (centré à 76% - à peu près là où
+       vit le visuel main+cœur) a été retiré (owner, 2026-08-30 : "je ne
+       veux plus de grande auréole bleu ciel/bleu pétrole derrière le cœur
+       et la main") - fond bleu nuit uni, le maillage du PNG repose
+       directement dessus. Aligné sur le bleu nuit exact de "Nous
+       contacter" (owner, 2026-08-30) : --mp-navy-deep (#041a3b) remplacé
+       par --mp-navy (#071f46, `.bopa-contact`'s own background) - les deux
+       teintes étaient proches mais pas identiques. */
+    background: var(--mp-navy);
+  }
+  .support-donation-panel__content {
+    padding: clamp(36px, 5vw, 64px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  /* Même typo exacte que le H2 de Notre Mission "Améliorer la chirurgie,
+     grâce au numérique" (.bopa-mission-v2 h2, site.css) - owner, 2026-08-30.
+     letter-spacing en dur (-0.035em, pas le token --tracking-tight/-0.02em)
+     pour matcher au pixel près, comme Notre Mission le fait déjà. */
+  .support-donation-panel h3 {
+    margin: 0;
+    max-width: 560px;
+    color: #fff;
+    font-family: var(--font-display, "Space Grotesk", system-ui, sans-serif);
+    font-size: clamp(2rem, 3.1vw, 3.15rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+  }
+  .support-donation-panel__content > p:not(.support-donation-panel__security) {
+    margin: 14px 0 18px;
+    max-width: 47ch;
+    color: rgba(255,255,255,.9);
+    line-height: 1.58;
+  }
+  /* Padding vertical réduit ~25% (17px -> 13px) pour un bouton nettement
+     moins haut (owner, 2026-08-30) - horizontal inchangé, garde un bouton
+     premium, pas une bannière. */
+  .support-donation-panel__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    min-width: min(100%, 325px);
+    padding: 13px 23px;
+    background: var(--mp-blue-bright);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    border-radius: var(--radius-md);
+    transition: transform 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .support-donation-panel__cta:hover { background: var(--bopa-blue-1); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35); }
+  }
+  .support-donation-panel__security {
+    margin: 9px 0 0;
+    color: rgba(255,255,255,.68);
+    font-size: .82rem;
+  }
+  /* Respiration du bloc éditorial gauche (pack "CTA-Respiration-V1",
+     2026-09-03, desktop uniquement - owner : "conserver le responsive
+     existant" sur tablette/mobile) - la main+cœur et le ratio de grille
+     (1.1fr/.9fr) NE SONT PAS touchés : à ≥1228px la colonne droite fait
+     531px, tout juste au-dessus du seuil de 521.7px (480px / 92%) sous
+     lequel l'image cesserait d'être plafonnée par son max-width:480px et
+     rétrécirait - aucune marge pour toucher au ratio sans enfreindre "ne
+     touche pas à l'image". Le décalage vers la droite (+30px de padding-
+     left) et l'élargissement (padding-right réduit) jouent donc uniquement
+     sur le padding et les marges internes de .support-donation-panel__content,
+     jamais sur la grille. Padding vertical réduit de 21px de chaque côté
+     pour financer exactement l'augmentation des 3 gaps ci-dessous (+8/+28/+4
+     = +40, contre -42 de padding retiré) : la hauteur totale du bloc ne
+     grandit pas (léger -2px), conformément à "NE PAS augmenter la hauteur
+     globale de l'encadré". */
+  @media (min-width: 901px) {
+    .support-donation-panel__content {
+      padding-left: calc(clamp(36px, 5vw, 64px) + 30px);
+      padding-right: clamp(14px, 2vw, 20px);
+      padding-top: calc(clamp(36px, 5vw, 64px) - 21px);
+      padding-bottom: calc(clamp(36px, 5vw, 64px) - 21px);
+    }
+    /* Paragraphe élargi : ancien plafond 47ch sous-utilisait déjà la
+       colonne (474px rendus sur ~520px disponibles) - 58ch est
+       volontairement généreux, la largeur réelle s'auto-plafonne à la
+       largeur de la colonne (align-items:flex-start, pas de stretch). */
+    .support-donation-panel__content > p:not(.support-donation-panel__security) {
+      margin-top: 22px;
+      margin-bottom: 46px;
+      max-width: 58ch;
+    }
+    /* Rapproché du bouton (owner, 2026-09-03 : "trop d'espace" avec les
+       13px du pack V1) - 4px, nettement plus collé que même l'original
+       (9px) avant ce pack. */
+    .support-donation-panel__security { margin-top: 4px; }
+  }
+  .support-donation-panel__visual {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
+    /* Hauteur calée sur la colonne texte (align-items:stretch hérité de la
+       grille .support-donation-panel), plus de min-height:100% + image en
+       min-height:430px qui forçaient la hauteur du bloc entier - voir plus
+       haut (owner, 2026-08-30). */
+    min-height: 220px;
+  }
+  /* Asset FINAL (owner, 2026-08-30, pack "Remplacement-Image-Transparent-
+     FINAL") : hand-heart-bopa-final.png - l'image d'origine validée,
+     nettoyée techniquement (fond noir et grande nappe/halo bleu diffus
+     supprimés, maillage/traits/points conservés, vraie transparence).
+     Remplace hand-heart-bopa-transparent.png, dont le halo restait visible.
+     Ratio différent du précédent (1438x1094 ≈ 1.314 contre 1136x1094 ≈
+     1.038) - ne doit recevoir AUCUNE transformation qui changerait son
+     cadrage (pas de translate/scale/object-position/clip-path) : juste un
+     ancrage à droite et un dimensionnement proportionnel qui respecte ses
+     proportions naturelles. Le bleu nuit du panneau apparaît naturellement
+     à travers la transparence.
+     IMPORTANT : dimensionner via `width` (valeur définie, dérivée de la
+     largeur - toujours définie - de la colonne grille), PAS via `height`
+     couplée à un `max-width` de secours : testé en vrai sur ce moteur de
+     rendu, "height défini + width:auto + max-width" ÉCRASE le ratio naturel
+     dès que le max-width devient la contrainte active (colonne étroite,
+     ~900-1150px de largeur d'écran) au lieu de recalculer les deux axes -
+     l'image ressort visiblement déformée. Piloter par la largeur évite tout
+     bras de fer entre contraintes puisque `min(92%, 480px)` est toujours
+     ≤ 100% de la colonne : aucun filet de secours n'est jamais nécessaire. */
+  .support-donation-panel__visual img {
+    display: block;
+    width: min(92%, 480px);
+    height: auto;
+    margin: 0;
+  }
+
+  @media (max-width: 900px) {
+    /* Tablette : "2 + 1" plutôt qu'une colonne unique (pack V2, 2026-08-29,
+       section RESPONSIVE) - la 3e carte fondation s'étend sur les deux
+       colonnes. */
+    .bopa-support__grid--three { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .bopa-support__grid--three > :last-child { grid-column: 1 / -1; }
+    /* "Ils nous soutiennent" : 4x2 -> 2x4 (pack "Nous-Soutenir-Logos-2x4-V1",
+       2026-09-02) - demandé explicitement ("tablette = 2x4 si nécessaire"),
+       4 colonnes devenaient trop étroites pour les logos les plus larges
+       (Medtronic, J&J) en dessous de ~900px. */
+    .bopa-support__grid--four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .support-partner-card { min-height: 0; }
+    /* Panneau empilé (image sous le texte) : asset transparent, déjà cadré -
+       plus besoin d'object-fit:cover/recadrage, juste une hauteur plafonnée
+       pour que l'image reste entièrement visible sans imposer sa propre
+       hauteur au panneau. */
+    .support-donation-panel { grid-template-columns: 1fr; }
+    .support-donation-panel__visual { height: auto; min-height: 0; padding: 18px 0; }
+    .support-donation-panel__visual img {
+      height: 220px;
+      width: auto;
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 680px) {
+    .bopa-support__grid--three { grid-template-columns: 1fr; }
+    .bopa-support__grid--three > :last-child { grid-column: auto; }
+  }
+
+  @media (max-width: 560px) {
+    .bopa-support__inner { width: min(calc(100% - 28px), 1180px); }
+    .support-partner-card { padding: 27px 24px; }
+    .bopa-support__group-title { gap: 11px; }
+    .bopa-support__group-title h3 { font-size: .9rem; }
+    .support-donation-panel__content { padding: 32px 24px 35px; }
+  }
+
+  .bopa-contact {
+    position: relative;
+    background: var(--mp-navy);
+    color: rgba(255, 255, 255, 0.85);
+    overflow: hidden;
+  }
+
+  /* Maillage cyan interactif, coin bas-gauche (pack "Nous-Contacter-Exact-V1",
+     2026-08-29 ; rendu plus présent au correctif "Nous-Contacter-FINAL",
+     même jour) - canvas 2D pur (site/src/scripts/contact-mesh.js), aucune
+     librairie externe. Masqué en dégradé vers le haut pour ne jamais
+     gêner le texte ; pointer-events:none pour ne jamais intercepter de clics.
+     "Plus grand + plus lumineux + plus visible, jamais plus complexe" :
+     emprise (hauteur + zone visible du masque) agrandie, `filter` ajoute un
+     vrai glow cyan (drop-shadow peint une lueur même là où le trait/point
+     source est à faible alpha, ce qu'un simple brightness/opacity ne peut
+     pas faire) - le nombre de points et la logique interactive elle-même
+     (site/src/scripts/contact-mesh.js) restent inchangés, seule leur
+     opacité/taille de base a été relevée dans le script. */
+  .bopa-contact__mesh {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: min(360px, 46%);
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 72%, transparent 100%);
+    mask-image: linear-gradient(to top, #000 0%, #000 72%, transparent 100%);
+    filter:
+      brightness(1.18)
+      saturate(1.18)
+      drop-shadow(0 0 24px color-mix(in srgb, var(--bopa-cyan) 40%, transparent));
+  }
+  .bopa-contact__mesh canvas { display: block; width: 100%; height: 100%; }
+  @media (max-width: 760px) {
+    .bopa-contact__mesh {
+      height: min(280px, 40%);
+      filter:
+        brightness(1.1)
+        saturate(1.1)
+        drop-shadow(0 0 16px color-mix(in srgb, var(--bopa-cyan) 30%, transparent));
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bopa-contact__mesh { opacity: 0.72; }
+  }
+
+  .bopa-contact__inner {
+    position: relative;
+    z-index: 1;
+    width: min(1180px, calc(100% - 48px));
+    margin: 0 auto;
+    /* padding-top ET padding-bottom fixés à var(--space-5) (owner,
+       2026-08-30, pack "Nous-Contacter-Equilibre-Haut-Bas-V5") : le haut
+       (64px, inchangé depuis le 2026-08-30 précédent) reste la référence
+       - le bas utilisait encore son propre clamp(72px,8vw,104px), qui
+       résolvait à 102.4px à 1280px de large (mesuré en direct) contre
+       64px en haut, donc visuellement asymétrique. Même valeur FIXE des
+       deux côtés (pas juste un clamp ajusté pour matcher à une seule
+       largeur) garantit A = B à toute largeur d'écran, pas seulement au
+       point de mesure. Seul le padding-bottom change ici ; le cadre
+       blanc lui-même ne bouge pas (padding-top intact). */
+    padding: var(--space-5) 0;
+    display: grid;
+    /* Rééquilibré (owner, 2026-08-30, pack "Nous-Contacter-Compact-V2") :
+       ~39%/61% (.78fr/1.22fr) avant correctif -> ~47%/53%, pour que les
+       paragraphes de gauche s'étalent sur moins de lignes. Planchers
+       ajustés dans le même esprit (colonne de texte plus large mérite un
+       plancher un peu plus haut ; le formulaire, plus étroit, peut
+       accepter un plancher plus bas qu'avant). */
+    grid-template-columns: minmax(300px, .95fr) minmax(420px, 1.05fr);
+    gap: clamp(48px, 7vw, 100px);
+    /* Stretch réintroduit sciemment (owner, 2026-08-30, pack "Nous-
+       Contacter-Equilibrage-Final-V3") : le formulaire reste la colonne
+       la plus haute (sa propre hauteur ne dépend pas de ce stretch), mais
+       la colonne de texte peut désormais s'étirer pour occuper la même
+       hauteur et répartir ses 3 groupes dessus (voir .bopa-contact__intro
+       juste en dessous) - contrairement au retrait du pack précédent, qui
+       compensait la disparition du bloc adresse, cette fois le stretch
+       sert un vrai objectif : mieux répartir un contenu qui reste plus
+       court que le formulaire. */
+    align-items: stretch;
+  }
+
+  /* Les 2 paragraphes lisaient comme "jetés" à deux hauteurs plutôt que
+     comme un seul bloc éditorial une fois répartis individuellement via
+     space-between (owner, 2026-08-30, pack "Nous-Contacter-Paragraphes-
+     Groupe-Centre-V4") - corrigé en repassant à 2 groupes seulement :
+     le bloc titre (fixe, en haut) et une zone restante `flex:1` qui
+     centre verticalement le groupe des deux paragraphes (regroupés dans
+     leur propre wrapper, voir `.bopa-contact__intro-middle`/`-group`
+     juste plus bas) - plus de justify-content:space-between ici. */
+  .bopa-contact__intro {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Zone restante entre le bloc titre et le bas du formulaire (stretch
+     hérité de `.bopa-contact__inner` juste au-dessus) : `flex:1` occupe
+     tout l'espace non pris par `.intro-top`, `align-items:center` centre
+     verticalement le groupe des paragraphes dedans - exactement la
+     recommandation du pack (bloc titre en haut / zone flex:1 / groupe
+     centré dedans), pas de margin-top ni de translateY arbitraires. */
+  .bopa-contact__intro-middle {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Les deux paragraphes forment un seul groupe éditorial : gap d'environ
+     une ligne de texte (1.1em, dans la fourchette 1-1.2em demandée),
+     plus le `margin-top:10px` fixe d'avant qui traitait les paragraphes
+     comme deux blocs indépendants. */
+  .bopa-contact__intro-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1em;
+  }
+
+  /* Titre principal : même échelle "Niveau 1" que "De l'innovation au
+     progrès" (.bopa-vision-v4 h2) - repris à l'identique, pas une nouvelle
+     taille. "Parlons-en." (ex-h2) devient la signature cyan juste dessous. */
+  .bopa-contact h2 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.1vw, 3.15rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: var(--tracking-tight);
+    color: #fff;
+  }
+
+  .bopa-contact__kicker {
+    margin: 6px 0 0;
+    color: var(--mp-blue-bright);
+    font-weight: 650;
+    font-size: clamp(1.05rem, 1.4vw, 1.3rem);
+    line-height: 1.3;
+  }
+
+  /* max-width élargi (owner, 2026-08-30, pack "Nous-Contacter-Compact-V2") :
+     390px était déjà plus étroit que la colonne elle-même AVANT même le
+     rééquilibrage des deux colonnes ci-dessus - élargir la colonne seule
+     n'aurait donc rien changé au nombre de lignes, ce cap agissait comme
+     goulot d'étranglement invisible. Élargi à 480px, en dessous de la
+     largeur réelle de la colonne (~518px à 1280px de large) pour garder
+     une longueur de ligne confortable, mais assez pour vraiment gagner
+     les 1-2 lignes visées. */
+  .bopa-contact__text {
+    max-width: 480px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.7;
+  }
+  /* Plus de margin-top fixe entre les deux paragraphes (owner, 2026-08-30,
+     pack "Nous-Contacter-Equilibrage-Final-V3") : chaque paragraphe est
+     maintenant son propre groupe flex direct de `.bopa-contact__intro`
+     (voir markup), l'écart entre eux vient de `justify-content:
+     space-between` sur la colonne entière, pas d'une marge arbitraire. */
+  .bopa-contact__highlight { color: var(--bopa-cyan); }
+
+  /* Formulaire compacté (correctif "Nous-Contacter-FINAL", 2026-08-29) :
+     padding du bloc, hauteur des champs, espace label->champ et espace
+     entre champs tous réduits - le formulaire se lisait trop haut et trop
+     vide à côté de la colonne éditoriale. Toujours confortable (labels,
+     tailles de police et focus visibles inchangés), juste moins massif. */
+  .bopa-contact__form {
+    background: rgba(255,255,255,.98);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-lg);
+    padding: clamp(18px, 2.2vw, 26px);
+    /* padding-bottom réduit une seconde fois (owner, 2026-08-30, pack
+       "Nous-Contacter-Equilibrage-Final-V3") : la carte doit garder
+       EXACTEMENT sa hauteur actuelle pendant que Message grandit - cette
+       respiration, plus le margin-top du `.form-status` juste en dessous
+       (voir plus bas), sont les deux seules sources de "vide" restant
+       une fois les champs déjà compacts ; les deux sont resserrées pour
+       financer la croissance de Message sans changer la hauteur totale
+       de la carte. */
+    padding-bottom: clamp(6px, .8vw, 9px);
+    box-shadow: 0 18px 48px rgba(18,46,92,.09);
+  }
+
+  .bopa-contact__form > label,
+  .bopa-contact__grid label {
+    display: grid;
+    gap: 5px;
+    margin-bottom: 6px;
+  }
+
+  .bopa-contact__form label > span:first-child,
+  .bopa-contact__grid label > span:first-child {
+    font-size: .78rem;
+    font-weight: 760;
+    color: var(--color-navy);
+  }
+
+  .bopa-contact__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .bopa-contact input,
+  .bopa-contact select,
+  .bopa-contact textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius);
+    background: #fff;
+    color: var(--color-ink);
+    font: inherit;
+    font-size: .92rem;
+    padding: 9px 14px;
+    outline: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+  }
+
+  .bopa-contact input:focus,
+  .bopa-contact select:focus,
+  .bopa-contact textarea:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 12%, transparent);
+  }
+
+  /* Champs Nom/Prénom/Email/Sujet resserrés verticalement (owner,
+     2026-08-30, pack "Nous-Contacter-Compact-Hauteur-V1") - padding-block
+     seul touché, taille de police et padding-inline inchangés. */
+  .bopa-contact input,
+  .bopa-contact select {
+    padding-block: 5px;
+  }
+
+  /* Message agrandi (owner, 2026-08-30, pack "Nous-Contacter-Equilibrage-
+     Final-V3") : 96px -> 113px, financé intégralement par le padding-bottom
+     de la carte et le margin-top du statut de formulaire resserrés
+     juste au-dessus/plus bas - la hauteur totale de la carte blanche
+     reste donc exactement la même, comme demandé explicitement, tout
+     en faisant de Message le bloc vertical dominant du formulaire. */
+  .bopa-contact textarea {
+    resize: vertical;
+    height: 113px;
+    min-height: 113px;
+    padding-block: 8px;
+  }
+
+  .bopa-contact__consent {
+    display: flex !important;
+    grid-template-columns: none !important;
+    gap: 9px !important;
+    align-items: flex-start;
+    margin: 2px 0 0 !important;
+    color: var(--color-muted);
+    font-size: .78rem;
+    line-height: 1.4;
+  }
+
+  .bopa-contact__consent input {
+    width: 15px;
+    height: 15px;
+    padding: 0;
+    margin: 2px 0 0;
+    flex: 0 0 auto;
+  }
+
+  .bopa-contact__actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+
+  /* Bouton corrigé (correctif "Nous-Contacter-FINAL", 2026-08-29) : largeur
+     `fit-content` (plus de `min-width`/`gap` de flèche qui le poussaient à
+     déborder sur 2 lignes), cyan BOPA exact à l'état actif (était
+     `--color-navy` par erreur), gris/bleu-gris explicitement non cliquable
+     tant que le consentement n'est pas coché - piloté par le vrai attribut
+     `disabled` (script plus haut), pas seulement par une classe visuelle. */
+  .bopa-contact__actions button {
+    width: max-content;
+    max-width: 100%;
+    white-space: nowrap;
+    min-height: 48px;
+    padding: 0 28px;
+    border: 0;
+    border-radius: var(--radius);
+    background: var(--bopa-cyan);
+    color: #fff;
+    font: inherit;
+    font-weight: 720;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .2s ease, background-color .2s ease, opacity .2s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .bopa-contact__actions button:not(:disabled):hover {
+      transform: translateY(-1px);
+      background: var(--bopa-blue-1);
+    }
+  }
+
+  .bopa-contact__actions button:disabled {
+    background: color-mix(in srgb, var(--color-muted) 38%, white);
+    color: rgba(255, 255, 255, .85);
+    cursor: not-allowed;
+    opacity: .85;
+  }
+
+  /* margin-top resserré (owner, 2026-08-30, pack "Nous-Contacter-
+     Equilibrage-Final-V3") : finance une partie de la croissance du
+     textarea Message sans changer la hauteur totale de la carte. */
+  .bopa-contact .form-status { grid-column: 1 / -1; margin-top: 4px; }
+
+  @media (max-width: 900px) {
+    .bopa-contact__inner {
+      grid-template-columns: 1fr;
+    }
+    /* Empilé en une seule colonne à cette largeur (owner, 2026-08-30,
+       pack "Nous-Contacter-Paragraphes-Groupe-Centre-V4") : le centrage
+       vertical de `.intro-middle` (hérité du stretch desktop) devient
+       naturellement inerte ici puisqu'il n'y a plus de hauteur étirée à
+       partager avec le formulaire (empilement normal) - juste un gap
+       fluide entre le bloc titre et le groupe de paragraphes, pas de
+       centrage vertical artificiel forcé. */
+    .bopa-contact__intro {
+      max-width: 620px;
+      gap: clamp(18px, 3vh, 28px);
+    }
+  }
+
+  @media (max-width: 620px) {
+    .bopa-contact__inner {
+      width: min(calc(100% - 32px), 1180px);
+    }
+    .bopa-contact__grid { grid-template-columns: 1fr; gap: 0; }
+    .bopa-contact__actions { justify-content: stretch; }
+    .bopa-contact__actions button { width: 100%; }
+    .bopa-support h2 br { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .support-donation-panel__cta,
+    .bopa-contact__actions button {
+      transition: none;
+    }
+  }
+
+  /* ============================================================
+     BOPA - Notre vision V4
+     Réf. : CLAUDE-INTEGRATION.md (Notre-Vision-V4) + REFERENCE-CODE-MISSION
+     + REFERENCE-NOTRE-MISSION-A-HARMONISER.png (2026-08-27).
+     Remplace la V3 (cercles ~166px, H2 jusqu'à 4rem+) : cette version
+     reprend EXACTEMENT les métriques de .bopa-mission-v2 (vérifiées
+     identiques au CSS actuel, pas seulement à ce que fournissait le
+     pack) - même padding, largeur, eyebrow, H2, intro, cercles 5.25rem,
+     SVG 3rem, ligne pointillée. Seule différence : 5 repères sur la
+     frise au lieu de 3, donc grid-template-columns adapté en
+     conséquence. Ne jamais regrossir ces valeurs pour "compenser" le
+     texte plus long de Vision - la densité doit rester identique à
+     Mission (demande explicite de la propriétaire).
+     ============================================================ */
+  .bopa-vision-v4 {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    background: var(--mp-navy);
+    color: #fff;
+    padding: clamp(4.75rem, 7vw, 7rem) 2rem clamp(5.25rem, 8vw, 7.5rem);
+  }
+
+  .bopa-vision-v4 *,
+  .bopa-vision-v4 *::before,
+  .bopa-vision-v4 *::after {
+    box-sizing: border-box;
+  }
+
+  /* Marges horizontales alignées sur "Qui sommes-nous" (owner, 2026-08-30) -
+     width:min(1320px,100%) laissait le contenu toucher le bord du viewport
+     dès que la largeur d'écran descendait sous 1320px (aucune marge
+     propre, seulement le centrage du plafond de largeur), rendant Vision
+     plus "étalée" que Mission/Qui sommes-nous à toute largeur
+     intermédiaire. PAS la formule `calc(100% - 3rem)` du conteneur
+     générique `.section-block .wrap` : `.bopa-vision-v4` a son PROPRE
+     padding horizontal (2rem, ligne ci-dessus) - contrairement à
+     `.about-v2` qui n'en a aucun - donc soustraire 3rem une seconde fois
+     dans `__inner` double-comptait la marge (mesuré : 1152.8px au lieu de
+     1184px visés à 1280px de large). Même correctif que
+     `.bopa-mission-v2__inner` (qui partage exactement le même padding de
+     section) : un plafond simple, sans soustraction supplémentaire. */
+  .bopa-vision-v4__inner {
+    width: min(var(--max-width), 100%);
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .bopa-vision-v4__eyebrow {
+    margin: 0 0 0.85rem;
+    color: var(--mp-blue-bright);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0.055em;
+    text-transform: uppercase;
+  }
+
+  .bopa-vision-v4 h2 {
+    margin: 0;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.1vw, 3.15rem);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .bopa-vision-v4__intro {
+    width: min(860px, 100%);
+    margin: 1.45rem auto 0;
+    color: rgba(255,255,255,.88);
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    line-height: 1.55;
+    text-align: center;
+  }
+
+  .bopa-vision-v4__intro strong {
+    color: #fff;
+    font-weight: 700;
+  }
+
+  .bopa-vision-v4__timeline {
+    position: relative;
+    display: grid;
+    grid-template-columns:
+      minmax(100px, .72fr)
+      minmax(285px, 1fr)
+      minmax(285px, 1fr)
+      minmax(285px, 1fr)
+      minmax(110px, .8fr);
+    gap: clamp(1.15rem, 2.4vw, 2.5rem);
+    margin-top: clamp(3.8rem, 6vw, 5.6rem);
+    align-items: start;
+  }
+
+  /* Trajectoire directionnelle continue (2026-08-27, patch flèche) :
+     remplace l'ancienne ligne pointillée par un trait plein, avec une
+     seule pointe de flèche juste avant "Progrès pour tous" (::after
+     ci-dessous) - Innovation est le départ, Progrès la destination,
+     les trois piliers du milieu ne sont plus au même niveau visuel
+     qu'un simple repère parmi d'autres. Rien d'autre dans la section
+     n'a changé (tailles, cercles, icônes, textes, fond, espacements). */
+  /* La ligne s'arrête désormais exactement à la pointe de la flèche
+     (même valeur right que ::after ci-dessous), pas plus loin vers le
+     cercle - avant ce correctif (2026-08-27, V2), la ligne continuait
+     jusqu'à right:4.5% derrière la flèche (posée à 14%), donnant
+     l'impression d'une trajectoire qui continue sous la flèche au lieu
+     de s'arrêter net dessus. */
+  .bopa-vision-v4__timeline::before {
+    content: "";
+    position: absolute;
+    top: 31px;
+    left: 4.5%;
+    right: 11.7%;
+    height: 2px;
+    background: var(--mp-blue-bright);
+    opacity: 0.9;
+  }
+
+  /* Pointe de flèche = vraie terminaison de la ligne (même right que
+     ::before, 15.5% : la ligne s'arrête pile là où la flèche commence,
+     plus de segment caché derrière). Laisse ~28-51px avant le cercle
+     "Progrès pour tous" selon la largeur (mesuré de 1000px à 1920px) -
+     un pourcentage pur ne peut pas tomber pile à 30-45px partout (le
+     cercle final a une taille fixe, pas proportionnelle), donc cette
+     valeur vise le milieu de la plage demandée plutôt qu'un seul point. */
+  .bopa-vision-v4__timeline::after {
+    content: "";
+    position: absolute;
+    top: 31px;
+    right: 11.7%;
+    width: 14px;
+    height: 14px;
+    border-top: 2px solid var(--mp-blue-bright);
+    border-right: 2px solid var(--mp-blue-bright);
+    transform: translateY(-50%) rotate(45deg);
+    opacity: 0.9;
+  }
+
+  .bopa-vision-v4__step {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .bopa-vision-v4__step::before {
+    content: "";
+    position: absolute;
+    top: calc(31px - 4px);
+    left: 50%;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    background: var(--mp-blue-bright);
+    transform: translateX(-50%);
+    z-index: -1;
+  }
+
+  /* Cercles harmonisés sur la DA de /innovations/ (2026-08-27, V4.1) :
+     62px, contour 1.5px cyan, intérieur blanc, pictogramme cyan - même
+     diamètre/épaisseur/finesse que la frise Pré/Per/Post d'/innovations/,
+     seule la couleur du pictogramme diffère volontairement (cyan ici,
+     encre sur /innovations/ qui est un fond clair). */
+  .bopa-vision-v4__icon {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 20px;
+    border: 1.5px solid var(--mp-blue-bright);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--mp-blue-bright);
+  }
+
+  .bopa-vision-v4__icon svg {
+    width: 38px;
+    height: 38px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .bopa-vision-v4__step--endpoint .bopa-vision-v4__icon {
+    border-color: color-mix(in srgb, var(--mp-blue-bright) 72%, transparent);
+  }
+
+  .bopa-vision-v4__step h3,
+  .bopa-vision-v4__endpoint-label {
+    margin: 0;
+    color: var(--mp-blue-bright);
+    font-family: var(--font-text);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.3;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
+  }
+
+  /* Les 3 piliers (Acceptabilité/Interopérabilité/Soutenabilité) centrés
+     sous leur cercle (owner's request, 2026-08-27, correctif frises/Vision) :
+     même largeur (215px, celle déjà utilisée par .copy) et même centrage
+     pour les 3 blocs de texte (titre/accroche/paragraphe), pas seulement
+     text-align:center - la boîte elle-même doit être centrée. Les
+     étapes de fin (Innovation/Progrès pour tous, .endpoint-label) ne
+     sont pas concernées, elles gardent leur propre traitement. */
+  .bopa-vision-v4__step h3 {
+    max-width: 285px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+  }
+
+  .bopa-vision-v4__endpoint-label {
+    color: rgba(255,255,255,.95);
+  }
+
+  /* "Progrès pour tous" aligné sur le bord gauche du dernier cercle
+     (owner's request, 2026-08-27) plutôt que sur celui de sa colonne :
+     même largeur que l'icône (62px) et même centrage (margin:auto),
+     donc leurs bords gauches coïncident - le texte est déjà en
+     text-align:left (règle globale des paragraphes), il ne manquait
+     que la largeur pour aligner correctement. */
+  .bopa-vision-v4__step--endpoint-end .bopa-vision-v4__endpoint-label {
+    width: 62px;
+    margin: 0 auto;
+  }
+
+  .bopa-vision-v4__tagline {
+    max-width: 285px;
+    margin: 1.35rem auto 0;
+    color: rgba(255,255,255,.94);
+    font-size: 1.04rem;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  .bopa-vision-v4__copy {
+    max-width: 285px;
+    margin: 0.7rem auto 0;
+    color: rgba(255,255,255,.72);
+    font-size: 0.88rem;
+    line-height: 1.52;
+    text-align: center;
+  }
+
+  .bopa-vision-v4__network {
+    position: absolute;
+    width: 230px;
+    opacity: 0.09;
+    color: var(--mp-blue-bright);
+    pointer-events: none;
+  }
+  .bopa-vision-v4__network--left { left: -70px; bottom: -55px; }
+  .bopa-vision-v4__network--right { right: -70px; bottom: -55px; transform: scaleX(-1); }
+
+  /* Seuil remonté de 980px à 1220px (2026-08-27, finitions V1) : les
+     colonnes du milieu ont désormais un minimum de 285px (pour garantir
+     2 lignes strictes aux sous-titres) - en dessous d'environ 1200px, ce
+     minimum ne tient plus dans le layout desktop à 5 colonnes et débordait
+     silencieusement (coupé par overflow:hidden). Le layout 3 colonnes /
+     extrémités en pleine largeur ci-dessous absorbe cette plage sans
+     problème (ses colonnes sont déjà bien plus larges que 285px). */
+  @media (max-width: 1220px) {
+    .bopa-vision-v4__timeline {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2.5rem 1.5rem;
+    }
+    .bopa-vision-v4__timeline::before,
+    .bopa-vision-v4__timeline::after { display: none; }
+    .bopa-vision-v4__step::before { display: none; }
+    .bopa-vision-v4__step--endpoint-start { grid-column: 1 / -1; }
+    .bopa-vision-v4__step--endpoint-end { grid-column: 1 / -1; }
+    .bopa-vision-v4__step--endpoint .bopa-vision-v4__icon { margin-bottom: 1rem; }
+    .bopa-vision-v4__step h3,
+    .bopa-vision-v4__tagline,
+    .bopa-vision-v4__copy { max-width: 285px; }
+  }
+
+  @media (max-width: 700px) {
+    .bopa-vision-v4 { padding: 4rem 1.25rem 4.5rem; }
+    .bopa-vision-v4__timeline {
+      grid-template-columns: 1fr;
+      margin-top: 3.25rem;
+      gap: 2.65rem;
+    }
+    .bopa-vision-v4__step--endpoint-start,
+    .bopa-vision-v4__step--endpoint-end { grid-column: auto; }
+    .bopa-vision-v4__icon { width: 54px; height: 54px; margin-bottom: 1.3rem; }
+    .bopa-vision-v4__step--endpoint-end .bopa-vision-v4__endpoint-label { width: 54px; }
+    .bopa-vision-v4__step h3,
+    .bopa-vision-v4__tagline,
+    .bopa-vision-v4__copy { max-width: 310px; }
+    .bopa-vision-v4__network { display: none; }
+  }
+
+  /* Empêche le header sticky de masquer le début de section après clic
+     sur une ancre du menu. Une seule source de vérité : --bopa-header-height
+     (site.css, calculé sur la hauteur réelle du header replié au scroll -
+     voir son commentaire pour le détail) - plus d'offset approximatif ni
+     de valeur dupliquée à un autre seuil (2026-08-27, correctif ancres). */
+  #notre-mission,
+  #innovations-bopa,
+  #notre-vision,
+  #qui-sommes-nous,
+  #nous-contacter,
+  #nous-soutenir {
+    scroll-margin-top: var(--bopa-header-height);
+  }
+</style>
+

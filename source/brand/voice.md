@@ -29,9 +29,16 @@ These start as sensible defaults; edit them to fit.
 
 ## Languages
 
-French. The site has one language; no translation pass needed.
+French (default, at `/`) and English (at `/en/`, since 2026-09-03) - a real translation, not a machine one, kept in separate files (`site/src/pages/en/`, `site/src/data/projects.en.js`) so neither language can accidentally edit the other. The French pages are frozen: an English pass never touches a French word, punctuation mark, or file.
 
-If the site has more than one language, every language is written natively. Before publishing copy in a non-default language, do a dedicated pass reading it on its own, as a native speaker would, and fix anglicisms, calques, and literal constructions. A page that reads like a translation fails this guide even if every word is technically correct.
+Every language is written natively. Before publishing copy in a non-default language, do a dedicated pass reading it on its own, as a native speaker would, and fix anglicisms, calques, and literal constructions. A page that reads like a translation fails this guide even if every word is technically correct.
+
+**EN-specific conventions established 2026-09-03:**
+- "Chaire Innovation BOPA" → "the BOPA Innovation Chair" (or "the BOPA Chair" for repeats in the same paragraph) - an institutional-chair title is translated, not left in French.
+- Real institution names (AP-HP, Institut Mines-Télécom, Université Paris-Saclay, and each one's own "Fondation ..." name) stay in French - they're the organizations' actual registered names, not descriptive phrases.
+- "Pr" (French title abbreviation) → "Prof." for a person's name in EN copy - also update the `slugify`/initials regex in `en/index.astro` if the team roster's title prefixes ever change, since it strips the title before deriving a photo slug/initials.
+- Project/brand names never change (BOPA, BOPtech/BOPTECH per the casing already used inline, BOPEX, LiverSight, PancreasSight, LiverMatch, BOPCAM, Henri, Goldfinger, Colette, BOPA Value, MesGardes, HepatGreen, Uncovr) - this notation section's casing rules apply to English copy exactly as they do to French.
+- Numbers follow English convention in English copy (thousand separator comma, not the French space) - e.g. FR "1 500" → EN "1,500".
 
 ## Notation
 

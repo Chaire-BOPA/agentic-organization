@@ -1,0 +1,107 @@
+---
+// FR / EN switch (pack "Version-Anglaise-Switch-FR-EN-V1", 2026-09-03).
+// Rendered TWICE by Base.astro (variant="desktop" inside #site-nav, right
+// before the "Nous soutenir" CTA; variant="mobile" outside #site-nav, right
+// before the hamburger) because the two live in different DOM positions -
+// #site-nav collapses entirely behind the hamburger below the header's
+// nav breakpoint, so a single shared instance could not stay visible in
+// both places. Only one of the two is ever displayed at a given viewport
+// width (see the media query below), so exactly one is visible/focusable
+// at a time - never both.
+interface Props {
+  lang: 'fr' | 'en';
+  frPath: string;
+  enPath: string;
+  variant: 'desktop' | 'mobile';
+}
+
+const { lang, frPath, enPath, variant } = Astro.props;
+const isEn = lang === 'en';
+---
+
+<div class={`lang-switch lang-switch--${variant}`} role="group" aria-label="Choisir la langue du site / Choose the site language">
+  {isEn ? (
+    <a class="lang-switch__link" href={frPath} lang="fr" hreflang="fr" data-lang-switch-link data-lang-switch-base={frPath}>FR</a>
+  ) : (
+    <span class="lang-switch__link is-active" aria-current="true">FR</span>
+  )}
+  <span class="lang-switch__sep" aria-hidden="true">/</span>
+  {isEn ? (
+    <span class="lang-switch__link is-active" aria-current="true">EN</span>
+  ) : (
+    <a class="lang-switch__link" href={enPath} lang="en" hreflang="en" data-lang-switch-link data-lang-switch-base={enPath}>EN</a>
+  )}
+</div>
+
+<style>
+  /* No background/border/pill/underline anywhere here (owner's explicit
+     "doit se fondre dans le header") - only color + weight distinguish the
+     active language, exactly as specced. */
+  .lang-switch {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: var(--text-sm);
+    line-height: 1;
+  }
+
+  /* Claws back part of #site-nav's shared 16px flex gap on both sides
+     (site.css, `.site-header nav { gap: var(--space-3) }`) - this switch
+     reads as "very compact" text, not a full nav item, so it shouldn't
+     cost two full nav-item gaps. Desktop only: the mobile instance sits in
+     `.site-header-controls` next to the hamburger, a different gap
+     context where this offset would be wrong. */
+  .lang-switch--desktop {
+    margin-inline: -10px;
+  }
+
+  .lang-switch__link {
+    color: var(--color-muted-light);
+    font-weight: 400;
+    text-decoration: none;
+    padding: 2px;
+    border-radius: 2px;
+  }
+
+  a.lang-switch__link {
+    transition: color 0.2s ease;
+  }
+
+  a.lang-switch__link:hover {
+    color: var(--color-accent);
+  }
+
+  .lang-switch__link.is-active {
+    color: var(--color-navy);
+    font-weight: 600;
+  }
+
+  .lang-switch__sep {
+    color: var(--color-muted-light);
+    font-size: 0.9em;
+  }
+
+  a.lang-switch__link:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  /* Desktop instance lives inside #site-nav, hidden once the nav collapses
+     behind the hamburger; mobile instance is the exact reverse. Same
+     breakpoint as .site-header's own nav collapse (site.css, 76rem) -
+     duplicated here since a scoped component style can't reference that
+     rule directly, but the two are tightly coupled by design (the mobile
+     instance exists specifically to survive this breakpoint). */
+  .lang-switch--mobile {
+    display: none;
+  }
+
+  @media (max-width: 76rem) {
+    .lang-switch--desktop {
+      display: none;
+    }
+    .lang-switch--mobile {
+      display: inline-flex;
+    }
+  }
+</style>

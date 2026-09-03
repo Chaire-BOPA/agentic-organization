@@ -1,0 +1,231 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base
+  lang="en"
+  title="BOPtech platform - BOPA"
+  description="BOPtech, the technology and scientific platform of the BOPA Innovation Chair, at the heart of the Hepato-Biliary Center's operating room."
+>
+  <section class="section-block">
+    <div class="mesh-echo" aria-hidden="true"></div>
+    <div class="wrap intro-split" data-reveal>
+      <div>
+        <span class="kicker">Innovations</span>
+        <h1>BOPtech</h1>
+        <p class="lede">
+          Funded by AP-HP, the Paris Saclay Cancer Cluster and Bpifrance,
+          BOPtech is the Chair's technology and scientific platform, based
+          directly inside the operating room of the Hepato-Biliary Center.
+          It connects MedTech, Biotech and academic research to accelerate,
+          as close to the field as possible, innovation in image-guided
+          surgery, endoscopy and hepato-bilio-pancreatic oncology.
+        </p>
+      </div>
+      <div class="intro-media">
+        <img
+          class="intro-image"
+          src="/images/boptech/foie-modele.jpg"
+          alt="Anatomical liver model used for training and surgical preparation."
+          loading="lazy"
+        />
+      </div>
+    </div>
+
+    <div class="wrap section-sub explainer" data-reveal>
+      <h2>InMachina: how it works</h2>
+      <p class="lede">
+        Every function of the human body is reproduced by a technical
+        module, to keep an explanted liver in near-physiological
+        conditions - the principle behind InMachina.
+      </p>
+      <img
+        class="explainer-image"
+        src="/images/boptech/inmachina-schema.png"
+        alt="Diagram illustrating the principle of an ex vivo liver perfusion device: every function of the body is reproduced by a technical module (a pump for the heart, an oxygenator for the lungs, dialysis for the kidneys, an algorithm for control...)."
+        loading="lazy"
+      />
+    </div>
+
+    <div class="wrap section-sub" data-reveal>
+      <div class="accordion-subgrid">
+        <details class="accordion-subitem" open>
+          <summary>
+            <span class="accordion-subtitle">InMachina: a human liver, a preclinical revolution</span>
+            <svg class="accordion-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </summary>
+          <div class="accordion-subpanel">
+            <p>
+              Supported by the PSCC, InMachina opens a new path in
+              translational medicine: keeping cancerous human livers (HCC,
+              CCA, metastases) in near-physiological conditions for 7 to 14
+              days.
+            </p>
+            <p>
+              This unique model lets biotech, medtech and healthcare
+              companies test their innovations in an ultra-realistic ex vivo
+              environment before any move into the clinic - to de-risk,
+              validate and accelerate the development of new therapies.
+            </p>
+          </div>
+        </details>
+        <details class="accordion-subitem" open>
+          <summary>
+            <span class="accordion-subtitle">Hybrid Room: the future of surgery is being built at the CHB</span>
+            <svg class="accordion-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+              <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </summary>
+          <div class="accordion-subpanel">
+            <p>
+              Thanks to Bpifrance's support, the CHB's Hybrid Room opens its
+              doors to MedTech companies to test, validate and evolve their
+              innovations under real conditions: image-guided surgery,
+              endoscopy, ultrasound or interventional radiology.
+            </p>
+            <p>
+              This platform is equipped with the <strong>Philips Azurion 7</strong>,
+              a latest-generation system boosted by artificial intelligence -
+              a unique opportunity to accelerate clinical development in a
+              hospital environment of excellence.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div class="wrap section-sub" data-reveal>
+      <h2>Our range of services</h2>
+      <p class="lede">
+        Innovating is good. Innovating with impact is better: draw on our
+        field expertise to turn your ideas into clinical success.
+      </p>
+      <div class="card-grid">
+        <article class="card">
+          <h3>Decode</h3>
+          <p>Market dynamics.</p>
+        </article>
+        <article class="card">
+          <h3>Assess</h3>
+          <p>The clinical acceptability of your innovations.</p>
+        </article>
+        <article class="card">
+          <h3>Optimize</h3>
+          <p>The usability of your healthcare innovations.</p>
+        </article>
+      </div>
+    </div>
+
+    <div class="wrap section-sub" data-reveal>
+      <h2>Our field of excellence, your field of innovation</h2>
+      <p class="lede">
+        At the CHB, a reference center for liver surgery, this unique volume
+        of explanted human livers offers privileged access to a living
+        preclinical model, usable for several hours - a rare opportunity to
+        test devices or therapies before the next stage.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section-sub {
+    margin-top: var(--space-6);
+  }
+
+  .intro-split {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .intro-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
+  }
+
+  .explainer {
+    text-align: center;
+  }
+
+  .explainer .lede {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .explainer-image {
+    max-width: 26rem;
+    margin: var(--space-4) auto 0;
+  }
+
+  /* Accordion styling redeclared here since Astro scopes <style> blocks
+     per page - index.astro's own accordion rules don't reach these same
+     class names on this page. */
+  .accordion-subgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .accordion-subitem {
+    background: var(--color-bg-tint);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+  }
+
+  .accordion-subitem:hover {
+    box-shadow: 0 8px 20px rgba(4, 35, 56, 0.06);
+  }
+
+  .accordion-subitem > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+  }
+
+  .accordion-subitem > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-chevron {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .accordion-subitem[open] > summary .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  .accordion-subpanel {
+    padding: 0 var(--space-4) var(--space-4);
+    color: var(--color-ink);
+    opacity: 0.85;
+  }
+
+  .accordion-subpanel p + p {
+    margin-top: var(--space-2);
+  }
+
+  @media (max-width: 48rem) {
+    .intro-split {
+      grid-template-columns: 1fr;
+    }
+
+    .intro-media {
+      order: -1;
+    }
+  }
+</style>

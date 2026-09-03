@@ -3,13 +3,20 @@
 // Nav lives here and only here; adding a page means adding one link below.
 import '../../../source/brand/tokens.css';
 import '../styles/site.css';
+import LangSwitch from '../components/LangSwitch.astro';
 
 interface Props {
   title: string;
   description: string;
+  lang?: 'fr' | 'en';
 }
 
-const { title, description } = Astro.props;
+// `lang` defaults to 'fr' so every existing FR page (`<Base title=...
+// description=...>`, no lang prop) renders exactly as before this pack -
+// nothing below that reads `lang`/`isEn` can change FR's output, since FR
+// always takes the `!isEn` branch it already took.
+const { title, description, lang = 'fr' } = Astro.props;
+const isEn = lang === 'en';
 
 // Personalized during setup.
 const siteName = 'BOPA';
@@ -62,18 +69,64 @@ const footerSocialLinks = [
   { href: 'https://www.youtube.com/channel/UCEkgkM4yxb_mQPnMHaaK4lQ', label: 'YouTube', icon: youtubeIcon },
 ];
 
+// --- English mirror of the nav/footer above (pack "Version-Anglaise-
+// Switch-FR-EN-V1", 2026-09-03). The FR arrays above are never edited or
+// reused for EN - a parallel set, selected below by `isEn`, so a future FR
+// wording tweak can never accidentally change under the EN nav and
+// vice versa. Anchor ids match the ones actually used in en/index.astro.
+const navEn: NavItem[] = [
+  { href: '/en/#our-mission', label: 'Our mission' },
+  { href: '/en/#bopa-innovations', label: 'BOPA innovations' },
+  { href: '/en/#our-vision', label: 'Our vision' },
+  { href: '/en/#who-we-are', label: 'Who we are' },
+  { href: '/en/#contact-us', label: 'Contact us' },
+];
+const navCtaEn = { href: '/en/#support-us', label: 'Support us' };
+const footerNavLinksEn: NavLink[] = [
+  ...navEn.flatMap((item) => ('children' in item ? item.children : [item])),
+  navCtaEn,
+];
+
+const activeNav = isEn ? navEn : nav;
+const activeNavCta = isEn ? navCtaEn : navCta;
+const activeFooterNavLinks = isEn ? footerNavLinksEn : footerNavLinks;
+
+// --- FR <-> EN page map, for the header/footer language switch ---
+// An explicit table, not a slug/regex transform: only four public pages
+// exist, so a plain lookup can never silently mis-map a future one.
+// Astro.url.pathname can arrive with or without a trailing slash depending
+// on how the link was followed (trailingSlash isn't set, so Astro accepts
+// both) - stripped before matching so either form hits the same entry.
+const FR_TO_EN: Record<string, string> = {
+  '/': '/en',
+  '/nos_innovations': '/en/our-innovations',
+  '/boptech': '/en/boptech',
+  '/publications': '/en/publications',
+};
+const EN_TO_FR: Record<string, string> = Object.fromEntries(
+  Object.entries(FR_TO_EN).map(([fr, en]) => [en, fr])
+);
+const currentPath = Astro.url.pathname.replace(/(.)\/$/, '$1');
+const frPath = isEn ? (EN_TO_FR[currentPath] ?? '/') : currentPath;
+const enPath = isEn ? currentPath : (FR_TO_EN[currentPath] ?? '/en');
+
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site);
 const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
+const frAlternateUrl = new URL(frPath, Astro.site);
+const enAlternateUrl = new URL(enPath, Astro.site);
 ---
 
 <!doctype html>
-<html lang="fr">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="fr" href={frAlternateUrl} />
+    <link rel="alternate" hreflang="en" href={enAlternateUrl} />
+    <link rel="alternate" hreflang="x-default" href={frAlternateUrl} />
     <link rel="icon" href="/favicon.png" type="image/png" />
     <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
     <link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
@@ -88,7 +141,7 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:locale" content={isEn ? 'en_US' : 'fr_FR'} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -97,7 +150,7 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
   <body>
     <header class="site-header" data-site-header>
       <div class="site-header-inner">
-        <a class="wordmark" href="/">
+        <a class="wordmark" href={isEn ? '/en' : '/'}>
           <img
             src="/logos/bopa-wordmark.png"
             alt="BOPA"
@@ -105,12 +158,14 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
             height="415"
           />
           <span class="wordmark-text">
-            <span class="wordmark-title">Le bloc opératoire<br /><em>Augmenté</em></span>
+            <span class="wordmark-title">
+              {isEn ? (<>The Augmented<br /><em>Operating Room</em></>) : (<>Le bloc opératoire<br /><em>Augmenté</em></>)}
+            </span>
           </span>
         </a>
         <div class="site-header-controls">
           <nav id="site-nav">
-            {nav.map((item) =>
+            {activeNav.map((item) =>
               'children' in item ? (
                 <div class="nav-dropdown">
                   <button type="button" class="nav-dropdown-trigger" aria-expanded="false">
@@ -126,14 +181,16 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
                 <a href={item.href}>{item.label}</a>
               )
             )}
-            <a class="btn nav-cta btn-filled-premium" href={navCta.href}>
-              {navCta.label}
+            <LangSwitch lang={lang} frPath={frPath} enPath={enPath} variant="desktop" />
+            <a class="btn nav-cta btn-filled-premium" href={activeNavCta.href}>
+              {activeNavCta.label}
             </a>
           </nav>
+          <LangSwitch lang={lang} frPath={frPath} enPath={enPath} variant="mobile" />
           <button
             type="button"
             class="nav-toggle"
-            aria-label="Ouvrir le menu"
+            aria-label={isEn ? 'Open menu' : 'Ouvrir le menu'}
             aria-expanded="false"
             aria-controls="site-nav"
           >
@@ -151,7 +208,7 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
       <div class="site-footer__inner">
         <div class="site-footer__grid">
           <div class="site-footer__brand">
-            <a class="wordmark" href="/">
+            <a class="wordmark" href={isEn ? '/en' : '/'}>
               <img
                 src="/logos/bopa-wordmark.png"
                 alt="BOPA"
@@ -159,21 +216,23 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
                 height="415"
               />
               <span class="wordmark-text">
-                <span class="wordmark-title">Le bloc opératoire<br /><em>Augmenté</em></span>
+                <span class="wordmark-title">
+                  {isEn ? (<>The Augmented<br /><em>Operating Room</em></>) : (<>Le bloc opératoire<br /><em>Augmenté</em></>)}
+                </span>
               </span>
             </a>
           </div>
 
-          <nav class="site-footer__column" aria-label="Navigation de pied de page">
+          <nav class="site-footer__column" aria-label={isEn ? 'Footer navigation' : 'Navigation de pied de page'}>
             <p class="site-footer__heading">Navigation</p>
             <div class="site-footer__nav-grid">
               <div class="site-footer__nav-col">
-                {footerNavLinks.slice(0, 3).map((item) => (
+                {activeFooterNavLinks.slice(0, 3).map((item) => (
                   <a href={item.href}>{item.label}</a>
                 ))}
               </div>
               <div class="site-footer__nav-col">
-                {footerNavLinks.slice(3).map((item) => (
+                {activeFooterNavLinks.slice(3).map((item) => (
                   <a href={item.href}>{item.label}</a>
                 ))}
               </div>
@@ -181,7 +240,7 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
           </nav>
 
           <div class="site-footer__column">
-            <p class="site-footer__heading">Nous suivre</p>
+            <p class="site-footer__heading">{isEn ? 'Follow us' : 'Nous suivre'}</p>
             <div class="site-footer__social-list">
               {footerSocialLinks.map((item) => (
                 <a class="site-footer__social-link" href={item.href} target="_blank" rel="noopener noreferrer">
@@ -193,7 +252,7 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
           </div>
 
           <div class="site-footer__column">
-            <p class="site-footer__heading">Nous trouver</p>
+            <p class="site-footer__heading">{isEn ? 'Find us' : 'Nous trouver'}</p>
             <p class="site-footer__contact">
               Hôpital Paul-Brousse<br />
               12 avenue Paul Vaillant-Couturier<br />
@@ -203,7 +262,7 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
         </div>
 
         <div class="site-footer__bottom">
-          <p>© {new Date().getFullYear()} Chaire {siteName}</p>
+          <p>© {new Date().getFullYear()} {isEn ? `${siteName} Innovation Chair` : `Chaire ${siteName}`}</p>
         </div>
       </div>
     </footer>
@@ -476,6 +535,36 @@ const ogImageUrl = new URL('/og/og-image.jpg', Astro.site);
           observer.disconnect();
           revealAll();
         }, 3000);
+      }
+    </script>
+    <script>
+      // Carry the current in-page anchor across the FR/EN switch when
+      // possible (owner: "si possible, conserver aussi la section/ancre en
+      // cours"). The server can only ever know the current PATH when
+      // building each link's href above - the URL's hash fragment is never
+      // sent in an HTTP request, so it doesn't exist yet at that point.
+      // Resolved here instead, client-side, once the real hash is known.
+      const anchorFrToEn: Record<string, string> = {
+        'notre-mission': 'our-mission',
+        'innovations-bopa': 'bopa-innovations',
+        'notre-vision': 'our-vision',
+        'qui-sommes-nous': 'who-we-are',
+        'nous-contacter': 'contact-us',
+        'nous-soutenir': 'support-us',
+      };
+      const anchorEnToFr: Record<string, string> = Object.fromEntries(
+        Object.entries(anchorFrToEn).map(([fr, en]) => [en, fr])
+      );
+      const currentHash = window.location.hash.replace(/^#/, '');
+      if (currentHash) {
+        const onEn = document.documentElement.lang === 'en';
+        const translatedHash = onEn ? anchorEnToFr[currentHash] : anchorFrToEn[currentHash];
+        if (translatedHash) {
+          document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch-link]').forEach((link) => {
+            const base = link.getAttribute('data-lang-switch-base');
+            if (base) link.href = `${base}#${translatedHash}`;
+          });
+        }
       }
     </script>
   </body>

@@ -1,0 +1,1112 @@
+---
+import Base from '../../layouts/Base.astro';
+import { phases } from '../../data/projects.en.js';
+
+// Rail "cartes entières + flèches dédiées" - same chevrons as the French
+// page, purely decorative/language-agnostic markup.
+const chevronLeftBig =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const chevronRightBig =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+---
+
+<Base
+  lang="en"
+  title="Our innovations - BOPA"
+  description="Every project of the BOPA Innovation Chair, from preoperative to postoperative care."
+>
+  <main class="innovations-v2" id="innovations-v2">
+    <section class="innovations-v2__intro innovations-v2__intro--dark" aria-labelledby="innovations-title">
+      <div class="innovations-v2__container innovations-v2__intro-grid">
+        <div class="innovations-v2__intro-copy">
+          <p class="innovations-v2__breadcrumb">Home <span aria-hidden="true">›</span> Our innovations</p>
+          <h1 id="innovations-title">Our <span>innovations</span></h1>
+          <p class="innovations-v2__lead">
+            Ideas born in the field, driven by the operating room teams: here are all
+            the Chair's projects, at every stage of the patient journey.
+          </p>
+        </div>
+
+        <div class="innovations-v2__journey" aria-label="The three phases of the surgical journey">
+          <div class="innovations-v2__journey-line" aria-hidden="true"></div>
+
+          <div class="innovations-v2__journey-step">
+            <div class="innovations-v2__journey-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="13"/><circle cx="32" cy="32" r="4"/><path d="M32 7v10M32 47v10M7 32h10M47 32h10"/></svg>
+            </div>
+            <strong>PREOPERATIVE</strong>
+            <span>Better understanding<br />for better planning</span>
+          </div>
+
+          <div class="innovations-v2__journey-step">
+            <div class="innovations-v2__journey-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64"><path d="M7 34h12l7-18 11 34 8-24 6 8h6"/></svg>
+            </div>
+            <strong>INTRAOPERATIVE</strong>
+            <span>Better vision, better decisions,<br />better surgery</span>
+          </div>
+
+          <div class="innovations-v2__journey-step">
+            <div class="innovations-v2__journey-icon" aria-hidden="true">
+              <svg viewBox="0 0 64 64"><path d="M13 49V27M25 49V17M37 49V34M49 49V10"/><path d="M8 49h48"/></svg>
+            </div>
+            <strong>POSTOPERATIVE</strong>
+            <span>Better follow-up<br />for better recovery</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="innovations-v2__filters-band">
+      <div class="innovations-v2__container">
+        <nav class="innovations-v2__filters" aria-label="Filter projects">
+          <button type="button" class="is-active" data-project-filter="all" aria-pressed="true">All projects</button>
+          {phases.map((phase) => (
+            <button
+              type="button"
+              data-project-filter={phase.id}
+              data-filter-tone={phase.id === 'medico-economique' ? 'gold' : 'blue'}
+              aria-pressed="false"
+            >
+              {phase.label}
+            </button>
+          ))}
+        </nav>
+      </div>
+    </div>
+
+    <div class="innovations-v2__catalogue">
+      <div class="innovations-v2__container">
+        {phases.map((phase) => (
+          <section
+            class={`innovations-v2__category ${phase.id === 'medico-economique' ? 'innovations-v2__category--gold' : ''}`}
+            data-project-category={phase.id}
+            aria-labelledby={`category-${phase.id}`}
+          >
+            <aside class="innovations-v2__category-label">
+              <div class={`innovations-v2__category-icon innovations-v2__category-icon--${phase.icon}`} aria-hidden="true">
+                {phase.icon === 'target' && <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="13"/><circle cx="32" cy="32" r="4"/><path d="M32 7v10M32 47v10M7 32h10M47 32h10"/></svg>}
+                {phase.icon === 'pulse' && <svg viewBox="0 0 64 64"><path d="M7 34h12l7-18 11 34 8-24 6 8h6"/></svg>}
+                {phase.icon === 'chart' && <svg viewBox="0 0 64 64"><path d="M13 49V27M25 49V17M37 49V34M49 49V10"/><path d="M8 49h48"/></svg>}
+                {phase.icon === 'euro' && <span>€</span>}
+              </div>
+              <div>
+                <h2 id={`category-${phase.id}`}>{phase.label.toUpperCase()}</h2>
+                <p>{phase.tagline}</p>
+              </div>
+            </aside>
+
+            <div class="innovations-v2__row" data-innovations-row>
+              <div
+                class="innovations-v2__row-viewport"
+                data-innovations-viewport
+                tabindex="0"
+                aria-label={`${phase.label} projects - horizontal scroll`}
+              >
+                <div class="innovations-v2__row-track" data-innovations-track>
+                  {phase.projects.map((project) => {
+                    return (
+                      <article class="bopa-project-card" data-innovation-card>
+                        <div class="bopa-project-card__media">
+                          <img src={project.image} alt="" loading="lazy" />
+                        </div>
+                        <div class="bopa-project-card__body">
+                          <h3>{project.name}</h3>
+                          <p>{project.description}</p>
+                          {project.action && (
+                            <a
+                              class="innovations-v2__card-action"
+                              href={project.action.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {project.action.type === 'video' && <span aria-hidden="true">▶</span>}
+                              <span>{project.action.label}</span>
+                              {project.action.type === 'external' && <span aria-hidden="true">↗</span>}
+                            </a>
+                          )}
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+              </div>
+              <div class="innovations-v2__nav" data-innovations-nav>
+                <button
+                  type="button"
+                  class="innovations-v2__nav-btn innovations-v2__nav-btn--prev"
+                  data-innovations-prev
+                  aria-label={`See previous projects (${phase.label})`}
+                  disabled
+                  set:html={chevronLeftBig}
+                />
+                <button
+                  type="button"
+                  class="innovations-v2__nav-btn innovations-v2__nav-btn--next"
+                  data-innovations-next
+                  aria-label={`See next projects (${phase.label})`}
+                  disabled
+                  set:html={chevronRightBig}
+                />
+              </div>
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+
+    <section class="innovations-v2__cta">
+      <div class="innovations-v2__container">
+        <div class="innovations-v2__cta-inner">
+          <div class="innovations-v2__cta-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="22" r="10"/><path d="M13 53c2-14 10-21 19-21s17 7 19 21"/></svg>
+          </div>
+          <div class="innovations-v2__cta-copy">
+            <h2>Have a project idea?<br /><span>Let's build it together.</span></h2>
+            <p>We work with clinical, academic and industry teams to accelerate surgical innovation.</p>
+          </div>
+          <a class="innovations-v2__cta-button" href="/en/#contact-us">Contact us <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<script>
+  // Client-side tabs, no framework: shows/hides category sections, no page
+  // reload. Guarded against double-init for Astro's client-side navigation
+  // (transitions/HMR).
+  const root = document.querySelector('#innovations-v2');
+  if (root && !root.hasAttribute('data-filters-ready')) {
+    root.setAttribute('data-filters-ready', 'true');
+    const buttons = Array.from(root.querySelectorAll('[data-project-filter]'));
+    const sections = Array.from(root.querySelectorAll('[data-project-category]'));
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.getAttribute('data-project-filter') || 'all';
+
+        buttons.forEach((item) => {
+          const active = item === button;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+
+        sections.forEach((section) => {
+          const visible = filter === 'all' || section.getAttribute('data-project-category') === filter;
+          section.toggleAttribute('hidden', !visible);
+        });
+
+        // A row hidden by a filter has scrollWidth/clientWidth of 0 while
+        // display:none - recompute the arrows/fade state once a filter
+        // makes it visible again.
+        requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+      });
+    });
+  }
+</script>
+
+<script>
+  // Horizontal carousel rows of cards - adapted from the same logic as the
+  // French page: IntersectionObserver/ResizeObserver + native scroll, no
+  // library. Native horizontal scroll + scroll-snap (CSS) already handle
+  // touch/trackpad/wheel input; this script only drives the arrows and the
+  // fade state.
+  const rowsRoot = document.querySelector('#innovations-v2');
+  if (rowsRoot && !rowsRoot.hasAttribute('data-rows-ready')) {
+    rowsRoot.setAttribute('data-rows-ready', 'true');
+
+    // Same total height for every card on the page, not just within a
+    // single category: each .innovations-v2__row-track is a separate flex
+    // container, so automatic stretching (align-items: stretch) only
+    // equalizes heights within one row. Measured rather than hardcoded:
+    // stays correct if a project's text changes later.
+    const equalizeCardHeights = () => {
+      const cards = Array.from(
+        rowsRoot.querySelectorAll<HTMLElement>('.innovations-v2__row-track .bopa-project-card'),
+      );
+      if (!cards.length) return;
+      cards.forEach((c) => { c.style.height = ''; });
+      const maxHeight = Math.max(...cards.map((c) => c.getBoundingClientRect().height));
+      cards.forEach((c) => { c.style.height = `${maxHeight}px`; });
+    };
+    equalizeCardHeights();
+    // Re-measure once the real display font has actually loaded: on first
+    // run, text is still rendered with a fallback font (different width,
+    // so different line breaks), which throws off the max height measured
+    // before the real font arrives.
+    document.fonts?.ready?.then(equalizeCardHeights);
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(equalizeCardHeights, 150);
+    });
+
+    // "3 cards + fixed nav column" rail: the number of visible cards is a
+    // FIXED number per responsive breakpoint (3 desktop / 2 tablet / 1
+    // mobile, set in CSS), not a JS calculation of real dimensions. Both
+    // arrows live in a single .innovations-v2__nav column, always to the
+    // right of the viewport, never before the cards - so the first card of
+    // every category stays aligned with the others regardless of nav
+    // state. That column's width being fixed (CSS), whether one button or
+    // both are shown never affects the number of visible cards.
+    rowsRoot.querySelectorAll<HTMLElement>('[data-innovations-row]').forEach((row) => {
+      const viewport = row.querySelector<HTMLElement>('[data-innovations-viewport]');
+      const track = row.querySelector<HTMLElement>('[data-innovations-track]');
+      const prev = row.querySelector<HTMLButtonElement>('[data-innovations-prev]');
+      const next = row.querySelector<HTMLButtonElement>('[data-innovations-next]');
+
+      if (!viewport || !track || !prev || !next) return;
+
+      const getCards = () => Array.from(track.querySelectorAll<HTMLElement>('[data-innovation-card]'));
+
+      const getGap = () => parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0');
+
+      const getStep = () => {
+        const card = getCards()[0];
+        if (!card) return 0;
+        return card.getBoundingClientRect().width + getGap();
+      };
+
+      const nearestIndex = () => {
+        const step = getStep();
+        return step ? Math.round(viewport.scrollLeft / step) : 0;
+      };
+
+      // Real fade for the arrows: never toggle straight to `hidden`/
+      // `display:none` (no transition could play), nor opacity alone (the
+      // hidden button would keep its place and stop the other one from
+      // recentering once it's alone - at the very start/end, only one
+      // arrow should show, centered, in the column). Fades out in opacity
+      // first, then removed from flow (`hidden`) once the transition ends;
+      // the reverse when bringing it back.
+      const HIDE_MS = 200;
+      const setArrow = (btn: HTMLButtonElement, visible: boolean) => {
+        window.clearTimeout((btn as any)._hideTimer);
+        if (visible) {
+          btn.hidden = false;
+          btn.disabled = false;
+          // Force a reflow to guarantee the transition to opacity:1
+          // actually starts from the hidden state instead of jumping.
+          void btn.offsetWidth;
+          btn.classList.remove('is-arrow-hidden');
+        } else {
+          btn.classList.add('is-arrow-hidden');
+          btn.disabled = true;
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          (btn as any)._hideTimer = window.setTimeout(() => { btn.hidden = true; }, reduced ? 0 : HIDE_MS);
+        }
+      };
+
+      const updateControls = () => {
+        const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+        const overflowing = maxScroll > 5;
+        // 5px epsilon: .innovations-v2__row-track has 4px of horizontal
+        // padding, so its scrollLeft "at rest" (all the way left) is
+        // really 4, never 0.
+        const epsilon = 5;
+        const atStart = viewport.scrollLeft <= epsilon;
+        const atEnd = viewport.scrollLeft >= maxScroll - epsilon;
+        setArrow(prev, overflowing && !atStart);
+        setArrow(next, overflowing && !atEnd);
+      };
+
+      const scrollBehavior = () =>
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+      const scrollByOne = (direction: number) => {
+        const step = getStep();
+        if (!step) return;
+        const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+        const target = Math.min(maxScroll, Math.max(0, (nearestIndex() + direction) * step));
+        viewport.scrollTo({ left: target, behavior: scrollBehavior() });
+      };
+
+      prev.addEventListener('click', () => scrollByOne(-1));
+      next.addEventListener('click', () => scrollByOne(1));
+
+      let scrollRaf = 0;
+      viewport.addEventListener('scroll', () => {
+        cancelAnimationFrame(scrollRaf);
+        scrollRaf = requestAnimationFrame(updateControls);
+      }, { passive: true });
+
+      const relayout = () => {
+        const step = getStep();
+        if (step) viewport.scrollLeft = nearestIndex() * step;
+        updateControls();
+      };
+
+      new ResizeObserver(relayout).observe(row);
+
+      let resizeTimer: ReturnType<typeof setTimeout>;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(relayout, 150);
+      });
+      document.fonts?.ready?.then(relayout);
+
+      updateControls();
+    });
+  }
+</script>
+<style>
+  /* ============================================================
+     BOPA - /nos_innovations/ V2 (renamed 2026-08-27, was /innovations/)
+     Référence : REFERENCE-INNOVATIONS-V2.png (2026-08-27)
+     Les vignettes projets réutilisent .bopa-project-card telles quelles
+     (site.css, même composant que "Nos projets phares" sur la home) -
+     ce fichier ne redéfinit que la mise en page propre à cette page
+     (intro, frise, onglets, regroupement par catégorie, CTA).
+     ============================================================ */
+
+  .innovations-v2 {
+    --bopa-navy: var(--color-navy);
+    --bopa-blue: var(--color-accent);
+    --bopa-blue-strong: var(--bopa-blue-3, #03a2da);
+    --bopa-ink: var(--color-ink);
+    --bopa-muted: var(--color-muted);
+    --bopa-border: var(--color-line);
+    --bopa-bg: var(--color-bg-tint);
+    --bopa-white: #ffffff;
+    /* Filtres uniquement (2026-08-27, finitions V2) : le bleu nuit exact
+       du bloc haut (--mp-navy), légèrement plus clair ET plus saturé, pas
+       simplement mélangé à du blanc (ça désature et tire vers le gris -
+       correctif de la V1). OKLCH + syntaxe relative "from" : on bouge la
+       luminosité (L) et la chroma (C) tout en gardant la teinte (H)
+       identique, donc toujours "franchement bleu nuit", jamais gris ni
+       cyan. Le bloc haut lui-même reste sur --mp-navy tel quel. */
+    --bopa-filter-navy: oklch(from var(--mp-navy) calc(l + 0.06) calc(c + 0.03) h);
+    /* Gabarit du rail (correctif "Rail-3Cartes-Nav-Fixe-V4", 2026-08-29) -
+       une seule source pour la largeur/le gap de carte, réutilisée par la
+       règle de carte, le track et le calcul de largeur du viewport par
+       palier responsive, pour ne plus avoir 227/16 recopiés à la main à
+       plusieurs endroits. */
+    --innovations-card-width: 227px;
+    --innovations-card-gap: 16px;
+    color: var(--bopa-ink);
+    background: var(--bopa-bg);
+  }
+
+  .innovations-v2 *,
+  .innovations-v2 *::before,
+  .innovations-v2 *::after {
+    box-sizing: border-box;
+  }
+
+  /* Largeur alignée sur le container réel des grandes sections de la HOME
+     (correctif "gabarit vignettes + carrousel", 2026-08-29) : 1320px,
+     même valeur et même logique de padding-inline (64px = 2rem de
+     chaque côté) que .bopa-mission-v2__inner/.bopa-vision-v4__inner/
+     .bopa-projects-v2__inner/.bopa-contact__inner/.bopa-support__inner.
+     Cette page utilisait 1500px, un cran plus large - HOME reste la
+     référence, jamais l'inverse. */
+  .innovations-v2__container {
+    width: min(1320px, calc(100% - 64px));
+    margin-inline: auto;
+  }
+
+  /* Intro ---------------------------------------------------- */
+  .innovations-v2__intro {
+    background: var(--bopa-white);
+    padding: clamp(42px, 5vw, 78px) 0 44px;
+  }
+
+  /* Bloc haut en bleu nuit (2026-08-27, correctif Hero/CTA) : englobe
+     titre + intro + frise Pré/Per/Post, s'arrête avant les filtres, qui
+     restent dans leur propre bande claire juste en dessous (voir
+     .innovations-v2__filters-band). Reprend var(--mp-navy) tel quel -
+     même bleu nuit que Notre Mission - jamais une nouvelle nuance. */
+  .innovations-v2__intro--dark {
+    background: var(--mp-navy);
+  }
+  .innovations-v2__intro--dark .innovations-v2__breadcrumb {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .innovations-v2__intro--dark .innovations-v2__intro-copy h1,
+  .innovations-v2__intro--dark .innovations-v2__intro-copy h1 span {
+    color: #fff;
+  }
+  .innovations-v2__intro--dark .innovations-v2__lead {
+    color: rgba(255, 255, 255, 0.88);
+  }
+  .innovations-v2__intro--dark .innovations-v2__journey-step span {
+    color: rgba(255, 255, 255, 0.94);
+  }
+  .innovations-v2__intro--dark .innovations-v2__journey-icon {
+    color: var(--bopa-cyan);
+  }
+  .innovations-v2__intro--dark .innovations-v2__journey-line::before,
+  .innovations-v2__intro--dark .innovations-v2__journey-line::after {
+    background: var(--bopa-cyan);
+  }
+
+  .innovations-v2__filters-band {
+    background: var(--bopa-white);
+    padding: 28px 0 34px;
+  }
+
+  .innovations-v2__intro-grid {
+    display: grid;
+    grid-template-columns: minmax(290px, 0.78fr) minmax(620px, 1.55fr);
+    column-gap: clamp(52px, 8vw, 128px);
+    row-gap: 34px;
+    align-items: center;
+  }
+
+  .innovations-v2__intro-copy {
+    align-self: start;
+  }
+
+  .innovations-v2__breadcrumb {
+    margin: 0 0 26px;
+    font-size: 0.92rem;
+    color: var(--bopa-muted);
+  }
+  .innovations-v2__breadcrumb span {
+    margin-inline: 8px;
+  }
+
+  /* Harmonisation typographique Niveau 1 (2026-08-27) : mêmes métriques
+     que le H2 de Notre Mission (étalon). */
+  .innovations-v2 h1 {
+    margin: 0;
+    font-size: clamp(2rem, 3.1vw, 3.15rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+    color: var(--bopa-ink);
+    max-width: 8ch;
+  }
+  .innovations-v2 h1 span {
+    display: block;
+    color: var(--bopa-blue);
+  }
+
+  .innovations-v2__lead {
+    max-width: 470px;
+    margin: 28px 0 0;
+    font-size: clamp(1rem, 1.18vw, 1.18rem);
+    line-height: 1.72;
+    color: var(--bopa-muted);
+  }
+
+  /* Journey (frise Pré/Per/Post) ------------------------------ */
+  .innovations-v2__journey {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    min-width: 0;
+    padding-top: 34px;
+  }
+
+  .innovations-v2__journey-line {
+    position: absolute;
+    top: 64px;
+    left: 16.66%;
+    right: 16.66%;
+    height: 1px;
+    border-top: 1px dashed var(--bopa-cyan);
+    z-index: 0;
+  }
+  .innovations-v2__journey-line::before,
+  .innovations-v2__journey-line::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bopa-blue);
+  }
+  .innovations-v2__journey-line::before {
+    left: 25%;
+  }
+  .innovations-v2__journey-line::after {
+    right: 25%;
+  }
+
+  .innovations-v2__journey-step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    min-width: 0;
+  }
+
+  .innovations-v2__journey-icon,
+  .innovations-v2__category-icon {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 20px;
+    border: 1.5px solid var(--bopa-cyan);
+    border-radius: 50%;
+    background: var(--bopa-white);
+    color: var(--bopa-ink);
+  }
+  .innovations-v2__journey-icon svg,
+  .innovations-v2__category-icon svg,
+  .innovations-v2__cta-icon svg {
+    width: 38px;
+    height: 38px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .innovations-v2__journey-step strong {
+    display: block;
+    margin-bottom: 16px;
+    color: var(--bopa-blue-strong);
+    font-size: 0.93rem;
+    letter-spacing: 0.015em;
+  }
+  .innovations-v2__journey-step span {
+    display: block;
+    color: var(--bopa-ink);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  /* Filters (onglets) ----------------------------------------- */
+  .innovations-v2__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 4px;
+  }
+
+  /* Filtres sur une déclinaison du bleu nuit éclaircie de 7% (2026-08-27,
+     finitions V1) : --bopa-filter-navy, définie plus haut dans .innovations-v2
+     à partir de --mp-navy - le bloc haut de page reste sur --mp-navy tel
+     quel, seuls les filtres respirent un peu plus sur le fond clair. */
+  .innovations-v2__filters button {
+    appearance: none;
+    border: 1px solid var(--bopa-filter-navy);
+    background: transparent;
+    color: var(--bopa-filter-navy);
+    min-height: 44px;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: background-color .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+  }
+  .innovations-v2__filters button:hover {
+    transform: translateY(-1px);
+    border-color: var(--bopa-filter-navy);
+  }
+  .innovations-v2__filters button.is-active {
+    background: var(--bopa-filter-navy);
+    border-color: var(--bopa-filter-navy);
+    color: var(--bopa-white);
+  }
+  .innovations-v2__filters button:focus-visible,
+  .bopa-project-card:focus-visible,
+  .innovations-v2__cta-button:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
+    outline-offset: 3px;
+  }
+
+  /* Catalogue: regroupement par catégorie ---------------------- */
+  .innovations-v2__catalogue {
+    background: var(--bopa-bg);
+  }
+
+  .innovations-v2__category {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 30px;
+    padding: 30px 0 28px;
+    border-bottom: 1px solid var(--bopa-border);
+  }
+  .innovations-v2__category[hidden] {
+    display: none;
+  }
+
+  .innovations-v2__category-label {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding-top: 2px;
+  }
+
+  .innovations-v2__category-icon {
+    flex: 0 0 58px;
+    width: 58px;
+    height: 58px;
+    margin: 0;
+    color: var(--bopa-blue-strong);
+  }
+  .innovations-v2__category-icon span {
+    font-size: 1.9rem;
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .innovations-v2__category-label h2 {
+    margin: 7px 0 12px;
+    color: var(--bopa-blue-strong);
+    font-size: 0.96rem;
+    line-height: 1.2;
+    letter-spacing: .015em;
+    font-weight: 700;
+  }
+  .innovations-v2__category-label p {
+    margin: 0;
+    max-width: 175px;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: var(--bopa-ink);
+  }
+
+  /* Rangée de vignettes = rail "3 cartes + colonne navigation fixe"
+     (correctif "Rail-3Cartes-Nav-Fixe-V4", 2026-08-29, remplace le rail à
+     flèches encadrantes du correctif "Carrousel-Fleches-Fondu-V3" du même
+     jour) - .bopa-project-card fournit déjà tout le visuel de la carte
+     (site.css) ; ce bloc ne pose que la mise en page de la rangée + le
+     rail. Référence ABSOLUE pour le gabarit = les cartes "Nos innovations"
+     de la HOME (.bopa-projects-v2__rail .bopa-project-card, 226.8px) -
+     inchangé ici, seul le comportement de navigation change.
+     Différence clé avec la V3 : le nombre de cartes visibles est fixé par
+     palier responsive directement en CSS (voir la largeur de
+     .innovations-v2__row-viewport, base + 1180px + 760px), pas calculé en
+     JS depuis les dimensions réelles - toutes les catégories d'un même
+     palier partagent donc exactement le même gabarit de rangée, et la
+     première carte de chaque ligne reste alignée avec celle des autres
+     sans jamais dépendre d'une mesure live. Les deux flèches vivent
+     ensemble dans .innovations-v2__nav, une colonne dédiée à droite du
+     viewport (jamais avant les cartes) - la largeur de cette colonne est
+     fixe, donc qu'une ou deux flèches y soient visibles ne change jamais
+     le nombre de cartes affichées. Plus aucun dégradé/masque de bord : la
+     navigation n'est suggérée QUE par cette colonne, jamais par un bout de
+     carte suivante qui dépasserait. */
+  .innovations-v2__row {
+    /* Container query, pas media query, pour le nombre de cartes visibles
+       (voir .innovations-v2__row-viewport plus bas) : la largeur
+       réellement disponible ici dépend aussi de la colonne libellé à côté
+       (280px/220px selon le palier, absente une fois empilée sur mobile),
+       pas seulement de la largeur d'écran - une media query sur le
+       viewport laissait un intervalle (tablette, ~768-1000px) où ni 3 ni
+       2 cartes ne tenaient réellement, provoquant une carte partielle.
+       Mesurer CE conteneur directement règle ça quel que soit l'agencement
+       du libellé. */
+    container-type: inline-size;
+    container-name: innovations-row;
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .innovations-v2__row-viewport {
+    /* 3 cartes + 2 gaps par défaut - largeur FIXE (pas 1fr), recalée à 2
+       cartes puis 1 carte via les paliers @container plus bas. */
+    width: calc((var(--innovations-card-width) * 3) + (var(--innovations-card-gap) * 2));
+    max-width: 100%;
+    min-width: 0;
+    flex: 0 0 auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+  }
+  /* Sous ~805px de large (3 cartes + gap + colonne nav), 2 cartes ne
+     débordent pas leur conteneur ; sous ~562px (2 cartes + gap + nav), 1
+     seule. Le gabarit de carte lui-même (227px, ou min(78vw,227px) déjà
+     existant en dessous de 760px de VIEWPORT - une largeur d'écran, pas de
+     conteneur, volontairement laissée telle quelle) reste inchangé. */
+  @container innovations-row (max-width: 804px) {
+    .innovations-v2__row-viewport {
+      width: calc((var(--innovations-card-width) * 2) + var(--innovations-card-gap));
+    }
+  }
+  @container innovations-row (max-width: 561px) {
+    .innovations-v2__row-viewport {
+      /* cqw (unité de conteneur), pas vw : sous ce palier la rangée est
+         empilée sous son libellé (mobile), donc container ≈ viewport, mais
+         cqw reste exact même si ce n'était pas le cas - même formule que
+         le rétrécissement de carte déjà en place plus bas (760px, largeur
+         d'écran, laissé tel quel). */
+      width: min(78cqw, var(--innovations-card-width));
+    }
+  }
+  .innovations-v2__row-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .innovations-v2__row-track {
+    display: flex;
+    gap: var(--innovations-card-gap);
+    width: max-content;
+    padding: 10px 4px 24px;
+  }
+
+  .innovations-v2__row-track .bopa-project-card {
+    flex: 0 0 var(--innovations-card-width);
+    width: var(--innovations-card-width);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Colonne de navigation : ni carte, ni fond, ni bordure - juste deux
+     grandes flèches fines cyan, beaucoup d'air, pour ne surtout pas
+     ressembler à une carte vide. Toujours dans le flux (largeur fixe),
+     jamais avant les cartes. Chaque bouton s'estompe individuellement en
+     opacity (jamais un `hidden` direct, qui empêcherait toute transition)
+     et n'est retiré du flux qu'une fois le fondu terminé (classe posée par
+     le script en JS) - ce qui permet à une flèche seule de se recentrer
+     verticalement plutôt que de rester décalée par la place laissée par
+     l'autre. */
+  .innovations-v2__nav {
+    flex: 0 0 clamp(64px, 5vw, 88px);
+    width: clamp(64px, 5vw, 88px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(.4rem, 1vw, .75rem);
+  }
+
+  .innovations-v2__nav-btn {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: .3rem;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    color: var(--bopa-cyan);
+    cursor: pointer;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 200ms ease, transform 200ms ease, color 180ms ease;
+  }
+  .innovations-v2__nav-btn[hidden] {
+    display: none;
+  }
+  .innovations-v2__nav-btn.is-arrow-hidden {
+    opacity: 0;
+    pointer-events: none;
+    cursor: default;
+  }
+  .innovations-v2__nav-btn--prev.is-arrow-hidden { transform: translateX(-10px); }
+  .innovations-v2__nav-btn--next.is-arrow-hidden { transform: translateX(10px); }
+  /* :global() indispensable ici : ce <svg> est injecté via `set:html`
+     (chevronLeftBig/chevronRightBig), donc jamais vu par le compilateur
+     Astro au moment où il ajoute l'attribut de scope (data-astro-cid-*) à
+     chaque élément - un sélecteur scopé normal (`.innovations-v2__nav-btn
+     svg`) se serait donc compilé en exigeant cet attribut SUR LE SVG
+     AUSSI, qui ne l'a jamais, et ne matchait donc jamais : la flèche
+     restait sans dimensions (0×0), invisible malgré `opacity:1`. Bug
+     signalé par la propriétaire (2026-08-29, "je ne vois pas les
+     flèches") - confirmé en lisant `svg.attributes` en direct sur le site
+     publié : aucun `data-astro-cid-*` dessus. */
+  .innovations-v2__nav-btn :global(svg) {
+    width: clamp(26px, 2vw, 34px);
+    height: clamp(26px, 2vw, 34px);
+  }
+  .innovations-v2__nav-btn:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
+    outline-offset: 4px;
+    border-radius: 10px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .innovations-v2__nav-btn:not(:disabled):hover {
+      color: var(--bopa-blue);
+    }
+    .innovations-v2__nav-btn--prev:not(:disabled):hover { transform: translateX(-4px); }
+    .innovations-v2__nav-btn--next:not(:disabled):hover { transform: translateX(4px); }
+  }
+
+  /* Médico-économique : seul accent doré du site, sur ce filtre/label
+     uniquement - les cartes MesGardes/HepatGreen restent bleu nuit,
+     identiques aux autres (voir .bopa-project-card, inchangé). Non
+     sélectionné, il se différencie déjà en doré (2026-08-27, finitions
+     V1) plutôt que d'hériter du bleu nuit des autres filtres. */
+  .innovations-v2__filters button[data-filter-tone="gold"] {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+  }
+  .innovations-v2__filters button[data-filter-tone="gold"].is-active {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: #fff;
+  }
+  .innovations-v2__filters button[data-filter-tone="gold"]:hover {
+    border-color: var(--color-gold);
+  }
+  .innovations-v2__category--gold .innovations-v2__category-icon {
+    color: var(--color-gold);
+    border-color: var(--color-gold);
+  }
+  .innovations-v2__category--gold .innovations-v2__category-label h2 {
+    color: var(--color-gold);
+  }
+
+  /* MesGardes + HepatGreen (les deux seules cartes de cette catégorie) :
+     liseré doré pour signaler la famille "médico-économique", sans
+     toucher au fond navy/taille/arrondis/hover de .bopa-project-card
+     (2026-08-27, finitions V1, épaissi en V2). En `border`, un
+     `1.5px` est arrondi à `1px` par le rendu à densité d'écran normale
+     (vérifié : aucune différence visible avec l'ancien 1px) - passé en
+     `box-shadow`, qui lui respecte les valeurs fractionnaires. Le hover
+     existant remplace tout le `box-shadow` de la carte (son ombre de
+     survol), donc le liseré doit être réinjecté à côté de cette ombre
+     plutôt que laissé disparaître. */
+  .innovations-v2__category--gold .bopa-project-card {
+    box-shadow: 0 0 0 1.5px var(--color-gold);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .innovations-v2__category--gold .bopa-project-card:hover {
+      box-shadow: 0 0 0 1.5px var(--color-gold), 0 16px 34px rgba(5,26,58,0.16);
+    }
+  }
+
+  /* Les deux seules actions cliquables des cartes : un petit lien
+     textuel dans la carte, jamais toute la carte. */
+  .innovations-v2__card-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    margin-top: auto;
+    padding-top: 14px;
+    color: var(--bopa-blue-strong);
+    text-decoration: none;
+    font-size: 0.88rem;
+    line-height: 1.25;
+    font-weight: 650;
+    transition: color 0.18s ease;
+  }
+  .innovations-v2__card-action:hover {
+    color: var(--bopa-blue);
+  }
+  .innovations-v2__card-action:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
+    outline-offset: 3px;
+  }
+
+  /* CTA de fin de page ----------------------------------------- */
+  .innovations-v2__cta {
+    background: var(--bopa-bg);
+    padding: 22px 0 54px;
+  }
+  .innovations-v2__cta-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 26px;
+    min-height: 154px;
+    padding: 30px 42px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--bopa-navy);
+    background-image:
+      radial-gradient(circle at 77% 18%, color-mix(in srgb, var(--bopa-cyan) 22%, transparent) 0 2px, transparent 2.5px),
+      radial-gradient(circle at 86% 72%, color-mix(in srgb, var(--bopa-cyan) 20%, transparent) 0 2px, transparent 2.5px);
+    color: var(--bopa-white);
+  }
+  .innovations-v2__cta-icon {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border: 1.5px solid var(--bopa-blue);
+    border-radius: 50%;
+    color: var(--bopa-blue);
+  }
+  .innovations-v2__cta-copy h2 {
+    margin: 0 0 10px;
+    color: var(--bopa-white);
+    font-size: clamp(1.55rem, 2vw, 2.1rem);
+    line-height: 1.12;
+    letter-spacing: -.025em;
+  }
+  .innovations-v2__cta-copy h2 span {
+    color: var(--bopa-cyan);
+  }
+  .innovations-v2__cta-copy p {
+    max-width: 720px;
+    margin: 0;
+    color: #e7eff9;
+    font-size: .95rem;
+    line-height: 1.55;
+  }
+  /* Cyan BOPA exact + hover harmonisé sur la référence absolue (bouton
+     header "Nous soutenir", .btn-filled-premium) - 2026-08-27, finitions
+     V1.1 : assombrissement --bopa-blue-1, translateY(-2px), même ombre. */
+  .innovations-v2__cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 52px;
+    padding: 12px 26px;
+    border-radius: 7px;
+    background: var(--bopa-cyan);
+    border: 1px solid var(--bopa-cyan);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 650;
+    white-space: nowrap;
+    transition: transform 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .innovations-v2__cta-button:hover {
+      background: var(--bopa-blue-1);
+      border-color: var(--bopa-blue-1);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35);
+    }
+  }
+
+  @media (max-width: 1180px) {
+    .innovations-v2__intro-grid {
+      grid-template-columns: 1fr;
+    }
+    .innovations-v2 h1 {
+      max-width: none;
+    }
+    .innovations-v2__lead {
+      max-width: 720px;
+    }
+    .innovations-v2__journey {
+      max-width: 920px;
+      width: 100%;
+    }
+    .innovations-v2__category {
+      grid-template-columns: 220px minmax(0, 1fr);
+    }
+    /* Le nombre de cartes visibles du rail n'est plus recalé ici : le
+       container query sur .innovations-v2__row (plus haut) s'en charge
+       directement depuis la largeur réelle de la rangée à ce palier. */
+  }
+
+  /* Palier dédié (correctif "Rail-3Cartes-Nav-Fixe-V4", 2026-08-29),
+     indépendant du bloc mobile plus bas : à largeur d'écran "tablette"
+     classique (~768-980px), la colonne libellé (220px + 30px de gap)
+     laissait moins de 460px à la rangée - pas assez pour 2 cartes (227px
+     chacune) même sans compter la colonne navigation. Empiler le libellé
+     au-dessus de la rangée plus tôt (au lieu d'attendre 760px) rend au
+     rail toute la largeur du conteneur, ce qui suffit alors bien à "2
+     cartes + nav" comme demandé pour la tablette - sans toucher au reste
+     de la mise en page mobile (frise, filtres, CTA), qui continue de
+     changer à son propre palier (760px) juste en dessous. */
+  @media (max-width: 980px) {
+    .innovations-v2__category {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .innovations-v2__container {
+      width: min(calc(100% - 32px), 1320px);
+    }
+    .innovations-v2__intro {
+      padding-top: 32px;
+    }
+
+    .innovations-v2__journey {
+      grid-template-columns: 1fr;
+      gap: 26px;
+      padding: 0;
+    }
+    .innovations-v2__journey-line {
+      display: none;
+    }
+    .innovations-v2__journey-step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      column-gap: 16px;
+      text-align: left;
+      align-items: center;
+    }
+    .innovations-v2__journey-icon {
+      width: 54px;
+      height: 54px;
+      margin: 0;
+      grid-row: 1 / span 2;
+    }
+    .innovations-v2__journey-step strong {
+      margin: 0 0 5px;
+    }
+    .innovations-v2__journey-step span {
+      font-size: .94rem;
+    }
+
+    .innovations-v2__filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 7px;
+    }
+    .innovations-v2__filters button {
+      flex: 0 0 auto;
+    }
+
+    .innovations-v2__category {
+      /* minmax(0, 1fr), pas 1fr seul (correctif "Carrousel-Fleches-Fondu-V3",
+         2026-08-29) : une piste de grille "1fr" a un minimum implicite
+         "auto" (= au moins la taille de son contenu), pas 0 - avec
+         .innovations-v2__row-track en width:max-content (largeur des 227px
+         + gap de TOUTES les cartes) dans cette colonne, l'ancienne valeur
+         forçait la rangée, donc la page entière, à s'élargir au-delà du
+         viewport mobile réel plutôt que de laisser le rail interne défiler.
+         Bug préexistant (les deux breakpoints plus larges utilisaient déjà
+         minmax(0,1fr) correctement), simplement invisible avant que cette
+         colonne ne contienne un enfant à largeur intrinsèque large. */
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      padding-block: 26px;
+    }
+    .innovations-v2__category-label {
+      gap: 14px;
+    }
+    .innovations-v2__category-label p {
+      max-width: none;
+    }
+    .innovations-v2__row-track .bopa-project-card {
+      flex-basis: min(78vw, 227px);
+      width: min(78vw, 227px);
+    }
+    /* Mobile : 1 carte + nav - le nombre de cartes vient déjà du container
+       query plus haut (la rangée y est bien assez étroite à ce stade,
+       label empilé au-dessus). Les deux flèches s'empilent verticalement
+       dans une colonne plus étroite plutôt que de se serrer côte à côte. */
+    .innovations-v2__row {
+      gap: 8px;
+    }
+    .innovations-v2__nav {
+      flex-basis: 40px;
+      width: 40px;
+      flex-direction: column;
+      gap: .3rem;
+    }
+    .innovations-v2__nav-btn :global(svg) {
+      width: 22px;
+      height: 22px;
+    }
+
+    .innovations-v2__cta-inner {
+      grid-template-columns: auto 1fr;
+      padding: 28px 24px;
+    }
+    .innovations-v2__cta-button {
+      grid-column: 1 / -1;
+      justify-content: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .innovations-v2__filters button,
+    .innovations-v2__cta-button {
+      transition: none;
+    }
+    .innovations-v2__nav-btn {
+      transition: none;
+    }
+  }
+</style>
