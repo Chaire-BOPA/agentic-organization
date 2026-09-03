@@ -2637,15 +2637,18 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   .about-v2__team {
     padding-top: clamp(1.1rem, 2vw, 1.5rem);
-    /* var(--space-5) seul ne suffit pas ici : sous "Nos innovations",
-       l'espace visible sous les vignettes = var(--space-5) (64px) PLUS
-       la marge de centrage verticale entre la colonne intro (plus
-       haute, texte + CTA) et le rail de cartes (align-items:center sur
-       .bopa-projects-v2__inner) - mesuree a ~26.7px a 1440px. Comme
-       .about-v2__team-row n'a pas cet ecart (les cartes y sont l'element
-       le plus haut), on l'ajoute explicitement pour retrouver la meme
-       respiration visible sous les vignettes (owner, 2026-08-29). */
-    padding-bottom: calc(var(--space-5) + 1.7rem);
+    /* Repassé à var(--space-5) pur (pack "Homogeneisation-Espaces-Titres-V1",
+       2026-09-03) : l'ancien "+1.7rem" calait ce bas de section sur le bas
+       de "Nos innovations" (elle-même mesurée à ~91px à cause d'un artefact
+       de centrage vertical propre à SA grille intro/rail) - la nouvelle
+       référence explicite est "Notre Vision" (#notre-vision, 64px net, sans
+       compensation), donc measured live : Qui sommes-nous rendait 0px
+       jusqu'au bord de .about-v2__team-band (le vrai bas visible de la
+       section) avant ce correctif, contre 64px partout ailleurs - ce
+       padding est la seule chose qui gouverne ce bas, `.about-v2__team-row`
+       passe en 1 colonne dès 980px donc aucun artefact de centrage
+       n'apparaît ici de toute façon. */
+    padding-bottom: var(--space-5);
   }
   .about-v2__team-row {
     display: grid;
@@ -3498,16 +3501,21 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     gap: 1.1em;
   }
 
-  /* Titre principal : même échelle "Niveau 1" que "De l'innovation au
-     progrès" (.bopa-vision-v4 h2) - repris à l'identique, pas une nouvelle
-     taille. "Parlons-en." (ex-h2) devient la signature cyan juste dessous. */
+  /* Titre principal : même échelle "Niveau 1" que "Améliorer la chirurgie,
+     grâce au numérique" (.bopa-mission-v2 h2, la référence explicite du
+     pack "Homogeneisation-Espaces-Titres-V1", 2026-09-03) - repris à
+     l'identique, y compris le letter-spacing en dur (-0.035em) : ce titre
+     utilisait jusqu'ici `var(--tracking-tight)` (-0.02em, la valeur de
+     Notre Vision, pas de Notre Mission) - écart invisible à l'oeil mais
+     réel, corrigé pour matcher pixel pour pixel la vraie référence.
+     "Parlons-en." (ex-h2) devient la signature cyan juste dessous. */
   .bopa-contact h2 {
     margin: 0;
     font-family: var(--font-display);
     font-size: clamp(2rem, 3.1vw, 3.15rem);
     font-weight: 600;
     line-height: 1.08;
-    letter-spacing: var(--tracking-tight);
+    letter-spacing: -0.035em;
     color: #fff;
   }
 

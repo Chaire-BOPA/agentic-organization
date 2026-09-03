@@ -1697,9 +1697,9 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      silencieusement battus par cet id sur la spécificité) - Vision doit
      avoir exactement le même padding réel, pas seulement la même formule
      de clamp(), pour rester identique à Mission à toutes les largeurs. */
-  #notre-mission,
-  #innovations-bopa,
-  #notre-vision {
+  #our-mission,
+  #bopa-innovations,
+  #our-vision {
     padding-top: var(--space-5);
     padding-bottom: var(--space-5);
   }
@@ -1716,12 +1716,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      la marge. Même correctif que `.bopa-mission-v2__inner`/
      `.bopa-vision-v4__inner` (qui partagent ce même padding de section) :
      un plafond simple, sans soustraction supplémentaire.
-     Scopé à `#innovations-bopa` (l'id de CETTE section sur la HOME)
+     Scopé à `#bopa-innovations` (l'id de CETTE section sur la HOME EN)
      plutôt que modifié dans site.css directement : `.bopa-projects-v2__inner`
      est une classe partagée avec la page `/nos_innovations`, qui a son
      propre schéma de largeur à 1320px ailleurs sur cette page - un
      changement dans site.css l'aurait rendue incohérente avec elle-même. */
-  #innovations-bopa .bopa-projects-v2__inner {
+  #bopa-innovations .bopa-projects-v2__inner {
     width: min(var(--max-width), 100%);
   }
 
@@ -1962,7 +1962,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      doublant l'espace. Fix : une seule source, le même id-override que
      Mission/Innovations/Vision (var(--space-5), 64px), et
      .about-v2__intro n'a plus son propre padding-top. Seul le haut est
-     repris ici - le bas de #qui-sommes-nous sert aux sous-sections 02/03,
+     repris ici - le bas de #who-we-are sert aux sous-sections 02/03,
      hors périmètre de ce correctif. */
   /* padding-bottom: 0 (2026-08-29) - .about-v2 porte aussi .section-block
      (site.css), dont la regle generique donne AUSSI un padding-bottom
@@ -1972,7 +1972,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      dans .about-v2__team-band (fond clair, cause du "grand espace vide"
      vu par l'owner apres la sous-section 03) - un seul padding-bottom
      doit gouverner la fin de la section, celui deja pense pour ca. */
-  #qui-sommes-nous { padding-top: var(--space-5); padding-bottom: 0; }
+  #who-we-are { padding-top: var(--space-5); padding-bottom: 0; }
 
   .about-v2__intro {
     text-align: center;
@@ -1981,13 +1981,13 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   /* Spécificité : .section-block:not(.hero) h2 (site.css) a la même
      spécificité qu'une classe seule et gagnait sur .about-v2__intro-title,
      imposant --text-xl au lieu de l'échelle Mission/Innovations/Vision -
-     préfixer par l'id #qui-sommes-nous pour trancher sans ambiguïté.
+     préfixer par l'id #who-we-are pour trancher sans ambiguïté.
      margin-top à 0 (finitions V2, 2026-08-28) : le vrai écart
      eyebrow -> titre vient déjà de .about-v2__kicker (margin-bottom
      .85rem, identique à .bopa-eyebrow/.bopa-vision-v4__eyebrow) - un
      margin-top ici en plus doublait l'écart (31px mesuré au lieu des
      13.6px de Mission/Vision). */
-  #qui-sommes-nous .about-v2__intro-title {
+  #who-we-are .about-v2__intro-title {
     margin: 0 auto;
     max-width: 49rem;
     color: var(--color-navy);
@@ -1998,7 +1998,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     letter-spacing: -0.035em;
     text-align: center;
   }
-  #qui-sommes-nous .about-v2__intro-lede {
+  #who-we-are .about-v2__intro-lede {
     margin: 1.45rem auto 0;
     max-width: 52rem;
     color: var(--about-ink);
@@ -2637,15 +2637,18 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   .about-v2__team {
     padding-top: clamp(1.1rem, 2vw, 1.5rem);
-    /* var(--space-5) seul ne suffit pas ici : sous "Nos innovations",
-       l'espace visible sous les vignettes = var(--space-5) (64px) PLUS
-       la marge de centrage verticale entre la colonne intro (plus
-       haute, texte + CTA) et le rail de cartes (align-items:center sur
-       .bopa-projects-v2__inner) - mesuree a ~26.7px a 1440px. Comme
-       .about-v2__team-row n'a pas cet ecart (les cartes y sont l'element
-       le plus haut), on l'ajoute explicitement pour retrouver la meme
-       respiration visible sous les vignettes (owner, 2026-08-29). */
-    padding-bottom: calc(var(--space-5) + 1.7rem);
+    /* Repassé à var(--space-5) pur (pack "Homogeneisation-Espaces-Titres-V1",
+       2026-09-03) : l'ancien "+1.7rem" calait ce bas de section sur le bas
+       de "Nos innovations" (elle-même mesurée à ~91px à cause d'un artefact
+       de centrage vertical propre à SA grille intro/rail) - la nouvelle
+       référence explicite est "Notre Vision" (#our-vision sur cette page EN, 64px net, sans
+       compensation), donc measured live : Qui sommes-nous rendait 0px
+       jusqu'au bord de .about-v2__team-band (le vrai bas visible de la
+       section) avant ce correctif, contre 64px partout ailleurs - ce
+       padding est la seule chose qui gouverne ce bas, `.about-v2__team-row`
+       passe en 1 colonne dès 980px donc aucun artefact de centrage
+       n'apparaît ici de toute façon. */
+    padding-bottom: var(--space-5);
   }
   .about-v2__team-row {
     display: grid;
@@ -2861,7 +2864,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     background: var(--color-bg-tint);
     color: var(--color-ink);
     /* Haut ET bas fixés à var(--space-5) (owner, 2026-08-29 puis 2026-08-30) -
-       pas des clamp() : même valeur exacte que #notre-vision (voir son
+       pas des clamp() : même valeur exacte que #our-vision (voir son
        propre override d'id plus haut dans ce fichier) en bas, et même
        espace eyebrow -> haut de section que Notre mission/Innovations/
        Vision/Qui sommes-nous/Nous contacter en haut (mesuré 99.8px avant
@@ -3498,16 +3501,21 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     gap: 1.1em;
   }
 
-  /* Titre principal : même échelle "Niveau 1" que "De l'innovation au
-     progrès" (.bopa-vision-v4 h2) - repris à l'identique, pas une nouvelle
-     taille. "Parlons-en." (ex-h2) devient la signature cyan juste dessous. */
+  /* Titre principal : même échelle "Niveau 1" que "Améliorer la chirurgie,
+     grâce au numérique" (.bopa-mission-v2 h2, la référence explicite du
+     pack "Homogeneisation-Espaces-Titres-V1", 2026-09-03) - repris à
+     l'identique, y compris le letter-spacing en dur (-0.035em) : ce titre
+     utilisait jusqu'ici `var(--tracking-tight)` (-0.02em, la valeur de
+     Notre Vision, pas de Notre Mission) - écart invisible à l'oeil mais
+     réel, corrigé pour matcher pixel pour pixel la vraie référence.
+     "Parlons-en." (ex-h2) devient la signature cyan juste dessous. */
   .bopa-contact h2 {
     margin: 0;
     font-family: var(--font-display);
     font-size: clamp(2rem, 3.1vw, 3.15rem);
     font-weight: 600;
     line-height: 1.08;
-    letter-spacing: var(--tracking-tight);
+    letter-spacing: -0.035em;
     color: #fff;
   }
 
@@ -4037,12 +4045,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      (site.css, calculé sur la hauteur réelle du header replié au scroll -
      voir son commentaire pour le détail) - plus d'offset approximatif ni
      de valeur dupliquée à un autre seuil (2026-08-27, correctif ancres). */
-  #notre-mission,
-  #innovations-bopa,
-  #notre-vision,
-  #qui-sommes-nous,
-  #nous-contacter,
-  #nous-soutenir {
+  #our-mission,
+  #bopa-innovations,
+  #our-vision,
+  #who-we-are,
+  #contact-us,
+  #support-us {
     scroll-margin-top: var(--bopa-header-height);
   }
 </style>
