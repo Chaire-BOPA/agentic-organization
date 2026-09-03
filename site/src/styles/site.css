@@ -2007,9 +2007,25 @@ p {
   padding: clamp(4.2rem, 6vw, 6.25rem) 2rem;
 }
 
+/* Répartition horizontale recalculée (pack "Home-Nos-Innovations-
+   Repartition-Horizontale-V2", 2026-09-03) : la colonne "rail" était en
+   `minmax(0, 3fr)`, une part flexible du grid indépendante de la largeur
+   RÉELLE des 3 cartes (`--innovations-card-width` fixe, flex `0 0` sans
+   grow) - au-delà d'une certaine largeur de section, cette colonne
+   devenait bien plus large que son contenu, laissant un vide visuel
+   entre Colette et la marge droite (le bug signalé). Fix : la colonne
+   rail a maintenant une largeur EXACTE, dérivée des mêmes variables que
+   les cartes elles-mêmes (pas un magic number recopié à l'oeil) - elle
+   ne peut donc plus jamais être plus large que son contenu. Le bloc
+   éditorial passe en `1fr` et absorbe automatiquement tout l'espace ainsi
+   libéré, ce qui a le double effet demandé : plus de vide à droite (le
+   bord droit de Colette tombe pile sur la largeur `min(1320px, 100%)` du
+   conteneur, comme les autres sections), et un bloc éditorial visiblement
+   plus large qu'avant (titre/paragraphe cassent moins de lignes) sans
+   avoir touché un seul pixel des cartes. */
 .bopa-projects-v2__inner {
   display: grid;
-  grid-template-columns: minmax(240px, 0.92fr) minmax(0, 3fr);
+  grid-template-columns: minmax(250px, 1fr) calc(var(--innovations-card-width) * 3 + var(--innovations-card-gap) * 2);
   grid-template-areas: "intro rail";
   column-gap: clamp(2.5rem, 5vw, 5rem);
   width: min(1320px, 100%);
@@ -2037,8 +2053,14 @@ p {
   letter-spacing: -0.035em;
 }
 
+/* max-width: 20.5rem retiré (correctif "Repartition-Horizontale-V2",
+   2026-09-03) : ce plafond, plus étroit que la colonne éditoriale
+   elle-même une fois celle-ci élargie ci-dessus, aurait continué à
+   forcer les mêmes retours à la ligne qu'avant - le paragraphe doit
+   suivre la largeur réelle de la colonne, pas un plafond indépendant
+   (consigne owner : "laisser le retour à la ligne naturel découler de la
+   largeur de colonne"). */
 .bopa-projects-v2__intro > p:not(.bopa-eyebrow) {
-  max-width: 20.5rem;
   margin: 1.8rem 0 0;
   color: var(--mp-copy);
   font-size: 1rem;
