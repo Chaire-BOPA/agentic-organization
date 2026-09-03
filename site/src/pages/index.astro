@@ -3114,21 +3114,24 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      demande donc de resserrer max-width, pas max-height. */
   .support-partner-card--foundation img.support-partner-card__logo--faphp { max-height: 76px; max-width: 58%; }
   .support-partner-card--foundation img.support-partner-card__logo--fondation-imt { max-height: 76px; }
-  /* Logo AP-HP - historique de correctifs le 2026-08-30/31, tous dans le
-     même sens (owner : "il est pas centré" -> encore pas centré à 3.5%) :
-     un premier correctif avait posé translateX(7.2%) sur la théorie d'un
-     centre de masse (encre pondérée) mesuré à 42.9% au lieu de 50% dans le
-     fichier - mesuré en vivo, ce 7.2% plaçait en réalité le centre
-     GÉOMÉTRIQUE du logo ~16px à droite du centre exact de l'encadré (à
-     1280px). Réduit à 3.5% (~8px à droite) : toujours jugé décentré par
-     l'owner en le regardant en vrai. Les deux retours vont dans le même
-     sens (encore trop à droite), donc le décalage théorique est abandonné
-     au profit du centrage géométrique pur : transform retiré. object-fit
-     :contain centre déjà l'image dans sa boîte par défaut, aucun ajustement
-     manuel n'est donc nécessaire tant que l'owner ne signale pas l'inverse
-     une fois vérifié en ligne. */
+  /* Logo AP-HP - 3e round de correctifs (2026-08-30/31 puis 2026-09-03).
+     Rounds précédents : translateX(7.2%) puis 3.5% VERS LA DROITE (théorie
+     du centre de masse/encre pondérée, mesuré à 42.9% au lieu de 50% dans
+     le fichier) - les deux jugés "encore trop à droite" par l'owner, d'où
+     l'abandon au profit du centrage géométrique pur (transform:none).
+     Round 2026-09-03 : après réduction de taille (max-width 72%->58%),
+     l'owner signale à nouveau "trop à droite" - MAIS cette fois-ci vérifié
+     explicitement via AskUserQuestion à 0% (centrage géométrique pur, donc
+     AUCUN des deux essais précédents) : la réponse confirme "trop à droite"
+     même sans aucun décalage. Puisque la théorie de l'encre pondérée
+     pointait vers la droite (+7.2%) et que l'owner juge le résultat "trop à
+     droite" à 0% ET aux deux essais vers la droite, le sens correct est
+     inverse à la théorie : décalage vers la GAUCHE. Parti d'un essai
+     modéré (-3.5%, symétrique au plus petit essai droit déjà tenté) - à
+     confirmer en vrai, ce logo ayant un historique de désaccord avec toute
+     prédiction théorique. */
   .support-partner-card--foundation img.support-partner-card__logo--recenter {
-    transform: none;
+    transform: translateX(-3.5%);
   }
   .support-partner-card__logo-wrap {
     min-height: 92px;
