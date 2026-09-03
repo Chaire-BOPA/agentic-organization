@@ -852,7 +852,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
       <div class="bopa-support__group" aria-labelledby="foundations-title" data-reveal>
         <div class="bopa-support__group-title">
-          <span class="bopa-support__group-icon bopa-support__group-icon--circle" aria-hidden="true">◎</span>
+          <span class="bopa-support__group-icon bopa-support__group-icon--circle" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="8.2" stroke="currentColor" stroke-width="1.6" />
+              <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.6" />
+            </svg>
+          </span>
           <h3 id="foundations-title">3 fondations partenaires</h3>
           <span class="bopa-support__rule" aria-hidden="true"></span>
         </div>
@@ -910,6 +915,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
       <div class="bopa-support__group" aria-labelledby="accompany-title" data-reveal>
         <div class="bopa-support__group-title">
+          <span class="bopa-support__group-icon bopa-support__group-icon--link" aria-hidden="true">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <rect x="3.5" y="9" width="9" height="6" rx="3" stroke="currentColor" stroke-width="1.6" transform="rotate(-18 8 12)" />
+              <rect x="11.5" y="9" width="9" height="6" rx="3" stroke="currentColor" stroke-width="1.6" transform="rotate(-18 16 12)" />
+            </svg>
+          </span>
           <h3 id="accompany-title">Ils nous accompagnent</h3>
           <span class="bopa-support__rule" aria-hidden="true"></span>
         </div>
@@ -2916,14 +2927,18 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     height: 34px;
     font-size: 1.65rem;
   }
-  /* Les deux glyphes (♡, ◎) sont géométriquement centrés dans leur boîte
-     34x34 (vérifié en direct : centre de la boîte = centre de la boîte du
-     h3, écart 0px) mais leur ENCRE ne l'est pas optiquement - ni l'un ni
-     l'autre ne remplit son em-carré symétriquement. Nudge visuel par
-     glyphe (owner, 2026-09-02 : "les pictos ne sont pas alignés sur leurs
-     titres") plutôt qu'un correctif partagé, puisque chaque caractère a
-     son propre décalage optique. */
-  .bopa-support__group-icon--circle { transform: translateY(-1px); }
+  /* Le glyphe ♡ est géométriquement centré dans sa boîte 34x34 (centre de
+     boîte = centre de boîte du h3, écart 0px) mais son ENCRE ne l'est pas
+     optiquement - translateY manuel par glyphe (owner, 2026-08-30 : "les
+     pictos ne sont pas alignés sur leurs titres"). Le picto de "3 fondations
+     partenaires" était le même genre de glyphe texte (◎) avec le même
+     correctif ; l'owner l'a signalé de nouveau désaligné le 2026-09-03 -
+     remplacé par un SVG dessiné dans les mêmes conventions que les icônes
+     context-band (viewBox 24, stroke 1.6, currentColor) : son encre est
+     intrinsèquement centrée dans sa propre boîte, donc plus besoin de
+     nudge ni de dépendre du rendu glyphe/police de chaque OS/navigateur.
+     Le nouveau picto "Ils nous accompagnent" (maillon, choisi par l'owner
+     parmi 4 propositions, 2026-09-03) est un SVG pour la même raison. */
   .bopa-support__group-icon--heart { transform: translateY(-3px); }
   /* Filet de secours (owner a signalé le trait invisible, 2026-08-30) :
      un navigateur sans support de color-mix() ignore silencieusement la
