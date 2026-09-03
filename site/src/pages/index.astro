@@ -3272,7 +3272,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       margin-bottom: 46px;
       max-width: 58ch;
     }
-    .support-donation-panel__security { margin-top: 13px; }
+    /* Rapproché du bouton (owner, 2026-09-03 : "trop d'espace" avec les
+       13px du pack V1) - 4px, nettement plus collé que même l'original
+       (9px) avant ce pack. */
+    .support-donation-panel__security { margin-top: 4px; }
   }
   .support-donation-panel__visual {
     position: relative;
