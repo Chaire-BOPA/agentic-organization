@@ -2833,7 +2833,13 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        colonne unique : 1.5rem -> 3rem, une rupture nette plutôt qu'un
        espacement générique entre colonnes. BOPTECH lui-même (logo/texte/
        espacements internes) n'est touché nulle part dans ce bloc. */
-    .about-v2__impact-partners { grid-template-columns: 1fr; gap: 3rem; }
+    /* 3rem -> 2rem (pack "Mobile-Impact-BOPEX-BOPTECH-Espacements-V4",
+       2026-09-04, owner : la coupure "donne presque l'impression de deux
+       sections indépendantes") - toujours nettement plus que le gap
+       générique d'origine (1.5rem, pensé pour des colonnes côte à côte,
+       jamais comme rupture délibérée) pour rester une coupure lisible,
+       mais sans la sensation de deux blocs détachés. */
+    .about-v2__impact-partners { grid-template-columns: 1fr; gap: 2rem; }
     .about-v2__impact-partner:last-child { padding-left: 0; border-left: 0; }
     /* Le slot logo à hauteur fixe (9rem, `.about-v2__impact-partner-logo`
        de base) existe pour que BOpEx et BOPTECH démarrent leur texte à
@@ -2847,15 +2853,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        vrai logo, pour un logo centré dans un slot 3x trop grand). Taille
        du logo elle-même inchangée (max-height/max-width déjà définis
        ailleurs, non touchés ici). */
+    /* Micro-respiration (pack "Mobile-Impact-BOPEX-BOPTECH-Espacements-V4",
+       2026-09-04, owner : "un peu trop serré" après le pack précédent) -
+       +12-13% sur chacun des 3 écarts internes de BOPEX, jamais un retour
+       aux valeurs d'avant compaction (0.65rem/0.4rem/0.6rem) - toujours
+       nettement plus compact qu'avant, juste moins tassé qu'à l'instant. */
     .about-v2__impact-partner:first-child .about-v2__impact-partner-logo {
       height: 3.5rem;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.34rem;
     }
     .about-v2__impact-partner:first-child .about-v2__impact-partner-label {
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.45rem;
     }
     .about-v2__impact-partner:first-child .about-v2__impact-partner-cta {
-      margin-top: 0.4rem;
+      margin-top: 0.45rem;
     }
     .about-v2__chaire-band { flex-wrap: wrap; row-gap: 1.75rem; }
     .about-v2__chaire-band-stat { flex: 1 1 calc(50% - .5rem); border-left: 0 !important; }
