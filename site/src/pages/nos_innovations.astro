@@ -1234,6 +1234,21 @@ const chevronRightBig =
        coder en plus). */
     .innovations-v2__row-viewport {
       scrollbar-width: thin;
+      /* Espace cartes -> jauge aligné sur la Home (pack "Mobile-Nos-
+         Innovations-Jauges-Identiques-Home-V1", 2026-09-04) : sur la Home
+         (.bopa-projects-v2__rail, site.css) ce sont 8px de padding-bottom
+         sur le conteneur scrollable LUI-MÊME (donc juste avant la
+         scrollbar), pas sur son contenu interne - ici le padding-bottom de
+         24px vivait sur .innovations-v2__row-track (règle de base,
+         partagée avec desktop, gelée), un vestige de l'espacement desktop
+         (marge de respiration pour le survol des cartes) qui, une fois la
+         scrollbar réactivée juste au-dessus sur mobile, créait un espace
+         cartes->jauge 3x plus grand que la Home. Neutralisé ici (mobile
+         uniquement, desktop intact) puis reposé au bon endroit ci-dessous. */
+      padding-bottom: 8px;
+    }
+    .innovations-v2__row-track {
+      padding-bottom: 0;
     }
     .innovations-v2__row-viewport::-webkit-scrollbar {
       display: block;
