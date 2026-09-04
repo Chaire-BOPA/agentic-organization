@@ -476,6 +476,9 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <p class="bopa-vision-v4__copy">
             Penser dès la conception sa viabilité économique et son impact environnemental pour permettre un déploiement à grande échelle.
           </p>
+          <svg class="bopa-vision-v4__arrow-tip" aria-hidden="true" viewBox="0 0 10 22">
+            <path d="M4 0H6V6L5 22L4 6Z" />
+          </svg>
         </article>
 
         <article class="bopa-vision-v4__step bopa-vision-v4__step--endpoint bopa-vision-v4__step--endpoint-end" role="listitem">
@@ -3919,6 +3922,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     z-index: -1;
   }
 
+  /* Pointe de flèche mobile (Soutenabilité -> Progrès pour tous) : un
+     vrai <svg><path> unique dans le markup, jamais visible ici (desktop
+     garde son propre chevron horizontal, .bopa-vision-v4__timeline::after
+     plus haut) - seule la règle mobile plus bas le rend visible et
+     positionné. */
+  .bopa-vision-v4__arrow-tip {
+    display: none;
+  }
+
   /* Cercles harmonisés sur la DA de /innovations/ (2026-08-27, V4.1) :
      62px, contour 1.5px cyan, intérieur blanc, pictogramme cyan - même
      diamètre/épaisseur/finesse que la frise Pré/Per/Post d'/innovations/,
@@ -4153,35 +4165,32 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
     /* Dernier connecteur (Soutenabilité -> Progrès pour tous) : s'arrête
        AVANT le cercle suivant plutôt que de s'y superposer, pour laisser
-       la place à une vraie pointe de flèche visible - exactement la
-       même identité que la flèche desktop (bordure haut+droite tournée à
-       45°), simplement tournée encore de 90° pour pointer vers le bas
-       plutôt que vers la droite. */
-    /* -16px laissait ~8.9px de vide avant la pointe (pack "Mobile-Notre-
-       Vision-Raccord-Fleche-V3", 2026-09-04) : la pointe visible du
-       chevron ci-dessous n'est pas au sommet de sa boîte 14x14 mais à son
-       coin haut-droit (bordure top+right) tourné de 135deg, ce qui le
-       déplace de 7*racine(2)=~9.9px sous le centre de la boîte - centre
-       lui-même à 8+7=15px sous le bas de cette étape (calc(100% + 8px),
-       boîte de 14px) - soit une pointe réelle à ~24.9px sous ce bas,
-       jamais 16px. -24.9px (au lieu de -16px) amène le trait exactement
-       à ce contact, sans toucher au chevron lui-même (position/taille/
-       angle/épaisseur/couleur tous inchangés, seule cette valeur du
-       trait bouge). */
+       la place à une vraie pointe de flèche visible. */
+    /* Pointe reconstruite en <svg><path> unique (pack "Mobile-Notre-
+       Vision-Fleche-Continue-Premium-V4", 2026-09-04, owner : la version
+       précédente - deux bordures tournées à 45° façon chevron - "donne
+       l'impression d'un trait vertical + deux traits diagonaux rajoutés,
+       rendu bricolé"). Un seul tracé fin et allongé (base 2px, la même
+       épaisseur que le trait ; effilé sur toute sa hauteur jusqu'à un
+       point unique), jamais une paire de bordures indépendantes. Le
+       trait (::before) s'arrête à `bottom:0` (le bas de cette étape,
+       simple et prévisible) ; le SVG démarre 6px plus haut
+       (`top:calc(100% - 6px)`) et partage exactement les mêmes largeur/
+       couleur sur ces 6px de recouvrement, donc la jonction est
+       invisible (même tracé continu, pas un raccord de deux formes
+       distinctes) plutôt que juste "touchée" au pixel près. */
     .bopa-vision-v4__step:nth-last-child(2)::before {
-      bottom: -24.9px;
+      bottom: 0;
     }
-    .bopa-vision-v4__step:nth-last-child(2)::after {
-      content: "";
+    .bopa-vision-v4__step:nth-last-child(2) .bopa-vision-v4__arrow-tip {
+      display: block;
       position: absolute;
-      left: 24px;
-      top: calc(100% + 8px);
-      width: 14px;
-      height: 14px;
-      border-top: 2px solid var(--mp-blue-bright);
-      border-right: 2px solid var(--mp-blue-bright);
+      left: 26px;
+      top: calc(100% - 6px);
+      width: 10px;
+      height: 22px;
+      fill: var(--mp-blue-bright);
       opacity: 0.9;
-      transform: rotate(135deg);
       z-index: 0;
     }
 
