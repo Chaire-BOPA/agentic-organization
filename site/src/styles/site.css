@@ -1796,18 +1796,13 @@ p {
   }
   .context-item:last-child { border-bottom: 0; }
   /* 4 cases a hauteur egale (pack "Mobile-Bandeau-Hero-BOPTECH-Espaces-
-     V1", 2026-09-04) - la 2e case ("Centre Hepato-Biliaire") est la
-     source de verite : son texte le plus long peut retomber sur 3
-     lignes plutot que 2 sous ~393px de large (mesure : 84.8px contre
-     ~67px pour les 3 autres a cette meme largeur, identiques entre eux
-     des ~400px), empilees verticalement donc jamais egalisables via un
-     simple align-items:stretch (ca n'egalise que des cellules d'une
-     MEME rangee, pas des rangees distinctes). min-height derive de ce
-     pire cas (3 lignes) applique aux 4 : au-dela de ~400px, ou la 2e
-     case tient deja sur 2 lignes comme les autres, la meme min-height
-     garde quand meme les 4 cases identiques plutot que de dependre du
-     point de rupture exact du retour a la ligne. */
-  .context-item { min-height: 5.3rem; }
+     V1", 2026-09-04) - une valeur min-height fixe mesuree a une seule
+     largeur/reglage de police s'est revelee fragile (retour owner :
+     toujours inegal sur son telephone reel, dont les reglages de police
+     font retomber une longueur de texte differente de celle testee ici) ;
+     .context-item { min-height } n'existe plus - la hauteur commune est
+     desormais mesuree en JS (voir <script>, index.astro) sur les
+     hauteurs REELLES rendues, jamais une valeur devinee a l'avance. */
 }
 
 /* ============================================================

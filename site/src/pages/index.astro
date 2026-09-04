@@ -1371,6 +1371,39 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       }
     });
   </script>
+
+  <script>
+    // 4 cases du bandeau sous le Hero a hauteur egale sur mobile (pack
+    // "Mobile-Bandeau-Hero-BOPTECH-Espaces-V1", 2026-09-04, puis retour
+    // owner : une min-height CSS fixe, mesuree ici a une seule largeur/
+    // reglage de police, restait inegale sur son telephone reel - ses
+    // reglages de police font retomber le texte le plus long sur un
+    // nombre de lignes different de celui observe pendant les tests).
+    // Meme principe que l'egalisation des cartes "Nos innovations"
+    // (nos_innovations.astro) : mesurer la hauteur REELLE rendue de
+    // chaque case et prendre le max, jamais une valeur devinee a
+    // l'avance - reste correct quels que soient la largeur d'ecran, la
+    // police reelle du telephone ou ses reglages d'accessibilite.
+    // Desktop (grille 4 colonnes, une seule rangee) s'egalise deja tout
+    // seul via align-items:stretch - ce script ne fait rien au-dela du
+    // palier mobile (empilement en une colonne, ou chaque case est sa
+    // propre rangee independante que le CSS ne peut pas egaliser seul).
+    const equalizeContextItems = () => {
+      const items = Array.from(document.querySelectorAll<HTMLElement>('.context-item'));
+      if (!items.length) return;
+      items.forEach((el) => { el.style.minHeight = ''; });
+      if (!window.matchMedia('(max-width: 36rem)').matches) return;
+      const maxHeight = Math.max(...items.map((el) => el.getBoundingClientRect().height));
+      items.forEach((el) => { el.style.minHeight = `${maxHeight}px`; });
+    };
+    equalizeContextItems();
+    document.fonts?.ready?.then(equalizeContextItems);
+    let contextResizeTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+      clearTimeout(contextResizeTimer);
+      contextResizeTimer = setTimeout(equalizeContextItems, 150);
+    });
+  </script>
 </Base>
 
 <style>
