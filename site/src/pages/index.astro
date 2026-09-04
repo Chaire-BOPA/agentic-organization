@@ -4157,8 +4157,19 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        même identité que la flèche desktop (bordure haut+droite tournée à
        45°), simplement tournée encore de 90° pour pointer vers le bas
        plutôt que vers la droite. */
+    /* -16px laissait ~8.9px de vide avant la pointe (pack "Mobile-Notre-
+       Vision-Raccord-Fleche-V3", 2026-09-04) : la pointe visible du
+       chevron ci-dessous n'est pas au sommet de sa boîte 14x14 mais à son
+       coin haut-droit (bordure top+right) tourné de 135deg, ce qui le
+       déplace de 7*racine(2)=~9.9px sous le centre de la boîte - centre
+       lui-même à 8+7=15px sous le bas de cette étape (calc(100% + 8px),
+       boîte de 14px) - soit une pointe réelle à ~24.9px sous ce bas,
+       jamais 16px. -24.9px (au lieu de -16px) amène le trait exactement
+       à ce contact, sans toucher au chevron lui-même (position/taille/
+       angle/épaisseur/couleur tous inchangés, seule cette valeur du
+       trait bouge). */
     .bopa-vision-v4__step:nth-last-child(2)::before {
-      bottom: -16px;
+      bottom: -24.9px;
     }
     .bopa-vision-v4__step:nth-last-child(2)::after {
       content: "";
