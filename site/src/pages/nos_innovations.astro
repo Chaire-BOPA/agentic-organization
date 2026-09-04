@@ -1070,9 +1070,18 @@ const chevronRightBig =
       padding-top: 32px;
     }
 
+    /* Timeline verticale mobile (pack "Mobile-Nos-Innovations-Page-
+       Timeline-Scroll-Horizontal-V1", 2026-09-04) - même principe que la
+       frise mobile de Notre Mission (Home), en PLUS COMPACT (gap réduit
+       18px au lieu de 26px, icônes déjà plus petites ici - 54px contre
+       62px - donc déjà un peu plus dense avant même ce correctif) : owner,
+       "moins d'espace vertical entre les 3 étapes, pour arriver plus vite
+       aux projets". `align-items: start` (au lieu de `center`) remonte le
+       texte au niveau du haut du cercle plutôt que de le centrer sur toute
+       sa hauteur - même correction que sur la frise Notre Mission. */
     .innovations-v2__journey {
       grid-template-columns: 1fr;
-      gap: 26px;
+      gap: 18px;
       padding: 0;
     }
     .innovations-v2__journey-line {
@@ -1083,13 +1092,49 @@ const chevronRightBig =
       grid-template-columns: 56px 1fr;
       column-gap: 16px;
       text-align: left;
-      align-items: center;
+      align-items: start;
+    }
+    /* Connecteur pointillé + point intermédiaire, un par étape (sauf la
+       dernière) - même technique que Notre Mission mobile (site.css) : un
+       segment par étape plutôt qu'une seule ligne sur toute la hauteur du
+       conteneur, parce que la hauteur de chaque étape dépend du texte réel
+       (variable), donc pas de pourcentage fixe fiable pour toucher
+       précisément chaque cercle. `left`/`top` calés sur le rayon réel du
+       cercle ici (54px de diamètre, 27px de rayon), pas sur celui de Notre
+       Mission (62px/31px) - les deux composants ont des tailles de cercle
+       différentes, chacun garde son propre calcul. */
+    .innovations-v2__journey-step:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      left: 27px;
+      top: 54px;
+      bottom: -45px;
+      width: 0;
+      border-left: 1px dashed var(--bopa-cyan);
+      z-index: 0;
+    }
+    /* Centré entre les deux CENTRES de cercle (voir le commentaire détaillé
+       dans site.css, section Notre Mission, pour la dérivation complète) :
+       `50% + (gap + diamètre) / 2 - (taille du point / 2)`, ici avec
+       gap=18px et diamètre=54px -> 50% + 32px. */
+    .innovations-v2__journey-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 23px;
+      top: calc(50% + 32px);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--bopa-cyan);
+      z-index: 0;
     }
     .innovations-v2__journey-icon {
       width: 54px;
       height: 54px;
       margin: 0;
       grid-row: 1 / span 2;
+      position: relative;
+      z-index: 1;
     }
     .innovations-v2__journey-step strong {
       margin: 0 0 5px;
@@ -1128,26 +1173,47 @@ const chevronRightBig =
     .innovations-v2__category-label p {
       max-width: none;
     }
+    /* Rail tactile "carte 1 entière + carte 2 coupée par l'écran" (pack
+       "Mobile-Nos-Innovations-Page-Timeline-Scroll-Horizontal-V1",
+       2026-09-04) - remplace le système "1 carte pleine + flèches dédiées"
+       ci-dessus (hérité du container query plus haut, pensé pour
+       desktop/tablette) par EXACTEMENT le principe déjà en place sur la
+       Home mobile (.bopa-projects-v2__rail, site.css) : source de vérité
+       explicite de l'owner. Gabarit de carte inchangé (227px fixe, comme
+       desktop et comme Home - PAS le `min(78vw, 227px)` d'avant, qui
+       n'aurait de toute façon jamais réduit la carte sur un vrai téléphone
+       puisque 78vw dépasse 227px dès ~291px de large, mais gardait une
+       dépendance au viewport inutile et trompeuse à lire). */
     .innovations-v2__row-track .bopa-project-card {
-      flex-basis: min(78vw, 227px);
-      width: min(78vw, 227px);
+      flex-basis: 227px;
+      width: 227px;
     }
-    /* Mobile : 1 carte + nav - le nombre de cartes vient déjà du container
-       query plus haut (la rangée y est bien assez étroite à ce stade,
-       label empilé au-dessus). Les deux flèches s'empilent verticalement
-       dans une colonne plus étroite plutôt que de se serrer côte à côte. */
-    .innovations-v2__row {
-      gap: 8px;
+    /* Le gap entre cartes suit aussi la Home mobile (24px), PAS le gabarit
+       partagé --innovations-card-gap (16px, gelé pour desktop et pour
+       cette page à tous les autres paliers) - un override mobile-only,
+       jamais le token partagé lui-même. */
+    .innovations-v2__row-track {
+      gap: 24px;
     }
+    /* Flèches masquées sur téléphone (consigne owner explicite : "pas de
+       flèches gauche/droite") - le seul indice de swipe devient le
+       morceau visible de la carte suivante, coupé par le bord du rail. */
     .innovations-v2__nav {
-      flex-basis: 40px;
-      width: 40px;
-      flex-direction: column;
-      gap: .3rem;
+      display: none;
     }
-    .innovations-v2__nav-btn :global(svg) {
-      width: 22px;
-      height: 22px;
+    /* Une fois les flèches retirées du flux, .innovations-v2__row-viewport
+       est l'unique enfant flex visible de .innovations-v2__row et prend
+       donc déjà toute la largeur disponible par défaut - mais sa propre
+       largeur était fixée en dur par le container query plus haut
+       (`width: min(78cqw, var(--innovations-card-width))`, pensé pour
+       afficher UNE SEULE carte pile). Cette règle vient après dans la
+       feuille de style (même spécificité, l'ordre de source tranche) et
+       la remplace : largeur réelle disponible, laissant les cartes
+       déborder et se faire couper par ce bord - exactement le mécanisme
+       Home (overflow-x:auto + scroll-snap déjà en place plus haut,
+       inchangés). */
+    .innovations-v2__row-viewport {
+      width: 100%;
     }
 
     .innovations-v2__cta-inner {
