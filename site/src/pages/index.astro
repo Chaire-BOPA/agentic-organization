@@ -442,7 +442,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             </svg>
           </div>
           <h3>Acceptabilité</h3>
-          <p class="bopa-vision-v4__tagline">Une innovation qui trouve sa place<br />auprès des soignants.</p>
+          <p class="bopa-vision-v4__tagline">Une innovation qui trouve sa place <br />auprès des soignants.</p>
           <p class="bopa-vision-v4__copy">
             Concevoir avec les professionnels de santé des solutions adaptées à leurs pratiques et à leurs besoins, pour qu'elles soient réellement adoptées.
           </p>
@@ -471,7 +471,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             </svg>
           </div>
           <h3>Soutenabilité</h3>
-          <p class="bopa-vision-v4__tagline">Une innovation que l'on peut<br />durablement déployer.</p>
+          <p class="bopa-vision-v4__tagline">Une innovation que l'on peut <br />durablement déployer.</p>
           <p class="bopa-vision-v4__copy">
             Penser dès la conception sa viabilité économique et son impact environnemental pour permettre un déploiement à grande échelle.
           </p>
@@ -4015,18 +4015,167 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   @media (max-width: 700px) {
     .bopa-vision-v4 { padding: 4rem 1.25rem 4.5rem; }
+
+    /* Timeline verticale mobile (pack "Mobile-Notre-Vision-Timeline-
+       Verticale-Modele-V1", 2026-09-04) - reproduction fidèle du PNG
+       validé par l'owner (REFERENCE-VISUELLE-VALIDEE-NOTRE-VISION-
+       MOBILE.png) : remplace l'ancien empilement centré (cercle, puis
+       titre, puis accroche, puis paragraphe, tous centrés, sans ligne ni
+       flèche - masquées dès 1220px) par un parcours vertical icône-à-
+       gauche/texte-à-droite, avec une VRAIE ligne continue (pas des
+       pointillés - contrairement à Notre Mission/Nos innovations, dont la
+       référence desktop est déjà pointillée ; ici la référence desktop
+       est un trait plein avec une pointe de flèche, donc le mobile
+       reprend cette identité telle quelle) se terminant par une pointe de
+       flèche juste avant le cercle "Progrès pour tous", exactement comme
+       sur desktop. Cercles gardés à 62px (pas 54px comme l'ancienne
+       version mobile) : la consigne "mêmes cercles" et la taille réelle
+       du desktop (62px, inchangée) l'emportent sur l'ancien choix mobile
+       plus petit, jamais demandé par l'owner à l'origine. */
     .bopa-vision-v4__timeline {
       grid-template-columns: 1fr;
       margin-top: 3.25rem;
-      gap: 2.65rem;
+      gap: 2.25rem;
     }
+
     .bopa-vision-v4__step--endpoint-start,
     .bopa-vision-v4__step--endpoint-end { grid-column: auto; }
-    .bopa-vision-v4__icon { width: 54px; height: 54px; margin-bottom: 1.3rem; }
-    .bopa-vision-v4__step--endpoint-end .bopa-vision-v4__endpoint-label { width: 54px; }
+
+    /* Icône-gauche/texte-droite pour TOUTES les étapes (bornes incluses) -
+       chaque étape est son propre mini-grid à 2 colonnes. `align-items:
+       center` par défaut (traitement "simple" des bornes Innovation/
+       Progrès pour tous, consigne owner explicite) ; surchargé en
+       `start` juste en dessous pour les 3 piliers seulement, qui doivent
+       être "remontés". */
+    .bopa-vision-v4__step {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      column-gap: 18px;
+      align-items: center;
+      text-align: left;
+    }
+
+    /* Les 3 piliers (Acceptabilité/Interopérabilité/Soutenabilité)
+       remontés par rapport au centre du cercle (consigne owner très
+       explicite, calée sur le PNG) : `start` aligne le haut du titre cyan
+       sur le haut du cercle plutôt que de centrer le bloc de texte sur
+       toute sa hauteur - jamais appliqué aux bornes, qui gardent le
+       centrage simple ci-dessus. */
+    .bopa-vision-v4__step:not(.bopa-vision-v4__step--endpoint) {
+      align-items: start;
+    }
+
+    .bopa-vision-v4__icon {
+      width: 62px;
+      height: 62px;
+      margin: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* L'icône occupe les 3 lignes du texte (titre/accroche/paragraphe)
+       pour les piliers uniquement - sur les bornes (1 seule ligne, le
+       label), elle reste sur sa propre ligne implicite à côté du label,
+       ce qui donne le traitement "simple" demandé. */
+    .bopa-vision-v4__step:not(.bopa-vision-v4__step--endpoint) .bopa-vision-v4__icon {
+      grid-row: 1 / 4;
+    }
+
+    /* Connecteur : VRAIE ligne pleine (pas de pointillés), un segment par
+       étape (sauf la dernière) plutôt qu'une seule ligne sur toute la
+       hauteur du conteneur - même technique que Notre Mission/Nos
+       innovations mobile (voir leurs commentaires pour la dérivation
+       complète) : la hauteur de chaque étape dépend du texte réel
+       (variable, surtout pour les 3 piliers), donc pas de pourcentage
+       fixe fiable pour toucher précisément chaque cercle. `top:62px`
+       (bas de CE cercle) à `bottom:-(gap+31)px` (dépasse jusqu'au CENTRE
+       du cercle suivant, caché derrière lui) ne dépend que du `gap` réel
+       (2.25rem=36px) et du rayon (31px), jamais de la hauteur du texte. */
+    .bopa-vision-v4__step:not(:last-child)::before {
+      content: "";
+      display: block;
+      position: absolute;
+      left: 31px;
+      top: 62px;
+      bottom: -67px;
+      width: 0;
+      border-left: 2px solid var(--mp-blue-bright);
+      opacity: 0.9;
+      z-index: 0;
+    }
+
+    /* Dernier connecteur (Soutenabilité -> Progrès pour tous) : s'arrête
+       AVANT le cercle suivant plutôt que de s'y superposer, pour laisser
+       la place à une vraie pointe de flèche visible - exactement la
+       même identité que la flèche desktop (bordure haut+droite tournée à
+       45°), simplement tournée encore de 90° pour pointer vers le bas
+       plutôt que vers la droite. */
+    .bopa-vision-v4__step:nth-last-child(2)::before {
+      bottom: -16px;
+    }
+    .bopa-vision-v4__step:nth-last-child(2)::after {
+      content: "";
+      position: absolute;
+      left: 24px;
+      top: calc(100% + 8px);
+      width: 14px;
+      height: 14px;
+      border-top: 2px solid var(--mp-blue-bright);
+      border-right: 2px solid var(--mp-blue-bright);
+      opacity: 0.9;
+      transform: rotate(135deg);
+      z-index: 0;
+    }
+
+    /* Le petit point desktop (.step::before, un repère caché derrière
+       chaque cercle, z-index:-1) n'a pas d'équivalent voulu ici - le PNG
+       ne montre aucun point intermédiaire sur la ligne verticale, juste
+       le trait plein et la flèche finale. Cette règle nue (spécificité
+       0,1,0) masque ce point partout, y compris sur "Progrès pour tous"
+       (:last-child, qui n'a pas de connecteur du tout) ; sur les 4 autres
+       étapes, la règle du connecteur ci-dessus (`:not(:last-child)`,
+       spécificité 0,2,0 - plus élevée car `:not()` compte comme un
+       pseudo-classe de plus) l'emporte et réutilise ce même ::before pour
+       la ligne réelle - display:none n'y a donc aucun effet, elle ne
+       s'applique que là où rien de plus spécifique ne le contredit. */
+    .bopa-vision-v4__step::before {
+      display: none;
+    }
+
+    .bopa-vision-v4__step--endpoint .bopa-vision-v4__icon { margin: 0; }
+
+    .bopa-vision-v4__step--endpoint-end .bopa-vision-v4__endpoint-label {
+      width: auto;
+      margin: 0;
+    }
+
+    /* Titre/accroche/paragraphe suivent désormais la largeur réelle de
+       la colonne de texte (grid 1fr), pas un plafond pensé pour l'ancien
+       bloc centré sous l'icône. */
     .bopa-vision-v4__step h3,
+    .bopa-vision-v4__endpoint-label,
     .bopa-vision-v4__tagline,
-    .bopa-vision-v4__copy { max-width: 310px; }
+    .bopa-vision-v4__copy {
+      max-width: none;
+      margin-left: 0;
+      margin-right: 0;
+      text-align: left;
+    }
+
+    .bopa-vision-v4__tagline { margin-top: 0.5rem; }
+    .bopa-vision-v4__copy { margin-top: 0.6rem; }
+
+    /* Les <br /> des accroches (Acceptabilité/Soutenabilité) sont calés sur
+       l'étroite colonne centrée du desktop (215-285px) - dans la colonne
+       texte plus large de ce nouveau layout mobile, ils forcent une
+       coupure au mauvais endroit (un mot seul orphelin sur sa ligne) au
+       lieu du retour naturel montré dans le PNG. Même technique déjà
+       utilisée pour Nos innovations mobile : masquer le <br>, jamais
+       réécrire le texte lui-même. */
+    .bopa-vision-v4__tagline br {
+      display: none;
+    }
+
     .bopa-vision-v4__network { display: none; }
   }
 
