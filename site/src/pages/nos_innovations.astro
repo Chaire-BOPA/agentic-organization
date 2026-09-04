@@ -1215,6 +1215,29 @@ const chevronRightBig =
     .innovations-v2__row-viewport {
       width: 100%;
     }
+    /* Jauge de progression (pack "Mobile-Nos-Innovations-Carousel-Exact-
+       Home-V2", 2026-09-04) - c'est simplement la scrollbar native que le
+       navigateur mobile dessine déjà pour tout élément `overflow-x:auto`
+       (une fine barre grise arrondie sous le rail, qui avance/se
+       raccourcit toute seule avec le scroll) : jamais un composant
+       personnalisé à construire, ni un script à synchroniser - juste
+       arrêter de la masquer. La règle de base (plus haut, hors media
+       query - desktop y compris, gelé) la cache volontairement via
+       `scrollbar-width:none` + `::-webkit-scrollbar{display:none}`,
+       pensée pour desktop où les flèches dédiées suffisent déjà comme
+       indice de navigation. Sur mobile, les flèches sont masquées
+       (ci-dessus) et la Home (`.bopa-projects-v2__rail`, site.css) ne
+       masque jamais cette scrollbar à aucun palier - la réactiver ici
+       uniquement au palier mobile reproduit exactement ce même mécanisme,
+       déjà indépendant par élément (chaque catégorie a son propre
+       `.innovations-v2__row-viewport`, donc sa propre jauge, sans rien à
+       coder en plus). */
+    .innovations-v2__row-viewport {
+      scrollbar-width: thin;
+    }
+    .innovations-v2__row-viewport::-webkit-scrollbar {
+      display: block;
+    }
 
     .innovations-v2__cta-inner {
       grid-template-columns: auto 1fr;
