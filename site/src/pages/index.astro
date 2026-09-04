@@ -1350,6 +1350,27 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       }
     }
   </script>
+
+  <script>
+    // Bouton "Découvrir tous nos projets" (mobile) restait bleu nuit
+    // après un retour navigateur (pack "Home-Nos-Innovations-CTA-
+    // Desktop-Mobile-V2", 2026-09-04, owner : "reste bleu nuit comme
+    // s'il était encore pressé"). Le :hover collé au tactile est déjà
+    // neutralisé côté CSS (@media (hover: hover), site.css) ; ce script
+    // couvre l'autre cause possible - le focus clavier/tactile reçu au
+    // moment du clic, que le BFCache restaure tel quel dans l'instantané
+    // de page au retour. pageshow + persisted (vrai retour BFCache, pas
+    // un chargement normal) lève ce focus explicitement, sans toucher à
+    // l'accessibilité clavier desktop (le focus normal, hors BFCache,
+    // n'est jamais touché).
+    window.addEventListener('pageshow', (event) => {
+      if (!event.persisted) return;
+      const cta = document.querySelector<HTMLAnchorElement>('.bopa-projects-v2__cta');
+      if (cta && document.activeElement === cta) {
+        cta.blur();
+      }
+    });
+  </script>
 </Base>
 
 <style>

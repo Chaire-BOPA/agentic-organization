@@ -2137,6 +2137,29 @@ p {
 
 .bopa-projects-v2__cta {
   grid-area: cta;
+  /* Largeur ajustée au contenu, pas étirée sur toute la colonne (pack
+     "Home-Nos-Innovations-CTA-Desktop-Mobile-V2", 2026-09-04, owner :
+     "beaucoup trop large") - `justify-self` d'un item de grille vaut
+     `stretch` par défaut si rien ne le précise, ce qui forçait ce bouton
+     à occuper toute la largeur de la colonne "intro" malgré son propre
+     `display:inline-flex`. `start` le laisse reprendre sa largeur
+     intrinsèque, ancré à gauche comme le paragraphe au-dessus - repris à
+     `stretch` sur mobile/tablette ci-dessous (palier 1100px), où le
+     plein-largeur reste le rendu voulu et déjà validé. */
+  justify-self: start;
+  /* Bas du bouton aligné sur le bas des cartes (même pack, owner : "bas
+     du CTA = bas des cartes LiverSight/BOPCAM/Colette") - "cta" partage
+     sa colonne de grille avec "intro" sur une rangée dont la hauteur
+     réelle est dictée par "rail" (qui couvre les deux rangées) : cette
+     rangée est donc presque toujours plus haute que ce dont le bouton a
+     besoin, laissant un vide sous lui avec l'ancrage par défaut
+     (`align-items:start` du conteneur). `align-self:end` ancre le bouton
+     - marge du haut incluse - au bas de CETTE rangée, qui coïncide
+     justement avec le bas de "rail" : aucune valeur figée en dur, robuste
+     à la hauteur réelle du paragraphe/de la colonne. Repris à `start` sur
+     mobile/tablette (aucune rangée excédentaire à ce palier, le rendu
+     empilé reste inchangé). */
+  align-self: end;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -2157,11 +2180,22 @@ p {
 
 /* Hover harmonisé sur la référence absolue (2026-08-27, V4.1) : le
    bouton "Nous soutenir" du header (.btn-filled-premium) - même
-   assombrissement (--bopa-blue-1), même ombre, aucun translate/scale. */
-.bopa-projects-v2__cta:hover {
-  background: var(--bopa-blue-1);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35);
+   assombrissement (--bopa-blue-1), même ombre, aucun translate/scale.
+   Scopé aux vrais dispositifs à survol (2026-09-04, pack "Home-Nos-
+   Innovations-CTA-Desktop-Mobile-V2", owner : "le bouton reste bleu nuit
+   comme s'il était encore pressé" après un retour navigateur mobile) -
+   les navigateurs tactiles appliquent :hover au toucher et ne le lèvent
+   qu'au toucher suivant ailleurs ; combiné au BFCache qui restaure la
+   page telle quelle au retour, le bouton restait visuellement assombri.
+   `(hover: hover)` exclut cette règle des écrans tactiles purs, donc plus
+   rien ne peut jamais y rester "collé" - le bleu nuit ne peut plus exister
+   que pendant un vrai survol souris, jamais après un tap. */
+@media (hover: hover) {
+  .bopa-projects-v2__cta:hover {
+    background: var(--bopa-blue-1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35);
+  }
 }
 
 .bopa-projects-v2__cta span {
@@ -2356,6 +2390,14 @@ p {
      paragraphe mais le rail. */
   .bopa-projects-v2__cta {
     margin-top: 0;
+    /* Revient au rendu plein-largeur déjà validé à ce palier (owner :
+       "la version mobile est PARFAITE") - `justify-self:start` et
+       `align-self:end` (règle de base, desktop uniquement) n'ont de sens
+       que pour la grille 2 colonnes/2 rangées du desktop ; une fois
+       empilée en une seule colonne ici, plus aucune rangée excédentaire
+       ni besoin de largeur réduite. */
+    justify-self: stretch;
+    align-self: start;
   }
 
   .bopa-projects-v2__intro > p:not(.bopa-eyebrow) {
