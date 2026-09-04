@@ -783,6 +783,36 @@ const chevronRightBig =
     scroll-snap-stop: always;
   }
 
+  /* Harmonisation de hauteur avec la HOME (pack "Innovations-Hauteur-
+     Cartes-Reference-Home-V1", 2026-09-04) - la HOME (.bopa-projects-v2)
+     n'a que 3 projets, tous plus courts que le plus long projet listé ici
+     (ex. "Le compte rendu opératoire augmenté", titre + description +
+     lien "Découvrir Uncovr" qui dépassent LiverSight) ; chaque catégorie
+     est son propre rail flex (`align-items: stretch` déjà en place), donc
+     l'égalisation JS plus bas prend le max RÉEL sur cette page entière -
+     mécaniquement plus haut que sur la Home dès qu'un seul projet a plus
+     de contenu que les 3 vedettes. Recréer le gabarit Home exact sans
+     dupliquer `.bopa-project-card` (classe partagée, gelée pour la HOME) :
+     un override scopé à `.innovations-v2` qui réduit uniquement l'espace
+     interne excédentaire (jamais la typo/le texte) du même montant que
+     l'écart mesuré - le nombre de lignes de chaque titre/description ne
+     change pas (ce sont des marges/paddings fixes, pas des tailles de
+     police), donc rien n'est coupé ni réécrit. Valeurs calées par mesure
+     réelle (avant : 454.14px sur cette page vs 442.30px sur la Home ;
+     après : les deux à 442.30px, vérifié en direct), pas choisies à l'oeil. */
+  .innovations-v2 .bopa-project-card__body {
+    padding-top: 0.35rem;
+    /* px, pas rem : calé au 1/16px près sur la mesure réelle de la Home
+       (442.296875px) après le premier passage de ce correctif, qui
+       atterrissait à 442.140625px (0.15625px trop bas) avec un rem rond -
+       la précision compte ici, pas l'arrondi. */
+    padding-bottom: 14.55625px;
+  }
+
+  .innovations-v2 .bopa-project-card__body p {
+    margin-top: 0.75rem;
+  }
+
   /* Colonne de navigation : ni carte, ni fond, ni bordure - juste deux
      grandes flèches fines cyan, beaucoup d'air, pour ne surtout pas
      ressembler à une carte vide. Toujours dans le flux (largeur fixe),
