@@ -2069,7 +2069,25 @@ p {
   column-gap: var(--space-4);
   width: min(var(--max-width), 100%);
   margin: 0 auto;
-  align-items: center;
+  /* start, pas center (correctif "Espacement-Haut-Notre-Vision-V4",
+     2026-09-04) : le vrai bug n'était PAS le padding-top de la section
+     (identique à Notre Vision, 64px, via l'id-selector plus haut) mais
+     cet align-items - avec `center`, la colonne "intro" (plus courte que
+     "rail", la hauteur de ligne du grid étant dictée par les cartes) se
+     retrouvait recentrée verticalement dans toute la hauteur de la
+     rangée, poussant l'eyebrow ~30px plus bas que le haut réel de la
+     section. Ce bug dormait depuis toujours mais ne se voyait pas tant
+     que le bloc éditorial était assez haut pour égaler/dépasser la
+     hauteur des cartes - l'élargissement de la colonne (correctif
+     "Repartition-Horizontale-V2") a fait passer le titre sur moins de
+     lignes, raccourcissant l'intro sous la hauteur du rail pour la
+     première fois et rendant l'effet de centrage soudain visible. `start`
+     ancre l'intro en haut de la rangée, exactement comme Notre Vision (une
+     seule colonne, donc rien à centrer) - purement vertical, aucun impact
+     sur les largeurs/gaps horizontaux gelés (rail/cartes restent déjà
+     flush en haut, cette rangée ayant toujours été définie par leur
+     hauteur, pas par celle de l'intro). */
+  align-items: start;
 }
 
 .bopa-projects-v2__intro {
