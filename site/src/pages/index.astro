@@ -2822,8 +2822,37 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   }
 
   @media (max-width: 680px) {
-    .about-v2__impact-partners { grid-template-columns: 1fr; gap: 1.5rem; }
+    /* BOPEX resserré / BOPEX -> BOPTECH plus marqué (pack "Mobile-Qui-
+       Sommes-Nous-Impact-BOPEX-Espacements-V1", 2026-09-04) - le `gap`
+       de cette grille (1 seule valeur, puisqu'il n'y a que 2 éléments)
+       devient exactement la coupure BOPEX -> BOPTECH une fois empilée en
+       colonne unique : 1.5rem -> 3rem, une rupture nette plutôt qu'un
+       espacement générique entre colonnes. BOPTECH lui-même (logo/texte/
+       espacements internes) n'est touché nulle part dans ce bloc. */
+    .about-v2__impact-partners { grid-template-columns: 1fr; gap: 3rem; }
     .about-v2__impact-partner:last-child { padding-left: 0; border-left: 0; }
+    /* Le slot logo à hauteur fixe (9rem, `.about-v2__impact-partner-logo`
+       de base) existe pour que BOpEx et BOPTECH démarrent leur texte à
+       la MÊME hauteur en colonnes côte à côte (desktop) - une contrainte
+       d'alignement HORIZONTAL qui n'a plus de raison d'être une fois les
+       deux colonnes empilées verticalement. Sur mobile, resserrer le
+       slot de BOpEx (`:first-child` seulement - jamais BOPTECH, gelé)
+       à la taille réelle de son logo (max-height:3rem) au lieu du 9rem
+       pensé pour BOPTECH : ça seul supprime le plus gros du vide perçu
+       "trop espacé" (jusqu'à ~48px de vide au-dessus et en dessous du
+       vrai logo, pour un logo centré dans un slot 3x trop grand). Taille
+       du logo elle-même inchangée (max-height/max-width déjà définis
+       ailleurs, non touchés ici). */
+    .about-v2__impact-partner:first-child .about-v2__impact-partner-logo {
+      height: 3.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .about-v2__impact-partner:first-child .about-v2__impact-partner-label {
+      margin-bottom: 0.4rem;
+    }
+    .about-v2__impact-partner:first-child .about-v2__impact-partner-cta {
+      margin-top: 0.4rem;
+    }
     .about-v2__chaire-band { flex-wrap: wrap; row-gap: 1.75rem; }
     .about-v2__chaire-band-stat { flex: 1 1 calc(50% - .5rem); border-left: 0 !important; }
     .about-v2__eco-stats { grid-template-columns: repeat(2, 1fr); gap: 1.1rem 0; }
