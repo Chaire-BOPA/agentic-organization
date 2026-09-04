@@ -1212,8 +1212,29 @@ const chevronRightBig =
        déborder et se faire couper par ce bord - exactement le mécanisme
        Home (overflow-x:auto + scroll-snap déjà en place plus haut,
        inchangés). */
+    /* Bord droit qui coupe réellement la carte suivante, comme la Home
+       (pack "Mobile-Nos-Innovations-Rail-Exact-Home-V3", 2026-09-04) -
+       `width:100%` (mécanisme d'origine ci-dessus) donnait au viewport
+       toute la largeur de son conteneur (`.innovations-v2__container`,
+       qui s'arrête 16px avant le bord d'écran ici - PAS 20px comme sur la
+       Home, ce conteneur a sa propre marge, distincte du padding de
+       section utilisé par la Home), donc la carte 2 s'arrêtait 16px trop
+       tôt au lieu d'être coupée par le bord physique. `calc(100% + 16px)`
+       étend le viewport EXACTEMENT de cette marge locale (pas celle de la
+       Home, valeurs différentes) pour que son bord droit atteigne le
+       bord d'écran. Home résout ça avec `margin-right` négatif plutôt
+       qu'un calc, mais son rail n'a pas de largeur déclarée en dur (il
+       hérite de sa piste de grille) - une marge négative agrandit un tel
+       item ; ici `width:100%` est une valeur explicite, qu'une marge
+       négative ne peut pas élargir (elle ne ferait que décaler ce qui
+       suit), d'où calc plutôt qu'une copie littérale de la technique.
+       `max-width:100%` (règle de base, plus haut, hors media query)
+       plafonne n'importe quelle valeur de `width` - y compris un calc et
+       même un inline style !important, vérifié en direct - donc
+       redéclaré ici aussi, sans quoi ce calc n'a aucun effet. */
     .innovations-v2__row-viewport {
-      width: 100%;
+      width: calc(100% + 16px);
+      max-width: calc(100% + 16px);
     }
     /* Jauge de progression (pack "Mobile-Nos-Innovations-Carousel-Exact-
        Home-V2", 2026-09-04) - c'est simplement la scrollbar native que le
