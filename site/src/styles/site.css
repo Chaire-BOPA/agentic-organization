@@ -2359,10 +2359,23 @@ p {
     padding-right: 1.25rem;
   }
 
-  /* Même comportement responsive que /nos_innovations/ (2026-08-27,
-     correctif frises/Vision) : la ligne de connexion disparaît
-     entièrement sur mobile plutôt que de garder sa propre variante
-     verticale - une seule implémentation, pas deux qui divergent. */
+  /* Timeline verticale mobile (pack "Mobile-Notre-Mission-Timeline-
+     Verticale-V1", 2026-09-04) - remplace l'ancien empilement centré
+     (icône, puis titre, puis texte, tous centrés) : owner, "empile les
+     trois étapes d'une manière peu élégante". Desktop reste strictement
+     inchangé (aucune règle desktop touchée) ; ce bloc entier reste scopé
+     à ce media query mobile, isolé des autres sections. Le DOM élément
+     `.bopa-mission-v2__timeline-line` (le trait horizontal desktop) reste
+     `display:none` ici comme avant - remplacé par un connecteur par étape
+     (::before/::after sur `.bopa-mission-v2__step`) plutôt qu'une seule
+     ligne absolue sur toute la hauteur du conteneur, parce que la hauteur
+     de chaque étape dépend de la longueur réelle de son texte (variable),
+     alors que le style desktop pouvait utiliser des pourcentages fixes
+     (3 colonnes de largeur égale, indépendantes du contenu). Un connecteur
+     par étape n'a besoin de connaître que le `gap` réel entre étapes
+     (une valeur qu'on contrôle nous-mêmes, pas une hauteur de texte
+     imprévisible) - robuste à un futur changement de texte, sans mesure
+     fragile figée en dur. */
   .bopa-mission-v2__timeline {
     grid-template-columns: 1fr;
     gap: 26px;
@@ -2372,8 +2385,88 @@ p {
     display: none;
   }
 
+  /* Icône à gauche (colonne 1, sur les 2 lignes du texte) ; titre + texte
+     à droite (colonne 2), chacun sur sa propre ligne de grille - remplace
+     le centrage desktop par un alignement à gauche, côte à côte. */
   .bopa-mission-v2__step {
-    padding: 0 0 1rem;
+    display: grid;
+    grid-template-columns: 62px 1fr;
+    column-gap: 18px;
+    align-items: start;
+    text-align: left;
+    padding: 0;
+  }
+
+  /* z-index > celui des connecteurs (ci-dessous) : le cercle blanc opaque
+     doit peindre PAR-DESSUS le trait/point qui passe derrière lui, jamais
+     l'inverse - exactement le même principe que la ligne desktop, qui
+     passe déjà derrière chaque cercle. */
+  .bopa-mission-v2__icon {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    position: relative;
+    z-index: 1;
+    margin: 0;
+  }
+
+  /* Titre en haut de la ligne 1 (même haut que le cercle, donc "remonté"
+     par rapport au centre du cercle - consigne owner : "le titre cyan
+     commence vers la partie haute du cercle") ; texte immédiatement
+     dessous, marge resserrée plutôt que l'écart desktop (1.35rem, pensé
+     pour un texte centré sous l'icône, trop généreux ici). */
+  .bopa-mission-v2__step h3 {
+    grid-column: 2;
+    grid-row: 1;
+    text-align: left;
+  }
+
+  .bopa-mission-v2__step p {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: left;
+    margin-top: 0.3rem;
+  }
+
+  /* Connecteur pointillé + point intermédiaire, un par étape (sauf la
+     dernière) - voir le commentaire plus haut sur pourquoi un segment par
+     étape plutôt qu'une ligne unique. `left: 31px` = centre du cercle
+     (62px / 2). Le segment part du bas du cercle (top: 62px) et dépasse
+     volontairement de 31px au-delà du gap réel (26px) pour aller jusqu'au
+     CENTRE du cercle suivant, pas juste son bord - passe derrière ce
+     cercle (z-index) exactement comme sur desktop, jamais visible en trop. */
+  .bopa-mission-v2__step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 31px;
+    top: 62px;
+    bottom: -57px;
+    width: 0;
+    border-left: 1px dashed var(--bopa-cyan);
+    z-index: 0;
+  }
+
+  /* Centré entre les deux CENTRES de cercle (comme desktop, dont les
+     points tombent au milieu du trait entre deux cercles), pas sur le
+     segment du connecteur ci-dessus - son point de départ (bas du cercle,
+     top:62px) et son point d'arrivée (centre du cercle suivant, avec
+     l'overshoot) ne sont pas symétriques par rapport aux deux cercles.
+     Cercle courant : centre à 31px (rayon) du haut de l'étape. Cercle
+     suivant : à `100% + gap + 31px` (100% = hauteur de CETTE étape, plus
+     le gap réel entre étapes, plus son propre rayon). Milieu des deux :
+     `(31 + 100% + gap + 31) / 2` = `50% + (gap + 62) / 2` = `50% + 44px`
+     avec gap=26px ; le point (8px) recule de sa propre moitié pour que ce
+     soit son CENTRE qui tombe là. Dépend de `gap` (une valeur qu'on
+     contrôle), jamais de la hauteur réelle du texte. */
+  .bopa-mission-v2__step:not(:last-child)::after {
+    content: "";
+    position: absolute;
+    left: 27px;
+    top: calc(50% + 40px);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bopa-cyan);
+    z-index: 0;
   }
 
   .bopa-projects-v2__intro h2 br {
