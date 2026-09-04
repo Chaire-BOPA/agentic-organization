@@ -125,6 +125,17 @@ Bin, Windows Storage Sense are the usual easy wins). This project's own build ar
 dist/`) are safe to delete any time and cost nothing to regenerate, but on a truly full drive they
 won't be enough by themselves.
 
+## Cloudflare marks a deploy "successful" but the live site (or its own preview URL) still serves an older commit
+
+Seen once (2026-09-04): a push built and went green in **Deployments**, but both the custom
+domain and that exact deployment's own `*.pages.dev` preview URL kept serving CSS/JS from **two
+commits earlier** - confirmed by comparing the deployed asset content against `git show
+<commit>:<file>` on GitHub, which had the right content. So it wasn't a bad push, a Cloudflare
+edge cache, nor the browser - the build itself silently reused stale cached output while still
+reporting success. Fix: push a new commit (even a trivial one) to force a fresh build attempt;
+if it recurs, check the project's Settings > Builds for a build-cache toggle to disable for one
+deploy.
+
 ## Still stuck?
 
 Paste the exact error message to Claude and ask it to diagnose step by step. And if your problem
