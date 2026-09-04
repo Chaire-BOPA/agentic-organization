@@ -2065,7 +2065,18 @@ p {
 .bopa-projects-v2__inner {
   display: grid;
   grid-template-columns: minmax(250px, 1fr) calc(var(--innovations-card-width) * 3 + var(--innovations-rail-gap-home) * 2);
-  grid-template-areas: "intro rail";
+  /* "cta" empile sous "intro" en 2e ligne, dans la même colonne - "rail"
+     répété fusionne automatiquement en un seul item qui couvre les 2
+     lignes (spec CSS Grid), donc sa position/hauteur visuelle desktop ne
+     bouge pas d'un pixel malgré ce passage à 2 lignes (pack "Home-Nos-
+     Innovations-Texte-CTA-Fond-Mobile-V1", 2026-09-04 : le CTA doit
+     pouvoir se déplacer APRÈS le rail sur mobile sans toucher au DOM
+     desktop - promu de `.intro` vers un item de grille propre plutôt que
+     de rester un enfant de `.intro`, seule façon de le repositionner par
+     CSS pur à un palier tout en le laissant parfaitement immobile à
+     l'autre). */
+  grid-template-areas: "intro rail" "cta rail";
+  grid-template-rows: auto auto;
   column-gap: var(--space-4);
   width: min(var(--max-width), 100%);
   margin: 0 auto;
@@ -2125,6 +2136,7 @@ p {
 }
 
 .bopa-projects-v2__cta {
+  grid-area: cta;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
@@ -2327,8 +2339,23 @@ p {
 @media (max-width: 1100px) {
   .bopa-projects-v2__inner {
     grid-template-columns: 1fr;
-    grid-template-areas: "intro" "rail";
+    /* "cta" ajouté en 3e ligne (au lieu de rester dans "intro") - c'est ce
+       qui fait passer le bouton APRÈS le rail/la jauge à ce palier et en
+       dessous, exactement l'ordre mobile demandé, sans toucher au rail
+       lui-même (voir commentaire sur la règle desktop pour le contexte
+       complet). */
+    grid-template-areas: "intro" "rail" "cta";
+    grid-template-rows: auto auto auto;
     row-gap: 2.5rem;
+  }
+
+  /* Le row-gap ci-dessus (2.5rem) fournit déjà l'espace entre le rail/la
+     jauge et le bouton - le margin-top:2rem propre au CTA (pensé pour le
+     séparer de son paragraphe sur desktop) s'ajouterait en plus et
+     doublerait l'écart ici, où son voisin du dessus n'est plus ce
+     paragraphe mais le rail. */
+  .bopa-projects-v2__cta {
+    margin-top: 0;
   }
 
   .bopa-projects-v2__intro > p:not(.bopa-eyebrow) {
