@@ -25,7 +25,7 @@ const isEn = lang === 'en';
   ) : (
     <span class="lang-switch__link is-active" aria-current="true">FR</span>
   )}
-  <span class="lang-switch__sep" aria-hidden="true">/</span>
+  <span class="lang-switch__sep" aria-hidden="true"></span>
   {isEn ? (
     <span class="lang-switch__link is-active" aria-current="true">EN</span>
   ) : (
@@ -83,9 +83,15 @@ const isEn = lang === 'en';
     font-weight: 500;
   }
 
+  /* Barre verticale plutôt qu'un caractère "/" (owner, 2026-09-04 : la
+     glyphe penche comme un slash, elle la veut bien verticale) - dessinée
+     en CSS pour un vrai trait droit, pas un glyphe de police. Même couleur
+     exacte qu'avant (color-mix, 45%) - seule la forme change. */
   .lang-switch__sep {
-    color: color-mix(in srgb, var(--color-accent) 45%, transparent);
-    font-size: 0.9em;
+    display: inline-block;
+    width: 1px;
+    height: 0.9em;
+    background: color-mix(in srgb, var(--color-accent) 45%, transparent);
   }
 
   a.lang-switch__link:focus-visible {
