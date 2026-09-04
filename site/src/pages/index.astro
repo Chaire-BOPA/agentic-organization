@@ -477,7 +477,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             Penser dès la conception sa viabilité économique et son impact environnemental pour permettre un déploiement à grande échelle.
           </p>
           <svg class="bopa-vision-v4__arrow-tip" aria-hidden="true" viewBox="0 0 10 22">
-            <path d="M4 0H6V6L5 22L4 6Z" />
+            <path d="M5 0V16M1 10L5 16L9 10" />
           </svg>
         </article>
 
@@ -4199,18 +4199,24 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        AVANT le cercle suivant plutôt que de s'y superposer, pour laisser
        la place à une vraie pointe de flèche visible. */
     /* Pointe reconstruite en <svg><path> unique (pack "Mobile-Notre-
-       Vision-Fleche-Continue-Premium-V4", 2026-09-04, owner : la version
-       précédente - deux bordures tournées à 45° façon chevron - "donne
-       l'impression d'un trait vertical + deux traits diagonaux rajoutés,
-       rendu bricolé"). Un seul tracé fin et allongé (base 2px, la même
-       épaisseur que le trait ; effilé sur toute sa hauteur jusqu'à un
-       point unique), jamais une paire de bordures indépendantes. Le
-       trait (::before) s'arrête à `bottom:0` (le bas de cette étape,
-       simple et prévisible) ; le SVG démarre 6px plus haut
-       (`top:calc(100% - 6px)`) et partage exactement les mêmes largeur/
-       couleur sur ces 6px de recouvrement, donc la jonction est
-       invisible (même tracé continu, pas un raccord de deux formes
-       distinctes) plutôt que juste "touchée" au pixel près. */
+       Vision-Fleche-Continue-Premium-V4", 2026-09-04, puis retour V6
+       "Fleche-Classique-Propre-V5" au chevron ouvert classique - owner :
+       la version "aiguille" du V4 lisait comme une stalactite, pas une
+       flèche). Un seul <path> stroké (jamais rempli, jamais une paire de
+       bordures indépendantes) : `M5 0V16` (le trait vertical, épaisseur
+       constante) puis `M1 10L5 16L9 10` (un second sous-tracé qui
+       redémarre au bras gauche, rejoint EXACTEMENT le même point terminal
+       que le trait (5,16), puis remonte au bras droit) - le sommet du V
+       coïncide au pixel près avec la fin du trait, donc aucune rupture
+       visuelle malgré les deux sous-tracés. `stroke-linejoin:round`
+       arrondit ce sommet, `stroke-linecap:round` les 3 extrémités
+       libres (haut du trait, bout de chaque bras) - même épaisseur
+       (2px) que le trait CSS (::before) sur toute sa longueur, jamais de
+       renflement. Le trait (::before) s'arrête à `bottom:0` (le bas de
+       cette étape) ; le SVG démarre 6px plus haut (`top:calc(100% -
+       6px)`) et redessine ce même segment vertical sur ces 6px de
+       recouvrement (même couleur/épaisseur), donc la jonction est
+       invisible plutôt que juste "touchée" au pixel près. */
     .bopa-vision-v4__step:nth-last-child(2)::before {
       bottom: 0;
     }
@@ -4221,7 +4227,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       top: calc(100% - 6px);
       width: 10px;
       height: 22px;
-      fill: var(--mp-blue-bright);
+      fill: none;
+      stroke: var(--mp-blue-bright);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
       opacity: 0.9;
       z-index: 0;
     }
