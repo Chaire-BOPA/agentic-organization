@@ -4127,7 +4127,24 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       left: 31px;
       top: 62px;
       bottom: -67px;
+      /* height:auto, largeur/fond/rayon à zéro/none explicites (pack
+         "Mobile-Notre-Vision-Fleche-Continue-V2", 2026-09-04) : le
+         connecteur ne devenait qu'un petit trait de 8px sous chaque
+         cercle au lieu d'une vraie ligne continue - la règle desktop
+         `.bopa-vision-v4__step::before` (plus bas, non scopée à ce media
+         query) fixe `height:8px` pour son propre petit point caché
+         derrière chaque cercle, et comme CETTE règle ne déclarait jamais
+         `height` elle-même, la cascade retombait sur ce 8px par défaut,
+         quelle que soit sa spécificité supérieure sur top/bottom - déjà
+         vu et corrigé une fois ce jour-là pour `display`, raté ici sur
+         `height`. Même leçon : toujours redéclarer explicitement une
+         propriété qu'une règle plus large fixe ailleurs, plutôt que de
+         supposer qu'une spécificité plus élevée sur d'autres propriétés
+         suffit. */
+      height: auto;
       width: 0;
+      background: none;
+      border-radius: 0;
       border-left: 2px solid var(--mp-blue-bright);
       opacity: 0.9;
       z-index: 0;
