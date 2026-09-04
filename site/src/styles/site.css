@@ -2376,9 +2376,15 @@ p {
      (une valeur qu'on contrôle nous-mêmes, pas une hauteur de texte
      imprévisible) - robuste à un futur changement de texte, sans mesure
      fragile figée en dur. */
+  /* Espacement légèrement augmenté (pack "Mobile-Notre-Mission-
+     Espacement-Timeline-V2", 2026-09-04, micro-ajustement calé sur le
+     PNG validé par l'owner) : 26px -> 38px. Le connecteur et le point
+     (juste en dessous) sont tous deux dérivés de cette même valeur de
+     `gap` - mis à jour en conséquence pour rester exacts, pas juste
+     visuellement "à peu près" allongés. */
   .bopa-mission-v2__timeline {
     grid-template-columns: 1fr;
-    gap: 26px;
+    gap: 38px;
   }
 
   .bopa-mission-v2__timeline-line {
@@ -2431,7 +2437,7 @@ p {
      dernière) - voir le commentaire plus haut sur pourquoi un segment par
      étape plutôt qu'une ligne unique. `left: 31px` = centre du cercle
      (62px / 2). Le segment part du bas du cercle (top: 62px) et dépasse
-     volontairement de 31px au-delà du gap réel (26px) pour aller jusqu'au
+     volontairement de 31px au-delà du gap réel (38px) pour aller jusqu'au
      CENTRE du cercle suivant, pas juste son bord - passe derrière ce
      cercle (z-index) exactement comme sur desktop, jamais visible en trop. */
   .bopa-mission-v2__step:not(:last-child)::before {
@@ -2439,7 +2445,7 @@ p {
     position: absolute;
     left: 31px;
     top: 62px;
-    bottom: -57px;
+    bottom: -69px;
     width: 0;
     border-left: 1px dashed var(--bopa-cyan);
     z-index: 0;
@@ -2453,15 +2459,15 @@ p {
      Cercle courant : centre à 31px (rayon) du haut de l'étape. Cercle
      suivant : à `100% + gap + 31px` (100% = hauteur de CETTE étape, plus
      le gap réel entre étapes, plus son propre rayon). Milieu des deux :
-     `(31 + 100% + gap + 31) / 2` = `50% + (gap + 62) / 2` = `50% + 44px`
-     avec gap=26px ; le point (8px) recule de sa propre moitié pour que ce
+     `(31 + 100% + gap + 31) / 2` = `50% + (gap + 62) / 2` = `50% + 50px`
+     avec gap=38px ; le point (8px) recule de sa propre moitié pour que ce
      soit son CENTRE qui tombe là. Dépend de `gap` (une valeur qu'on
      contrôle), jamais de la hauteur réelle du texte. */
   .bopa-mission-v2__step:not(:last-child)::after {
     content: "";
     position: absolute;
     left: 27px;
-    top: calc(50% + 40px);
+    top: calc(50% + 46px);
     width: 8px;
     height: 8px;
     border-radius: 50%;
