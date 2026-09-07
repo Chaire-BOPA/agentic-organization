@@ -1410,8 +1410,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     // distance ne reproduisent pas.
     if (location.search.includes('debugheights')) {
       setTimeout(() => {
+        const section = document.querySelector<HTMLElement>('.section-block.context-band');
+        if (section) section.style.background = '#ffe600';
         document.querySelectorAll<HTMLElement>('.context-item').forEach((el, i) => {
           const r = el.getBoundingClientRect();
+          el.style.outline = '3px solid #0057ff';
+          el.style.background = '#fff';
           const tag = document.createElement('div');
           tag.textContent = `#${i + 1}: ${Math.round(r.height)}px`;
           tag.style.cssText = 'position:absolute;top:2px;right:2px;background:#e00;color:#fff;font-size:11px;padding:2px 5px;z-index:999;border-radius:3px;';
