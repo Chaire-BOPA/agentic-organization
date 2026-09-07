@@ -1403,6 +1403,23 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       clearTimeout(contextResizeTimer);
       contextResizeTimer = setTimeout(equalizeContextItems, 150);
     });
+
+    // DEBUG TEMPORAIRE (a retirer) - affiche la hauteur mesuree de
+    // chaque case directement sur la page, pour diagnostiquer un ecart
+    // visuel signale sur un telephone reel que les outils de mesure a
+    // distance ne reproduisent pas.
+    if (location.search.includes('debugheights')) {
+      setTimeout(() => {
+        document.querySelectorAll<HTMLElement>('.context-item').forEach((el, i) => {
+          const r = el.getBoundingClientRect();
+          const tag = document.createElement('div');
+          tag.textContent = `#${i + 1}: ${Math.round(r.height)}px`;
+          tag.style.cssText = 'position:absolute;top:2px;right:2px;background:#e00;color:#fff;font-size:11px;padding:2px 5px;z-index:999;border-radius:3px;';
+          el.style.position = 'relative';
+          el.appendChild(tag);
+        });
+      }, 500);
+    }
   </script>
 </Base>
 
