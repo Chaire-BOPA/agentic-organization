@@ -2901,8 +2901,38 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        générique d'origine (1.5rem, pensé pour des colonnes côte à côte,
        jamais comme rupture délibérée) pour rester une coupure lisible,
        mais sans la sensation de deux blocs détachés. */
-    .about-v2__impact-partners { grid-template-columns: 1fr; gap: 2rem; }
-    .about-v2__impact-partner:last-child { padding-left: 0; border-left: 0; }
+    /* 2rem -> 2.25rem (pack "Mobile-Impact-Separateur-Horizontal-V1",
+       2026-09-08, owner : "rééquilibrer TRÈS LÉGÈREMENT l'espace... pas
+       juste un trait dans le vide") - +4px au total sur toute la carte,
+       négligeable, pour que le trait ajouté ci-dessous ait une
+       respiration un peu plus confortable qu'un simple partage en 2 du
+       gap d'origine, sans jamais rallonger la carte de façon visible. */
+    .about-v2__impact-partners { grid-template-columns: 1fr; gap: 2.25rem; }
+    /* Transposition mobile du séparateur vertical desktop (border-left,
+       var(--about-line) - même couleur/finesse exactes, aucune nouvelle
+       teinte). Un ::before plutôt qu'un simple border-top : le
+       séparateur desktop est une bordure PLEINE hauteur de colonne,
+       jamais pensé pour une largeur partielle centrée (~70-75% demandé
+       ici) - un border-top s'étirerait sur toute la largeur de la carte,
+       pas seulement au centre. Positionné à mi-hauteur EXACTE du gap
+       (-1.125rem = la moitié de 2.25rem) : la respiration au-dessus
+       (fin BOPEX -> trait) et en dessous (trait -> début BOPTECH) reste
+       strictement égale des deux côtés. */
+    .about-v2__impact-partner:last-child {
+      padding-left: 0;
+      border-left: 0;
+      position: relative;
+    }
+    .about-v2__impact-partner:last-child::before {
+      content: "";
+      position: absolute;
+      top: -1.125rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 72%;
+      height: 1px;
+      background: var(--about-line);
+    }
     /* Le slot logo à hauteur fixe (9rem, `.about-v2__impact-partner-logo`
        de base) existe pour que BOpEx et BOPTECH démarrent leur texte à
        la MÊME hauteur en colonnes côte à côte (desktop) - une contrainte
