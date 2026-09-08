@@ -1,0 +1,321 @@
+---
+// Shared body for /boptech/ and /en/boptech/ (FR is the source of truth
+// for markup/CSS; only text differs, via isEn ternaries - same pattern
+// already used in Base.astro for nav/footer).
+interface Props {
+  lang?: 'fr' | 'en';
+}
+const { lang = 'fr' } = Astro.props;
+const isEn = lang === 'en';
+---
+
+<section class="section-block">
+  <div class="mesh-echo" aria-hidden="true"></div>
+  <div class="wrap intro-split" data-reveal>
+    <div>
+      <span class="kicker">Innovations</span>
+      <h1>BOPtech</h1>
+      <p class="lede">
+        {isEn ? (
+          <>
+            Funded by AP-HP, the Paris Saclay Cancer Cluster and Bpifrance,
+            BOPtech is the Chair's technology and scientific platform, based
+            directly inside the operating room of the Hepato-Biliary Center.
+            It connects MedTech, Biotech and academic research to accelerate,
+            as close to the field as possible, innovation in image-guided
+            surgery, endoscopy and hepato-bilio-pancreatic oncology.
+          </>
+        ) : (
+          <>
+            Financée par l'AP-HP, le Paris Saclay Cancer Cluster et BPI
+            France, BOPtech est la plateforme technologique et scientifique
+            de la Chaire, implantée au sein même du bloc opératoire du
+            Centre Hépato-Biliaire. Elle connecte MedTech, Biotech et
+            recherche académique pour accélérer, au plus près du terrain,
+            l'innovation en chirurgie guidée par l'image, endoscopie et
+            cancérologie hépato-bilio-pancréatique.
+          </>
+        )}
+      </p>
+    </div>
+    <div class="intro-media">
+      <img
+        class="intro-image"
+        src="/images/boptech/foie-modele.jpg"
+        alt={isEn ? 'Anatomical liver model used for training and surgical preparation.' : 'Modèle anatomique de foie utilisé pour la formation et la préparation chirurgicale.'}
+        loading="lazy"
+      />
+    </div>
+  </div>
+
+  <div class="wrap section-sub explainer" data-reveal>
+    <h2>{isEn ? 'InMachina: how it works' : 'InMachina : comment ça marche'}</h2>
+    <p class="lede">
+      {isEn ? (
+        <>
+          Every function of the human body is reproduced by a technical
+          module, to keep an explanted liver in near-physiological
+          conditions - the principle behind InMachina.
+        </>
+      ) : (
+        <>
+          Chaque fonction du corps humain est reproduite par un module
+          technique, pour maintenir un foie explanté en conditions
+          quasi-physiologiques - le principe sur lequel s'appuie InMachina.
+        </>
+      )}
+    </p>
+    <img
+      class="explainer-image"
+      src="/images/boptech/inmachina-schema.png"
+      alt={isEn
+        ? "Diagram illustrating the principle of an ex vivo liver perfusion device: every function of the body is reproduced by a technical module (a pump for the heart, an oxygenator for the lungs, dialysis for the kidneys, an algorithm for control...)."
+        : "Schéma illustrant le principe d'un dispositif de perfusion hépatique ex vivo : chaque fonction du corps est reproduite par un module technique (pompe pour le cœur, oxygénateur pour les poumons, dialyse pour les reins, algorithme pour le contrôle...)."}
+      loading="lazy"
+    />
+  </div>
+
+  <div class="wrap section-sub" data-reveal>
+    <div class="accordion-subgrid">
+      <details class="accordion-subitem" open>
+        <summary>
+          <span class="accordion-subtitle">{isEn ? 'InMachina: a human liver, a preclinical revolution' : 'InMachina : un foie humain, une révolution préclinique'}</span>
+          <svg class="accordion-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </summary>
+        <div class="accordion-subpanel">
+          {isEn ? (
+            <>
+              <p>
+                Supported by the PSCC, InMachina opens a new path in
+                translational medicine: keeping cancerous human livers (HCC,
+                CCA, metastases) in near-physiological conditions for 7 to 14
+                days.
+              </p>
+              <p>
+                This unique model lets biotech, medtech and healthcare
+                companies test their innovations in an ultra-realistic ex vivo
+                environment before any move into the clinic - to de-risk,
+                validate and accelerate the development of new therapies.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                Soutenu par le PSCC, InMachina ouvre une nouvelle voie en
+                médecine translationnelle : maintenir des foies humains
+                cancéreux (CHC, CCK, métastases) en conditions
+                quasi-physiologiques pendant 7 à 14 jours.
+              </p>
+              <p>
+                Ce modèle unique permet aux biotech, medtech et industriels
+                de la santé de tester leurs innovations dans un
+                environnement ex vivo ultra-réaliste, avant tout passage en
+                clinique - pour dérisquer, valider et accélérer le
+                développement de nouvelles thérapies.
+              </p>
+            </>
+          )}
+        </div>
+      </details>
+      <details class="accordion-subitem" open>
+        <summary>
+          <span class="accordion-subtitle">{isEn ? 'Hybrid Room: the future of surgery is being built at the CHB' : 'Salle Hybride : le futur de la chirurgie se construit au CHB'}</span>
+          <svg class="accordion-chevron" width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </summary>
+        <div class="accordion-subpanel">
+          {isEn ? (
+            <>
+              <p>
+                Thanks to Bpifrance's support, the CHB's Hybrid Room opens its
+                doors to MedTech companies to test, validate and evolve their
+                innovations under real conditions: image-guided surgery,
+                endoscopy, ultrasound or interventional radiology.
+              </p>
+              <p>
+                This platform is equipped with the <strong>Philips Azurion 7</strong>,
+                a latest-generation system boosted by artificial intelligence -
+                a unique opportunity to accelerate clinical development in a
+                hospital environment of excellence.
+              </p>
+            </>
+          ) : (
+            <>
+              <p>
+                Grâce au soutien de Bpifrance, la Salle Hybride du CHB ouvre
+                ses portes aux industriels de la MedTech pour tester,
+                valider et faire évoluer leurs innovations en conditions
+                réelles : chirurgie guidée par l'image, endoscopie,
+                échographie ou radiologie interventionnelle.
+              </p>
+              <p>
+                Cette plateforme est équipée du <strong>Philips Azurion 7</strong>,
+                un système de dernière génération boosté par l'intelligence
+                artificielle - une opportunité unique pour accélérer des
+                développements cliniques dans un environnement hospitalier
+                d'excellence.
+              </p>
+            </>
+          )}
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="wrap section-sub" data-reveal>
+    <h2>{isEn ? 'Our range of services' : 'Notre offre de services'}</h2>
+    <p class="lede">
+      {isEn ? (
+        <>
+          Innovating is good. Innovating with impact is better: draw on our
+          field expertise to turn your ideas into clinical success.
+        </>
+      ) : (
+        <>
+          Innover, c'est bien. Innover avec impact, c'est mieux : appuyez-vous
+          sur notre expertise terrain pour transformer vos idées en succès
+          cliniques.
+        </>
+      )}
+    </p>
+    <div class="card-grid">
+      <article class="card">
+        <h3>{isEn ? 'Decode' : 'Décrypter'}</h3>
+        <p>{isEn ? 'Market dynamics.' : 'Les dynamiques du marché.'}</p>
+      </article>
+      <article class="card">
+        <h3>{isEn ? 'Assess' : 'Évaluer'}</h3>
+        <p>{isEn ? <>The clinical acceptability of your innovations.</> : <>L'acceptabilité clinique de vos innovations.</>}</p>
+      </article>
+      <article class="card">
+        <h3>{isEn ? 'Optimize' : 'Optimiser'}</h3>
+        <p>{isEn ? <>The usability of your healthcare innovations.</> : <>L'utilisabilité de vos innovations en santé.</>}</p>
+      </article>
+    </div>
+  </div>
+
+  <div class="wrap section-sub" data-reveal>
+    <h2>{isEn ? <>Our field of excellence, your field of innovation</> : <>Notre terrain d'excellence, votre terrain d'innovation</>}</h2>
+    <p class="lede">
+      {isEn ? (
+        <>
+          At the CHB, a reference center for liver surgery, this unique volume
+          of explanted human livers offers privileged access to a living
+          preclinical model, usable for several hours - a rare opportunity to
+          test devices or therapies before the next stage.
+        </>
+      ) : (
+        <>
+          Au CHB, centre de référence en chirurgie hépatique, ce volume
+          unique de foies humains explantés offre un accès privilégié à un
+          modèle préclinique vivant, exploitable pendant plusieurs heures -
+          une opportunité rare pour tester des dispositifs ou thérapies
+          avant l'étape suivante.
+        </>
+      )}
+    </p>
+  </div>
+</section>
+
+<style>
+  .section-sub {
+    margin-top: var(--space-6);
+  }
+
+  .intro-split {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-5);
+    align-items: center;
+  }
+
+  .intro-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
+  }
+
+  .explainer {
+    text-align: center;
+  }
+
+  .explainer .lede {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .explainer-image {
+    max-width: 26rem;
+    margin: var(--space-4) auto 0;
+  }
+
+  /* Accordion styling redeclared here since Astro scopes <style> blocks
+     per component - index.astro's own "réalisations institutionnelles"
+     accordion rules don't reach these same class names on this page. */
+  .accordion-subgrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    gap: var(--space-3);
+  }
+
+  .accordion-subitem {
+    background: var(--color-bg-tint);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+  }
+
+  .accordion-subitem:hover {
+    box-shadow: 0 8px 20px rgba(4, 35, 56, 0.06);
+  }
+
+  .accordion-subitem > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+  }
+
+  .accordion-subitem > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .accordion-chevron {
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .accordion-subitem[open] > summary .accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  .accordion-subpanel {
+    padding: 0 var(--space-4) var(--space-4);
+    color: var(--color-ink);
+    opacity: 0.85;
+  }
+
+  .accordion-subpanel p + p {
+    margin-top: var(--space-2);
+  }
+
+  @media (max-width: 48rem) {
+    .intro-split {
+      grid-template-columns: 1fr;
+    }
+
+    .intro-media {
+      order: -1;
+    }
+  }
+</style>
