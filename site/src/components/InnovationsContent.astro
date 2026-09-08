@@ -1,0 +1,1322 @@
+---
+// Shared body for /nos_innovations/ and /en/our-innovations/ (FR is the
+// source of truth for markup/CSS/JS; only text differs, via isEn
+// ternaries - same pattern already used in Base.astro for nav/footer -
+// and per-locale `fr`/`en` fields on the shared `phases` data). A
+// project with no `en` entry yet (freshly added FR content awaiting a
+// validated translation) is simply skipped on the EN page.
+import { phases } from '../data/projects.js';
+
+interface Props {
+  lang?: 'fr' | 'en';
+}
+const { lang = 'fr' } = Astro.props;
+const isEn = lang === 'en';
+
+// Rail "cartes entières + flèches dédiées" (correctif "Carrousel-Fleches-
+// Fondu-V3", 2026-08-29) : flèches fines et grandes (stroke plus fin que
+// les anciens petits boutons ronds, puisqu'elles sont affichées bien plus
+// grandes ici), même famille de tracé que le reste du site (currentColor).
+const chevronLeftBig =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const chevronRightBig =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+---
+
+<main class="innovations-v2" id="innovations-v2">
+  <section class="innovations-v2__intro innovations-v2__intro--dark" aria-labelledby="innovations-title">
+    <div class="innovations-v2__container innovations-v2__intro-grid">
+      <div class="innovations-v2__intro-copy">
+        <p class="innovations-v2__breadcrumb">{isEn ? 'Home' : 'Accueil'} <span aria-hidden="true">›</span> {isEn ? 'Our innovations' : 'Nos innovations'}</p>
+        <h1 id="innovations-title">{isEn ? <>Our <span>innovations</span></> : <>Nos <span>innovations</span></>}</h1>
+        <p class="innovations-v2__lead">
+          {isEn ? (
+            <>
+              Ideas born in the field, driven by the operating room teams: here are all
+              the Chair's projects, at every stage of the patient journey.
+            </>
+          ) : (
+            <>
+              Des idées nées sur le terrain, portées par les équipes du bloc opératoire : voici tous
+              les projets de la Chaire, à chaque étape du parcours patient.
+            </>
+          )}
+        </p>
+      </div>
+
+      <div class="innovations-v2__journey" aria-label={isEn ? 'The three phases of the surgical journey' : 'Les trois temps du parcours chirurgical'}>
+        <div class="innovations-v2__journey-line" aria-hidden="true"></div>
+
+        <div class="innovations-v2__journey-step">
+          <div class="innovations-v2__journey-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="13"/><circle cx="32" cy="32" r="4"/><path d="M32 7v10M32 47v10M7 32h10M47 32h10"/></svg>
+          </div>
+          <strong>{isEn ? 'PREOPERATIVE' : 'PRÉOPÉRATOIRE'}</strong>
+          <span>{isEn ? <>Better understanding<br />for better planning</> : <>Mieux comprendre<br />pour mieux planifier</>}</span>
+        </div>
+
+        <div class="innovations-v2__journey-step">
+          <div class="innovations-v2__journey-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M7 34h12l7-18 11 34 8-24 6 8h6"/></svg>
+          </div>
+          <strong>{isEn ? 'INTRAOPERATIVE' : 'PEROPÉRATOIRE'}</strong>
+          <span>{isEn ? <>Better vision, better decisions,<br />better surgery</> : <>Mieux voir, mieux décider,<br />mieux opérer</>}</span>
+        </div>
+
+        <div class="innovations-v2__journey-step">
+          <div class="innovations-v2__journey-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><path d="M13 49V27M25 49V17M37 49V34M49 49V10"/><path d="M8 49h48"/></svg>
+          </div>
+          <strong>{isEn ? 'POSTOPERATIVE' : 'POSTOPÉRATOIRE'}</strong>
+          <span>{isEn ? <>Better follow-up<br />for better recovery</> : <>Mieux suivre<br />pour mieux guérir</>}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="innovations-v2__filters-band">
+    <div class="innovations-v2__container">
+      <nav class="innovations-v2__filters" aria-label={isEn ? 'Filter projects' : 'Filtrer les projets'}>
+        <button type="button" class="is-active" data-project-filter="all" aria-pressed="true">{isEn ? 'All projects' : 'Tous les projets'}</button>
+        {phases.map((phase) => (
+          <button
+            type="button"
+            data-project-filter={phase.id}
+            data-filter-tone={phase.id === 'medico-economique' ? 'gold' : 'blue'}
+            aria-pressed="false"
+          >
+            {phase[lang].label}
+          </button>
+        ))}
+      </nav>
+    </div>
+  </div>
+
+  <div class="innovations-v2__catalogue">
+    <div class="innovations-v2__container">
+      {phases.map((phase) => (
+        <section
+          class={`innovations-v2__category ${phase.id === 'medico-economique' ? 'innovations-v2__category--gold' : ''}`}
+          data-project-category={phase.id}
+          aria-labelledby={`category-${phase.id}`}
+        >
+          <aside class="innovations-v2__category-label">
+            <div class={`innovations-v2__category-icon innovations-v2__category-icon--${phase.icon}`} aria-hidden="true">
+              {phase.icon === 'target' && <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="13"/><circle cx="32" cy="32" r="4"/><path d="M32 7v10M32 47v10M7 32h10M47 32h10"/></svg>}
+              {phase.icon === 'pulse' && <svg viewBox="0 0 64 64"><path d="M7 34h12l7-18 11 34 8-24 6 8h6"/></svg>}
+              {phase.icon === 'chart' && <svg viewBox="0 0 64 64"><path d="M13 49V27M25 49V17M37 49V34M49 49V10"/><path d="M8 49h48"/></svg>}
+              {phase.icon === 'euro' && <span>€</span>}
+            </div>
+            <div>
+              <h2 id={`category-${phase.id}`}>{phase[lang].label.toUpperCase()}</h2>
+              <p>{phase[lang].tagline}</p>
+            </div>
+          </aside>
+
+          <div class="innovations-v2__row" data-innovations-row>
+            <div
+              class="innovations-v2__row-viewport"
+              data-innovations-viewport
+              tabindex="0"
+              aria-label={isEn ? `${phase[lang].label} projects - horizontal scroll` : `Projets ${phase[lang].label} - défilement horizontal`}
+            >
+              <div class="innovations-v2__row-track" data-innovations-track>
+                {phase.projects.filter((project) => project[lang]).map((project) => {
+                  return (
+                    <article class="bopa-project-card" data-innovation-card>
+                      <div class="bopa-project-card__media">
+                        {project.image && <img src={project.image} alt="" loading="lazy" />}
+                      </div>
+                      <div class="bopa-project-card__body">
+                        <h3>{project[lang].name}</h3>
+                        <p>{project[lang].description}</p>
+                        {project.action && (
+                          <a
+                            class="innovations-v2__card-action"
+                            href={project.action.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {project.action.type === 'video' && <span aria-hidden="true">▶</span>}
+                            <span>{project.action[lang].label}</span>
+                            {project.action.type === 'external' && <span aria-hidden="true">↗</span>}
+                          </a>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            </div>
+            <div class="innovations-v2__nav" data-innovations-nav>
+              <button
+                type="button"
+                class="innovations-v2__nav-btn innovations-v2__nav-btn--prev"
+                data-innovations-prev
+                aria-label={isEn ? `See previous projects (${phase[lang].label})` : `Voir les projets précédents (${phase[lang].label})`}
+                disabled
+                set:html={chevronLeftBig}
+              />
+              <button
+                type="button"
+                class="innovations-v2__nav-btn innovations-v2__nav-btn--next"
+                data-innovations-next
+                aria-label={isEn ? `See next projects (${phase[lang].label})` : `Voir les projets suivants (${phase[lang].label})`}
+                disabled
+                set:html={chevronRightBig}
+              />
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+
+  <section class="innovations-v2__cta">
+    <div class="innovations-v2__container">
+      <div class="innovations-v2__cta-inner">
+        <div class="innovations-v2__cta-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><circle cx="32" cy="22" r="10"/><path d="M13 53c2-14 10-21 19-21s17 7 19 21"/></svg>
+        </div>
+        <div class="innovations-v2__cta-copy">
+          {isEn ? (
+            <h2>Have a project idea?<br /><span>Let's build it together.</span></h2>
+          ) : (
+            <h2>Vous avez une idée de projet ?<br /><span>Construisons-la ensemble.</span></h2>
+          )}
+          <p>
+            {isEn ? (
+              <>We work with clinical, academic and industry teams to accelerate surgical innovation.</>
+            ) : (
+              <>Nous collaborons avec des équipes cliniques, académiques et industrielles pour accélérer l'innovation chirurgicale.</>
+            )}
+          </p>
+        </div>
+        <a class="innovations-v2__cta-button" href={isEn ? '/en/#contact-us' : '/#nous-contacter'}>{isEn ? 'Contact us' : 'Nous contacter'} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Onglets client-side, sans framework : masque/affiche les sections de
+  // catégorie, pas de rechargement de page. Garde anti-double-init pour
+  // la navigation client-side d'Astro (transitions/HMR).
+  const root = document.querySelector('#innovations-v2');
+  if (root && !root.hasAttribute('data-filters-ready')) {
+    root.setAttribute('data-filters-ready', 'true');
+    const buttons = Array.from(root.querySelectorAll('[data-project-filter]'));
+    const sections = Array.from(root.querySelectorAll('[data-project-category]'));
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filter = button.getAttribute('data-project-filter') || 'all';
+
+        buttons.forEach((item) => {
+          const active = item === button;
+          item.classList.toggle('is-active', active);
+          item.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+
+        sections.forEach((section) => {
+          const visible = filter === 'all' || section.getAttribute('data-project-category') === filter;
+          section.toggleAttribute('hidden', !visible);
+        });
+
+        // Une rangée masquée par un filtre a un scrollWidth/clientWidth de 0
+        // tant qu'elle est display:none - recalculer l'état des flèches/du
+        // fondu une fois qu'un filtre la rend à nouveau visible.
+        requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+      });
+    });
+  }
+</script>
+
+<script>
+  // Rangées de vignettes en carrousel horizontal (correctif "gabarit
+  // vignettes + carrousel", 2026-08-29) - adapté du modèle de logique
+  // fourni dans le pack : IntersectionObserver/ResizeObserver + scroll
+  // natif, aucune librairie. Le scroll horizontal natif + scroll-snap
+  // (CSS) gèrent déjà swipe tactile/trackpad/molette ; ce script ne fait
+  // que piloter les flèches et l'état du fondu.
+  const rowsRoot = document.querySelector('#innovations-v2');
+  if (rowsRoot && !rowsRoot.hasAttribute('data-rows-ready')) {
+    rowsRoot.setAttribute('data-rows-ready', 'true');
+
+    // "Même hauteur totale" pour TOUTES les cartes de la page (correctif
+    // "Gabarit-Home-Video-Carrousel-Premium-V2", 2026-08-29), pas
+    // seulement au sein d'une même catégorie : chaque
+    // .innovations-v2__row-track est un flex container séparé, donc
+    // l'étirement automatique (align-items: stretch) n'égalise les
+    // hauteurs qu'à l'intérieur d'une rangée - une catégorie au texte plus
+    // long (donc plus de lignes, une fois la largeur alignée sur celle,
+    // plus étroite, de la HOME) reste naturellement plus haute que les
+    // autres. Mesuré plutôt que codé en dur : reste correct si un texte de
+    // projet change plus tard, sans valeur magique à retenir/mettre à jour.
+    const equalizeCardHeights = () => {
+      const cards = Array.from(
+        rowsRoot.querySelectorAll<HTMLElement>('.innovations-v2__row-track .bopa-project-card'),
+      );
+      if (!cards.length) return;
+      cards.forEach((c) => { c.style.height = ''; });
+      const maxHeight = Math.max(...cards.map((c) => c.getBoundingClientRect().height));
+      cards.forEach((c) => { c.style.height = `${maxHeight}px`; });
+    };
+    equalizeCardHeights();
+    // Re-mesurer une fois la police d'affichage réellement chargée : à
+    // l'exécution initiale, le texte est encore rendu avec une police de
+    // repli (largeur différente -> retours à la ligne différents), ce qui
+    // fausse la hauteur max mesurée avant que la vraie police n'arrive.
+    document.fonts?.ready?.then(equalizeCardHeights);
+    let resizeTimer: ReturnType<typeof setTimeout>;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(equalizeCardHeights, 150);
+    });
+
+    // Rail "3 cartes + colonne navigation fixe" (correctif "Rail-3Cartes-
+    // Nav-Fixe-V4", 2026-08-29 ; remplace le rail à flèches encadrantes du
+    // correctif "Carrousel-Fleches-Fondu-V3" du même jour) : le nombre de
+    // cartes visibles est désormais un nombre FIXE par palier responsive
+    // (3 desktop / 2 tablette / 1 mobile, posé en CSS - voir la largeur de
+    // .innovations-v2__row-viewport plus bas), pas un calcul JS des
+    // dimensions réelles. Les deux flèches vivent dans UNE seule colonne
+    // .innovations-v2__nav, toujours à droite du viewport, jamais avant les
+    // cartes - ainsi la première carte de chaque catégorie reste alignée
+    // avec celle des autres lignes, quel que soit l'état de la navigation
+    // (contrairement au rail V3, où la flèche gauche vivait dans sa propre
+    // zone à gauche du viewport). La largeur de cette colonne étant fixe
+    // (CSS), qu'un bouton soit affiché seul ou que les deux le soient
+    // n'affecte jamais le nombre de cartes visibles - plus besoin de
+    // réserver artificiellement les deux emplacements comme en V3.
+    rowsRoot.querySelectorAll<HTMLElement>('[data-innovations-row]').forEach((row) => {
+      const viewport = row.querySelector<HTMLElement>('[data-innovations-viewport]');
+      const track = row.querySelector<HTMLElement>('[data-innovations-track]');
+      const prev = row.querySelector<HTMLButtonElement>('[data-innovations-prev]');
+      const next = row.querySelector<HTMLButtonElement>('[data-innovations-next]');
+
+      if (!viewport || !track || !prev || !next) return;
+
+      const getCards = () => Array.from(track.querySelectorAll<HTMLElement>('[data-innovation-card]'));
+
+      const getGap = () => parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0');
+
+      const getStep = () => {
+        const card = getCards()[0];
+        if (!card) return 0;
+        return card.getBoundingClientRect().width + getGap();
+      };
+
+      const nearestIndex = () => {
+        const step = getStep();
+        return step ? Math.round(viewport.scrollLeft / step) : 0;
+      };
+
+      // Fondu réel des flèches : on ne bascule jamais directement en
+      // `hidden`/`display:none` (aucune transition ne pourrait jouer), ni
+      // en opacity seule (le bouton masqué garderait sa place et empêche
+      // l'autre de se recentrer une fois seul - or au départ/à la fin, une
+      // seule flèche doit apparaître, centrée, dans la colonne). On estompe
+      // d'abord en opacity, puis on retire du flux (`hidden`) une fois la
+      // transition terminée ; à l'inverse on remonte dans le flux avant de
+      // ré-estomper vers 1.
+      const HIDE_MS = 200;
+      const setArrow = (btn: HTMLButtonElement, visible: boolean) => {
+        window.clearTimeout((btn as any)._hideTimer);
+        if (visible) {
+          btn.hidden = false;
+          btn.disabled = false;
+          // Forcer un reflow pour garantir que le passage à opacity:1
+          // parte bien de l'état masqué et transite au lieu de sauter.
+          void btn.offsetWidth;
+          btn.classList.remove('is-arrow-hidden');
+        } else {
+          btn.classList.add('is-arrow-hidden');
+          btn.disabled = true;
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          (btn as any)._hideTimer = window.setTimeout(() => { btn.hidden = true; }, reduced ? 0 : HIDE_MS);
+        }
+      };
+
+      const updateControls = () => {
+        const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+        const overflowing = maxScroll > 5;
+        // Epsilon à 5px : .innovations-v2__row-track a un padding horizontal
+        // de 4px, donc son scrollLeft "au repos" (tout à gauche) vaut
+        // réellement 4, jamais 0.
+        const epsilon = 5;
+        const atStart = viewport.scrollLeft <= epsilon;
+        const atEnd = viewport.scrollLeft >= maxScroll - epsilon;
+        setArrow(prev, overflowing && !atStart);
+        setArrow(next, overflowing && !atEnd);
+      };
+
+      const scrollBehavior = () =>
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+      const scrollByOne = (direction: number) => {
+        const step = getStep();
+        if (!step) return;
+        const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+        const target = Math.min(maxScroll, Math.max(0, (nearestIndex() + direction) * step));
+        // Pas de fondu de carte superposé au scroll (correctif "flèche
+        // vers la droite", 2026-08-29) : un transform CSS rejoué sur
+        // TOUTES les cartes de la piste pendant que le scroll natif est
+        // lui-même en train d'animer les fait diverger l'un de l'autre
+        // pendant ~200ms - la carte tout à gauche du viewport se
+        // retrouvait visuellement rognée pendant la transition (confirmé
+        // en figeant l'animation à mi-parcours). Le scroll natif fluide
+        // fournit déjà à lui seul le "léger glissement" demandé.
+        viewport.scrollTo({ left: target, behavior: scrollBehavior() });
+      };
+
+      prev.addEventListener('click', () => scrollByOne(-1));
+      next.addEventListener('click', () => scrollByOne(1));
+
+      let scrollRaf = 0;
+      viewport.addEventListener('scroll', () => {
+        cancelAnimationFrame(scrollRaf);
+        scrollRaf = requestAnimationFrame(updateControls);
+      }, { passive: true });
+
+      const relayout = () => {
+        // Recaler au pas de carte pour ne jamais laisser une carte
+        // partielle visible après un resize (le nombre de cartes visibles
+        // par palier est fixé en CSS - voir plus bas - donc il n'y a rien
+        // d'autre à recalculer ici que la position de scroll et l'état des
+        // flèches), ou après un changement de filtre/catégorie (qui fait
+        // aussi varier la taille réelle de la rangée observée).
+        const step = getStep();
+        if (step) viewport.scrollLeft = nearestIndex() * step;
+        updateControls();
+      };
+
+      new ResizeObserver(relayout).observe(row);
+
+      let resizeTimer: ReturnType<typeof setTimeout>;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(relayout, 150);
+      });
+      document.fonts?.ready?.then(relayout);
+
+      updateControls();
+    });
+  }
+</script>
+
+<style>
+  /* ============================================================
+     BOPA - /nos_innovations/ V2 (renamed 2026-08-27, was /innovations/)
+     Référence : REFERENCE-INNOVATIONS-V2.png (2026-08-27)
+     Les vignettes projets réutilisent .bopa-project-card telles quelles
+     (site.css, même composant que "Nos projets phares" sur la home) -
+     ce fichier ne redéfinit que la mise en page propre à cette page
+     (intro, frise, onglets, regroupement par catégorie, CTA).
+     ============================================================ */
+
+  .innovations-v2 {
+    --bopa-navy: var(--color-navy);
+    --bopa-blue: var(--color-accent);
+    --bopa-blue-strong: var(--bopa-blue-3, #03a2da);
+    --bopa-ink: var(--color-ink);
+    --bopa-muted: var(--color-muted);
+    --bopa-border: var(--color-line);
+    --bopa-bg: var(--color-bg-tint);
+    --bopa-white: #ffffff;
+    /* Filtres uniquement (2026-08-27, finitions V2) : le bleu nuit exact
+       du bloc haut (--mp-navy), légèrement plus clair ET plus saturé, pas
+       simplement mélangé à du blanc (ça désature et tire vers le gris -
+       correctif de la V1). OKLCH + syntaxe relative "from" : on bouge la
+       luminosité (L) et la chroma (C) tout en gardant la teinte (H)
+       identique, donc toujours "franchement bleu nuit", jamais gris ni
+       cyan. Le bloc haut lui-même reste sur --mp-navy tel quel. */
+    --bopa-filter-navy: oklch(from var(--mp-navy) calc(l + 0.06) calc(c + 0.03) h);
+    /* Gabarit du rail (correctif "Rail-3Cartes-Nav-Fixe-V4", 2026-08-29) -
+       une seule source pour la largeur/le gap de carte, réutilisée par la
+       règle de carte, le track et le calcul de largeur du viewport par
+       palier responsive, pour ne plus avoir 227/16 recopiés à la main à
+       plusieurs endroits. */
+    --innovations-card-width: 227px;
+    --innovations-card-gap: 16px;
+    color: var(--bopa-ink);
+    background: var(--bopa-bg);
+  }
+
+  .innovations-v2 *,
+  .innovations-v2 *::before,
+  .innovations-v2 *::after {
+    box-sizing: border-box;
+  }
+
+  /* Largeur alignée sur le container réel des grandes sections de la HOME
+     (correctif "gabarit vignettes + carrousel", 2026-08-29) : 1320px,
+     même valeur et même logique de padding-inline (64px = 2rem de
+     chaque côté) que .bopa-mission-v2__inner/.bopa-vision-v4__inner/
+     .bopa-projects-v2__inner/.bopa-contact__inner/.bopa-support__inner.
+     Cette page utilisait 1500px, un cran plus large - HOME reste la
+     référence, jamais l'inverse. */
+  .innovations-v2__container {
+    width: min(1320px, calc(100% - 64px));
+    margin-inline: auto;
+  }
+
+  /* Intro ---------------------------------------------------- */
+  .innovations-v2__intro {
+    background: var(--bopa-white);
+    padding: clamp(42px, 5vw, 78px) 0 44px;
+  }
+
+  /* Bloc haut en bleu nuit (2026-08-27, correctif Hero/CTA) : englobe
+     titre + intro + frise Pré/Per/Post, s'arrête avant les filtres, qui
+     restent dans leur propre bande claire juste en dessous (voir
+     .innovations-v2__filters-band). Reprend var(--mp-navy) tel quel -
+     même bleu nuit que Notre Mission - jamais une nouvelle nuance. */
+  .innovations-v2__intro--dark {
+    background: var(--mp-navy);
+  }
+  .innovations-v2__intro--dark .innovations-v2__breadcrumb {
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .innovations-v2__intro--dark .innovations-v2__intro-copy h1,
+  .innovations-v2__intro--dark .innovations-v2__intro-copy h1 span {
+    color: #fff;
+  }
+  .innovations-v2__intro--dark .innovations-v2__lead {
+    color: rgba(255, 255, 255, 0.88);
+  }
+  .innovations-v2__intro--dark .innovations-v2__journey-step span {
+    color: rgba(255, 255, 255, 0.94);
+  }
+  .innovations-v2__intro--dark .innovations-v2__journey-icon {
+    color: var(--bopa-cyan);
+  }
+  .innovations-v2__intro--dark .innovations-v2__journey-line::before,
+  .innovations-v2__intro--dark .innovations-v2__journey-line::after {
+    background: var(--bopa-cyan);
+  }
+
+  .innovations-v2__filters-band {
+    background: var(--bopa-white);
+    padding: 28px 0 34px;
+  }
+
+  .innovations-v2__intro-grid {
+    display: grid;
+    grid-template-columns: minmax(290px, 0.78fr) minmax(620px, 1.55fr);
+    column-gap: clamp(52px, 8vw, 128px);
+    row-gap: 34px;
+    align-items: center;
+  }
+
+  .innovations-v2__intro-copy {
+    align-self: start;
+  }
+
+  .innovations-v2__breadcrumb {
+    margin: 0 0 26px;
+    font-size: 0.92rem;
+    color: var(--bopa-muted);
+  }
+  .innovations-v2__breadcrumb span {
+    margin-inline: 8px;
+  }
+
+  /* Harmonisation typographique Niveau 1 (2026-08-27) : mêmes métriques
+     que le H2 de Notre Mission (étalon). */
+  .innovations-v2 h1 {
+    margin: 0;
+    font-size: clamp(2rem, 3.1vw, 3.15rem);
+    line-height: 1.08;
+    letter-spacing: -0.035em;
+    font-weight: 600;
+    color: var(--bopa-ink);
+    max-width: 8ch;
+  }
+  .innovations-v2 h1 span {
+    display: block;
+    color: var(--bopa-blue);
+  }
+
+  .innovations-v2__lead {
+    max-width: 470px;
+    margin: 28px 0 0;
+    font-size: clamp(1rem, 1.18vw, 1.18rem);
+    line-height: 1.72;
+    color: var(--bopa-muted);
+  }
+
+  /* Journey (frise Pré/Per/Post) ------------------------------ */
+  .innovations-v2__journey {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    min-width: 0;
+    padding-top: 34px;
+  }
+
+  .innovations-v2__journey-line {
+    position: absolute;
+    top: 64px;
+    left: 16.66%;
+    right: 16.66%;
+    height: 1px;
+    border-top: 1px dashed var(--bopa-cyan);
+    z-index: 0;
+  }
+  .innovations-v2__journey-line::before,
+  .innovations-v2__journey-line::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bopa-blue);
+  }
+  .innovations-v2__journey-line::before {
+    left: 25%;
+  }
+  .innovations-v2__journey-line::after {
+    right: 25%;
+  }
+
+  .innovations-v2__journey-step {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    min-width: 0;
+  }
+
+  .innovations-v2__journey-icon,
+  .innovations-v2__category-icon {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 20px;
+    border: 1.5px solid var(--bopa-cyan);
+    border-radius: 50%;
+    background: var(--bopa-white);
+    color: var(--bopa-ink);
+  }
+  .innovations-v2__journey-icon svg,
+  .innovations-v2__category-icon svg,
+  .innovations-v2__cta-icon svg {
+    width: 38px;
+    height: 38px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .innovations-v2__journey-step strong {
+    display: block;
+    margin-bottom: 16px;
+    color: var(--bopa-blue-strong);
+    font-size: 0.93rem;
+    letter-spacing: 0.015em;
+  }
+  .innovations-v2__journey-step span {
+    display: block;
+    color: var(--bopa-ink);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  /* Filters (onglets) ----------------------------------------- */
+  .innovations-v2__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-top: 4px;
+  }
+
+  /* Filtres sur une déclinaison du bleu nuit éclaircie de 7% (2026-08-27,
+     finitions V1) : --bopa-filter-navy, définie plus haut dans .innovations-v2
+     à partir de --mp-navy - le bloc haut de page reste sur --mp-navy tel
+     quel, seuls les filtres respirent un peu plus sur le fond clair. */
+  .innovations-v2__filters button {
+    appearance: none;
+    border: 1px solid var(--bopa-filter-navy);
+    background: transparent;
+    color: var(--bopa-filter-navy);
+    min-height: 44px;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.92rem;
+    cursor: pointer;
+    transition: background-color .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+  }
+  .innovations-v2__filters button:hover {
+    transform: translateY(-1px);
+    border-color: var(--bopa-filter-navy);
+  }
+  .innovations-v2__filters button.is-active {
+    background: var(--bopa-filter-navy);
+    border-color: var(--bopa-filter-navy);
+    color: var(--bopa-white);
+  }
+  .innovations-v2__filters button:focus-visible,
+  .bopa-project-card:focus-visible,
+  .innovations-v2__cta-button:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
+    outline-offset: 3px;
+  }
+
+  /* Catalogue: regroupement par catégorie ---------------------- */
+  .innovations-v2__catalogue {
+    background: var(--bopa-bg);
+  }
+
+  .innovations-v2__category {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 30px;
+    padding: 30px 0 28px;
+    border-bottom: 1px solid var(--bopa-border);
+  }
+  .innovations-v2__category[hidden] {
+    display: none;
+  }
+
+  .innovations-v2__category-label {
+    display: flex;
+    gap: 18px;
+    align-items: flex-start;
+    padding-top: 2px;
+  }
+
+  .innovations-v2__category-icon {
+    flex: 0 0 58px;
+    width: 58px;
+    height: 58px;
+    margin: 0;
+    color: var(--bopa-blue-strong);
+  }
+  .innovations-v2__category-icon span {
+    font-size: 1.9rem;
+    line-height: 1;
+    font-weight: 500;
+  }
+
+  .innovations-v2__category-label h2 {
+    margin: 7px 0 12px;
+    color: var(--bopa-blue-strong);
+    font-size: 0.96rem;
+    line-height: 1.2;
+    letter-spacing: .015em;
+    font-weight: 700;
+  }
+  .innovations-v2__category-label p {
+    margin: 0;
+    max-width: 175px;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: var(--bopa-ink);
+  }
+
+  /* Rangée de vignettes = rail "3 cartes + colonne navigation fixe"
+     (correctif "Rail-3Cartes-Nav-Fixe-V4", 2026-08-29, remplace le rail à
+     flèches encadrantes du correctif "Carrousel-Fleches-Fondu-V3" du même
+     jour) - .bopa-project-card fournit déjà tout le visuel de la carte
+     (site.css) ; ce bloc ne pose que la mise en page de la rangée + le
+     rail. Référence ABSOLUE pour le gabarit = les cartes "Nos innovations"
+     de la HOME (.bopa-projects-v2__rail .bopa-project-card, 226.8px) -
+     inchangé ici, seul le comportement de navigation change.
+     Différence clé avec la V3 : le nombre de cartes visibles est fixé par
+     palier responsive directement en CSS (voir la largeur de
+     .innovations-v2__row-viewport, base + 1180px + 760px), pas calculé en
+     JS depuis les dimensions réelles - toutes les catégories d'un même
+     palier partagent donc exactement le même gabarit de rangée, et la
+     première carte de chaque ligne reste alignée avec celle des autres
+     sans jamais dépendre d'une mesure live. Les deux flèches vivent
+     ensemble dans .innovations-v2__nav, une colonne dédiée à droite du
+     viewport (jamais avant les cartes) - la largeur de cette colonne est
+     fixe, donc qu'une ou deux flèches y soient visibles ne change jamais
+     le nombre de cartes affichées. Plus aucun dégradé/masque de bord : la
+     navigation n'est suggérée QUE par cette colonne, jamais par un bout de
+     carte suivante qui dépasserait. */
+  .innovations-v2__row {
+    /* Container query, pas media query, pour le nombre de cartes visibles
+       (voir .innovations-v2__row-viewport plus bas) : la largeur
+       réellement disponible ici dépend aussi de la colonne libellé à côté
+       (280px/220px selon le palier, absente une fois empilée sur mobile),
+       pas seulement de la largeur d'écran - une media query sur le
+       viewport laissait un intervalle (tablette, ~768-1000px) où ni 3 ni
+       2 cartes ne tenaient réellement, provoquant une carte partielle.
+       Mesurer CE conteneur directement règle ça quel que soit l'agencement
+       du libellé. */
+    container-type: inline-size;
+    container-name: innovations-row;
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .innovations-v2__row-viewport {
+    /* 3 cartes + 2 gaps par défaut - largeur FIXE (pas 1fr), recalée à 2
+       cartes puis 1 carte via les paliers @container plus bas. */
+    width: calc((var(--innovations-card-width) * 3) + (var(--innovations-card-gap) * 2));
+    max-width: 100%;
+    min-width: 0;
+    flex: 0 0 auto;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+  }
+  /* Sous ~805px de large (3 cartes + gap + colonne nav), 2 cartes ne
+     débordent pas leur conteneur ; sous ~562px (2 cartes + gap + nav), 1
+     seule. Le gabarit de carte lui-même (227px, ou min(78vw,227px) déjà
+     existant en dessous de 760px de VIEWPORT - une largeur d'écran, pas de
+     conteneur, volontairement laissée telle quelle) reste inchangé. */
+  @container innovations-row (max-width: 804px) {
+    .innovations-v2__row-viewport {
+      width: calc((var(--innovations-card-width) * 2) + var(--innovations-card-gap));
+    }
+  }
+  @container innovations-row (max-width: 561px) {
+    .innovations-v2__row-viewport {
+      /* cqw (unité de conteneur), pas vw : sous ce palier la rangée est
+         empilée sous son libellé (mobile), donc container ≈ viewport, mais
+         cqw reste exact même si ce n'était pas le cas - même formule que
+         le rétrécissement de carte déjà en place plus bas (760px, largeur
+         d'écran, laissé tel quel). */
+      width: min(78cqw, var(--innovations-card-width));
+    }
+  }
+  .innovations-v2__row-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .innovations-v2__row-track {
+    display: flex;
+    gap: var(--innovations-card-gap);
+    width: max-content;
+    padding: 10px 4px 24px;
+  }
+
+  .innovations-v2__row-track .bopa-project-card {
+    flex: 0 0 var(--innovations-card-width);
+    width: var(--innovations-card-width);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+  }
+
+  /* Harmonisation de hauteur avec la HOME (pack "Innovations-Hauteur-
+     Cartes-Reference-Home-V1", 2026-09-04) - la HOME (.bopa-projects-v2)
+     n'a que 3 projets, tous plus courts que le plus long projet listé ici
+     (ex. "Le compte rendu opératoire augmenté", titre + description +
+     lien "Découvrir Uncovr" qui dépassent LiverSight) ; chaque catégorie
+     est son propre rail flex (`align-items: stretch` déjà en place), donc
+     l'égalisation JS plus bas prend le max RÉEL sur cette page entière -
+     mécaniquement plus haut que sur la Home dès qu'un seul projet a plus
+     de contenu que les 3 vedettes. Recréer le gabarit Home exact sans
+     dupliquer `.bopa-project-card` (classe partagée, gelée pour la HOME) :
+     un override scopé à `.innovations-v2` qui réduit uniquement l'espace
+     interne excédentaire (jamais la typo/le texte) du même montant que
+     l'écart mesuré - le nombre de lignes de chaque titre/description ne
+     change pas (ce sont des marges/paddings fixes, pas des tailles de
+     police), donc rien n'est coupé ni réécrit. Valeurs calées par mesure
+     réelle (avant : 454.14px sur cette page vs 442.30px sur la Home ;
+     après : les deux à 442.30px, vérifié en direct), pas choisies à l'oeil. */
+  .innovations-v2 .bopa-project-card__body {
+    padding-top: 0.35rem;
+    /* px, pas rem : calé au 1/16px près sur la mesure réelle de la Home
+       (442.296875px) après le premier passage de ce correctif, qui
+       atterrissait à 442.140625px (0.15625px trop bas) avec un rem rond -
+       la précision compte ici, pas l'arrondi. */
+    padding-bottom: 14.55625px;
+  }
+
+  .innovations-v2 .bopa-project-card__body p {
+    margin-top: 0.75rem;
+  }
+
+  /* Colonne de navigation : ni carte, ni fond, ni bordure - juste deux
+     grandes flèches fines cyan, beaucoup d'air, pour ne surtout pas
+     ressembler à une carte vide. Toujours dans le flux (largeur fixe),
+     jamais avant les cartes. Chaque bouton s'estompe individuellement en
+     opacity (jamais un `hidden` direct, qui empêcherait toute transition)
+     et n'est retiré du flux qu'une fois le fondu terminé (classe posée par
+     le script en JS) - ce qui permet à une flèche seule de se recentrer
+     verticalement plutôt que de rester décalée par la place laissée par
+     l'autre. */
+  .innovations-v2__nav {
+    flex: 0 0 clamp(64px, 5vw, 88px);
+    width: clamp(64px, 5vw, 88px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(.4rem, 1vw, .75rem);
+  }
+
+  .innovations-v2__nav-btn {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: .3rem;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    color: var(--bopa-cyan);
+    cursor: pointer;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 200ms ease, transform 200ms ease, color 180ms ease;
+  }
+  .innovations-v2__nav-btn[hidden] {
+    display: none;
+  }
+  .innovations-v2__nav-btn.is-arrow-hidden {
+    opacity: 0;
+    pointer-events: none;
+    cursor: default;
+  }
+  .innovations-v2__nav-btn--prev.is-arrow-hidden { transform: translateX(-10px); }
+  .innovations-v2__nav-btn--next.is-arrow-hidden { transform: translateX(10px); }
+  /* :global() indispensable ici : ce <svg> est injecté via `set:html`
+     (chevronLeftBig/chevronRightBig), donc jamais vu par le compilateur
+     Astro au moment où il ajoute l'attribut de scope (data-astro-cid-*) à
+     chaque élément - un sélecteur scopé normal (`.innovations-v2__nav-btn
+     svg`) se serait donc compilé en exigeant cet attribut SUR LE SVG
+     AUSSI, qui ne l'a jamais, et ne matchait donc jamais : la flèche
+     restait sans dimensions (0×0), invisible malgré `opacity:1`. Bug
+     signalé par la propriétaire (2026-08-29, "je ne vois pas les
+     flèches") - confirmé en lisant `svg.attributes` en direct sur le site
+     publié : aucun `data-astro-cid-*` dessus. */
+  .innovations-v2__nav-btn :global(svg) {
+    width: clamp(26px, 2vw, 34px);
+    height: clamp(26px, 2vw, 34px);
+  }
+  .innovations-v2__nav-btn:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
+    outline-offset: 4px;
+    border-radius: 10px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .innovations-v2__nav-btn:not(:disabled):hover {
+      color: var(--bopa-blue);
+    }
+    .innovations-v2__nav-btn--prev:not(:disabled):hover { transform: translateX(-4px); }
+    .innovations-v2__nav-btn--next:not(:disabled):hover { transform: translateX(4px); }
+  }
+
+  /* Médico-économique : seul accent doré du site, sur ce filtre/label
+     uniquement - les cartes MesGardes/HepatGreen restent bleu nuit,
+     identiques aux autres (voir .bopa-project-card, inchangé). Non
+     sélectionné, il se différencie déjà en doré (2026-08-27, finitions
+     V1) plutôt que d'hériter du bleu nuit des autres filtres. */
+  .innovations-v2__filters button[data-filter-tone="gold"] {
+    border-color: var(--color-gold);
+    color: var(--color-gold);
+  }
+  .innovations-v2__filters button[data-filter-tone="gold"].is-active {
+    background: var(--color-gold);
+    border-color: var(--color-gold);
+    color: #fff;
+  }
+  .innovations-v2__filters button[data-filter-tone="gold"]:hover {
+    border-color: var(--color-gold);
+  }
+  .innovations-v2__category--gold .innovations-v2__category-icon {
+    color: var(--color-gold);
+    border-color: var(--color-gold);
+  }
+  .innovations-v2__category--gold .innovations-v2__category-label h2 {
+    color: var(--color-gold);
+  }
+
+  /* MesGardes + HepatGreen (les deux seules cartes de cette catégorie) :
+     liseré doré pour signaler la famille "médico-économique", sans
+     toucher au fond navy/taille/arrondis/hover de .bopa-project-card
+     (2026-08-27, finitions V1, épaissi en V2). En `border`, un
+     `1.5px` est arrondi à `1px` par le rendu à densité d'écran normale
+     (vérifié : aucune différence visible avec l'ancien 1px) - passé en
+     `box-shadow`, qui lui respecte les valeurs fractionnaires. Le hover
+     existant remplace tout le `box-shadow` de la carte (son ombre de
+     survol), donc le liseré doit être réinjecté à côté de cette ombre
+     plutôt que laissé disparaître. */
+  .innovations-v2__category--gold .bopa-project-card {
+    box-shadow: 0 0 0 1.5px var(--color-gold);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .innovations-v2__category--gold .bopa-project-card:hover {
+      box-shadow: 0 0 0 1.5px var(--color-gold), 0 16px 34px rgba(5,26,58,0.16);
+    }
+  }
+
+  /* Les deux seules actions cliquables des cartes : un petit lien
+     textuel dans la carte, jamais toute la carte. */
+  .innovations-v2__card-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    margin-top: auto;
+    padding-top: 14px;
+    color: var(--bopa-blue-strong);
+    text-decoration: none;
+    font-size: 0.88rem;
+    line-height: 1.25;
+    font-weight: 650;
+    transition: color 0.18s ease;
+  }
+  .innovations-v2__card-action:hover {
+    color: var(--bopa-blue);
+  }
+  .innovations-v2__card-action:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
+    outline-offset: 3px;
+  }
+
+  /* CTA de fin de page ----------------------------------------- */
+  .innovations-v2__cta {
+    background: var(--bopa-bg);
+    padding: 22px 0 54px;
+  }
+  .innovations-v2__cta-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 26px;
+    min-height: 154px;
+    padding: 30px 42px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--bopa-navy);
+    background-image:
+      radial-gradient(circle at 77% 18%, color-mix(in srgb, var(--bopa-cyan) 22%, transparent) 0 2px, transparent 2.5px),
+      radial-gradient(circle at 86% 72%, color-mix(in srgb, var(--bopa-cyan) 20%, transparent) 0 2px, transparent 2.5px);
+    color: var(--bopa-white);
+  }
+  .innovations-v2__cta-icon {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border: 1.5px solid var(--bopa-blue);
+    border-radius: 50%;
+    color: var(--bopa-blue);
+  }
+  .innovations-v2__cta-copy h2 {
+    margin: 0 0 10px;
+    color: var(--bopa-white);
+    font-size: clamp(1.55rem, 2vw, 2.1rem);
+    line-height: 1.12;
+    letter-spacing: -.025em;
+  }
+  .innovations-v2__cta-copy h2 span {
+    color: var(--bopa-cyan);
+  }
+  .innovations-v2__cta-copy p {
+    max-width: 720px;
+    margin: 0;
+    color: #e7eff9;
+    font-size: .95rem;
+    line-height: 1.55;
+  }
+  /* Cyan BOPA exact + hover harmonisé sur la référence absolue (bouton
+     header "Nous soutenir", .btn-filled-premium) - 2026-08-27, finitions
+     V1.1 : assombrissement --bopa-blue-1, translateY(-2px), même ombre. */
+  .innovations-v2__cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 52px;
+    padding: 12px 26px;
+    border-radius: 7px;
+    background: var(--bopa-cyan);
+    border: 1px solid var(--bopa-cyan);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 650;
+    white-space: nowrap;
+    transition: transform 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .innovations-v2__cta-button:hover {
+      background: var(--bopa-blue-1);
+      border-color: var(--bopa-blue-1);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35);
+    }
+  }
+
+  @media (max-width: 1180px) {
+    .innovations-v2__intro-grid {
+      grid-template-columns: 1fr;
+    }
+    .innovations-v2 h1 {
+      max-width: none;
+    }
+    .innovations-v2__lead {
+      max-width: 720px;
+    }
+    .innovations-v2__journey {
+      max-width: 920px;
+      width: 100%;
+    }
+    .innovations-v2__category {
+      grid-template-columns: 220px minmax(0, 1fr);
+    }
+    /* Le nombre de cartes visibles du rail n'est plus recalé ici : le
+       container query sur .innovations-v2__row (plus haut) s'en charge
+       directement depuis la largeur réelle de la rangée à ce palier. */
+  }
+
+  /* Palier dédié (correctif "Rail-3Cartes-Nav-Fixe-V4", 2026-08-29),
+     indépendant du bloc mobile plus bas : à largeur d'écran "tablette"
+     classique (~768-980px), la colonne libellé (220px + 30px de gap)
+     laissait moins de 460px à la rangée - pas assez pour 2 cartes (227px
+     chacune) même sans compter la colonne navigation. Empiler le libellé
+     au-dessus de la rangée plus tôt (au lieu d'attendre 760px) rend au
+     rail toute la largeur du conteneur, ce qui suffit alors bien à "2
+     cartes + nav" comme demandé pour la tablette - sans toucher au reste
+     de la mise en page mobile (frise, filtres, CTA), qui continue de
+     changer à son propre palier (760px) juste en dessous. */
+  @media (max-width: 980px) {
+    .innovations-v2__category {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .innovations-v2__container {
+      width: min(calc(100% - 32px), 1320px);
+    }
+    .innovations-v2__intro {
+      padding-top: 32px;
+    }
+
+    /* Timeline verticale mobile (pack "Mobile-Nos-Innovations-Page-
+       Timeline-Scroll-Horizontal-V1", 2026-09-04) - même principe que la
+       frise mobile de Notre Mission (Home), en PLUS COMPACT (gap réduit
+       18px au lieu de 26px, icônes déjà plus petites ici - 54px contre
+       62px - donc déjà un peu plus dense avant même ce correctif) : owner,
+       "moins d'espace vertical entre les 3 étapes, pour arriver plus vite
+       aux projets". `align-items: start` (au lieu de `center`) remonte le
+       texte au niveau du haut du cercle plutôt que de le centrer sur toute
+       sa hauteur - même correction que sur la frise Notre Mission. */
+    .innovations-v2__journey {
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 0;
+    }
+    .innovations-v2__journey-line {
+      display: none;
+    }
+    .innovations-v2__journey-step {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      column-gap: 16px;
+      text-align: left;
+      align-items: start;
+    }
+    /* Connecteur pointillé + point intermédiaire, un par étape (sauf la
+       dernière) - même technique que Notre Mission mobile (site.css) : un
+       segment par étape plutôt qu'une seule ligne sur toute la hauteur du
+       conteneur, parce que la hauteur de chaque étape dépend du texte réel
+       (variable), donc pas de pourcentage fixe fiable pour toucher
+       précisément chaque cercle. `left`/`top` calés sur le rayon réel du
+       cercle ici (54px de diamètre, 27px de rayon), pas sur celui de Notre
+       Mission (62px/31px) - les deux composants ont des tailles de cercle
+       différentes, chacun garde son propre calcul. */
+    .innovations-v2__journey-step:not(:last-child)::before {
+      content: "";
+      position: absolute;
+      left: 27px;
+      top: 54px;
+      bottom: -45px;
+      width: 0;
+      border-left: 1px dashed var(--bopa-cyan);
+      z-index: 0;
+    }
+    /* Centré entre les deux CENTRES de cercle (voir le commentaire détaillé
+       dans site.css, section Notre Mission, pour la dérivation complète) :
+       `50% + (gap + diamètre) / 2 - (taille du point / 2)`, ici avec
+       gap=18px et diamètre=54px -> 50% + 32px. */
+    .innovations-v2__journey-step:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      left: 23px;
+      top: calc(50% + 32px);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--bopa-cyan);
+      z-index: 0;
+    }
+    .innovations-v2__journey-icon {
+      width: 54px;
+      height: 54px;
+      margin: 0;
+      grid-row: 1 / span 2;
+      position: relative;
+      z-index: 1;
+    }
+    .innovations-v2__journey-step strong {
+      margin: 0 0 5px;
+    }
+    .innovations-v2__journey-step span {
+      font-size: .94rem;
+    }
+
+    .innovations-v2__filters {
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 7px;
+    }
+    .innovations-v2__filters button {
+      flex: 0 0 auto;
+    }
+
+    .innovations-v2__category {
+      /* minmax(0, 1fr), pas 1fr seul (correctif "Carrousel-Fleches-Fondu-V3",
+         2026-08-29) : une piste de grille "1fr" a un minimum implicite
+         "auto" (= au moins la taille de son contenu), pas 0 - avec
+         .innovations-v2__row-track en width:max-content (largeur des 227px
+         + gap de TOUTES les cartes) dans cette colonne, l'ancienne valeur
+         forçait la rangée, donc la page entière, à s'élargir au-delà du
+         viewport mobile réel plutôt que de laisser le rail interne défiler.
+         Bug préexistant (les deux breakpoints plus larges utilisaient déjà
+         minmax(0,1fr) correctement), simplement invisible avant que cette
+         colonne ne contienne un enfant à largeur intrinsèque large. */
+      grid-template-columns: minmax(0, 1fr);
+      gap: 18px;
+      padding-block: 26px;
+    }
+    .innovations-v2__category-label {
+      gap: 14px;
+    }
+    .innovations-v2__category-label p {
+      max-width: none;
+    }
+    /* Rail tactile "carte 1 entière + carte 2 coupée par l'écran" (pack
+       "Mobile-Nos-Innovations-Page-Timeline-Scroll-Horizontal-V1",
+       2026-09-04) - remplace le système "1 carte pleine + flèches dédiées"
+       ci-dessus (hérité du container query plus haut, pensé pour
+       desktop/tablette) par EXACTEMENT le principe déjà en place sur la
+       Home mobile (.bopa-projects-v2__rail, site.css) : source de vérité
+       explicite de l'owner. Gabarit de carte inchangé (227px fixe, comme
+       desktop et comme Home - PAS le `min(78vw, 227px)` d'avant, qui
+       n'aurait de toute façon jamais réduit la carte sur un vrai téléphone
+       puisque 78vw dépasse 227px dès ~291px de large, mais gardait une
+       dépendance au viewport inutile et trompeuse à lire). */
+    .innovations-v2__row-track .bopa-project-card {
+      flex-basis: 227px;
+      width: 227px;
+    }
+    /* Le gap entre cartes suit aussi la Home mobile (24px), PAS le gabarit
+       partagé --innovations-card-gap (16px, gelé pour desktop et pour
+       cette page à tous les autres paliers) - un override mobile-only,
+       jamais le token partagé lui-même. */
+    .innovations-v2__row-track {
+      gap: 24px;
+    }
+    /* Flèches masquées sur téléphone (consigne owner explicite : "pas de
+       flèches gauche/droite") - le seul indice de swipe devient le
+       morceau visible de la carte suivante, coupé par le bord du rail. */
+    .innovations-v2__nav {
+      display: none;
+    }
+    /* Une fois les flèches retirées du flux, .innovations-v2__row-viewport
+       est l'unique enfant flex visible de .innovations-v2__row et prend
+       donc déjà toute la largeur disponible par défaut - mais sa propre
+       largeur était fixée en dur par le container query plus haut
+       (`width: min(78cqw, var(--innovations-card-width))`, pensé pour
+       afficher UNE SEULE carte pile). Cette règle vient après dans la
+       feuille de style (même spécificité, l'ordre de source tranche) et
+       la remplace : largeur réelle disponible, laissant les cartes
+       déborder et se faire couper par ce bord - exactement le mécanisme
+       Home (overflow-x:auto + scroll-snap déjà en place plus haut,
+       inchangés). */
+    /* Bord droit qui coupe réellement la carte suivante, comme la Home
+       (pack "Mobile-Nos-Innovations-Rail-Exact-Home-V3", 2026-09-04) -
+       `width:100%` (mécanisme d'origine ci-dessus) donnait au viewport
+       toute la largeur de son conteneur (`.innovations-v2__container`,
+       qui s'arrête 16px avant le bord d'écran ici - PAS 20px comme sur la
+       Home, ce conteneur a sa propre marge, distincte du padding de
+       section utilisé par la Home), donc la carte 2 s'arrêtait 16px trop
+       tôt au lieu d'être coupée par le bord physique. `calc(100% + 16px)`
+       étend le viewport EXACTEMENT de cette marge locale (pas celle de la
+       Home, valeurs différentes) pour que son bord droit atteigne le
+       bord d'écran. Home résout ça avec `margin-right` négatif plutôt
+       qu'un calc, mais son rail n'a pas de largeur déclarée en dur (il
+       hérite de sa piste de grille) - une marge négative agrandit un tel
+       item ; ici `width:100%` est une valeur explicite, qu'une marge
+       négative ne peut pas élargir (elle ne ferait que décaler ce qui
+       suit), d'où calc plutôt qu'une copie littérale de la technique.
+       `max-width:100%` (règle de base, plus haut, hors media query)
+       plafonne n'importe quelle valeur de `width` - y compris un calc et
+       même un inline style !important, vérifié en direct - donc
+       redéclaré ici aussi, sans quoi ce calc n'a aucun effet. */
+    .innovations-v2__row-viewport {
+      width: calc(100% + 16px);
+      max-width: calc(100% + 16px);
+    }
+    /* Jauge de progression (pack "Mobile-Nos-Innovations-Carousel-Exact-
+       Home-V2", 2026-09-04) - c'est simplement la scrollbar native que le
+       navigateur mobile dessine déjà pour tout élément `overflow-x:auto`
+       (une fine barre grise arrondie sous le rail, qui avance/se
+       raccourcit toute seule avec le scroll) : jamais un composant
+       personnalisé à construire, ni un script à synchroniser - juste
+       arrêter de la masquer. La règle de base (plus haut, hors media
+       query - desktop y compris, gelé) la cache volontairement via
+       `scrollbar-width:none` + `::-webkit-scrollbar{display:none}`,
+       pensée pour desktop où les flèches dédiées suffisent déjà comme
+       indice de navigation. Sur mobile, les flèches sont masquées
+       (ci-dessus) et la Home (`.bopa-projects-v2__rail`, site.css) ne
+       masque jamais cette scrollbar à aucun palier - la réactiver ici
+       uniquement au palier mobile reproduit exactement ce même mécanisme,
+       déjà indépendant par élément (chaque catégorie a son propre
+       `.innovations-v2__row-viewport`, donc sa propre jauge, sans rien à
+       coder en plus). */
+    .innovations-v2__row-viewport {
+      scrollbar-width: thin;
+      /* Espace cartes -> jauge aligné sur la Home (pack "Mobile-Nos-
+         Innovations-Jauges-Identiques-Home-V1", 2026-09-04) : sur la Home
+         (.bopa-projects-v2__rail, site.css) ce sont 8px de padding-bottom
+         sur le conteneur scrollable LUI-MÊME (donc juste avant la
+         scrollbar), pas sur son contenu interne - ici le padding-bottom de
+         24px vivait sur .innovations-v2__row-track (règle de base,
+         partagée avec desktop, gelée), un vestige de l'espacement desktop
+         (marge de respiration pour le survol des cartes) qui, une fois la
+         scrollbar réactivée juste au-dessus sur mobile, créait un espace
+         cartes->jauge 3x plus grand que la Home. Neutralisé ici (mobile
+         uniquement, desktop intact) puis reposé au bon endroit ci-dessous. */
+      padding-bottom: 8px;
+    }
+    .innovations-v2__row-track {
+      padding-bottom: 0;
+    }
+    .innovations-v2__row-viewport::-webkit-scrollbar {
+      display: block;
+    }
+
+    .innovations-v2__cta-inner {
+      grid-template-columns: auto 1fr;
+      padding: 28px 24px;
+    }
+    .innovations-v2__cta-button {
+      grid-column: 1 / -1;
+      justify-content: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .innovations-v2__filters button,
+    .innovations-v2__cta-button {
+      transition: none;
+    }
+    .innovations-v2__nav-btn {
+      transition: none;
+    }
+  }
+</style>

@@ -1,120 +1,229 @@
-// Shared with innovations.astro (renders every phase/project as cards).
-// Structure validated by the owner 2026-08-27: order, grouping, and the
-// exact project list below are hers, not to be reorganized/renamed/
-// added-to on our own initiative. Titles/descriptions are the V3
-// editorial pass (2026-08-27, later same day) - these ARE the current
-// real copy now, not placeholders; see source/content/projets.md for
-// the fuller sourced background on each project.
+// Shared with InnovationsContent.astro (renders every phase/project as
+// cards, for both /nos_innovations/ and /en/our-innovations/). Structure
+// validated by the owner 2026-08-27: order, grouping, and the project
+// list are hers, not to be reorganized/renamed/added-to on our own
+// initiative. FR titles/descriptions are the V3 editorial pass
+// (2026-08-27) - these ARE the current real copy, not placeholders; see
+// source/content/projets.md for sourced background on each project.
+// Merged FR/EN into one file 2026-09-08 (pack "Unification-Architecture-
+// FR-EN-V1"): each phase/project now carries an `fr` and (when a
+// validated translation exists) an `en` sub-object instead of living in
+// two separate files (projects.js/projects.en.js). A project with no
+// `en` key yet (e.g. a newly-added FR project awaiting translation)
+// simply never renders on the EN page - InnovationsContent.astro skips
+// it - never invent/guess its English text.
 export const phases = [
   {
     id: 'preoperatoire',
-    label: 'Préopératoire',
-    tagline: 'Mieux comprendre pour mieux planifier',
     icon: 'target',
+    fr: { label: 'Préopératoire', tagline: 'Mieux comprendre pour mieux planifier' },
+    en: { label: 'Preoperative', tagline: 'Better understanding for better planning' },
     projects: [
       {
-        name: 'LiverSight',
-        description: "Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du foie, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.",
         image: '/images/projets-v2/liversight.png',
-        action: { label: 'Découvrir LiverSight', href: 'https://www.youtube.com/watch?v=MF1ysshoNVM', type: 'external' },
+        action: {
+          href: 'https://www.youtube.com/watch?v=MF1ysshoNVM',
+          type: 'external',
+          fr: { label: 'Découvrir LiverSight' },
+          en: { label: 'Discover LiverSight' },
+        },
+        fr: {
+          name: 'LiverSight',
+          description: "Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du foie, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.",
+        },
+        en: {
+          name: 'LiverSight',
+          description: 'Software developed by BOPA to facilitate communication between surgeon and patient before liver surgery, helping the patient better understand the procedure and take an active role in their own care.',
+        },
       },
       {
-        name: 'PancreasSight',
-        description: "Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du pancréas, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.",
         image: '/images/innovations-v2/pancreassight.svg',
+        fr: {
+          name: 'PancreasSight',
+          description: "Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du pancréas, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.",
+        },
+        en: {
+          name: 'PancreasSight',
+          description: 'Software developed by BOPA to facilitate communication between surgeon and patient before pancreatic surgery, helping the patient better understand the procedure and take an active role in their own care.',
+        },
       },
       {
-        name: 'LiverMatch',
-        description: 'Développer de nouveaux outils pour mieux évaluer la situation des patients en attente de transplantation et accompagner la décision médicale.',
         image: '/images/innovations-v2/optimiser-allocation-greffons.svg',
+        fr: {
+          name: 'LiverMatch',
+          description: 'Développer de nouveaux outils pour mieux évaluer la situation des patients en attente de transplantation et accompagner la décision médicale.',
+        },
+        en: {
+          name: 'LiverMatch',
+          description: 'Developing new tools to better assess the situation of patients awaiting transplantation and support medical decision-making.',
+        },
       },
       {
-        name: 'Métatron',
-        description: "Développer un outil d'IA d'aide à la décision thérapeutique pour les patients atteints de métastases hépatiques d'un cancer colorectal.",
+        // Ajouté 2026-09-08 (pack "Nos-Innovations-Ajout-Metatron-FluoGuide-
+        // V1"). Pas de traduction EN validée pour l'instant - ne pas inventer.
+        fr: {
+          name: 'Métatron',
+          description: "Développer un outil d'IA d'aide à la décision thérapeutique pour les patients atteints de métastases hépatiques d'un cancer colorectal.",
+        },
       },
     ],
   },
   {
     id: 'peroperatoire',
-    label: 'Peropératoire',
-    tagline: 'Mieux voir, mieux décider, mieux opérer',
     icon: 'pulse',
+    fr: { label: 'Peropératoire', tagline: 'Mieux voir, mieux décider, mieux opérer' },
+    en: { label: 'Intraoperative', tagline: 'Better vision, better decisions, better surgery' },
     projects: [
       {
-        name: 'BOPCAM',
-        description: 'Un dispositif « made in BOPA » pour filmer au plus près les mains et les gestes du chirurgien en chirurgie ouverte.',
         image: '/images/projets-v2/bopcam.png',
+        fr: {
+          name: 'BOPCAM',
+          description: 'Un dispositif « made in BOPA » pour filmer au plus près les mains et les gestes du chirurgien en chirurgie ouverte.',
+        },
+        en: {
+          name: 'BOPCAM',
+          description: "A \"made in BOPA\" device to film the surgeon's hands and movements up close during open surgery.",
+        },
       },
       {
-        name: 'Henri',
-        description: "Un assistant vocal pour accompagner le chirurgien pendant l'intervention, sans interrompre son geste.",
         image: '/images/innovations-v2/henri.svg',
+        fr: {
+          name: 'Henri',
+          description: "Un assistant vocal pour accompagner le chirurgien pendant l'intervention, sans interrompre son geste.",
+        },
+        en: {
+          name: 'Henri',
+          description: 'A voice assistant that supports the surgeon during the procedure, without interrupting their hands.',
+        },
       },
       {
-        name: 'Goldfinger',
-        description: 'Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.',
         image: '/images/projets-v2/goldfinger.png',
+        fr: {
+          name: 'Goldfinger',
+          description: 'Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.',
+        },
+        en: {
+          name: 'Goldfinger',
+          description: 'Interacting simply and remotely with medical images, without ever breaking sterility.',
+        },
       },
       {
-        name: 'Le compte rendu opératoire augmenté',
-        description: 'Transformer automatiquement les vidéos de chirurgie en comptes rendus opératoires. Une thématique qui a donné naissance à Uncovr.',
         image: '/images/innovations-v2/compte-rendu-operatoire-augmente.svg',
-        action: { label: 'Découvrir Uncovr', href: 'https://uncovr.ai/', type: 'external' },
+        action: {
+          href: 'https://uncovr.ai/',
+          type: 'external',
+          fr: { label: 'Découvrir Uncovr' },
+          en: { label: 'Discover Uncovr' },
+        },
+        fr: {
+          name: 'Le compte rendu opératoire augmenté',
+          description: 'Transformer automatiquement les vidéos de chirurgie en comptes rendus opératoires. Une thématique qui a donné naissance à Uncovr.',
+        },
+        en: {
+          name: 'The augmented operative report',
+          description: 'Automatically turning surgical videos into operative reports. A research theme that gave rise to Uncovr.',
+        },
       },
       {
-        name: 'Évaluer la charge cognitive du chirurgien',
-        description: 'Mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical.',
         image: '/images/innovations-v2/charge-cognitive-chirurgien.svg',
+        fr: {
+          name: 'Évaluer la charge cognitive du chirurgien',
+          description: 'Mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical.',
+        },
+        en: {
+          name: "Assessing the surgeon's cognitive load",
+          description: "Better understanding the surgeon's mental workload and its links with errors and adverse events, to help make surgical procedures safer.",
+        },
       },
       {
-        name: 'FluoGuide',
-        description: "Développer une méthode d'assistance en temps réel pour ajuster les marges de résection grâce à l'imagerie par fluorescence.",
+        // Ajouté 2026-09-08 (pack "Nos-Innovations-Ajout-Metatron-FluoGuide-
+        // V1"). Pas de traduction EN validée pour l'instant - ne pas inventer.
+        fr: {
+          name: 'FluoGuide',
+          description: "Développer une méthode d'assistance en temps réel pour ajuster les marges de résection grâce à l'imagerie par fluorescence.",
+        },
       },
     ],
   },
   {
     id: 'postoperatoire',
-    label: 'Postopératoire',
-    tagline: 'Mieux suivre pour mieux guérir',
     icon: 'chart',
+    fr: { label: 'Postopératoire', tagline: 'Mieux suivre pour mieux guérir' },
+    en: { label: 'Postoperative', tagline: 'Better follow-up for better recovery' },
     projects: [
       {
-        name: 'Colette',
-        description: 'Une IA conversationnelle pour accompagner le patient greffé 24 h/24 et 7 j/7.',
         image: '/images/projets-v2/colette.png',
+        fr: {
+          name: 'Colette',
+          description: 'Une IA conversationnelle pour accompagner le patient greffé 24 h/24 et 7 j/7.',
+        },
+        en: {
+          name: 'Colette',
+          description: 'A conversational AI that supports transplant patients around the clock.',
+        },
       },
       {
-        name: 'BOPA Value',
-        description: 'Utiliser des solutions numériques pour évaluer le devenir du patient dans le temps : sa récupération, sa qualité de vie et son vécu.',
         image: '/images/innovations-v2/value-based-health-care.svg',
+        fr: {
+          name: 'BOPA Value',
+          description: 'Utiliser des solutions numériques pour évaluer le devenir du patient dans le temps : sa récupération, sa qualité de vie et son vécu.',
+        },
+        en: {
+          name: 'BOPA Value',
+          description: 'Using digital solutions to track patient outcomes over time: recovery, quality of life and experience.',
+        },
       },
       {
-        name: 'Le ressenti du chirurgien face aux résultats cliniques',
-        description: 'Comprendre comment le chirurgien perçoit les résultats de ses patients et comment cette perception influence sa pratique.',
         image: '/images/innovations-v2/ressenti-chirurgien.svg',
+        fr: {
+          name: 'Le ressenti du chirurgien face aux résultats cliniques',
+          description: 'Comprendre comment le chirurgien perçoit les résultats de ses patients et comment cette perception influence sa pratique.',
+        },
+        en: {
+          name: 'How surgeons experience clinical outcomes',
+          description: "Understanding how surgeons perceive their patients' outcomes and how that perception shapes their practice.",
+        },
       },
       {
-        name: 'Masterclass patients experts',
-        description: "Transformer l'expérience d'anciens patients en expertise pour accompagner les patients d'aujourd'hui.",
         image: '/images/innovations-v2/master-class-patients-experts.svg',
+        fr: {
+          name: 'Masterclass patients experts',
+          description: "Transformer l'expérience d'anciens patients en expertise pour accompagner les patients d'aujourd'hui.",
+        },
+        en: {
+          name: 'Expert patients masterclass',
+          description: "Turning former patients' experience into expertise to support today's patients.",
+        },
       },
     ],
   },
   {
     id: 'medico-economique',
-    label: 'Médico-économique',
-    tagline: 'Mieux évaluer pour mieux allouer les ressources',
     icon: 'euro',
+    fr: { label: 'Médico-économique', tagline: 'Mieux évaluer pour mieux allouer les ressources' },
+    en: { label: 'Health economics', tagline: 'Better assessment for better resource allocation' },
     projects: [
       {
-        name: 'MesGardes',
-        description: 'Simplifier la création des plannings de garde pour réduire le temps administratif et préserver le temps médical.',
         image: '/images/innovations-v2/mesgardes.svg',
+        fr: {
+          name: 'MesGardes',
+          description: 'Simplifier la création des plannings de garde pour réduire le temps administratif et préserver le temps médical.',
+        },
+        en: {
+          name: 'MesGardes',
+          description: 'Simplifying on-call schedule creation to cut administrative time and protect time for patient care.',
+        },
       },
       {
-        name: 'HepatGreen',
-        description: "Mesurer l'empreinte environnementale de la chirurgie du foie pour construire une chirurgie plus durable.",
         image: '/images/innovations-v2/hepatgreen.svg',
+        fr: {
+          name: 'HepatGreen',
+          description: "Mesurer l'empreinte environnementale de la chirurgie du foie pour construire une chirurgie plus durable.",
+        },
+        en: {
+          name: 'HepatGreen',
+          description: 'Measuring the environmental footprint of liver surgery to build more sustainable surgical care.',
+        },
       },
     ],
   },
