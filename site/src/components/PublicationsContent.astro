@@ -1,0 +1,111 @@
+---
+// Shared body for /publications/ and /en/publications/ (FR is the source
+// of truth for markup/CSS; only text differs, via isEn ternaries - same
+// pattern already used in Base.astro for nav/footer).
+interface Props {
+  lang?: 'fr' | 'en';
+}
+const { lang = 'fr' } = Astro.props;
+const isEn = lang === 'en';
+---
+
+<section class="section-block">
+  <div class="mesh-echo" aria-hidden="true"></div>
+  <div class="wrap" data-reveal>
+    <span class="kicker">Innovations</span>
+    <h1>{isEn ? 'Scientific publications' : 'Publications scientifiques'}</h1>
+    <p class="lede">
+      {isEn ? (
+        <>
+          Thanks to the support of its partners, the BOPA Innovation Chair has
+          been able to fund extensive research, resulting in 46 published
+          scientific articles and 48 presentations at specialist conferences
+          and congresses.
+        </>
+      ) : (
+        <>
+          Grâce au soutien de ses partenaires, la Chaire Innovation BOPA a pu
+          financer de nombreux travaux de recherche, donnant lieu à la
+          publication de 46 articles scientifiques et à 48 présentations
+          lors de congrès et conférences spécialisées.
+        </>
+      )}
+    </p>
+    <div class="stat-row">
+      <div class="stat">
+        <span class="stat-value" data-reveal>46</span>
+        <span class="stat-label">{isEn ? 'Scientific articles' : 'Articles scientifiques'}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" data-reveal style="--reveal-delay: 0.1s">48</span>
+        <span class="stat-label">{isEn ? 'Conference presentations' : 'Présentations en congrès'}</span>
+      </div>
+      <div class="stat">
+        <span class="stat-value" data-reveal style="--reveal-delay: 0.2s">3</span>
+        <span class="stat-label">{isEn ? 'Research areas' : 'Axes de recherche'}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap section-sub" data-reveal>
+    <h2>{isEn ? 'Three research areas' : 'Trois axes de recherche'}</h2>
+    <p class="lede">
+      {isEn ? (
+        <>Research within the Chair is organized around three main areas.</>
+      ) : (
+        <>Les recherches menées au sein de la Chaire s'organisent autour de trois grands axes.</>
+      )}
+    </p>
+    <div class="card-grid">
+      <article class="card">
+        <h3>Data</h3>
+        <p>
+          {isEn
+            ? 'Harnessing the data generated and available in the operating room.'
+            : 'Valoriser et exploiter les données générées et disponibles au bloc opératoire.'}
+        </p>
+      </article>
+      <article class="card">
+        <h3>{isEn ? 'Digital twins' : 'Jumeaux numériques'}</h3>
+        <p>
+          {isEn ? (
+            <>
+              Developing anatomical and hemodynamic digital models to better
+              understand and anticipate clinical situations.
+            </>
+          ) : (
+            <>
+              Développer des modèles numériques anatomiques et
+              hémodynamiques pour mieux comprendre et anticiper les
+              situations cliniques.
+            </>
+          )}
+        </p>
+      </article>
+      <article class="card">
+        <h3>{isEn ? 'Human sciences' : 'Sciences humaines'}</h3>
+        <p>
+          {isEn ? (
+            <>
+              Analyzing the impact of the operating room's digital
+              transformation, to identify the optimal conditions for effective
+              collaboration between humans and machines.
+            </>
+          ) : (
+            <>
+              Analyser les impacts de la transformation numérique du bloc
+              opératoire, pour identifier les conditions optimales d'une
+              collaboration efficace entre l'humain et la machine.
+            </>
+          )}
+        </p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section-sub {
+    margin-top: var(--space-6);
+  }
+</style>
