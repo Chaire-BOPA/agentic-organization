@@ -97,16 +97,21 @@ const patronLogos = [
   { src: '/logos/partenaires/logo-richard-wolf.png', alt: 'Richard Wolf' },
 ];
 
-// "Ils nous accompagnent" (pack "Ils-Nous-Accompagnent-V2", 2026-09-02) :
-// 4 partenaires, 1 seule ligne desktop - ordre volontaire demandé par
-// l'owner. Assets traités depuis source/inbox (recadrés, fond transparent)
-// sauf Bayes Impact : fourni déjà prêt sur fond blanc, utilisé TEL QUEL,
-// aucune retouche (consigne explicite de l'owner).
+// "Ils nous accompagnent" (pack "Ils-Nous-Accompagnent-V2", 2026-09-02 ;
+// SKEZI ajouté pack "Nous-Soutenir-Grilles-Logos-SKEZI-V2", 2026-09-08) :
+// 5 partenaires, grille desktop 3+2 (2e ligne centrée) - ordre volontaire
+// demandé par l'owner. Assets traités depuis source/inbox (recadrés, fond
+// transparent) sauf Bayes Impact : fourni déjà prêt sur fond blanc, utilisé
+// TEL QUEL, aucune retouche (consigne explicite de l'owner). SKEZI : asset
+// officiel fourni par l'owner dans source/inbox, utilisé tel quel (jamais
+// recherché/régénéré) - original conservé dans
+// source/brand/assets/logos/partenaires/logo-skezi-original.png.
 const accompanyLogos = [
   { src: '/logos/partenaires/logo-nvidia.png', alt: 'NVIDIA' },
   { src: '/logos/partenaires/logo-s3ns.png', alt: 'S3NS' },
   { src: '/logos/partenaires/logo-bayes-impact.png', alt: 'Bayes Impact' },
   { src: '/logos/partenaires/logo-toys-films.png', alt: 'Toys Films' },
+  { src: '/logos/partenaires/logo-skezi.png', alt: 'SKEZI' },
 ];
 
 const researchStats = [
@@ -3153,10 +3158,31 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .bopa-support__grid--three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   /* "Ils nous soutiennent" passé de 2 grandes cartes à 8 (pack "Nous-
      Soutenir-Logos-2x4-V1", 2026-09-02) - 4 colonnes x 2 lignes sur
-     desktop, gap resserré pour rester aéré à cette densité. */
+     desktop, gap resserré pour rester aéré à cette densité. Repassé à 3
+     colonnes (pack "Nous-Soutenir-Grilles-Logos-SKEZI-V2", 2026-09-08,
+     owner : "3 + 3 + 2 parfaitement centrés") - "Ils nous accompagnent"
+     (5 logos, 3+2) partage cette même classe/logique. display:flex +
+     flex-wrap plutôt qu'une grille : une grille CSS classique laisse la
+     dernière ligne incomplète collée à gauche (auto-placement), alors
+     qu'ici flex-wrap + justify-content:center centre nativement CETTE
+     ligne, quel que soit le nombre de cartes qui y échouent (2 ici, mais
+     resterait correct à 1 aussi) - jamais de grid-column codé en dur par
+     position, qui casserait au moindre changement de nombre de logos.
+     Largeur de carte calculée pour 3 par ligne avec CE même gap (14px,
+     inchangé) : si le gap change un jour, cette formule doit suivre. */
   .bopa-support__grid--four {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 14px;
+  }
+  /* 3 cartes par ligne, gap 14px (2 gaps par ligne) : largeur = le tiers
+     de l'espace restant une fois les 2 gaps retirés. flex-grow/shrink à
+     0 (jamais d'étirement) pour garder exactement la même largeur de
+     carte que les autres grilles - seule cette formule change selon le
+     nombre de colonnes voulu. */
+  .bopa-support__grid--four .support-partner-card {
+    flex: 0 0 calc((100% - 28px) / 3);
   }
 
   .support-partner-card {
@@ -3452,8 +3478,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     /* "Ils nous soutiennent" : 4x2 -> 2x4 (pack "Nous-Soutenir-Logos-2x4-V1",
        2026-09-02) - demandé explicitement ("tablette = 2x4 si nécessaire"),
        4 colonnes devenaient trop étroites pour les logos les plus larges
-       (Medtronic, J&J) en dessous de ~900px. */
-    .bopa-support__grid--four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+       (Medtronic, J&J) en dessous de ~900px. display:grid explicitement
+       restauré ici (pack "Nous-Soutenir-Grilles-Logos-SKEZI-V2", 2026-09-08)
+       - la règle desktop est passée en display:flex pour centrer nativement
+       sa dernière ligne incomplète (3+3+2 / 3+2), mais ce palier tablette/
+       mobile est 100% gelé : sans ce display:grid explicite, le flex
+       hérité du desktop aurait ignoré grid-template-columns ci-dessous et
+       appliqué la largeur flex desktop (3 par ligne) au lieu des 2 par
+       ligne voulus ici. */
+    .bopa-support__grid--four { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .support-partner-card { min-height: 0; }
     /* Panneau empilé (image sous le texte) : asset transparent, déjà cadré -
        plus besoin d'object-fit:cover/recadrage, juste une hauteur plafonnée
