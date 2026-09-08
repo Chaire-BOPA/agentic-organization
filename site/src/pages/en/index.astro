@@ -132,10 +132,10 @@ const bandIcons = [
 // (checklist), jamais en logo - aucun asset validé pour ces deux
 // projets, conformément à la consigne du pack.
 const researchResults = [
-  { title: '2 start-ups created', text: 'to drive and develop breakthrough innovations' },
+  { title: '2 start-ups launched', text: 'to bring breakthrough innovations to life and scale their development' },
   { title: '2 medical software solutions developed and deployed', text: "to meet healthcare professionals' needs" },
   { title: "Colette, a therapeutic education chatbot", text: 'for transplant patients' },
-  { title: 'MesGardes, an app that simplifies scheduling', text: 'of on-call duty in the operating room' },
+  { title: 'MesGardes, an app simplifying the management', text: 'of operating room on-call schedules' },
 ];
 
 const impactCheckIcon =
@@ -562,14 +562,14 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             <div class="about-v2__impact-card-header">
               <div class="about-v2__impact-card-icon" set:html={impactCardIcons[0]} />
               <p class="about-v2__impact-card-title">
-                1. Tangible results <span class="about-v2__chaire-highlight">in clinical practice</span>
+                1. Delivering tangible results <span class="about-v2__chaire-highlight">in clinical practice</span>
               </p>
             </div>
             <p class="about-v2__impact-card-text">
-              Research conducted within BOPA has already helped bring about and
-              deploy concrete solutions, in particular through the creation of
-              start-ups and the development of medical software directly useful
-              to healthcare professionals and patients.
+              Research at BOPA is already translating into concrete solutions in
+              the field, including the creation of start-ups and the development
+              of medical software that directly serves healthcare professionals
+              and patients.
             </p>
             <ul class="about-v2__impact-checklist">
               {researchResults.map((item) => (
@@ -592,10 +592,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
               </p>
             </div>
             <p class="about-v2__impact-card-text">
-              The second focus is to build and strengthen bridges between AP-HP
-              and pharma and medtech companies, to foster the development,
-              testing and deployment of innovations as close as possible to
-              real-world needs.
+              Our second priority is to build and strengthen bridges between AP-HP
+              and pharma and medtech companies, fostering the development,
+              testing, and deployment of innovations as close as possible to
+              real-world clinical needs.
             </p>
             <div class="about-v2__impact-partners">
               <div class="about-v2__impact-partner">
@@ -606,8 +606,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
                   </a>
                 </div>
                 <p class="about-v2__impact-partner-text">
-                  AP-HP's single point of entry for digital innovation in the
-                  operating room.
+                  The entry point for digital innovation in the operating room
+                  across AP-HP.
                 </p>
                 <a class="about-v2__impact-partner-cta" href="https://www.aphp.fr/bopex" target="_blank" rel="noopener">
                   Discover BOPEX <span aria-hidden="true">↗</span>
@@ -619,8 +619,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
                   <img src="/logos/partenaires/logo-boptech.png" alt="BOPTECH" loading="lazy" />
                 </div>
                 <p class="about-v2__impact-partner-text">
-                  A platform dedicated specifically to innovation in liver
-                  surgery, with a perfusion machine and a hybrid operating room.
+                  A platform dedicated to innovation in liver surgery, offering a
+                  liver perfusion machine and a hybrid operating room for the
+                  development and testing of new technologies in real-world
+                  clinical conditions.
                 </p>
               </div>
             </div>
