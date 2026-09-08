@@ -4032,10 +4032,18 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      fin de la ligne CSS pour une jonction invisible (même couleur/
      épaisseur), les 16 unités suivantes (6 à 22) sont la vraie extension
      visible au-delà - la ligne (::before) n'a donc besoin d'aucun
-     changement, seule cette valeur de la pointe bouge. */
+     changement, seule cette valeur de la pointe bouge. top:32px, pas
+     31px (owner, 2026-09-08 : "la pointe n'est pas alignée sur le trait
+     horizontal") - la ligne (top:31px, height:2px) a son vrai CENTRE à
+     32px, pas 31px ; l'ancien chevron (bordures 45°) utilisait déjà
+     31px sans que ça se voie (un coin de bordure tourné n'a pas de
+     ligne de tracé unique qui doive coïncider pile avec la ligne), mais
+     le tracé fin du SVG a besoin de cette précision au pixel près pour
+     une jonction propre - vérifié en direct : centre du SVG et centre
+     de la ligne strictement égaux après ce changement. */
   .bopa-vision-v4__timeline-arrow {
     position: absolute;
-    top: 31px;
+    top: 32px;
     right: calc(11.7% - 16px);
     width: 22px;
     height: 10px;
