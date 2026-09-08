@@ -1773,7 +1773,13 @@ p {
 
 @media (max-width: 48rem) {
   .section-block { padding: 4.5rem 0; }
-  .section-block.context-band { padding: 0.75rem 0; }
+  /* Padding vertical retire (owner, 2026-09-04) : une fois colore et
+     rendu visible via un debug temporaire, ce petit padding (12px, haut
+     ET bas, symetrique - pas un bug de hauteur des cases) restait quand
+     meme percu comme une bande blanche parasite avant la 1ere case et
+     apres la derniere. Les 4 cases elles-memes (bordures/hauteur)
+     restent inchangees, seul cet espace avant/apres le groupe disparait. */
+  .section-block.context-band { padding: 0; }
   .section-block .wrap { width: min(calc(100% - 2rem), var(--max-width)); }
   .pipeline { border-top: 0; gap: 0; }
   .pipeline-step,
