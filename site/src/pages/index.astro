@@ -3483,6 +3483,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        meme palier (padding 27px*2 + logo-wrap min-height:92px), prise
        comme reference explicite par l'owner. */
     .support-partner-card--foundation { min-height: 148px; }
+    /* Espace vertical entre cartes cale sur "Ils nous soutiennent"
+       (owner, 2026-09-04) - `.bopa-support__grid` (regle de base
+       partagee) donne 18px aux fondations, mais `--four` ("Ils nous
+       soutiennent") a son propre 14px (desktop, pack "Nous-Soutenir-
+       Logos-2x4-V1") qui persiste tel quel une fois empile ici, sans
+       jamais avoir ete touche pour ce palier. 14px explicite pour
+       `--three` aussi, afin que les deux groupes empiles partagent
+       exactement le meme rythme vertical. */
+    .bopa-support__grid--three { gap: 14px; }
   }
 
   @media (max-width: 560px) {
