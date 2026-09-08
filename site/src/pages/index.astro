@@ -3471,6 +3471,18 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   @media (max-width: 680px) {
     .bopa-support__grid--three { grid-template-columns: 1fr; }
     .bopa-support__grid--three > :last-child { grid-column: auto; }
+    /* Cases "3 fondations partenaires" a hauteur egale a "Ils nous
+       soutiennent" (owner, 2026-09-04) - sur desktop, les 3 cartes
+       fondation partagent une rangee de grille dont l'etirement par
+       defaut (align-items:stretch) les egalise deja entre elles a la
+       hauteur du logo le plus grand ; une fois empilees en 1 colonne
+       ici, chaque carte redevient seule dans sa propre rangee (rien a
+       etirer contre) et retombe sur la hauteur naturelle de SON propre
+       logo (mesure : 108/132/148px selon le logo, jamais egalise).
+       148px = la hauteur reelle des cartes "Ils nous soutiennent" a ce
+       meme palier (padding 27px*2 + logo-wrap min-height:92px), prise
+       comme reference explicite par l'owner. */
+    .support-partner-card--foundation { min-height: 148px; }
   }
 
   @media (max-width: 560px) {
