@@ -28,6 +28,10 @@ export const phases = [
         description: 'Développer de nouveaux outils pour mieux évaluer la situation des patients en attente de transplantation et accompagner la décision médicale.',
         image: '/images/innovations-v2/optimiser-allocation-greffons.svg',
       },
+      {
+        name: 'Métatron',
+        description: "Développer un outil d'IA d'aide à la décision thérapeutique pour les patients atteints de métastases hépatiques d'un cancer colorectal.",
+      },
     ],
   },
   {
@@ -61,6 +65,10 @@ export const phases = [
         name: 'Évaluer la charge cognitive du chirurgien',
         description: 'Mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical.',
         image: '/images/innovations-v2/charge-cognitive-chirurgien.svg',
+      },
+      {
+        name: 'FluoGuide',
+        description: "Développer une méthode d'assistance en temps réel pour ajuster les marges de résection grâce à l'imagerie par fluorescence.",
       },
     ],
   },

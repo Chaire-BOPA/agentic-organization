@@ -109,7 +109,7 @@ const chevronRightBig =
                     return (
                       <article class="bopa-project-card" data-innovation-card>
                         <div class="bopa-project-card__media">
-                          <img src={project.image} alt="" loading="lazy" />
+                          {project.image && <img src={project.image} alt="" loading="lazy" />}
                         </div>
                         <div class="bopa-project-card__body">
                           <h3>{project.name}</h3>
