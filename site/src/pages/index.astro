@@ -2901,23 +2901,23 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        générique d'origine (1.5rem, pensé pour des colonnes côte à côte,
        jamais comme rupture délibérée) pour rester une coupure lisible,
        mais sans la sensation de deux blocs détachés. */
-    /* 2rem -> 2.25rem (pack "Mobile-Impact-Separateur-Horizontal-V1",
-       2026-09-08, owner : "rééquilibrer TRÈS LÉGÈREMENT l'espace... pas
-       juste un trait dans le vide") - +4px au total sur toute la carte,
-       négligeable, pour que le trait ajouté ci-dessous ait une
-       respiration un peu plus confortable qu'un simple partage en 2 du
-       gap d'origine, sans jamais rallonger la carte de façon visible. */
-    .about-v2__impact-partners { grid-template-columns: 1fr; gap: 2.25rem; }
+    /* 2rem -> 2.25rem -> 2.75rem (owner, 2026-09-08, 2e retour : "un peu
+       d'espace entre Découvrir BOPEX et le séparateur") - le trait reste
+       ancré à -1.125rem (18px) du haut de BOPTECH, INCHANGÉ (l'owner n'a
+       demandé de l'air que d'un seul côté, jamais côté BOPTECH) ; tout
+       le supplément de gap (2.25rem -> 2.75rem, +8px) s'ajoute donc
+       uniquement entre le CTA et le trait, plus une répartition égale
+       comme au 1er passage. */
+    .about-v2__impact-partners { grid-template-columns: 1fr; gap: 2.75rem; }
     /* Transposition mobile du séparateur vertical desktop (border-left,
        var(--about-line) - même couleur/finesse exactes, aucune nouvelle
        teinte). Un ::before plutôt qu'un simple border-top : le
        séparateur desktop est une bordure PLEINE hauteur de colonne,
        jamais pensé pour une largeur partielle centrée (~70-75% demandé
        ici) - un border-top s'étirerait sur toute la largeur de la carte,
-       pas seulement au centre. Positionné à mi-hauteur EXACTE du gap
-       (-1.125rem = la moitié de 2.25rem) : la respiration au-dessus
-       (fin BOPEX -> trait) et en dessous (trait -> début BOPTECH) reste
-       strictement égale des deux côtés. */
+       pas seulement au centre. top:-1.125rem (18px avant BOPTECH) gardé
+       intentionnellement inchangé malgré le gap agrandi ci-dessus - voir
+       son commentaire. */
     .about-v2__impact-partner:last-child {
       padding-left: 0;
       border-left: 0;
@@ -2949,13 +2949,17 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        2026-09-04, owner : "un peu trop serré" après le pack précédent) -
        +12-13% sur chacun des 3 écarts internes de BOPEX, jamais un retour
        aux valeurs d'avant compaction (0.65rem/0.4rem/0.6rem) - toujours
-       nettement plus compact qu'avant, juste moins tassé qu'à l'instant. */
+       nettement plus compact qu'avant, juste moins tassé qu'à l'instant.
+       Nouveau +15% (owner, 2026-09-08, pack "Mobile-Impact-Separateur-
+       Horizontal-V1", 2e retour : "aère un peu... entre le titre et le
+       logo, et entre le logo et la phrase") : 0.34->0.39rem, 0.45->0.52rem
+       ci-dessous. */
     .about-v2__impact-partner:first-child .about-v2__impact-partner-logo {
       height: 3.5rem;
-      margin-bottom: 0.34rem;
+      margin-bottom: 0.39rem;
     }
     .about-v2__impact-partner:first-child .about-v2__impact-partner-label {
-      margin-bottom: 0.45rem;
+      margin-bottom: 0.52rem;
     }
     .about-v2__impact-partner:first-child .about-v2__impact-partner-cta {
       margin-top: 0.45rem;
