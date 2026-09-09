@@ -20,7 +20,15 @@ export const phases = [
     en: { label: 'Preoperative', tagline: 'Better understanding for better planning' },
     projects: [
       {
-        image: '/images/projets-v2/liversight.png',
+        // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
+        // Images-LiverSight-Metatron-PancreasSight-V1") - fourni par
+        // l'owner via source/inbox, jamais genere/recherche. Original :
+        // source/brand/assets/projets-v2/liversight.png. La Home
+        // (HomeContent.astro) garde volontairement l'ANCIEN visuel
+        // liversight.png dans son rail "Nos innovations" phares - hors
+        // perimetre explicite de cette passe (page /nos_innovations/
+        // uniquement), a confirmer avec l'owner si un alignement est voulu.
+        image: '/images/projets-v2/liversight.jpg',
         action: {
           href: 'https://www.youtube.com/watch?v=MF1ysshoNVM',
           type: 'external',
@@ -37,7 +45,10 @@ export const phases = [
         },
       },
       {
-        image: '/images/innovations-v2/pancreassight.svg',
+        // Visuel remplace 2026-09-09 (meme pack que LiverSight ci-dessus) -
+        // remplace l'ancien placeholder SVG. Original :
+        // source/brand/assets/projets-v2/pancreassight.jpg.
+        image: '/images/projets-v2/pancreassight.jpg',
         fr: {
           name: 'PancreasSight',
           description: "Un logiciel développé par BOPA pour faciliter les échanges entre le chirurgien et son patient avant une chirurgie du pancréas, mieux comprendre l'intervention et rendre le patient acteur de sa prise en charge.",
@@ -61,7 +72,11 @@ export const phases = [
       {
         // Ajouté 2026-09-08 (pack "Nos-Innovations-Ajout-Metatron-FluoGuide-
         // V1"). Traduction EN ajoutée 2026-09-09 à la demande explicite de
-        // l'owner (traduction humaine, pas machine - voir voice.md).
+        // l'owner (traduction humaine, pas machine - voir voice.md). Visuel
+        // ajouté le même jour (pack "Nos-Innovations-Remplacement-Images-
+        // LiverSight-Metatron-PancreasSight-V1"), fourni par l'owner via
+        // source/inbox. Original : source/brand/assets/projets-v2/metatron.png.
+        image: '/images/projets-v2/metatron.jpg',
         fr: {
           name: 'Métatron',
           description: "Développer un outil d'IA d'aide à la décision thérapeutique pour les patients atteints de métastases hépatiques d'un cancer colorectal.",
