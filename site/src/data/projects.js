@@ -199,14 +199,17 @@ export const phases = [
         // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
         // 6-Visuels-Projets-V1") : nouvelle photo au format paysage.
         // Original : source/brand/assets/projets-v2/charge-cognitive-chirurgien.png.
-        // L'owner a redemande un dezoom sur cette meme carte (meme
-        // demande que pour l'ancienne photo portrait) : la coupe cover
-        // minimale coupait ~19% de chaque cote horizontalement, ce qui
-        // donnait une impression de cadrage serre. imageFit:'contain'
-        // remet la photo entiere, avec cette fois de fines marges marine
-        // en haut/bas seulement (~16px, format proche du cadre).
+        // Allers-retours dezoom/rezoom le meme jour : imageFit:'contain'
+        // (photo entiere, fines marges marine haut/bas) puis retour a
+        // object-fit:cover standard (remplit tout le cadre, owner : "il
+        // faut remplir tout l'espace") - avec ce ratio (image plus large
+        // que le cadre), cover ne coupe que les cotes gauche/droite, la
+        // hauteur entiere reste visible (rien perdu en haut ni en bas :
+        // ni les scialytiques, ni le pc portable). imagePosition:'center
+        // top' documente le sens voulu par l'owner si jamais le ratio
+        // changeait un jour.
         image: '/images/projets-v2/charge-cognitive-chirurgien.jpg',
-        imageFit: 'contain',
+        imagePosition: 'center top',
         fr: {
           name: 'Évaluer la charge cognitive du chirurgien',
           description: 'Mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical.',
