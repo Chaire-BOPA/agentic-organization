@@ -167,16 +167,17 @@ export const phases = [
       {
         // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
         // Original : source/brand/assets/projets-v2/charge-cognitive-chirurgien.png.
-        // Photo portrait dans un cadre paysage (2026-09-09) : la largeur est
-        // deja montree a 100% (aucune coupe laterale), le "zoom" vient donc
-        // uniquement de la coupe haut/bas imposee par object-fit:cover.
-        // Un vrai dezoom est impossible sans bandes vides (contraire a la
-        // regle photo sans bordure/coin-a-coin) - l'owner a choisi de
-        // repositionner dans la fenetre de coupe minimale plutot que d'y
-        // deroger : imagePosition remonte le cadrage pour montrer un peu
-        // plus les scialytiques/la salle, au lieu du centrage par defaut.
+        // Photo portrait dans un cadre paysage : object-fit:cover force une
+        // coupe haut/bas (largeur deja a 100%), un simple repositionnement
+        // (essaye d'abord) restait insuffisant pour l'owner, qui a confirme
+        // vouloir un vrai dezoom - donc exception au coin-a-coin habituel :
+        // imageFit:'contain' affiche la photo entiere, centree, sur le fond
+        // marine deja present derriere chaque carte (bopa-project-card__media),
+        // avec une legere marge marine visible sur les cotes au lieu d'une
+        // coupe. Cas unique, ne pas reappliquer ce pattern ailleurs sans
+        // demande explicite.
         image: '/images/projets-v2/charge-cognitive-chirurgien.jpg',
-        imagePosition: 'center 20%',
+        imageFit: 'contain',
         fr: {
           name: 'Évaluer la charge cognitive du chirurgien',
           description: 'Mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical.',

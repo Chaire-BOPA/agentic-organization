@@ -130,7 +130,10 @@ const chevronRightBig =
                             src={project.image}
                             alt=""
                             loading="lazy"
-                            style={project.imagePosition ? `object-position: ${project.imagePosition}` : undefined}
+                            style={[
+                              project.imagePosition ? `object-position: ${project.imagePosition}` : '',
+                              project.imageFit ? `object-fit: ${project.imageFit}` : '',
+                            ].filter(Boolean).join('; ') || undefined}
                           />
                         )}
                       </div>
