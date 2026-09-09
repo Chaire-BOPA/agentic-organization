@@ -2318,8 +2318,22 @@ p {
   object-fit: cover;
   object-position: center;
   filter: none;
-  transform: scale(1.015);
 }
+/* transform: scale(1.015) retire (owner, 2026-09-09, "le fondu est
+   rate" - bug d'affichage signale sur les cartes aux visuels
+   recemment remplaces). Cet overscan de 1.5% datait de l'epoque ou la
+   carte portait un border tout autour, y compris sur la photo (avant
+   la regle d'or "aucun contour autour de l'image") - il compensait un
+   eventuel liseré de fond visible sous ce contour. Devenu obsolete
+   depuis, il est reste actif et, une fois le double-decoupage retire
+   de .bopa-project-card__media (correctif "coins parfaitement
+   lisses", meme jour), plus rien ne rognait cet exces de 1.5% : l'image
+   debordait alors de 1,38px de chaque cote de sa propre zone (184px),
+   visible en fin de fondu comme une fine ligne parasite juste avant le
+   bleu nuit du corps de carte. Sans transform, l'image occupe
+   exactement sa zone (width/height:100%, object-fit:cover suffit,
+   aucun depassement), donc plus rien a decouper en trop - toujours une
+   seule autorite de decoupe (la carte). */
 
 .bopa-project-card__body {
   display: flex;
