@@ -109,7 +109,10 @@ export const phases = [
         },
       },
       {
-        image: '/images/innovations-v2/compte-rendu-operatoire-augmente.svg',
+        // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
+        // 6-Visuels-Projets-V1"). Original :
+        // source/brand/assets/projets-v2/compte-rendu-operatoire-augmente.png.
+        image: '/images/projets-v2/compte-rendu-operatoire-augmente.jpg',
         action: {
           href: 'https://uncovr.ai/',
           type: 'external',
@@ -126,17 +129,15 @@ export const phases = [
         },
       },
       {
-        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus) -
-        // nouveau fichier distinct (goldfinger-innovations.jpg), l'ancien
-        // goldfinger.png n'est utilise nulle part ailleurs mais reste en
-        // place, non touche. Original :
-        // source/brand/assets/projets-v2/goldfinger-innovations.png.
+        // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
+        // 6-Visuels-Projets-V1") - nouvelle illustration, remplace l'ancienne
+        // photo. Original : source/brand/assets/projets-v2/goldfinger-innovations.png.
         image: '/images/projets-v2/goldfinger-innovations.jpg',
         // Cadrage horizontal decale a gauche (owner: object-position
         // specifique autorise pour ameliorer le cadrage) - un centrage par
-        // defaut coupait presque entierement le visage du chirurgien, a
-        // gauche de la photo.
-        imagePosition: '15% center',
+        // defaut coupait le titre "GOLDFINGER" affiche sur l'ecran, a
+        // gauche de l'illustration.
+        imagePosition: '10% center',
         fr: {
           name: 'Goldfinger',
           description: 'Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.',
@@ -181,7 +182,10 @@ export const phases = [
       {
         // Ajouté 2026-09-08 (pack "Nos-Innovations-Ajout-Metatron-FluoGuide-
         // V1"). Traduction EN ajoutée 2026-09-09 à la demande explicite de
-        // l'owner (traduction humaine, pas machine - voir voice.md).
+        // l'owner (traduction humaine, pas machine - voir voice.md). Visuel
+        // ajouté 2026-09-09 (pack "Nos-Innovations-Remplacement-6-Visuels-
+        // Projets-V1"). Original : source/brand/assets/projets-v2/fluoguide.png.
+        image: '/images/projets-v2/fluoguide.jpg',
         fr: {
           name: 'FluoGuide',
           description: "Développer une méthode d'assistance en temps réel pour ajuster les marges de résection grâce à l'imagerie par fluorescence.",
@@ -192,19 +196,14 @@ export const phases = [
         },
       },
       {
-        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
+        // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
+        // 6-Visuels-Projets-V1") : nouvelle photo, cette fois au format
+        // paysage (les deux precedentes etaient un recadrage puis une
+        // photo portrait qui avait force l'exception imageFit:'contain' -
+        // desormais inutile, retiree, cette photo remplit le cadre en
+        // object-fit:cover standard comme toutes les autres cartes).
         // Original : source/brand/assets/projets-v2/charge-cognitive-chirurgien.png.
-        // Photo portrait dans un cadre paysage : object-fit:cover force une
-        // coupe haut/bas (largeur deja a 100%), un simple repositionnement
-        // (essaye d'abord) restait insuffisant pour l'owner, qui a confirme
-        // vouloir un vrai dezoom - donc exception au coin-a-coin habituel :
-        // imageFit:'contain' affiche la photo entiere, centree, sur le fond
-        // marine deja present derriere chaque carte (bopa-project-card__media),
-        // avec une legere marge marine visible sur les cotes au lieu d'une
-        // coupe. Cas unique, ne pas reappliquer ce pattern ailleurs sans
-        // demande explicite.
         image: '/images/projets-v2/charge-cognitive-chirurgien.jpg',
-        imageFit: 'contain',
         fr: {
           name: 'Évaluer la charge cognitive du chirurgien',
           description: 'Mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical.',
@@ -240,7 +239,9 @@ export const phases = [
         },
       },
       {
-        image: '/images/innovations-v2/value-based-health-care.svg',
+        // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
+        // 6-Visuels-Projets-V1"). Original : source/brand/assets/projets-v2/bopa-value.png.
+        image: '/images/projets-v2/bopa-value.jpg',
         fr: {
           name: 'BOPA Value',
           description: 'Utiliser des solutions numériques pour évaluer le devenir du patient dans le temps : sa récupération, sa qualité de vie et son vécu.',
@@ -251,7 +252,9 @@ export const phases = [
         },
       },
       {
-        image: '/images/innovations-v2/ressenti-chirurgien.svg',
+        // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
+        // 6-Visuels-Projets-V1"). Original : source/brand/assets/projets-v2/ressenti-chirurgien.png.
+        image: '/images/projets-v2/ressenti-chirurgien.jpg',
         fr: {
           name: 'Le ressenti du chirurgien face aux résultats cliniques',
           description: 'Comprendre comment le chirurgien perçoit les résultats de ses patients et comment cette perception influence sa pratique.',
