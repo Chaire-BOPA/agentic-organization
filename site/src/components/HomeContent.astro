@@ -3860,6 +3860,25 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        `--three` aussi, afin que les deux groupes empiles partagent
        exactement le meme rythme vertical. */
     .bopa-support__grid--three { gap: 14px; }
+
+    /* "Ils nous accompagnent" (5 logos, grille 2 colonnes heritee du
+       palier tablette ci-dessus) : la 5e carte (SKEZI) se retrouve seule
+       sur sa propre ligne et l'auto-placement de grid la colle a gauche
+       (colonne 1), laissant un vide a droite (owner, 2026-09-09 : "sur
+       affichage mobile, centrer l'encadre avec le logo SKEZI"). Etendue
+       sur les 2 colonnes puis centree via le flex deja present sur la
+       carte elle-meme (.support-partner-card--patron, align-items/
+       justify-content:center) - jamais touche a "Ils nous soutiennent"
+       (8 logos, toujours pair, jamais de ligne incomplete) grace au
+       scope [aria-labelledby="accompany-title"]. Desktop 100% gele. */
+    [aria-labelledby="accompany-title"] .bopa-support__grid--four .support-partner-card:last-child {
+      grid-column: 1 / -1;
+    }
+    /* Logo Bayes Impact legerement agrandi sur mobile uniquement (owner,
+       2026-09-09) - desktop reste a 72px (regle de base, plus haut). */
+    .support-partner-card__logo-wrap--patron img.support-partner-card__logo--bayes-impact {
+      max-height: 78px;
+    }
   }
 
   @media (max-width: 560px) {
