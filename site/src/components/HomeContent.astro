@@ -3663,7 +3663,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      2026-09-08, apres son ajout au pack SKEZI). Bayes Impact micro-
      agrandi juste apres (owner : "tres legerement"), meme jour. */
   .support-partner-card__logo-wrap--patron img.support-partner-card__logo--nvidia { max-height: 76px; }
-  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--bayes-impact { max-height: 72px; }
+  .support-partner-card__logo-wrap--patron img.support-partner-card__logo--bayes-impact { max-height: 76px; }
   .support-partner-card__logo-wrap--patron img.support-partner-card__logo--skezi { max-height: 36px; }
   .support-partner-card__logo-wrap--patron img.support-partner-card__logo--toys-films { max-height: 60px; }
 
@@ -3893,10 +3893,13 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       justify-self: center;
       width: calc((100% - 14px) / 2);
     }
-    /* Logo Bayes Impact legerement agrandi sur mobile uniquement (owner,
-       2026-09-09) - desktop reste a 72px (regle de base, plus haut). */
+    /* Logo Bayes Impact legerement agrandi sur mobile (owner, 2026-09-09,
+       puis "grossis encore legerement... sur les deux affichages" meme
+       jour : 78->82px ici, desktop 72->76px en regle de base plus haut -
+       le mobile garde son propre +6px d'ecart avec le desktop, deja en
+       place avant cette passe). */
     .support-partner-card__logo-wrap--patron img.support-partner-card__logo--bayes-impact {
-      max-height: 78px;
+      max-height: 82px;
     }
   }
 
