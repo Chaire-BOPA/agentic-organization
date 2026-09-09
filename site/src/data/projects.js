@@ -81,11 +81,11 @@ export const phases = [
         // source/inbox. Original : source/brand/assets/projets-v2/metatron.png.
         image: '/images/projets-v2/metatron.jpg',
         fr: {
-          name: 'METATRON',
+          name: 'Metatron',
           description: "Développer un outil d'IA d'aide à la décision thérapeutique pour les patients atteints de métastases hépatiques d'un cancer colorectal.",
         },
         en: {
-          name: 'METATRON',
+          name: 'Metatron',
           description: 'Developing an AI tool to support therapeutic decision-making for patients with colorectal cancer liver metastases.',
         },
       },

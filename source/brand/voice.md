@@ -60,7 +60,7 @@ Design/structure/UX/responsive/components/animations/bug fixes are a separate ax
 - **BOPtech**: mixed case (BOP + lowercase "tech"), the technology platform.
 - **BOPEX**: all caps, the experimentation tiers-lieu.
 - **BOPCAM**: all caps. Flip-flopped once already (corrected to "Bopcam" title-case, then reverted back to BOPCAM) - don't re-title-case it without asking.
-- **METATRON**: all caps (owner correction, 2026-09-09; was "Métatron" - matches the wordmark's own logo typography), no accent. Same spelling FR and EN.
+- **Metatron**: title case, no accent. Flip-flopped once already the same day (2026-09-09): "Métatron" -> "METATRON" (to match the wordmark logo's own typography) -> "Metatron" (owner reverted within the hour) - don't re-caps-lock it without asking. Same spelling FR and EN.
 - Other project names are proper nouns, not acronyms - title case: **Uncovr**, **LiverSight**, **PancreasSight**, **Colette**, **Henri**, **Goldfinger**.
 
 ## Examples
