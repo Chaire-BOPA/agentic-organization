@@ -109,21 +109,20 @@ export const phases = [
         },
       },
       {
-        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
-        // Original : source/brand/assets/projets-v2/henri.png.
-        image: '/images/projets-v2/henri.jpg',
-        // Cadrage vertical remonte (owner: object-position specifique
-        // autorise pour ameliorer le cadrage) - un centrage par defaut
-        // coupait le haut de la charlotte du chirurgien, le sujet
-        // principal de la photo.
-        imagePosition: 'center top',
+        image: '/images/innovations-v2/compte-rendu-operatoire-augmente.svg',
+        action: {
+          href: 'https://uncovr.ai/',
+          type: 'external',
+          fr: { label: 'Découvrir Uncovr' },
+          en: { label: 'Discover Uncovr' },
+        },
         fr: {
-          name: 'Henri',
-          description: "Un assistant vocal pour accompagner le chirurgien pendant l'intervention, sans interrompre son geste.",
+          name: 'Le compte rendu opératoire augmenté',
+          description: 'Transformer automatiquement les vidéos de chirurgie en comptes rendus opératoires. Une thématique qui a donné naissance à Uncovr.',
         },
         en: {
-          name: 'Henri',
-          description: 'A voice assistant that supports the surgeon during the procedure, without interrupting their hands.',
+          name: 'The augmented operative report',
+          description: 'Automatically turning surgical videos into operative reports. A research theme that gave rise to Uncovr.',
         },
       },
       {
@@ -148,20 +147,48 @@ export const phases = [
         },
       },
       {
-        image: '/images/innovations-v2/compte-rendu-operatoire-augmente.svg',
-        action: {
-          href: 'https://uncovr.ai/',
-          type: 'external',
-          fr: { label: 'Découvrir Uncovr' },
-          en: { label: 'Discover Uncovr' },
-        },
+        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
+        // Original : source/brand/assets/projets-v2/henri.png.
+        image: '/images/projets-v2/henri.jpg',
+        // Cadrage vertical remonte (owner: object-position specifique
+        // autorise pour ameliorer le cadrage) - un centrage par defaut
+        // coupait le haut de la charlotte du chirurgien, le sujet
+        // principal de la photo.
+        imagePosition: 'center top',
         fr: {
-          name: 'Le compte rendu opératoire augmenté',
-          description: 'Transformer automatiquement les vidéos de chirurgie en comptes rendus opératoires. Une thématique qui a donné naissance à Uncovr.',
+          name: 'Henri',
+          description: "Un assistant vocal pour accompagner le chirurgien pendant l'intervention, sans interrompre son geste.",
         },
         en: {
-          name: 'The augmented operative report',
-          description: 'Automatically turning surgical videos into operative reports. A research theme that gave rise to Uncovr.',
+          name: 'Henri',
+          description: 'A voice assistant that supports the surgeon during the procedure, without interrupting their hands.',
+        },
+      },
+      {
+        // Ajoute 2026-09-09 a la demande de l'owner : carte placeholder,
+        // juste le nom pour l'instant (pas de visuel ni de description),
+        // meme principe que FluoGuide avant d'avoir son texte. Nom propre,
+        // inchange FR/EN (comme Henri, Goldfinger, BOPCAM).
+        fr: {
+          name: 'Jacky',
+          description: '',
+        },
+        en: {
+          name: 'Jacky',
+          description: '',
+        },
+      },
+      {
+        // Ajouté 2026-09-08 (pack "Nos-Innovations-Ajout-Metatron-FluoGuide-
+        // V1"). Traduction EN ajoutée 2026-09-09 à la demande explicite de
+        // l'owner (traduction humaine, pas machine - voir voice.md).
+        fr: {
+          name: 'FluoGuide',
+          description: "Développer une méthode d'assistance en temps réel pour ajuster les marges de résection grâce à l'imagerie par fluorescence.",
+        },
+        en: {
+          name: 'FluoGuide',
+          description: 'Developing a real-time assistance method to adjust resection margins using fluorescence imaging.',
         },
       },
       {
@@ -185,19 +212,6 @@ export const phases = [
         en: {
           name: "Assessing the surgeon's cognitive load",
           description: "Better understanding the surgeon's mental workload and its links with errors and adverse events, to help make surgical procedures safer.",
-        },
-      },
-      {
-        // Ajouté 2026-09-08 (pack "Nos-Innovations-Ajout-Metatron-FluoGuide-
-        // V1"). Traduction EN ajoutée 2026-09-09 à la demande explicite de
-        // l'owner (traduction humaine, pas machine - voir voice.md).
-        fr: {
-          name: 'FluoGuide',
-          description: "Développer une méthode d'assistance en temps réel pour ajuster les marges de résection grâce à l'imagerie par fluorescence.",
-        },
-        en: {
-          name: 'FluoGuide',
-          description: 'Developing a real-time assistance method to adjust resection margins using fluorescence imaging.',
         },
       },
     ],
