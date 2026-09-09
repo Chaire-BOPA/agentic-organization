@@ -3897,9 +3897,30 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        puis "grossis encore legerement... sur les deux affichages" meme
        jour : 78->82px ici, desktop 72->76px en regle de base plus haut -
        le mobile garde son propre +6px d'ecart avec le desktop, deja en
-       place avant cette passe). */
+       place avant cette passe).
+       Owner ensuite (meme jour, capture d'ecran telephone reel a l'appui) :
+       "le logo Bayes Impact fait vraiment plus petit que les autres" -
+       root cause mesuree en direct : sur les cartes 2 colonnes du palier
+       mobile, l'image est deja a max-width:100% de son cadre (regle de
+       base, plus haut) AVANT meme d'atteindre son propre max-height - le
+       ratio tres large de ce logo (1994x789, environ 2.53:1, le plus
+       large des 5 "Ils nous accompagnent") fait que la LARGEUR est le
+       facteur limitant ici, jamais la hauteur : agrandir max-height (ce
+       qui a ete fait juste au-dessus) ne changeait donc rigoureusement
+       rien au rendu reel (mesure : 46px de haut avant ce correctif, quel
+       que soit max-height). Logo fourni "tel quel, aucune retouche"
+       (consigne explicite de l'owner, voir plus haut/CLAUDE.md) : jamais
+       recadrer le fichier source pour compenser - seule la largeur
+       autorisee en CSS peut grandir. calc(100% + 36px) (18px de
+       depassement de chaque cote dans le padding de la carte, jamais
+       jusqu'a son bord : 24-32px de padding disponible selon le palier,
+       verifie a 320px comme a 680px) plutot qu'un pourcentage (un simple
+       +X% aurait grandi bien plus vite que le padding fixe en px ne le
+       permet, avec un risque reel de deborder de la carte aux largeurs
+       les plus genereuses de ce palier). */
     .support-partner-card__logo-wrap--patron img.support-partner-card__logo--bayes-impact {
       max-height: 82px;
+      max-width: calc(100% + 36px);
     }
   }
 
