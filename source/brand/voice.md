@@ -29,9 +29,23 @@ These start as sensible defaults; edit them to fit.
 
 ## Languages
 
-French (default, at `/`) and English (at `/en/`, since 2026-09-03) - a real translation, not a machine one, kept in separate files (`site/src/pages/en/`, `site/src/data/projects.en.js`) so neither language can accidentally edit the other. The French pages are frozen: an English pass never touches a French word, punctuation mark, or file.
+French (default, at `/`) and English (at `/en/`, since 2026-09-03) - a real translation, not a machine one. Since the FR/EN architecture unification (2026-09-09, see below), FR and EN text live side by side as `fr`/`en` fields or `isEn` branches inside shared components/data (no more separate `projects.en.js` or independently-drifting page files) - but the two languages' WORDS stay editorially independent of each other regardless of where the code lives; only structure/design/behavior is truly shared (see the golden rule below).
 
 Every language is written natively. Before publishing copy in a non-default language, do a dedicated pass reading it on its own, as a native speaker would, and fix anglicisms, calques, and literal constructions. A page that reads like a translation fails this guide even if every word is technically correct.
+
+### Golden rule (permanent, owner-set 2026-09-09): new content is bilingual by default
+
+When the owner asks to add anything new - a project, a card, a section, a title, a paragraph, a button, a caption, a form field, anything a visitor reads - treat it as implicitly requiring both languages, even if only the French text was given. Never leave new content EN-less "because it wasn't asked for explicitly": Métatron and FluoGuide (two projects added 2026-09-08) briefly existed FR-only exactly this way, until the owner had to ask for the EN pass separately - that's the failure mode this rule exists to prevent.
+
+For new content:
+1. Add it in French.
+2. Translate it into English yourself - professional, natural, matching BOPA's scientific/institutional register (same standard as the rest of this section) - never a placeholder, never left for later.
+3. Add the EN version into the English page/data alongside the FR one.
+4. Same structure, same design, same behavior in both languages (this part was already true - see CLAUDE.md's "Verify before publishing").
+
+This does **not** run in reverse for pure editorial changes. "Improve this English sentence" or "replace this English text with..." touches only the EN string; the FR original is untouched. Likewise, a French-only reformulation never triggers an automatic EN retranslation - UNLESS the FR edit actually changes the meaning (adds, removes, or contradicts information), in which case the EN version is out of sync with the facts, not just the wording, and must be brought back into agreement. New content always gets both languages; a same-meaning rewording in one language stays confined to that language.
+
+Design/structure/UX/responsive/components/animations/bug fixes are a separate axis, always shared automatically regardless of the above - that's an architecture property (one shared component/data source per page, since 2026-09-09), not an editorial one, and needs no per-task reminder.
 
 **EN-specific conventions established 2026-09-03:**
 - "Chaire Innovation BOPA" → "the BOPA Innovation Chair" (or "the BOPA Chair" for repeats in the same paragraph) - an institutional-chair title is translated, not left in French.
