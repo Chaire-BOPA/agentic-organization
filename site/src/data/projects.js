@@ -136,8 +136,9 @@ export const phases = [
         // Cadrage horizontal decale a gauche (owner: object-position
         // specifique autorise pour ameliorer le cadrage) - un centrage par
         // defaut coupait le titre "GOLDFINGER" affiche sur l'ecran, a
-        // gauche de l'illustration.
-        imagePosition: '10% center',
+        // gauche de l'illustration. Decale encore plus a gauche a la
+        // demande de l'owner (2026-09-09, meme jour).
+        imagePosition: 'left center',
         fr: {
           name: 'Goldfinger',
           description: 'Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.',
