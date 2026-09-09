@@ -2049,7 +2049,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      de clamp(), pour rester identique à Mission à toutes les largeurs. */
   #notre-mission,
   #innovations-bopa,
-  #notre-vision {
+  #notre-vision,
+  #our-mission,
+  #bopa-innovations,
+  #our-vision {
     padding-top: var(--space-5);
     padding-bottom: var(--space-5);
   }
@@ -2071,7 +2074,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      est une classe partagée avec la page `/nos_innovations`, qui a son
      propre schéma de largeur à 1320px ailleurs sur cette page - un
      changement dans site.css l'aurait rendue incohérente avec elle-même. */
-  #innovations-bopa .bopa-projects-v2__inner {
+  #innovations-bopa .bopa-projects-v2__inner,
+  #bopa-innovations .bopa-projects-v2__inner {
     width: min(var(--max-width), 100%);
   }
 
@@ -2322,7 +2326,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      dans .about-v2__team-band (fond clair, cause du "grand espace vide"
      vu par l'owner apres la sous-section 03) - un seul padding-bottom
      doit gouverner la fin de la section, celui deja pense pour ca. */
-  #qui-sommes-nous { padding-top: var(--space-5); padding-bottom: 0; }
+  #qui-sommes-nous,
+  #who-we-are { padding-top: var(--space-5); padding-bottom: 0; }
 
   .about-v2__intro {
     text-align: center;
@@ -2337,7 +2342,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      .85rem, identique à .bopa-eyebrow/.bopa-vision-v4__eyebrow) - un
      margin-top ici en plus doublait l'écart (31px mesuré au lieu des
      13.6px de Mission/Vision). */
-  #qui-sommes-nous .about-v2__intro-title {
+  #qui-sommes-nous .about-v2__intro-title,
+  #who-we-are .about-v2__intro-title {
     margin: 0 auto;
     max-width: 49rem;
     color: var(--color-navy);
@@ -2348,7 +2354,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     letter-spacing: -0.035em;
     text-align: center;
   }
-  #qui-sommes-nous .about-v2__intro-lede {
+  #qui-sommes-nous .about-v2__intro-lede,
+  #who-we-are .about-v2__intro-lede {
     margin: 1.45rem auto 0;
     max-width: 52rem;
     color: var(--about-ink);
@@ -4779,7 +4786,13 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   #notre-vision,
   #qui-sommes-nous,
   #nous-contacter,
-  #nous-soutenir {
+  #nous-soutenir,
+  #our-mission,
+  #bopa-innovations,
+  #our-vision,
+  #who-we-are,
+  #contact-us,
+  #support-us {
     scroll-margin-top: var(--bopa-header-height);
   }
 </style>
