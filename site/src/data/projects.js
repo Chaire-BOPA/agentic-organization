@@ -112,7 +112,13 @@ export const phases = [
         // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
         // 6-Visuels-Projets-V1"). Original :
         // source/brand/assets/projets-v2/compte-rendu-operatoire-augmente.png.
+        // Photo plus large que le cadre (ratio 1.5) : la coupe cover
+        // standard rognait les deux ecrans sur les bords, l'owner l'a
+        // trouve "trop rapproche". imageFit:'contain' montre la photo
+        // entiere (les deux ecrans + la fleche), fines marges marine
+        // haut/bas (~16px).
         image: '/images/projets-v2/compte-rendu-operatoire-augmente.jpg',
+        imageFit: 'contain',
         action: {
           href: 'https://uncovr.ai/',
           type: 'external',
@@ -132,13 +138,15 @@ export const phases = [
         // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
         // 6-Visuels-Projets-V1") - nouvelle illustration, remplace l'ancienne
         // photo. Original : source/brand/assets/projets-v2/goldfinger-innovations.png.
+        // Illustration large (ratio 1.775) : deux allers-retours
+        // d'object-position (droite puis encore plus a gauche) n'ont
+        // jamais permis de montrer a la fois le titre "GOLDFINGER" (a
+        // gauche) ET la personne assise a l'ordinateur (a droite) - une
+        // coupe cover ne peut montrer que l'un ou l'autre. imageFit:
+        // 'contain' montre l'illustration entiere, fines marges marine
+        // haut/bas (~28px).
         image: '/images/projets-v2/goldfinger-innovations.jpg',
-        // Cadrage horizontal decale a gauche (owner: object-position
-        // specifique autorise pour ameliorer le cadrage) - un centrage par
-        // defaut coupait le titre "GOLDFINGER" affiche sur l'ecran, a
-        // gauche de l'illustration. Decale encore plus a gauche a la
-        // demande de l'owner (2026-09-09, meme jour).
-        imagePosition: 'left center',
+        imageFit: 'contain',
         fr: {
           name: 'Goldfinger',
           description: 'Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.',
