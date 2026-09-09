@@ -59,7 +59,10 @@ export const phases = [
         },
       },
       {
-        image: '/images/innovations-v2/optimiser-allocation-greffons.svg',
+        // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
+        // 7-Visuels-Projets-V1") - fourni par l'owner via source/inbox.
+        // Original : source/brand/assets/projets-v2/livermatch.png.
+        image: '/images/projets-v2/livermatch.jpg',
         fr: {
           name: 'LiverMatch',
           description: 'Développer de nouveaux outils pour mieux évaluer la situation des patients en attente de transplantation et accompagner la décision médicale.',
@@ -106,7 +109,14 @@ export const phases = [
         },
       },
       {
-        image: '/images/innovations-v2/henri.svg',
+        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
+        // Original : source/brand/assets/projets-v2/henri.png.
+        image: '/images/projets-v2/henri.jpg',
+        // Cadrage vertical remonte (owner: object-position specifique
+        // autorise pour ameliorer le cadrage) - un centrage par defaut
+        // coupait le haut de la charlotte du chirurgien, le sujet
+        // principal de la photo.
+        imagePosition: 'center top',
         fr: {
           name: 'Henri',
           description: "Un assistant vocal pour accompagner le chirurgien pendant l'intervention, sans interrompre son geste.",
@@ -117,7 +127,17 @@ export const phases = [
         },
       },
       {
-        image: '/images/projets-v2/goldfinger.png',
+        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus) -
+        // nouveau fichier distinct (goldfinger-innovations.jpg), l'ancien
+        // goldfinger.png n'est utilise nulle part ailleurs mais reste en
+        // place, non touche. Original :
+        // source/brand/assets/projets-v2/goldfinger-innovations.png.
+        image: '/images/projets-v2/goldfinger-innovations.jpg',
+        // Cadrage horizontal decale a gauche (owner: object-position
+        // specifique autorise pour ameliorer le cadrage) - un centrage par
+        // defaut coupait presque entierement le visage du chirurgien, a
+        // gauche de la photo.
+        imagePosition: '15% center',
         fr: {
           name: 'Goldfinger',
           description: 'Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.',
@@ -145,7 +165,9 @@ export const phases = [
         },
       },
       {
-        image: '/images/innovations-v2/charge-cognitive-chirurgien.svg',
+        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
+        // Original : source/brand/assets/projets-v2/charge-cognitive-chirurgien.png.
+        image: '/images/projets-v2/charge-cognitive-chirurgien.jpg',
         fr: {
           name: 'Évaluer la charge cognitive du chirurgien',
           description: 'Mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical.',
@@ -177,7 +199,13 @@ export const phases = [
     en: { label: 'Postoperative', tagline: 'Better follow-up for better recovery' },
     projects: [
       {
-        image: '/images/projets-v2/colette.png',
+        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus) -
+        // nouveau fichier distinct (colette-innovations.jpg) : l'ancien
+        // colette.png reste utilise tel quel par la Home (HomeContent.astro,
+        // rail "Nos innovations" phares), hors perimetre explicite de cette
+        // passe (page /nos_innovations/ uniquement), jamais touche. Original :
+        // source/brand/assets/projets-v2/colette-innovations-original.jpeg.
+        image: '/images/projets-v2/colette-innovations.jpg',
         fr: {
           name: 'Colette',
           description: 'Une IA conversationnelle pour accompagner le patient greffé 24 h/24 et 7 j/7.',
@@ -229,7 +257,9 @@ export const phases = [
     en: { label: 'Health economics', tagline: 'Better assessment for better resource allocation' },
     projects: [
       {
-        image: '/images/innovations-v2/mesgardes.svg',
+        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
+        // Original : source/brand/assets/projets-v2/mesgardes-original.jpeg.
+        image: '/images/projets-v2/mesgardes.jpg',
         fr: {
           name: 'MesGardes',
           description: 'Simplifier la création des plannings de garde pour réduire le temps administratif et préserver le temps médical.',
@@ -240,7 +270,9 @@ export const phases = [
         },
       },
       {
-        image: '/images/innovations-v2/hepatgreen.svg',
+        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
+        // Original : source/brand/assets/projets-v2/hepatgreen-original.jpeg.
+        image: '/images/projets-v2/hepatgreen.jpg',
         fr: {
           name: 'HepatGreen',
           description: "Mesurer l'empreinte environnementale de la chirurgie du foie pour construire une chirurgie plus durable.",
