@@ -2285,9 +2285,20 @@ p {
 }
 
 .bopa-project-card__media {
+  /* Pas de border-radius ni d'overflow:hidden ici, deliberement (regle
+     d'or coins de carte, owner 2026-09-09) : ".bopa-project-card" (le
+     conteneur principal, overflow:hidden + border-radius:14px) est
+     l'UNIQUE reference de decoupe pour toute la carte - photo, fondu et
+     fond bleu nuit. Un second overflow:hidden ici, sur un element sans
+     rayon propre, forcait le navigateur a d'abord rasteriser la photo
+     (compositee a part a cause de son transform:scale ci-dessous) dans
+     ce rectangle intermediaire avant que le rayon de la carte ne vienne
+     la decouper par-dessus en second passage - deux etapes de decoupe
+     au lieu d'une, d'ou l'angle superieur legerement casse/pince signale
+     par l'owner (visible surtout sur LiverSight/PancreasSight). Une
+     seule autorite de decoupe (la carte) donne une seule courbe nette. */
   position: relative;
   height: 184px;
-  overflow: hidden;
   background: #061a38;
 }
 
