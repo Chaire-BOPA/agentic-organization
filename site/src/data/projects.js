@@ -167,7 +167,16 @@ export const phases = [
       {
         // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
         // Original : source/brand/assets/projets-v2/charge-cognitive-chirurgien.png.
+        // Photo portrait dans un cadre paysage (2026-09-09) : la largeur est
+        // deja montree a 100% (aucune coupe laterale), le "zoom" vient donc
+        // uniquement de la coupe haut/bas imposee par object-fit:cover.
+        // Un vrai dezoom est impossible sans bandes vides (contraire a la
+        // regle photo sans bordure/coin-a-coin) - l'owner a choisi de
+        // repositionner dans la fenetre de coupe minimale plutot que d'y
+        // deroger : imagePosition remonte le cadrage pour montrer un peu
+        // plus les scialytiques/la salle, au lieu du centrage par defaut.
         image: '/images/projets-v2/charge-cognitive-chirurgien.jpg',
+        imagePosition: 'center 20%',
         fr: {
           name: 'Évaluer la charge cognitive du chirurgien',
           description: 'Mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical.',
