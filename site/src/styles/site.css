@@ -2263,7 +2263,6 @@ p {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border: 1px solid rgba(4,25,58,0.16);
   border-radius: 14px;
   background: var(--mp-navy-deep);
   color: #fff !important;
@@ -2316,6 +2315,21 @@ p {
   flex: 1;
   flex-direction: column;
   padding: 0.55rem 1.25rem 1.2rem;
+  /* Regle d'or cartes projets (owner, 2026-09-09) : le contour de la
+     carte vivait sur .bopa-project-card lui-meme (border: 1px, sur les
+     4 cotes), ce qui dessinait un liseré visible tout autour de la
+     photo - contraire a la demande explicite "aucun contour autour de
+     l'image, les coins de la carte doivent etre directement ceux de la
+     photo". Deplace ici, uniquement gauche/droite/bas (jamais en haut,
+     ou il creerait une coupure nette pile a la frontiere photo/texte,
+     l'inverse du fondu voulu) - la photo (.bopa-project-card__media)
+     n'a donc plus aucun contour, ses coins superieurs sont directement
+     ceux de la carte (rayon + overflow:hidden portes par
+     .bopa-project-card, inchanges). Le fondu existant
+     (.bopa-project-card__media::after) n'est pas touche. */
+  border-left: 1px solid rgba(4,25,58,0.16);
+  border-right: 1px solid rgba(4,25,58,0.16);
+  border-bottom: 1px solid rgba(4,25,58,0.16);
 }
 
 .bopa-project-card__body h3 {
