@@ -60,10 +60,15 @@ export const phases = [
       },
       {
         // Ajouté 2026-09-08 (pack "Nos-Innovations-Ajout-Metatron-FluoGuide-
-        // V1"). Pas de traduction EN validée pour l'instant - ne pas inventer.
+        // V1"). Traduction EN ajoutée 2026-09-09 à la demande explicite de
+        // l'owner (traduction humaine, pas machine - voir voice.md).
         fr: {
           name: 'Métatron',
           description: "Développer un outil d'IA d'aide à la décision thérapeutique pour les patients atteints de métastases hépatiques d'un cancer colorectal.",
+        },
+        en: {
+          name: 'Métatron',
+          description: 'Developing an AI tool to support therapeutic decision-making for patients with colorectal cancer liver metastases.',
         },
       },
     ],
@@ -137,10 +142,15 @@ export const phases = [
       },
       {
         // Ajouté 2026-09-08 (pack "Nos-Innovations-Ajout-Metatron-FluoGuide-
-        // V1"). Pas de traduction EN validée pour l'instant - ne pas inventer.
+        // V1"). Traduction EN ajoutée 2026-09-09 à la demande explicite de
+        // l'owner (traduction humaine, pas machine - voir voice.md).
         fr: {
           name: 'FluoGuide',
           description: "Développer une méthode d'assistance en temps réel pour ajuster les marges de résection grâce à l'imagerie par fluorescence.",
+        },
+        en: {
+          name: 'FluoGuide',
+          description: 'Developing a real-time assistance method to adjust resection margins using fluorescence imaging.',
         },
       },
     ],
