@@ -126,7 +126,7 @@ export const phases = [
         },
         en: {
           name: 'BOPCAM',
-          description: "A \"made in BOPA\" device to film the surgeon's hands and movements up close during open surgery.",
+          description: "A <strong>\"made-in-BOPA\" device</strong> that captures the surgeon's hands and movements up close during open surgery.",
         },
       },
       {
@@ -151,7 +151,7 @@ export const phases = [
         },
         en: {
           name: 'The augmented operative report',
-          description: 'Automatically turning surgical videos into operative reports. A research theme that gave rise to Uncovr.',
+          description: 'Automatically turning <strong>surgical video into structured operative reports</strong>. A research project that led to the creation of <strong>Uncovr</strong>.',
         },
       },
       {
@@ -187,7 +187,7 @@ export const phases = [
         },
         en: {
           name: 'Henri',
-          description: "A chatbot that gives the surgeon on-demand access to the patient's key information right before the incision.",
+          description: 'A chatbot giving surgeons <strong>on-demand access to key patient information</strong> right before the incision.',
         },
       },
       {
@@ -204,7 +204,7 @@ export const phases = [
         },
         en: {
           name: 'Jacky',
-          description: 'A chatbot that prompts the surgeon at key moments during the procedure to automatically generate a standardized operative report.',
+          description: 'A chatbot that prompts surgeons at <strong>key moments during surgery</strong> to automatically generate a standardized operative report.',
         },
       },
       {
@@ -220,7 +220,7 @@ export const phases = [
         },
         en: {
           name: 'FluoGuide',
-          description: 'Developing a real-time assistance method, during the procedure, to adjust resection margins using fluorescence imaging.',
+          description: 'Developing a <strong>real-time surgical assistance method</strong> to adjust resection margins during surgery using fluorescence imaging.',
         },
       },
       {
@@ -244,7 +244,7 @@ export const phases = [
         },
         en: {
           name: 'CogniSurg',
-          description: "Better understanding the surgeon's mental workload and its links with errors and adverse events, to help make surgical procedures safer.",
+          description: "Understanding the surgeon's <strong>mental workload and its links to errors and adverse events</strong>, with the goal of making surgery safer.",
         },
       },
     ],
