@@ -1937,16 +1937,16 @@ p {
   text-align: center;
 }
 
-/* "Six mois"/"10 %" (et EN "Six months"/"10%") en semi-bold uniquement
-   (owner, 2026-09-10) - un premier essai en cyan a ete explicitement
-   ecarte ("je prefere finalement ne pas utiliser le cyan... conserve le
-   blanc du texte actuel") : color:inherit reprend le blanc a 88% deja en
-   place ci-dessus, seul le poids de police (600, jamais le 700 par
-   defaut de <strong>) cree l'accroche - un traitement volontairement
-   sobre pour une donnee de mortalite. */
+/* Premiere phrase ("Six mois... 10 %") en gras, meme traitement EXACT
+   que la phrase d'accroche de "Notre vision" (owner, 2026-09-10 : "en
+   gras comme la phrase ... de la section notre vision") - voir
+   .bopa-vision-v4__intro strong ci-dessous, meme recette (font-weight
+   700 + blanc pur #fff, plus lumineux que le blanc a 88% du paragraphe)
+   reprise ici a l'identique plutot qu'inventee. Remplace un essai
+   precedent en semi-bold/couleur heritee, devenu obsolete. */
 .bopa-mission-v2__intro strong {
-  font-weight: 600;
-  color: inherit;
+  font-weight: 700;
+  color: #fff;
 }
 
 .bopa-mission-v2__timeline {
