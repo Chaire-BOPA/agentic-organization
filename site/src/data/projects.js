@@ -138,18 +138,15 @@ export const phases = [
         },
       },
       {
-        // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
-        // 6-Visuels-Projets-V1") - nouvelle illustration, remplace l'ancienne
-        // photo. Original : source/brand/assets/projets-v2/goldfinger-innovations.png.
-        // Illustration large (ratio 1.775) : deux allers-retours
-        // d'object-position (droite puis encore plus a gauche) n'ont
-        // jamais permis de montrer a la fois le titre "GOLDFINGER" (a
-        // gauche) ET la personne assise a l'ordinateur (a droite) - une
-        // coupe cover ne peut montrer que l'un ou l'autre. imageFit:
-        // 'contain' montre l'illustration entiere, fines marges marine
-        // haut/bas (~28px).
+        // Visuel remplace le 2026-09-10 ("Goldfinger V2" fournie par
+        // l'owner via source/inbox) : nouveau cadrage deja recadre pres
+        // du ratio de la carte (1129x941, contre 1671x941 avant), ce qui
+        // montre desormais le titre et la personne au poste de travail
+        // ensemble en simple object-fit:cover standard, sans plus avoir
+        // besoin de l'exception imageFit:'contain' utilisee jusque-la.
+        // Ancien visuel archive en goldfinger-innovations-v1.png. Original :
+        // source/brand/assets/projets-v2/goldfinger-innovations.png.
         image: '/images/projets-v2/goldfinger-innovations.jpg',
-        imageFit: 'contain',
         fr: {
           name: 'Goldfinger',
           description: 'Interagir simplement et à distance avec les images médicales, sans jamais rompre la stérilité.',
