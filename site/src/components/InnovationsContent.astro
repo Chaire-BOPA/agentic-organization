@@ -943,25 +943,12 @@ const chevronRightBig =
   }
 
   /* MesGardes + HepatGreen (les deux seules cartes de cette catégorie) :
-     liseré doré pour signaler la famille "médico-économique" (2026-08-27,
-     finitions V1, épaissi en V2, puis corrigé le 2026-09-10). Le premier
-     traitement (`box-shadow` sur .bopa-project-card entier) entourait
-     toute la carte, photo comprise - contraire à la règle d'or des cartes
-     projets ("aucun contour autour de l'image", voir .bopa-project-card__body
-     ci-dessus). Corrigé pour suivre EXACTEMENT la même construction que
-     toutes les autres catégories : le contour vit uniquement sur
-     .bopa-project-card__body (gauche/droite/bas, jamais en haut), donc il
-     ne touche jamais .bopa-project-card__media ni les coins supérieurs -
-     l'illustration seule dessine le haut et les coins de la carte, comme
-     partout ailleurs. Couleur seule différence avec le liseré navy par
-     défaut ; le fondu photo -> bleu nuit (.bopa-project-card__media::after)
-     n'est pas touché, c'est lui qui donne l'impression d'atténuation
-     progressive à l'approche de l'illustration. */
-  .innovations-v2__category--gold .bopa-project-card__body {
-    border-left: 1.5px solid var(--color-gold);
-    border-right: 1.5px solid var(--color-gold);
-    border-bottom: 1.5px solid var(--color-gold);
-  }
+     liseré doré sur .bopa-project-card__body retiré le 2026-09-10 (owner :
+     "purement et simplement enlever le liseré doré") - ces deux cartes
+     utilisent maintenant le liseré navy par défaut de .bopa-project-card__body,
+     identique à toutes les autres catégories, sans aucune distinction
+     visuelle sur la carte elle-même. L'accent doré "médico-économique"
+     reste uniquement sur le filtre/label/icône de catégorie ci-dessus. */
 
   /* Les deux seules actions cliquables des cartes : un petit lien
      textuel dans la carte, jamais toute la carte. */
