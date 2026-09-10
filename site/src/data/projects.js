@@ -332,7 +332,7 @@ export const phases = [
         },
         en: {
           name: 'MesGardes',
-          description: 'Simplifying on-call schedule creation to cut administrative time and protect time for patient care.',
+          description: '<strong>Simplifying on-call scheduling</strong> to reduce administrative workload and preserve valuable clinical time.',
         },
       },
       {
@@ -348,7 +348,7 @@ export const phases = [
         },
         en: {
           name: 'HepatGreen',
-          description: 'Measuring the environmental footprint of liver surgery to build more sustainable surgical care.',
+          description: '<strong>Measuring the environmental footprint of liver surgery</strong> to help build a more sustainable approach to surgical care.',
         },
       },
     ],
