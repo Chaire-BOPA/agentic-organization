@@ -203,11 +203,11 @@ export const phases = [
         image: '/images/projets-v2/fluoguide.jpg',
         fr: {
           name: 'FluoGuide',
-          description: "Développer une méthode d'assistance en temps réel pour ajuster les marges de résection grâce à l'imagerie par fluorescence.",
+          description: "Développer une méthode d'assistance en temps réel, pendant l'opération, pour ajuster les marges de résection grâce à l'imagerie par fluorescence.",
         },
         en: {
           name: 'FluoGuide',
-          description: 'Developing a real-time assistance method to adjust resection margins using fluorescence imaging.',
+          description: 'Developing a real-time assistance method, during the procedure, to adjust resection margins using fluorescence imaging.',
         },
       },
       {
