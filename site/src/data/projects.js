@@ -112,16 +112,15 @@ export const phases = [
         },
       },
       {
-        // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
-        // 6-Visuels-Projets-V1"). Original :
+        // Visuel remplace le 2026-09-10 ("Le compte rendu operatoire
+        // augmente V2" fournie par l'owner via source/inbox) : nouveau
+        // cadrage deja proche du ratio de la carte (1374x1145), les deux
+        // ecrans et la fleche tiennent ensemble en simple object-fit:cover
+        // standard, sans plus avoir besoin de l'exception imageFit:
+        // 'contain' utilisee jusque-la. Ancien visuel archive en
+        // compte-rendu-operatoire-augmente-v1.png. Original :
         // source/brand/assets/projets-v2/compte-rendu-operatoire-augmente.png.
-        // Photo plus large que le cadre (ratio 1.5) : la coupe cover
-        // standard rognait les deux ecrans sur les bords, l'owner l'a
-        // trouve "trop rapproche". imageFit:'contain' montre la photo
-        // entiere (les deux ecrans + la fleche), fines marges marine
-        // haut/bas (~16px).
         image: '/images/projets-v2/compte-rendu-operatoire-augmente.jpg',
-        imageFit: 'contain',
         action: {
           href: 'https://uncovr.ai/',
           type: 'external',
