@@ -745,9 +745,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
               Mines-Télécom (IMT) et l'Université Paris-Saclay.
             </p>
           )}
-          <p class="about-v2__chaire-wic-link">
-            <a href={isEn ? '/en/wic' : '/wic'}>{isEn ? 'Learn more about WIC' : 'En savoir plus sur le WIC'} <span aria-hidden="true">↗</span></a>
-          </p>
           <p class="about-v2__chaire-lede">
             {isEn ? (
               <>
@@ -1095,14 +1092,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <span class="about-v2__action-marker-title">{isEn ? <>The BOPA team in action</> : <>L'équipe BOPA en action</>}</span>
         </div>
 
-        <p class="about-v2__action-thanks">
-          {isEn ? (
-            <>Our warmest thanks to the entire BOPA community, without whom we could not move forward!</>
-          ) : (
-            <>De très chaleureux remerciements à l'ensemble de la communauté BOPA, sans qui nous ne pourrions pas avancer !</>
-          )}
-        </p>
-
         <div
           class="about-v2__action-carousel"
           data-action-carousel
@@ -1140,6 +1129,14 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         </div>
 
         <p class="about-v2__action-caption" data-action-caption aria-live="polite">{actionPhotos[0].caption}</p>
+
+        <p class="about-v2__action-thanks">
+          {isEn ? (
+            <>Our warmest thanks to the entire BOPA community, without whom we could not move forward!</>
+          ) : (
+            <>De très chaleureux remerciements à l'ensemble de la communauté BOPA, sans qui nous ne pourrions pas avancer !</>
+          )}
+        </p>
       </div>
     </div>
   </section>
@@ -1890,20 +1887,28 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         const slides = Array.from(stage.querySelectorAll<HTMLElement>('[data-action-slide]'));
         const captions = slides.map((slide) => slide.querySelector('img')?.getAttribute('alt') || '');
         const total = slides.length;
+        const mod = (n: number) => ((n % total) + total) % total;
 
         // Profondeurs : 0 = active, 1 = voisine proche, 2 = voisine
         // lointaine (bord du cadre), au-dela = masquee (opacite 0) mais
         // gardee positionnee pour pouvoir re-apparaitre en fondu plutot
         // que de sauter. Decalages en clamp() pour rester proportionnes
-        // du mobile au grand desktop, comme le reste du site.
+        // du mobile au grand desktop, comme le reste du site (pack
+        // "Carrousel-Infinite-Animation-Precision-V1", 2026-09-10 : seuls
+        // les scales/opacites changent ici, la composition/les offsets
+        // restent ceux deja valides).
         const OFFSET = ['0px', 'clamp(150px, 19vw, 250px)', 'clamp(260px, 32vw, 420px)', 'clamp(340px, 40vw, 520px)'];
-        const SCALE = [1, 0.72, 0.48, 0.48];
-        const OPACITY = [1, 0.85, 0.32, 0];
+        const SCALE = [1, 0.82, 0.68, 0.68];
+        const OPACITY = [1, 0.6, 0.22, 0];
 
         let activeIndex = 0;
         const layout = () => {
           slides.forEach((slide, i) => {
-            const delta = i - activeIndex;
+            // Distance circulaire la plus courte a l'index actif (boucle
+            // infinie : la photo 12 est la voisine immediate a gauche de
+            // la photo 01, jamais un aller-retour par le milieu du rail).
+            let delta = mod(i - activeIndex);
+            if (delta > total / 2) delta -= total;
             const dist = Math.min(Math.abs(delta), 3);
             const dir = Math.sign(delta);
             const offsetExpr = dir === 0 ? '0px' : `calc(${dir} * ${OFFSET[dist]})`;
@@ -1917,23 +1922,50 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
         const render = () => {
           captionEl.textContent = captions[activeIndex] || '';
-          prev.disabled = activeIndex <= 0;
-          next.disabled = activeIndex >= total - 1;
           layout();
         };
         render();
 
-        const goTo = (index: number) => {
-          activeIndex = Math.max(0, Math.min(total - 1, index));
+        // Boucle reellement infinie (flèches toujours actives, jamais de
+        // saut) + verrou anti-empilement : une transition (~480ms) doit
+        // finir proprement avant qu'une autre ne parte ; un clic pendant
+        // la transition en cours est mis en file (un seul, le plus recent
+        // ecrase le precedent) plutot que de lancer une 2e animation en
+        // parallele.
+        const ANIM_MS = 480;
+        let animating = false;
+        let pendingTarget: number | null = null;
+
+        const applyIndex = (target: number) => {
+          activeIndex = mod(target);
+          animating = true;
           render();
+          window.setTimeout(() => {
+            animating = false;
+            if (pendingTarget !== null) {
+              const nextTarget = pendingTarget;
+              pendingTarget = null;
+              applyIndex(nextTarget);
+            }
+          }, ANIM_MS);
         };
 
-        prev.addEventListener('click', () => goTo(activeIndex - 1));
-        next.addEventListener('click', () => goTo(activeIndex + 1));
+        const goTo = (target: number) => {
+          if (animating) {
+            pendingTarget = mod(target);
+            return;
+          }
+          applyIndex(target);
+        };
+
+        const currentTarget = () => (pendingTarget !== null ? pendingTarget : activeIndex);
+
+        prev.addEventListener('click', () => goTo(currentTarget() - 1));
+        next.addEventListener('click', () => goTo(currentTarget() + 1));
 
         stage.addEventListener('keydown', (event) => {
-          if (event.key === 'ArrowRight') { event.preventDefault(); goTo(activeIndex + 1); }
-          if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(activeIndex - 1); }
+          if (event.key === 'ArrowRight') { event.preventDefault(); goTo(currentTarget() + 1); }
+          if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(currentTarget() - 1); }
         });
 
         // Drag/swipe (souris + tactile + stylet, un seul mecanisme -
@@ -1954,8 +1986,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           dragging = false;
           if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
           const delta = event.clientX - dragStartX;
-          if (delta <= -THRESHOLD) goTo(activeIndex + 1);
-          else if (delta >= THRESHOLD) goTo(activeIndex - 1);
+          if (delta <= -THRESHOLD) goTo(currentTarget() + 1);
+          else if (delta >= THRESHOLD) goTo(currentTarget() - 1);
         };
         stage.addEventListener('pointerup', endDrag);
         stage.addEventListener('pointercancel', endDrag);
@@ -2452,7 +2484,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     margin: 0;
     height: 100%;
     width: auto;
-    transition: transform 460ms cubic-bezier(.22, .61, .36, 1), opacity 420ms ease;
+    transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1), opacity 480ms cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform, opacity;
   }
   .about-v2__action-slide img {
@@ -2498,12 +2530,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__action-nav--next {
     right: clamp(0.25rem, 6vw, 4rem);
   }
-  .about-v2__action-nav:disabled {
-    opacity: 0;
-    pointer-events: none;
-  }
   @media (hover: hover) and (pointer: fine) {
-    .about-v2__action-nav:not(:disabled):hover {
+    .about-v2__action-nav:hover {
       color: var(--bopa-cyan);
       box-shadow: 0 6px 18px rgba(4, 35, 56, 0.22);
     }
@@ -2524,11 +2552,18 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     font-size: 0.85rem;
     line-height: 1.3;
   }
-  /* Remerciement : simple ligne de texte sous le titre (plus d'encadre/
-     icone - owner, 2026-09-10), meme couleur que le titre de la sous-
-     section, centree, tenue sur une seule ligne sur desktop. */
+  /* Remerciement : encadre blanc (owner, 2026-09-10), sous le carrousel/
+     la legende, assez colle. Largeur ajustee au texte (fit-content) et
+     centree plutot qu'etiree sur tout le container, texte toujours tenu
+     sur une seule ligne sur desktop (meme couleur que le titre). */
   .about-v2__action-thanks {
-    margin: 0 0 clamp(1rem, 1.6vw, 1.35rem);
+    width: fit-content;
+    max-width: calc(100% - 2rem);
+    margin: clamp(0.75rem, 1.2vw, 1rem) auto 0;
+    padding: 0.85rem 1.5rem;
+    background: #fff;
+    border: 1px solid rgba(45, 185, 227, 0.35);
+    border-radius: 14px;
     text-align: center;
     color: var(--color-navy);
     font-weight: 700;
@@ -2537,10 +2572,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     white-space: nowrap;
   }
 
-  /* En-dessous de ~850px la phrase ne tient plus sur une ligne a une
-     taille lisible (verifie avec le texte FR le plus long) : on repasse
-     au retour a la ligne naturel plutot que de rapetisser le texte. */
-  @media (max-width: 850px) {
+  /* En-dessous de ~900px (encadre + son padding inclus) la phrase ne
+     tient plus sur une ligne a une taille lisible (verifie avec le texte
+     FR le plus long) : on repasse au retour a la ligne naturel plutot
+     que de rapetisser le texte. */
+  @media (max-width: 900px) {
     .about-v2__action-thanks {
       white-space: normal;
     }
@@ -2555,6 +2591,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     }
     .about-v2__action-thanks {
       font-size: 0.9rem;
+      padding: 0.75rem 1.1rem;
     }
   }
 
@@ -2904,15 +2941,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__chaire-lede strong { color: var(--color-navy); font-weight: 700; }
   .about-v2__chaire-lede--narrow { max-width: 34rem; }
   .about-v2__chaire-highlight { color: var(--bopa-cyan); }
-
-  /* Lien discret vers la nouvelle page /wic/ (pack "BOPA-WIC-Page-et-Lien-
-     QuiSommesNous-V1", 2026-09-10) - pas de nouvelle classe de bouton,
-     juste le lien texte standard du site (couleur/soulignement globaux,
-     voir site.css `a`), en plus petit et plus discret qu'un lede normal. */
-  .about-v2__chaire-wic-link {
-    margin-top: 0.6rem;
-    font-size: 0.9rem;
-  }
 
   /* Colonnes à largeur bornée (finitions V4-bis, 2026-08-28) - un vrai
      bug trouvé et corrigé ici : avec `minmax(0, 1fr)` la colonne de
