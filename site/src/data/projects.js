@@ -265,11 +265,11 @@ export const phases = [
         image: '/images/projets-v2/bopa-value.jpg',
         fr: {
           name: 'BOPA Value',
-          description: 'Utiliser des solutions numériques pour évaluer le devenir du patient dans le temps : sa récupération, sa qualité de vie et son vécu.',
+          description: "Évaluer la qualité des soins en chirurgie à travers le regard des patients, pour mesurer l'impact des innovations mises en place.",
         },
         en: {
           name: 'BOPA Value',
-          description: 'Using digital solutions to track patient outcomes over time: recovery, quality of life and experience.',
+          description: "Assessing the quality of surgical care through patients' own perspective, to measure the impact of the innovations put in place.",
         },
       },
       {
