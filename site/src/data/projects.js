@@ -156,14 +156,13 @@ export const phases = [
         },
       },
       {
-        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
-        // Original : source/brand/assets/projets-v2/henri.png.
+        // Visuel remplace le 2026-09-10 (nouvelle illustration fournie par
+        // l'owner via source/inbox, remplace l'ancienne photo). Cadrage
+        // natif proche du ratio de la carte (1374x1145) : plus besoin de
+        // l'object-position utilise pour l'ancienne photo. Ancien visuel
+        // archive en henri-v1.png. Original :
+        // source/brand/assets/projets-v2/henri.png.
         image: '/images/projets-v2/henri.jpg',
-        // Cadrage vertical remonte (owner: object-position specifique
-        // autorise pour ameliorer le cadrage) - un centrage par defaut
-        // coupait le haut de la charlotte du chirurgien, le sujet
-        // principal de la photo.
-        imagePosition: 'center top',
         fr: {
           name: 'Henri',
           description: "Un assistant vocal pour accompagner le chirurgien pendant l'intervention, sans interrompre son geste.",
@@ -175,9 +174,13 @@ export const phases = [
       },
       {
         // Ajoute 2026-09-09 a la demande de l'owner : carte placeholder,
-        // juste le nom pour l'instant (pas de visuel ni de description),
-        // meme principe que FluoGuide avant d'avoir son texte. Nom propre,
-        // inchange FR/EN (comme Henri, Goldfinger, BOPCAM).
+        // juste le nom au depart (pas de visuel ni de description), meme
+        // principe que FluoGuide avant d'avoir son texte. Nom propre,
+        // inchange FR/EN (comme Henri, Goldfinger, BOPCAM). Visuel ajoute
+        // le 2026-09-10 (illustration fournie par l'owner via
+        // source/inbox) ; la description reste vide, non demandee.
+        // Original : source/brand/assets/projets-v2/jacky.png.
+        image: '/images/projets-v2/jacky.jpg',
         fr: {
           name: 'Jacky',
           description: '',
