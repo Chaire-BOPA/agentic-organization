@@ -2614,20 +2614,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     gap: clamp(1.5rem, 3vw, 2rem);
     margin-top: clamp(1.5rem, 2vw, 1.75rem);
   }
-  /* Fond blanc pur + liseré champagne/doré très fin (2026-08-28, pack
-     "correctifs compacts V3") - remplace le fond dégradé et la bordure
-     --about-line. Réutilise le token --color-gold déjà existant du
-     projet (Médico-économique sur /nos_innovations) plutôt qu'une
-     nouvelle teinte, à la demande explicite du pack : seconde
-     utilisation validée pour ce token, toujours restreinte (ici :
-     uniquement le contour extérieur de ces 2 cartes) - le reste du
-     contenu (pictos/checks/accents/liens/séparateurs) reste cyan,
-     aucun fond doré, aucune ombre. */
+  /* Fond blanc pur + liseré fin (2026-08-28, pack "correctifs compacts
+     V3", couleur passée de doré à bleu le 2026-09-10 à la demande de
+     l'owner - le doré du Médico-économique a lui-même été retiré des
+     cartes /nos_innovations/ entre-temps). --color-accent (#03529c) est
+     le bleu déjà utilisé pour le texte "à toutes celles et ceux qui...
+     rendent cette aventure possible" (section Nous soutenir) - même
+     teinte demandée explicitement ici, restreinte au contour extérieur
+     de ces 2 cartes ; le reste du contenu (pictos/checks/accents/liens/
+     séparateurs) reste cyan, aucun fond bleu, aucune ombre. */
   .about-v2__impact-card {
     display: flex;
     flex-direction: column;
     background: #fff;
-    border: 1px solid var(--color-gold);
+    border: 1px solid var(--color-accent);
     border-radius: 1rem;
     padding: clamp(1.15rem, 1.8vw, 1.4rem) clamp(1.5rem, 2.6vw, 1.9rem) clamp(1.4rem, 2.2vw, 1.65rem);
   }
