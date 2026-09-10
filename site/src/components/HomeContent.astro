@@ -1131,11 +1131,14 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         <p class="about-v2__action-caption" data-action-caption aria-live="polite">{actionPhotos[0].caption}</p>
 
         <p class="about-v2__action-thanks">
-          {isEn ? (
-            <>Our warmest thanks to the entire BOPA community, without whom we could not move forward!</>
-          ) : (
-            <>De très chaleureux remerciements à l'ensemble de la communauté BOPA, sans qui nous ne pourrions pas avancer !</>
-          )}
+          <span class="about-v2__action-thanks-icon" set:html={ecoConclusionIcon} />
+          <span class="about-v2__action-thanks-text">
+            {isEn ? (
+              <>Our warmest thanks to the entire BOPA community, without whom we could not move forward!</>
+            ) : (
+              <>De très chaleureux remerciements à l'ensemble de la communauté BOPA, sans qui nous ne pourrions pas avancer !</>
+            )}
+          </span>
         </p>
       </div>
     </div>
@@ -2436,7 +2439,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__action-marker-divider {
     width: 1px;
     height: 2.1rem;
-    background: var(--about-line);
+    background: rgba(8, 31, 74, 0.2);
     flex-shrink: 0;
   }
   .about-v2__action-marker-title {
@@ -2547,8 +2550,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     margin: 0.5rem 0 0;
     min-height: 1.4em;
     text-align: center;
-    color: var(--color-muted);
-    font-weight: 500;
+    color: var(--color-muted-light);
+    font-weight: 400;
     font-size: 0.85rem;
     line-height: 1.3;
   }
@@ -2557,18 +2560,34 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      centree plutot qu'etiree sur tout le container, texte toujours tenu
      sur une seule ligne sur desktop (meme couleur que le titre). */
   .about-v2__action-thanks {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
     width: fit-content;
     max-width: calc(100% - 2rem);
-    margin: clamp(0.75rem, 1.2vw, 1rem) auto 0;
+    margin: clamp(1.5rem, 2.4vw, 2rem) auto 0;
     padding: 0.85rem 1.5rem;
     background: #fff;
     border: 1px solid rgba(45, 185, 227, 0.35);
     border-radius: 14px;
-    text-align: center;
     color: var(--color-navy);
     font-weight: 700;
     font-size: clamp(0.85rem, 1.25vw, 1rem);
     line-height: 1.4;
+  }
+  .about-v2__action-thanks-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    color: var(--bopa-cyan);
+  }
+  .about-v2__action-thanks-icon :global(svg) {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+  .about-v2__action-thanks-text {
     white-space: nowrap;
   }
 
@@ -2577,7 +2596,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      FR le plus long) : on repasse au retour a la ligne naturel plutot
      que de rapetisser le texte. */
   @media (max-width: 900px) {
-    .about-v2__action-thanks {
+    .about-v2__action-thanks-text {
       white-space: normal;
     }
   }
@@ -2919,7 +2938,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__chaire-marker-divider {
     width: 1px;
     height: 2.1rem;
-    background: var(--about-line);
+    background: rgba(8, 31, 74, 0.2);
     flex-shrink: 0;
   }
   .about-v2__chaire-marker-title {
@@ -3522,9 +3541,9 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     line-height: 1;
   }
   .about-v2__team-marker-divider {
-    width: 2px;
+    width: 1px;
     height: 2.1rem;
-    background: rgba(8, 31, 74, 0.4);
+    background: rgba(8, 31, 74, 0.2);
     flex-shrink: 0;
   }
   .about-v2__team-marker-title {
