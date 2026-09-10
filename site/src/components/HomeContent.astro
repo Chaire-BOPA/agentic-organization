@@ -1118,12 +1118,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         </div>
 
         <p class="about-v2__action-caption" data-action-caption aria-live="polite">{actionPhotos[0].caption}</p>
-        <div class="about-v2__action-controls">
-          <span class="about-v2__action-counter" data-action-counter>{`01 / ${String(actionPhotos.length).padStart(2, '0')}`}</span>
-          <div class="about-v2__action-progress">
-            <div class="about-v2__action-progress-bar" data-action-progress-bar></div>
-          </div>
-        </div>
 
         <div class="about-v2__action-thanks">
           <span class="about-v2__action-thanks-icon" set:html={ecoConclusionIcon} />
@@ -1877,14 +1871,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       const prev = actionRoot.querySelector<HTMLButtonElement>('[data-action-prev]');
       const next = actionRoot.querySelector<HTMLButtonElement>('[data-action-next]');
       const captionEl = document.querySelector<HTMLElement>('[data-action-caption]');
-      const counterEl = document.querySelector<HTMLElement>('[data-action-counter]');
-      const progressBar = document.querySelector<HTMLElement>('[data-action-progress-bar]');
 
-      if (stage && prev && next && captionEl && counterEl && progressBar) {
+      if (stage && prev && next && captionEl) {
         const slides = Array.from(stage.querySelectorAll<HTMLElement>('[data-action-slide]'));
         const captions = slides.map((slide) => slide.querySelector('img')?.getAttribute('alt') || '');
         const total = slides.length;
-        const pad = (n: number) => String(n).padStart(2, '0');
 
         // Profondeurs : 0 = active, 1 = voisine proche, 2 = voisine
         // lointaine (bord du cadre), au-dela = masquee (opacite 0) mais
@@ -1912,8 +1903,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
         const render = () => {
           captionEl.textContent = captions[activeIndex] || '';
-          counterEl.textContent = `${pad(activeIndex + 1)} / ${pad(total)}`;
-          progressBar.style.width = `${((activeIndex + 1) / total) * 100}%`;
           prev.disabled = activeIndex <= 0;
           next.disabled = activeIndex >= total - 1;
           layout();
@@ -2373,7 +2362,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      a la sous-section 02. */
   .about-v2__action-band {
     background: oklch(from var(--color-accent) 0.905 0.038 h);
-    padding: clamp(1.75rem, 3vw, 2.5rem) 0 clamp(2.5rem, 4vw, 3.5rem);
+    /* Padding-top aligne exactement sur celui de la sous-section 03
+       (.about-v2__team, clamp(1.1rem, 2vw, 1.5rem)) - owner : meme
+       espace en haut de sous-section que "L'equipe operationnelle". */
+    padding: clamp(1.1rem, 2vw, 1.5rem) 0 clamp(2.5rem, 4vw, 3.5rem);
     /* Les voisines lointaines du carrousel debordent volontairement au-
        dela des marges du container (owner : "debordement possible au-
        dela des marges, c'est voulu") - ce overflow-x cantonne ce debord
@@ -2386,7 +2378,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+    margin-bottom: clamp(1rem, 1.6vw, 1.35rem);
   }
   .about-v2__action-number {
     color: var(--bopa-cyan);
@@ -2507,9 +2499,8 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     outline-offset: 2px;
   }
 
-  /* Legende/compteur/progression : petits et resserres, colles a la
-     photo (owner : "sous la photo... legende collee a l'image ; compteur
-     + progression resserres juste dessous"). */
+  /* Legende : petite et resserree, collee a la photo. Compteur/jauge
+     x/12 retires (owner, 2026-09-10). */
   .about-v2__action-caption {
     margin: 0.5rem 0 0;
     min-height: 1.4em;
@@ -2519,34 +2510,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     font-size: 0.85rem;
     line-height: 1.3;
   }
-  .about-v2__action-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    margin-top: 0.3rem;
-  }
-  .about-v2__action-counter {
-    font-variant-numeric: tabular-nums;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-muted);
-    letter-spacing: 0.02em;
-  }
-  .about-v2__action-progress {
-    width: 5rem;
-    height: 3px;
-    border-radius: 999px;
-    background: rgba(8, 31, 74, 0.14);
-    overflow: hidden;
-  }
-  .about-v2__action-progress-bar {
-    height: 100%;
-    background: var(--bopa-cyan);
-    border-radius: inherit;
-    transition: width 220ms ease;
-  }
-
   /* Remerciement : encadre blanc a fin contour cyan (seul element du
      bloc a garder des coins arrondis/une bordure - exception explicite
      du pack), gras/semibold, jamais italique. Meme recette que
@@ -2604,8 +2567,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
   @media (prefers-reduced-motion: reduce) {
     .about-v2__action-slide,
-    .about-v2__action-nav,
-    .about-v2__action-progress-bar {
+    .about-v2__action-nav {
       transition: none;
     }
   }
