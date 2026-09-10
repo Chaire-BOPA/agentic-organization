@@ -1,0 +1,301 @@
+---
+// Shared body for /wic/ et /en/wic/ (FR est la source de verite pour le
+// markup/CSS ; seul le texte change, via isEn - meme pattern que
+// BoptechContent.astro/PublicationsContent.astro). Nouvelle page
+// (pack "BOPA-WIC-Page-et-Lien-QuiSommesNous-V1", 2026-09-10) : reprend
+// integralement les composants/tokens/section-block existants, aucune
+// nouvelle DA. Texte FR fourni par l'owner, gele - ne jamais reformuler.
+// Traduction EN integrale (page nouvelle, jamais publiee avant) redigee
+// ici, fidele au FR, jamais l'inverse.
+//
+// Videos : IDs verifies un par un directement sur la playlist officielle
+// YouTube de la Chaire BOPA (https://www.youtube.com/playlist?list=
+// PLW02oRYi4wae-awNWfUJSXr6P9UpZkll4, ouverte et lue dans le navigateur
+// le 2026-09-10) - aucun ID invente, aucun ancien embed de chaire-bopa.fr
+// repris. Domaine youtube-nocookie.com (mode confidentialite renforcee) :
+// meme videos, cookies uniquement si l'utilisateur lance la lecture.
+interface Props {
+  lang?: 'fr' | 'en';
+}
+const { lang = 'fr' } = Astro.props;
+const isEn = lang === 'en';
+
+const wicVideos = [
+  { id: 'mMSFKrosI_Q', year: 2025 },
+  { id: 'FUUCsqPMb2U', year: 2023 },
+  { id: 'YHXT4Jh8Dd0', year: 2022 },
+  { id: 'bnLG9ps0wxs', year: 2019 },
+  { id: 'IvhXKSktSi0', year: 2017 },
+];
+const wicPlaylistUrl = 'https://www.youtube.com/playlist?list=PLW02oRYi4wae-awNWfUJSXr6P9UpZkll4';
+---
+
+<section class="section-block">
+  <div class="mesh-echo" aria-hidden="true"></div>
+  <div class="wrap" data-reveal>
+    <span class="kicker">{isEn ? 'The Surgical Innovation Weekend' : "Le Week-end de l'Innovation Chirurgicale"}</span>
+    <h1>
+      {isEn
+        ? <>What if tomorrow's hospital could be invented in a single weekend?</>
+        : <>Et si l'hôpital de demain s'inventait le temps d'un week-end&nbsp;?</>}
+    </h1>
+    <p class="lede">
+      {isEn ? (
+        <>
+          The Surgical Innovation Weekend (WIC) is a gathering where people
+          from all walks of life come together to imagine new ways of
+          thinking about surgery and hospital practice.
+        </>
+      ) : (
+        <>
+          Le Week-end de l'Innovation Chirurgicale (WIC) est un rendez-vous
+          où des acteurs venus d'horizons variés se rencontrent pour
+          imaginer ensemble de nouvelles façons de penser la chirurgie et
+          les pratiques hospitalières.
+        </>
+      )}
+    </p>
+  </div>
+</section>
+
+<section class="section-block">
+  <div class="wrap section-sub" data-reveal>
+    <h2>
+      {isEn
+        ? 'A multidisciplinary gathering in the service of innovation'
+        : "Une rencontre pluridisciplinaire au service de l'innovation"}
+    </h2>
+    <p class="lede">
+      {isEn ? (
+        <>
+          Physicians, nurses, engineers, philosophers, data scientists,
+          developers, mathematicians and administrative staff bring their
+          perspectives together to rethink hospital practice as a group.
+        </>
+      ) : (
+        <>
+          Médecins, infirmiers, ingénieurs, philosophes, data scientists,
+          développeurs, mathématiciens et administratifs y croisent leurs
+          regards pour repenser ensemble les pratiques hospitalières.
+        </>
+      )}
+    </p>
+    <p class="lede">
+      {isEn ? (
+        <>
+          More than a scientific conference, WIC creates a space away from
+          everyday hospital routine - one that fosters creativity, exchange
+          and the emergence of new ideas.
+        </>
+      ) : (
+        <>
+          Plus qu'un congrès scientifique, le WIC crée un espace hors du
+          quotidien hospitalier, propice à la créativité, aux échanges et à
+          l'émergence de nouvelles idées.
+        </>
+      )}
+    </p>
+  </div>
+</section>
+
+<section class="section-block dark">
+  <div class="mesh-echo" aria-hidden="true"></div>
+  <div class="wrap section-sub" data-reveal>
+    <h2>{isEn ? 'From WIC to the birth of BOPA' : 'Du WIC à la naissance de BOPA'}</h2>
+    <p class="lede">
+      {isEn ? (
+        <>
+          The 2019 edition of the Surgical Innovation Weekend sparked a
+          lasting momentum that led to the creation of the BOPA Chair.
+        </>
+      ) : (
+        <>
+          L'édition 2019 du Week-end de l'Innovation Chirurgicale a donné
+          naissance à une dynamique durable qui a conduit à la création de
+          la Chaire BOPA.
+        </>
+      )}
+    </p>
+    <p class="lede">
+      {isEn ? (
+        <>
+          Founded in 2020, the Chair carries forward this same drive to
+          bring different fields of expertise together, turning innovation
+          into concrete progress for surgery and for patients.
+        </>
+      ) : (
+        <>
+          Fondée en 2020, la Chaire prolonge cette volonté de faire
+          travailler ensemble des expertises différentes pour transformer
+          l'innovation en progrès concret pour la chirurgie et les
+          patients.
+        </>
+      )}
+    </p>
+    <p class="wic-callout">
+      {isEn ? (
+        <>
+          Today, WIC is the signature event of the BOPA Chair and the
+          BOpEx experimentation hub, who co-organize it together.
+        </>
+      ) : (
+        <>
+          Le WIC est aujourd'hui l'événement signature de la Chaire BOPA et
+          du tiers-lieu d'expérimentation BOpEx, qui le coorganisent.
+        </>
+      )}
+    </p>
+  </div>
+</section>
+
+<section class="section-block">
+  <div class="wrap section-sub" data-reveal>
+    <h2>{isEn ? 'A setting built for ideation' : "Un cadre qui favorise l'idéation"}</h2>
+    <p class="lede">
+      {isEn ? (
+        <>
+          WIC is not like a traditional conference. It takes place in a
+          relaxed setting where teamwork, informal exchange and moments to
+          breathe encourage discussion and the emergence of new ideas.
+        </>
+      ) : (
+        <>
+          Le WIC ne ressemble pas à un congrès traditionnel. Il se déroule
+          dans un environnement décontracté où le travail collectif, les
+          échanges informels et les temps de respiration favorisent les
+          discussions et l'émergence d'idées nouvelles.
+        </>
+      )}
+    </p>
+    <p class="lede">
+      {isEn ? (
+        <>
+          This blend of expertise, creativity and conviviality is the DNA
+          of the Surgical Innovation Weekend.
+        </>
+      ) : (
+        <>
+          Ce mélange d'expertise, de créativité et de convivialité
+          constitue l'ADN du Week-end de l'Innovation Chirurgicale.
+        </>
+      )}
+    </p>
+    <p class="wic-callout">
+      {isEn ? (
+        <>
+          A breath of fresh air where a more innovative, more human and
+          more collaborative hospital takes shape, together.
+        </>
+      ) : (
+        <>
+          Une bulle d'oxygène où se dessine, collectivement, un hôpital
+          plus innovant, plus humain et plus collaboratif.
+        </>
+      )}
+    </p>
+  </div>
+</section>
+
+<section class="section-block">
+  <div class="wrap section-sub" data-reveal>
+    <h2>{isEn ? 'WIC in pictures' : 'Le WIC en images'}</h2>
+    <div class="wic-video-grid">
+      {wicVideos.map((video) => (
+        <div class="wic-video-item">
+          <div class="wic-video">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+              title={`Week-end de l'Innovation Chirurgicale ${video.year}`}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+            ></iframe>
+          </div>
+          <p class="wic-video-caption">{isEn ? `${video.year} edition` : `Édition ${video.year}`}</p>
+        </div>
+      ))}
+    </div>
+    <a class="wic-cta" href={wicPlaylistUrl} target="_blank" rel="noopener noreferrer">
+      {isEn ? 'See all WIC videos' : 'Voir toutes les vidéos du WIC'} <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+</section>
+
+<style>
+  .section-sub {
+    margin-top: var(--space-6);
+  }
+
+  /* Callout : pas de pattern existant sur le site pour ce genre de mise
+     en avant - construit uniquement avec les tokens deja en place (pas
+     de nouvelle couleur), en reprenant l'accent cyan deja utilise pour
+     les kickers/liens sur fond sombre. Variante dark ci-dessous pour la
+     section "Du WIC a la naissance de BOPA". */
+  .wic-callout {
+    margin-top: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-bg-tint);
+    border-left: 3px solid var(--color-accent-2);
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    max-width: 44rem;
+  }
+
+  .section-block.dark .wic-callout {
+    background: rgba(255, 255, 255, 0.08);
+    border-left-color: var(--color-accent-2);
+    color: var(--color-dark-ink);
+  }
+
+  .wic-video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+  }
+
+  .wic-video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
+    background: var(--color-bg-tint);
+  }
+
+  .wic-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .wic-video-caption {
+    margin-top: var(--space-2);
+    text-align: center;
+    font-weight: 600;
+    color: var(--color-muted);
+  }
+
+  /* Meme recette visuelle que .about-v2__impact-partner-cta (HomeContent.astro) :
+     lien discret en accent cyan + fleche, jamais un bouton plein. */
+  .wic-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin-top: var(--space-4);
+    padding-bottom: 0.15rem;
+    color: var(--bopa-cyan);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid var(--bopa-cyan);
+  }
+
+  .wic-cta:hover {
+    opacity: 0.8;
+  }
+</style>

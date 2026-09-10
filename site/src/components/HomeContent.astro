@@ -660,19 +660,24 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         <div class="about-v2__chaire-text">
           {isEn ? (
             <p class="about-v2__chaire-lede">
-              Founded in 2020 by <span class="about-v2__chaire-highlight">Prof. Éric Vibert</span>, a transplant
-              surgeon at Paul-Brousse AP-HP hospital and professor at Université
-              Paris-Saclay, the BOPA Chair is jointly supported by AP-HP, the Institut
+              Founded in 2020 following the Surgical Innovation Weekend (WIC) by{' '}
+              <span class="about-v2__chaire-highlight">Prof. Éric Vibert</span>, a transplant
+              surgeon at Paul-Brousse Hospital AP-HP and professor at Université
+              Paris-Saclay, the BOPA Chair is jointly supported by AP-HP, Institut
               Mines-Télécom (IMT) and Université Paris-Saclay.
             </p>
           ) : (
             <p class="about-v2__chaire-lede">
-              Fondée en 2020 par le <span class="about-v2__chaire-highlight">Pr Éric Vibert</span>, chirurgien
+              Fondée en 2020 à la suite du Week-end de l'Innovation Chirurgicale (WIC) par le{' '}
+              <span class="about-v2__chaire-highlight">Pr Éric Vibert</span>, chirurgien
               transplanteur à l'hôpital Paul-Brousse AP-HP et professeur à l'Université
               Paris-Saclay, la Chaire BOPA est co-portée par l'AP-HP, l'Institut
               Mines-Télécom (IMT) et l'Université Paris-Saclay.
             </p>
           )}
+          <p class="about-v2__chaire-wic-link">
+            <a href={isEn ? '/en/wic' : '/wic'}>{isEn ? 'Learn more about WIC' : 'En savoir plus sur le WIC'} <span aria-hidden="true">↗</span></a>
+          </p>
           <p class="about-v2__chaire-lede">
             {isEn ? (
               <>
@@ -2470,6 +2475,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__chaire-lede strong { color: var(--color-navy); font-weight: 700; }
   .about-v2__chaire-lede--narrow { max-width: 34rem; }
   .about-v2__chaire-highlight { color: var(--bopa-cyan); }
+
+  /* Lien discret vers la nouvelle page /wic/ (pack "BOPA-WIC-Page-et-Lien-
+     QuiSommesNous-V1", 2026-09-10) - pas de nouvelle classe de bouton,
+     juste le lien texte standard du site (couleur/soulignement globaux,
+     voir site.css `a`), en plus petit et plus discret qu'un lede normal. */
+  .about-v2__chaire-wic-link {
+    margin-top: 0.6rem;
+    font-size: 0.9rem;
+  }
 
   /* Colonnes à largeur bornée (finitions V4-bis, 2026-08-28) - un vrai
      bug trouvé et corrigé ici : avec `minmax(0, 1fr)` la colonne de
