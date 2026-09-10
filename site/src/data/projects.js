@@ -133,7 +133,7 @@ export const phases = [
           en: { label: 'Discover Uncovr' },
         },
         fr: {
-          name: 'Le compte rendu opératoire augmenté',
+          name: 'Compte rendu augmenté',
           description: 'Transformer automatiquement les vidéos de chirurgie en comptes rendus opératoires. Une thématique qui a donné naissance à Uncovr.',
         },
         en: {
