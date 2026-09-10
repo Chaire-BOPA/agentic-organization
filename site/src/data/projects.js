@@ -305,8 +305,11 @@ export const phases = [
     en: { label: 'Health economics', tagline: 'Better assessment for better resource allocation' },
     projects: [
       {
-        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus).
-        // Original : source/brand/assets/projets-v2/mesgardes-original.jpeg.
+        // Visuel remplace le 2026-09-10 (nouvelle illustration fournie par
+        // l'owner via source/inbox). Cadrage natif proche du ratio de la
+        // carte (1374x1145), aucun object-position necessaire. Ancien
+        // visuel archive en mesgardes-v1.jpeg. Original :
+        // source/brand/assets/projets-v2/mesgardes.png.
         image: '/images/projets-v2/mesgardes.jpg',
         fr: {
           name: 'MesGardes',
