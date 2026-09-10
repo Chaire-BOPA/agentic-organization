@@ -45,9 +45,12 @@ export const phases = [
         },
       },
       {
-        // Visuel remplace 2026-09-09 (meme pack que LiverSight ci-dessus) -
-        // remplace l'ancien placeholder SVG. Original :
-        // source/brand/assets/projets-v2/pancreassight.jpg.
+        // Visuel remplace le 2026-09-10 (nouvelle photo "PancreasSight V2"
+        // fournie par l'owner via source/inbox) : cadrage natif proche du
+        // ratio de la carte, aucun object-position necessaire. Ancien
+        // visuel (et ses recadrages successifs) archive dans
+        // source/brand/assets/projets-v2/pancreassight-v1.jpg. Original :
+        // source/brand/assets/projets-v2/pancreassight.png.
         image: '/images/projets-v2/pancreassight.jpg',
         fr: {
           name: 'PancreasSight',
