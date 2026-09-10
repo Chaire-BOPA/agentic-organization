@@ -182,11 +182,11 @@ export const phases = [
         image: '/images/projets-v2/jacky.jpg',
         fr: {
           name: 'Jacky',
-          description: 'Un chatbot qui interroge le chirurgien aux moments clés pour générer un compte rendu opératoire standardisé.',
+          description: "Un chatbot qui interroge le chirurgien aux moments clés de l'intervention pour générer automatiquement un compte rendu opératoire standardisé.",
         },
         en: {
           name: 'Jacky',
-          description: 'A chatbot that prompts the surgeon at key moments to generate a standardized operative report.',
+          description: 'A chatbot that prompts the surgeon at key moments during the procedure to automatically generate a standardized operative report.',
         },
       },
       {
