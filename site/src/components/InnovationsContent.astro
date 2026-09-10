@@ -943,22 +943,24 @@ const chevronRightBig =
   }
 
   /* MesGardes + HepatGreen (les deux seules cartes de cette catégorie) :
-     liseré doré pour signaler la famille "médico-économique", sans
-     toucher au fond navy/taille/arrondis/hover de .bopa-project-card
-     (2026-08-27, finitions V1, épaissi en V2). En `border`, un
-     `1.5px` est arrondi à `1px` par le rendu à densité d'écran normale
-     (vérifié : aucune différence visible avec l'ancien 1px) - passé en
-     `box-shadow`, qui lui respecte les valeurs fractionnaires. Le hover
-     existant remplace tout le `box-shadow` de la carte (son ombre de
-     survol), donc le liseré doit être réinjecté à côté de cette ombre
-     plutôt que laissé disparaître. */
-  .innovations-v2__category--gold .bopa-project-card {
-    box-shadow: 0 0 0 1.5px var(--color-gold);
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .innovations-v2__category--gold .bopa-project-card:hover {
-      box-shadow: 0 0 0 1.5px var(--color-gold), 0 16px 34px rgba(5,26,58,0.16);
-    }
+     liseré doré pour signaler la famille "médico-économique" (2026-08-27,
+     finitions V1, épaissi en V2, puis corrigé le 2026-09-10). Le premier
+     traitement (`box-shadow` sur .bopa-project-card entier) entourait
+     toute la carte, photo comprise - contraire à la règle d'or des cartes
+     projets ("aucun contour autour de l'image", voir .bopa-project-card__body
+     ci-dessus). Corrigé pour suivre EXACTEMENT la même construction que
+     toutes les autres catégories : le contour vit uniquement sur
+     .bopa-project-card__body (gauche/droite/bas, jamais en haut), donc il
+     ne touche jamais .bopa-project-card__media ni les coins supérieurs -
+     l'illustration seule dessine le haut et les coins de la carte, comme
+     partout ailleurs. Couleur seule différence avec le liseré navy par
+     défaut ; le fondu photo -> bleu nuit (.bopa-project-card__media::after)
+     n'est pas touché, c'est lui qui donne l'impression d'atténuation
+     progressive à l'approche de l'illustration. */
+  .innovations-v2__category--gold .bopa-project-card__body {
+    border-left: 1.5px solid var(--color-gold);
+    border-right: 1.5px solid var(--color-gold);
+    border-bottom: 1.5px solid var(--color-gold);
   }
 
   /* Les deux seules actions cliquables des cartes : un petit lien
