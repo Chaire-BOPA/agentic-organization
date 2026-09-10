@@ -17,7 +17,7 @@ export const phases = [
     id: 'preoperatoire',
     icon: 'target',
     fr: { label: 'Préopératoire', tagline: 'Mieux comprendre pour mieux planifier' },
-    en: { label: 'Preoperative', tagline: 'Better understanding for better planning' },
+    en: { label: 'Preoperative', tagline: 'Better understanding. Better planning.' },
     projects: [
       {
         // Visuel remplace 2026-09-09 (pack "Nos-Innovations-Remplacement-
@@ -98,7 +98,7 @@ export const phases = [
     id: 'peroperatoire',
     icon: 'pulse',
     fr: { label: 'Peropératoire', tagline: 'Mieux voir, mieux décider, mieux opérer' },
-    en: { label: 'Intraoperative', tagline: 'Better vision, better decisions, better surgery' },
+    en: { label: 'Intraoperative', tagline: 'Better vision. Better decisions. Better surgery' },
     projects: [
       {
         // Visuel remplace le 2026-09-10 (photo du dispositif reel fournie
@@ -240,7 +240,7 @@ export const phases = [
     id: 'postoperatoire',
     icon: 'chart',
     fr: { label: 'Postopératoire', tagline: 'Mieux suivre pour mieux guérir' },
-    en: { label: 'Postoperative', tagline: 'Better follow-up for better recovery' },
+    en: { label: 'Postoperative', tagline: 'Better follow-up. Better recovery' },
     projects: [
       {
         // Visuel remplace le 2026-09-10 (nouvelle photo fournie par
@@ -304,7 +304,7 @@ export const phases = [
     id: 'medico-economique',
     icon: 'euro',
     fr: { label: 'Médico-économique', tagline: 'Mieux évaluer pour mieux allouer les ressources' },
-    en: { label: 'Health economics', tagline: 'Better assessment for better resource allocation' },
+    en: { label: 'Health economics', tagline: 'Better evidence. Better resource allocation.' },
     projects: [
       {
         // Visuel remplace le 2026-09-10 (nouvelle illustration fournie par
