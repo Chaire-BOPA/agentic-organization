@@ -271,7 +271,7 @@ export const phases = [
         },
         en: {
           name: 'Colette',
-          description: 'A conversational AI that supports transplant patients around the clock.',
+          description: 'A conversational AI that <strong>supports transplant patients, anytime and anywhere</strong>.',
         },
       },
       {
@@ -284,7 +284,7 @@ export const phases = [
         },
         en: {
           name: 'BOPA Value',
-          description: "Assessing the quality of surgical care through patients' own perspective, to measure the impact of the innovations put in place.",
+          description: "Measuring the quality of surgical care <strong>through patients' own experiences</strong>, to assess the real-world impact of the innovations we develop.",
         },
       },
       {
@@ -297,7 +297,7 @@ export const phases = [
         },
         en: {
           name: 'MedPercept',
-          description: "Understanding how surgeons perceive their patients' outcomes and how that perception shapes their practice.",
+          description: "Understanding <strong>how surgeons perceive their patients' outcomes</strong> and how those perceptions shape their clinical practice.",
         },
       },
       {
@@ -308,7 +308,7 @@ export const phases = [
         },
         en: {
           name: 'Expert patients masterclass',
-          description: "Turning former patients' experience into expertise to support today's patients.",
+          description: "Turning <strong>patients' lived experience into expertise</strong> to better support those going through the same journey today.",
         },
       },
     ],
