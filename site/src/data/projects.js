@@ -36,6 +36,11 @@ export const phases = [
         // liversight.png dans son rail "Nos innovations" phares - hors
         // perimetre explicite de cette passe (page /nos_innovations/
         // uniquement), a confirmer avec l'owner si un alignement est voulu.
+        // Idem pour la DESCRIPTION : HomeContent.astro a sa propre copie
+        // en dur du pitch LiverSight/BOPCAM/Colette dans le rail phares -
+        // editer ce fichier ne touche QUE /nos_innovations/ et
+        // /en/our-innovations/. Depuis 2026-09-10 le pitch EN LiverSight
+        // ici a des phrases en <strong> ; la Home garde l'ancien, en clair.
         image: '/images/projets-v2/liversight.jpg',
         action: {
           href: 'https://www.youtube.com/watch?v=MF1ysshoNVM',
