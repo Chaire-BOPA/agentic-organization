@@ -1,19 +1,22 @@
 ---
 // Shared body for /wic/ et /en/wic/ (FR est la source de verite pour le
 // markup/CSS ; seul le texte change, via isEn - meme pattern que
-// BoptechContent.astro/PublicationsContent.astro). Nouvelle page
-// (pack "BOPA-WIC-Page-et-Lien-QuiSommesNous-V1", 2026-09-10) : reprend
-// integralement les composants/tokens/section-block existants, aucune
-// nouvelle DA. Texte FR fourni par l'owner, gele - ne jamais reformuler.
-// Traduction EN integrale (page nouvelle, jamais publiee avant) redigee
-// ici, fidele au FR, jamais l'inverse.
+// BoptechContent.astro/PublicationsContent.astro/InnovationsContent.astro).
 //
-// Videos : IDs verifies un par un directement sur la playlist officielle
-// YouTube de la Chaire BOPA (https://www.youtube.com/playlist?list=
-// PLW02oRYi4wae-awNWfUJSXr6P9UpZkll4, ouverte et lue dans le navigateur
-// le 2026-09-10) - aucun ID invente, aucun ancien embed de chaire-bopa.fr
-// repris. Domaine youtube-nocookie.com (mode confidentialite renforcee) :
-// meme videos, cookies uniquement si l'utilisateur lance la lecture.
+// Reconstruction visuelle du 2026-09-10 (owner : la V1 "titre + paragraphe"
+// etait trop lineaire) - reprend REELLEMENT la construction de
+// /nos_innovations/ (InnovationsContent.astro) comme reference directe :
+// meme container 1320px, meme Hero navy plein cadre avec fil d'Ariane,
+// meme famille de tokens partages (--mp-navy/--bopa-cyan, rejoint dans
+// site.css via le selecteur partage `.wic-v2` a cote de `.innovations-v2`),
+// meme rail carrousel (viewport/track/flechesdedieees en colonne fixe,
+// scroll-snap) repris pour "Le WIC en images", meme carte navy a motif de
+// points pour le CTA final. Textes FR strictement inchanges (le contenu
+// gele du pack WIC V1) - seule la mise en page change. Traduction EN deja
+// redigee pour la V1 conservee telle quelle.
+//
+// Videos : memes 5 IDs verifies un par un sur la playlist officielle
+// YouTube de la Chaire BOPA le 2026-09-10 (aucun changement ici).
 interface Props {
   lang?: 'fr' | 'en';
 }
@@ -28,244 +31,728 @@ const wicVideos = [
   { id: 'IvhXKSktSi0', year: 2017 },
 ];
 const wicPlaylistUrl = 'https://www.youtube.com/playlist?list=PLW02oRYi4wae-awNWfUJSXr6P9UpZkll4';
+
+// Fleches du rail videos - meme famille de trace que InnovationsContent.astro
+// (currentColor, chevron simple), redeclarees ici car injectees via set:html
+// (voir le commentaire detaille dans InnovationsContent.astro sur le besoin
+// de :global(svg) pour ce cas precis).
+const chevronLeft =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const chevronRight =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 ---
 
-<section class="section-block">
-  <div class="mesh-echo" aria-hidden="true"></div>
-  <div class="wrap" data-reveal>
-    <span class="kicker">{isEn ? 'The Surgical Innovation Weekend' : "Le Week-end de l'Innovation Chirurgicale"}</span>
-    <h1>
-      {isEn
-        ? <>What if tomorrow's hospital could be invented in a single weekend?</>
-        : <>Et si l'hôpital de demain s'inventait le temps d'un week-end&nbsp;?</>}
-    </h1>
-    <p class="lede">
-      {isEn ? (
-        <>
-          The Surgical Innovation Weekend (WIC) is a gathering where people
-          from all walks of life come together to imagine new ways of
-          thinking about surgery and hospital practice.
-        </>
-      ) : (
-        <>
-          Le Week-end de l'Innovation Chirurgicale (WIC) est un rendez-vous
-          où des acteurs venus d'horizons variés se rencontrent pour
-          imaginer ensemble de nouvelles façons de penser la chirurgie et
-          les pratiques hospitalières.
-        </>
-      )}
-    </p>
-  </div>
-</section>
-
-<section class="section-block">
-  <div class="wrap section-sub" data-reveal>
-    <h2>
-      {isEn
-        ? 'A multidisciplinary gathering in the service of innovation'
-        : "Une rencontre pluridisciplinaire au service de l'innovation"}
-    </h2>
-    <p class="lede">
-      {isEn ? (
-        <>
-          Physicians, nurses, engineers, philosophers, data scientists,
-          developers, mathematicians and administrative staff bring their
-          perspectives together to rethink hospital practice as a group.
-        </>
-      ) : (
-        <>
-          Médecins, infirmiers, ingénieurs, philosophes, data scientists,
-          développeurs, mathématiciens et administratifs y croisent leurs
-          regards pour repenser ensemble les pratiques hospitalières.
-        </>
-      )}
-    </p>
-    <p class="lede">
-      {isEn ? (
-        <>
-          More than a scientific conference, WIC creates a space away from
-          everyday hospital routine - one that fosters creativity, exchange
-          and the emergence of new ideas.
-        </>
-      ) : (
-        <>
-          Plus qu'un congrès scientifique, le WIC crée un espace hors du
-          quotidien hospitalier, propice à la créativité, aux échanges et à
-          l'émergence de nouvelles idées.
-        </>
-      )}
-    </p>
-  </div>
-</section>
-
-<section class="section-block dark">
-  <div class="mesh-echo" aria-hidden="true"></div>
-  <div class="wrap section-sub" data-reveal>
-    <h2>{isEn ? 'From WIC to the birth of BOPA' : 'Du WIC à la naissance de BOPA'}</h2>
-    <p class="lede">
-      {isEn ? (
-        <>
-          The 2019 edition of the Surgical Innovation Weekend sparked a
-          lasting momentum that led to the creation of the BOPA Chair.
-        </>
-      ) : (
-        <>
-          L'édition 2019 du Week-end de l'Innovation Chirurgicale a donné
-          naissance à une dynamique durable qui a conduit à la création de
-          la Chaire BOPA.
-        </>
-      )}
-    </p>
-    <p class="lede">
-      {isEn ? (
-        <>
-          Founded in 2020, the Chair carries forward this same drive to
-          bring different fields of expertise together, turning innovation
-          into concrete progress for surgery and for patients.
-        </>
-      ) : (
-        <>
-          Fondée en 2020, la Chaire prolonge cette volonté de faire
-          travailler ensemble des expertises différentes pour transformer
-          l'innovation en progrès concret pour la chirurgie et les
-          patients.
-        </>
-      )}
-    </p>
-    <p class="wic-callout">
-      {isEn ? (
-        <>
-          Today, WIC is the signature event of the BOPA Chair and the
-          BOpEx experimentation hub, who co-organize it together.
-        </>
-      ) : (
-        <>
-          Le WIC est aujourd'hui l'événement signature de la Chaire BOPA et
-          du tiers-lieu d'expérimentation BOpEx, qui le coorganisent.
-        </>
-      )}
-    </p>
-  </div>
-</section>
-
-<section class="section-block">
-  <div class="wrap section-sub" data-reveal>
-    <h2>{isEn ? 'A setting built for ideation' : "Un cadre qui favorise l'idéation"}</h2>
-    <p class="lede">
-      {isEn ? (
-        <>
-          WIC is not like a traditional conference. It takes place in a
-          relaxed setting where teamwork, informal exchange and moments to
-          breathe encourage discussion and the emergence of new ideas.
-        </>
-      ) : (
-        <>
-          Le WIC ne ressemble pas à un congrès traditionnel. Il se déroule
-          dans un environnement décontracté où le travail collectif, les
-          échanges informels et les temps de respiration favorisent les
-          discussions et l'émergence d'idées nouvelles.
-        </>
-      )}
-    </p>
-    <p class="lede">
-      {isEn ? (
-        <>
-          This blend of expertise, creativity and conviviality is the DNA
-          of the Surgical Innovation Weekend.
-        </>
-      ) : (
-        <>
-          Ce mélange d'expertise, de créativité et de convivialité
-          constitue l'ADN du Week-end de l'Innovation Chirurgicale.
-        </>
-      )}
-    </p>
-    <p class="wic-callout">
-      {isEn ? (
-        <>
-          A breath of fresh air where a more innovative, more human and
-          more collaborative hospital takes shape, together.
-        </>
-      ) : (
-        <>
-          Une bulle d'oxygène où se dessine, collectivement, un hôpital
-          plus innovant, plus humain et plus collaboratif.
-        </>
-      )}
-    </p>
-  </div>
-</section>
-
-<section class="section-block">
-  <div class="wrap section-sub" data-reveal>
-    <h2>{isEn ? 'WIC in pictures' : 'Le WIC en images'}</h2>
-    <div class="wic-video-grid">
-      {wicVideos.map((video) => (
-        <div class="wic-video-item">
-          <div class="wic-video">
-            <iframe
-              src={`https://www.youtube-nocookie.com/embed/${video.id}`}
-              title={`Week-end de l'Innovation Chirurgicale ${video.year}`}
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-            ></iframe>
-          </div>
-          <p class="wic-video-caption">{isEn ? `${video.year} edition` : `Édition ${video.year}`}</p>
-        </div>
-      ))}
+<main class="wic-v2" id="wic-v2">
+  <section class="wic-v2__hero" aria-labelledby="wic-title">
+    <div class="wic-v2__container">
+      <p class="wic-v2__breadcrumb">
+        {isEn ? 'Home' : 'Accueil'} <span aria-hidden="true">›</span> {isEn ? 'WIC' : 'WIC'}
+      </p>
+      <span class="wic-v2__kicker">{isEn ? 'The Surgical Innovation Weekend' : "Le Week-end de l'Innovation Chirurgicale"}</span>
+      <h1 id="wic-title">
+        {isEn
+          ? <>What if tomorrow's hospital could be invented in a single weekend?</>
+          : <>Et si l'hôpital de demain s'inventait le temps d'un week-end&nbsp;?</>}
+      </h1>
+      <p class="wic-v2__lead">
+        {isEn ? (
+          <>
+            The Surgical Innovation Weekend (WIC) is a gathering where people
+            from all walks of life come together to imagine new ways of
+            thinking about surgery and hospital practice.
+          </>
+        ) : (
+          <>
+            Le Week-end de l'Innovation Chirurgicale (WIC) est un rendez-vous
+            où des acteurs venus d'horizons variés se rencontrent pour
+            imaginer ensemble de nouvelles façons de penser la chirurgie et
+            les pratiques hospitalières.
+          </>
+        )}
+      </p>
     </div>
-    <a class="wic-cta" href={wicPlaylistUrl} target="_blank" rel="noopener noreferrer">
-      {isEn ? 'See all WIC videos' : 'Voir toutes les vidéos du WIC'} <span aria-hidden="true">↗</span>
-    </a>
-  </div>
-</section>
+  </section>
+
+  <section class="wic-v2__section" aria-labelledby="wic-multi-title">
+    <div class="wic-v2__container wic-v2__split">
+      <div class="wic-v2__split-text">
+        <h2 id="wic-multi-title">
+          {isEn
+            ? 'A multidisciplinary gathering in the service of innovation'
+            : "Une rencontre pluridisciplinaire au service de l'innovation"}
+        </h2>
+        <p class="wic-v2__lead">
+          {isEn ? (
+            <>
+              Physicians, nurses, engineers, philosophers, data scientists,
+              developers, mathematicians and administrative staff bring
+              their perspectives together to rethink hospital practice as a
+              group.
+            </>
+          ) : (
+            <>
+              Médecins, infirmiers, ingénieurs, philosophes, data
+              scientists, développeurs, mathématiciens et administratifs y
+              croisent leurs regards pour repenser ensemble les pratiques
+              hospitalières.
+            </>
+          )}
+        </p>
+        <p class="wic-v2__lead">
+          {isEn ? (
+            <>
+              More than a scientific conference, WIC creates a space away
+              from everyday hospital routine - one that fosters creativity,
+              exchange and the emergence of new ideas.
+            </>
+          ) : (
+            <>
+              Plus qu'un congrès scientifique, le WIC crée un espace hors du
+              quotidien hospitalier, propice à la créativité, aux échanges
+              et à l'émergence de nouvelles idées.
+            </>
+          )}
+        </p>
+      </div>
+      <div class="wic-v2__split-visual" aria-hidden="true">
+        <div class="wic-v2__orbit">
+          <span class="wic-v2__orbit-dot wic-v2__orbit-dot--1"></span>
+          <span class="wic-v2__orbit-dot wic-v2__orbit-dot--2"></span>
+          <span class="wic-v2__orbit-dot wic-v2__orbit-dot--3"></span>
+          <span class="wic-v2__orbit-dot wic-v2__orbit-dot--4"></span>
+          <span class="wic-v2__orbit-core">
+            <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="32" r="13"/><circle cx="32" cy="32" r="4"/><path d="M32 7v10M32 47v10M7 32h10M47 32h10"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wic-v2__section wic-v2__section--dark wic-v2__highlight" aria-labelledby="wic-birth-title">
+    <div class="wic-v2__mesh" aria-hidden="true"></div>
+    <div class="wic-v2__container">
+      <span class="wic-v2__kicker wic-v2__kicker--badge">2019 → 2020</span>
+      <h2 id="wic-birth-title">{isEn ? 'From WIC to the birth of BOPA' : 'Du WIC à la naissance de BOPA'}</h2>
+      <p class="wic-v2__lead wic-v2__lead--lg">
+        {isEn ? (
+          <>
+            The 2019 edition of the Surgical Innovation Weekend sparked a
+            lasting momentum that led to the creation of the BOPA Chair.
+          </>
+        ) : (
+          <>
+            L'édition 2019 du Week-end de l'Innovation Chirurgicale a donné
+            naissance à une dynamique durable qui a conduit à la création
+            de la Chaire BOPA.
+          </>
+        )}
+      </p>
+      <p class="wic-v2__lead wic-v2__lead--lg">
+        {isEn ? (
+          <>
+            Founded in 2020, the Chair carries forward this same drive to
+            bring different fields of expertise together, turning
+            innovation into concrete progress for surgery and for patients.
+          </>
+        ) : (
+          <>
+            Fondée en 2020, la Chaire prolonge cette volonté de faire
+            travailler ensemble des expertises différentes pour transformer
+            l'innovation en progrès concret pour la chirurgie et les
+            patients.
+          </>
+        )}
+      </p>
+      <div class="wic-v2__callout-card">
+        <div class="wic-v2__callout-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none"><circle cx="32" cy="22" r="10"/><path d="M13 53c2-14 10-21 19-21s17 7 19 21"/></svg>
+        </div>
+        <p>
+          {isEn ? (
+            <>
+              Today, WIC is the signature event of the BOPA Chair and the
+              BOpEx experimentation hub, who co-organize it together.
+            </>
+          ) : (
+            <>
+              Le WIC est aujourd'hui l'événement signature de la Chaire
+              BOPA et du tiers-lieu d'expérimentation BOpEx, qui le
+              coorganisent.
+            </>
+          )}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wic-v2__section" aria-labelledby="wic-setting-title">
+    <div class="wic-v2__container wic-v2__split wic-v2__split--reverse">
+      <div class="wic-v2__split-visual" aria-hidden="true">
+        <div class="wic-v2__spark">
+          <svg viewBox="0 0 64 64" fill="none">
+            <circle cx="32" cy="32" r="14"/>
+            <path d="M32 4v10M32 50v10M4 32h10M50 32h10M11.5 11.5l7 7M45.5 45.5l7 7M52.5 11.5l-7 7M18.5 45.5l-7 7"/>
+          </svg>
+        </div>
+      </div>
+      <div class="wic-v2__split-text">
+        <h2 id="wic-setting-title">{isEn ? 'A setting built for ideation' : "Un cadre qui favorise l'idéation"}</h2>
+        <p class="wic-v2__lead">
+          {isEn ? (
+            <>
+              WIC is not like a traditional conference. It takes place in
+              a relaxed setting where teamwork, informal exchange and
+              moments to breathe encourage discussion and the emergence
+              of new ideas.
+            </>
+          ) : (
+            <>
+              Le WIC ne ressemble pas à un congrès traditionnel. Il se
+              déroule dans un environnement décontracté où le travail
+              collectif, les échanges informels et les temps de
+              respiration favorisent les discussions et l'émergence
+              d'idées nouvelles.
+            </>
+          )}
+        </p>
+        <p class="wic-v2__lead">
+          {isEn ? (
+            <>
+              This blend of expertise, creativity and conviviality is the
+              DNA of the Surgical Innovation Weekend.
+            </>
+          ) : (
+            <>
+              Ce mélange d'expertise, de créativité et de convivialité
+              constitue l'ADN du Week-end de l'Innovation Chirurgicale.
+            </>
+          )}
+        </p>
+        <p class="wic-v2__callout-inline">
+          {isEn ? (
+            <>
+              A breath of fresh air where a more innovative, more human
+              and more collaborative hospital takes shape, together.
+            </>
+          ) : (
+            <>
+              Une bulle d'oxygène où se dessine, collectivement, un
+              hôpital plus innovant, plus humain et plus collaboratif.
+            </>
+          )}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wic-v2__section wic-v2__images" aria-labelledby="wic-images-title">
+    <div class="wic-v2__container">
+      <h2 id="wic-images-title">{isEn ? 'WIC in pictures' : 'Le WIC en images'}</h2>
+      <div class="wic-v2__row">
+        <div
+          class="wic-v2__row-viewport"
+          data-wic-viewport
+          tabindex="0"
+          aria-label={isEn ? 'WIC videos - horizontal scroll' : 'Vidéos WIC - défilement horizontal'}
+        >
+          <div class="wic-v2__row-track" data-wic-track>
+            {wicVideos.map((video) => (
+              <div class="wic-v2__video-card" data-wic-card>
+                <div class="wic-v2__video">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${video.id}`}
+                    title={`Week-end de l'Innovation Chirurgicale ${video.year}`}
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin"
+                    allowfullscreen
+                  ></iframe>
+                </div>
+                <p class="wic-v2__video-caption">{isEn ? `${video.year} edition` : `Édition ${video.year}`}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="wic-v2__nav" data-wic-nav>
+          <button
+            type="button"
+            class="wic-v2__nav-btn wic-v2__nav-btn--prev"
+            data-wic-prev
+            aria-label={isEn ? 'See previous videos' : 'Voir les vidéos précédentes'}
+            disabled
+            set:html={chevronLeft}
+          />
+          <button
+            type="button"
+            class="wic-v2__nav-btn wic-v2__nav-btn--next"
+            data-wic-next
+            aria-label={isEn ? 'See next videos' : 'Voir les vidéos suivantes'}
+            disabled
+            set:html={chevronRight}
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wic-v2__cta">
+    <div class="wic-v2__container">
+      <div class="wic-v2__cta-inner">
+        <div class="wic-v2__cta-icon" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none"><path d="M12 12h30l10 10v30H12z"/><path d="M26 24l16 8-16 8z" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="wic-v2__cta-copy">
+          <h2>{isEn ? <>Want to see more?</> : <>Envie d'en voir plus ?</>}</h2>
+          <p>
+            {isEn
+              ? 'All WIC editions, in video, on the BOPA Chair official channel.'
+              : 'Toutes les éditions du WIC, en vidéo, sur la chaîne officielle de la Chaire BOPA.'}
+          </p>
+        </div>
+        <a class="wic-v2__cta-button" href={wicPlaylistUrl} target="_blank" rel="noopener noreferrer">
+          {isEn ? 'See all WIC videos' : 'Voir toutes les vidéos du WIC'} <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Rail videos "Le WIC en images" - adapte du carrousel de
+  // /nos_innovations/ (InnovationsContent.astro : viewport/track + colonne
+  // de navigation dediee, flechesqui s'estompent en fondu, scroll natif +
+  // scroll-snap). Version simplifiee ici : une seule rangee (pas de filtres
+  // par categorie), cartes de largeur uniforme (pas de mesure de hauteur a
+  // egaliser, toutes les videos partagent le meme ratio 16/9).
+  const wicRoot = document.querySelector('#wic-v2');
+  if (wicRoot && !wicRoot.hasAttribute('data-wic-rows-ready')) {
+    wicRoot.setAttribute('data-wic-rows-ready', 'true');
+
+    const viewport = wicRoot.querySelector<HTMLElement>('[data-wic-viewport]');
+    const track = wicRoot.querySelector<HTMLElement>('[data-wic-track]');
+    const prev = wicRoot.querySelector<HTMLButtonElement>('[data-wic-prev]');
+    const next = wicRoot.querySelector<HTMLButtonElement>('[data-wic-next]');
+
+    if (viewport && track && prev && next) {
+      const getCards = () => Array.from(track.querySelectorAll<HTMLElement>('[data-wic-card]'));
+      const getGap = () => parseFloat(getComputedStyle(track).columnGap || getComputedStyle(track).gap || '0');
+      const getStep = () => {
+        const card = getCards()[0];
+        if (!card) return 0;
+        return card.getBoundingClientRect().width + getGap();
+      };
+      const nearestIndex = () => {
+        const step = getStep();
+        return step ? Math.round(viewport.scrollLeft / step) : 0;
+      };
+
+      const HIDE_MS = 200;
+      const setArrow = (btn: HTMLButtonElement, visible: boolean) => {
+        window.clearTimeout((btn as any)._hideTimer);
+        if (visible) {
+          btn.hidden = false;
+          btn.disabled = false;
+          void btn.offsetWidth;
+          btn.classList.remove('is-arrow-hidden');
+        } else {
+          btn.classList.add('is-arrow-hidden');
+          btn.disabled = true;
+          const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          (btn as any)._hideTimer = window.setTimeout(() => { btn.hidden = true; }, reduced ? 0 : HIDE_MS);
+        }
+      };
+
+      const updateControls = () => {
+        const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+        const overflowing = maxScroll > 5;
+        const epsilon = 5;
+        const atStart = viewport.scrollLeft <= epsilon;
+        const atEnd = viewport.scrollLeft >= maxScroll - epsilon;
+        setArrow(prev, overflowing && !atStart);
+        setArrow(next, overflowing && !atEnd);
+      };
+
+      const scrollBehavior = () =>
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+      const scrollByOne = (direction: number) => {
+        const step = getStep();
+        if (!step) return;
+        const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+        const target = Math.min(maxScroll, Math.max(0, (nearestIndex() + direction) * step));
+        viewport.scrollTo({ left: target, behavior: scrollBehavior() });
+      };
+
+      prev.addEventListener('click', () => scrollByOne(-1));
+      next.addEventListener('click', () => scrollByOne(1));
+
+      let scrollRaf = 0;
+      viewport.addEventListener('scroll', () => {
+        cancelAnimationFrame(scrollRaf);
+        scrollRaf = requestAnimationFrame(updateControls);
+      }, { passive: true });
+
+      const relayout = () => {
+        const step = getStep();
+        if (step) viewport.scrollLeft = nearestIndex() * step;
+        updateControls();
+      };
+
+      new ResizeObserver(relayout).observe(viewport);
+
+      let resizeTimer: ReturnType<typeof setTimeout>;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(relayout, 150);
+      });
+      document.fonts?.ready?.then(relayout);
+
+      updateControls();
+    }
+  }
+</script>
 
 <style>
-  .section-sub {
-    margin-top: var(--space-6);
-  }
+  /* ============================================================
+     BOPA - /wic/ (2026-09-10)
+     Reference directe : InnovationsContent.astro (/nos_innovations/) -
+     meme container 1320px, meme Hero navy + fil d'Ariane, meme rail
+     carrousel (viewport/track/nav flechee), meme carte CTA a motif de
+     points. --mp-navy/--bopa-cyan rejoints via le selecteur partage de
+     site.css (":root" + le bloc `.bopa-mission-v2, .bopa-projects-v2,
+     .innovations-v2, ..., .wic-v2 { --mp-navy: ...; }") plutot que
+     redeclares en dur ici.
+     ============================================================ */
 
-  /* Callout : pas de pattern existant sur le site pour ce genre de mise
-     en avant - construit uniquement avec les tokens deja en place (pas
-     de nouvelle couleur), en reprenant l'accent cyan deja utilise pour
-     les kickers/liens sur fond sombre. Variante dark ci-dessous pour la
-     section "Du WIC a la naissance de BOPA". */
-  .wic-callout {
-    margin-top: var(--space-4);
-    padding: var(--space-3) var(--space-4);
+  .wic-v2 {
+    color: var(--color-ink);
     background: var(--color-bg-tint);
-    border-left: 3px solid var(--color-accent-2);
-    border-radius: var(--radius-md);
+  }
+
+  .wic-v2 *,
+  .wic-v2 *::before,
+  .wic-v2 *::after {
+    box-sizing: border-box;
+  }
+
+  .wic-v2__container {
+    width: min(1320px, calc(100% - 64px));
+    margin-inline: auto;
+  }
+
+  /* Hero ------------------------------------------------------- */
+  .wic-v2__hero {
+    background: var(--mp-navy);
+    padding: clamp(42px, 5vw, 78px) 0 clamp(48px, 6vw, 84px);
+  }
+
+  .wic-v2__breadcrumb {
+    margin: 0 0 26px;
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+  .wic-v2__breadcrumb span {
+    margin-inline: 8px;
+  }
+
+  .wic-v2__kicker {
+    display: inline-block;
+    margin-bottom: 1.1rem;
+    font-family: var(--font-text);
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bopa-cyan);
+  }
+
+  .wic-v2__hero h1 {
+    margin: 0;
+    max-width: 20ch;
+    font-size: clamp(2rem, 3.4vw, 3.15rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
     font-weight: 600;
-    max-width: 44rem;
+    color: #fff;
   }
 
-  .section-block.dark .wic-callout {
-    background: rgba(255, 255, 255, 0.08);
-    border-left-color: var(--color-accent-2);
-    color: var(--color-dark-ink);
+  .wic-v2__lead {
+    max-width: 640px;
+    margin: 1.75rem 0 0;
+    font-size: clamp(1rem, 1.18vw, 1.18rem);
+    line-height: 1.72;
+    color: var(--color-muted);
+  }
+  .wic-v2__lead + .wic-v2__lead {
+    margin-top: 1.1rem;
+  }
+  .wic-v2__hero .wic-v2__lead {
+    color: rgba(255, 255, 255, 0.88);
   }
 
-  .wic-video-grid {
+  /* Sections generiques (alternance claire/sombre) -------------- */
+  .wic-v2__section {
+    padding: clamp(52px, 7vw, 96px) 0;
+  }
+
+  .wic-v2__section h2 {
+    margin: 0;
+    max-width: 22ch;
+    font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+    line-height: 1.14;
+    letter-spacing: -0.03em;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  .wic-v2__split {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
-    gap: var(--space-4);
-    margin-top: var(--space-4);
+    grid-template-columns: minmax(0, 1.35fr) minmax(220px, 0.65fr);
+    column-gap: clamp(48px, 7vw, 110px);
+    row-gap: 34px;
+    align-items: center;
+  }
+  .wic-v2__split--reverse {
+    grid-template-columns: minmax(220px, 0.65fr) minmax(0, 1.35fr);
+  }
+  .wic-v2__split--reverse .wic-v2__split-visual {
+    order: -1;
   }
 
-  .wic-video {
+  .wic-v2__split-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Petit motif decoratif "rencontre pluridisciplinaire" : 4 points en
+     orbite autour d'une icone centrale (meme famille de trace que les
+     icones de frise/categorie de /nos_innovations/) - purement
+     ornemental, aria-hidden, aucun texte. */
+  .wic-v2__orbit {
+    position: relative;
+    width: clamp(180px, 20vw, 260px);
+    height: clamp(180px, 20vw, 260px);
+  }
+  .wic-v2__orbit::before {
+    content: '';
+    position: absolute;
+    inset: 8%;
+    border: 1.5px dashed color-mix(in srgb, var(--bopa-cyan) 45%, transparent);
+    border-radius: 50%;
+  }
+  .wic-v2__orbit-core {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 46%;
+    height: 46%;
+    display: grid;
+    place-items: center;
+    border: 1.5px solid var(--bopa-cyan);
+    border-radius: 50%;
+    background: var(--color-bg-tint);
+    color: var(--color-accent);
+  }
+  .wic-v2__orbit-core svg {
+    width: 55%;
+    height: 55%;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .wic-v2__orbit-dot {
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+  .wic-v2__orbit-dot--1 { top: 2%; left: 50%; transform: translateX(-50%); background: var(--bopa-cyan); }
+  .wic-v2__orbit-dot--2 { right: 2%; top: 50%; transform: translateY(-50%); }
+  .wic-v2__orbit-dot--3 { bottom: 2%; left: 50%; transform: translateX(-50%); background: var(--color-step-2); }
+  .wic-v2__orbit-dot--4 { left: 2%; top: 50%; transform: translateY(-50%); }
+
+  /* Motif decoratif "cadre qui favorise l'ideation" : icone type
+     idee/reperes, meme cercle-support que .wic-v2__orbit-core. */
+  .wic-v2__spark {
+    display: grid;
+    place-items: center;
+    width: clamp(150px, 16vw, 200px);
+    height: clamp(150px, 16vw, 200px);
+    border: 1.5px solid var(--bopa-cyan);
+    border-radius: 50%;
+    color: var(--color-accent);
+  }
+  .wic-v2__spark svg {
+    width: 46%;
+    height: 46%;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* "Du WIC a la naissance de BOPA" - le temps fort de la page --- */
+  .wic-v2__section--dark {
+    position: relative;
+    overflow: hidden;
+    background: var(--mp-navy);
+    color: #fff;
+  }
+  .wic-v2__section--dark h2 {
+    color: #fff;
+  }
+  .wic-v2__section--dark .wic-v2__lead {
+    color: rgba(255, 255, 255, 0.88);
+  }
+
+  .wic-v2__highlight {
+    text-align: center;
+  }
+  .wic-v2__highlight .wic-v2__lead--lg {
+    max-width: 46rem;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: clamp(1.1rem, 1.5vw, 1.35rem);
+  }
+  .wic-v2__highlight h2 {
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .wic-v2__kicker--badge {
+    padding: 0.4rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--bopa-cyan) 55%, transparent);
+    border-radius: 999px;
+    color: var(--bopa-cyan);
+  }
+
+  /* Echo tres discret de mesh, meme principe que le Hero (site.css,
+     .mesh-echo) - redeclare ici (style scope par composant Astro). */
+  .wic-v2__mesh {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: radial-gradient(circle, #fff 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .wic-v2__section--dark .wic-v2__container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .wic-v2__callout-card {
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+    max-width: 44rem;
+    margin: 2.25rem auto 0;
+    padding: 1.1rem 1.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 3px solid var(--bopa-cyan);
+    border-radius: 10px;
+    text-align: left;
+  }
+  .wic-v2__callout-card p {
+    margin: 0;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+  .wic-v2__callout-icon {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid var(--bopa-cyan);
+    border-radius: 50%;
+    color: var(--bopa-cyan);
+  }
+  .wic-v2__callout-icon svg {
+    width: 60%;
+    height: 60%;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .wic-v2__callout-inline {
+    margin: 1.5rem 0 0;
+    padding: 0.9rem 1.25rem;
+    max-width: 40rem;
+    background: var(--color-bg-tint);
+    border-left: 3px solid var(--bopa-cyan);
+    border-radius: 10px;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+
+  /* Le WIC en images - rail carrousel ---------------------------- */
+  .wic-v2__images h2 {
+    margin-bottom: 2rem;
+  }
+
+  .wic-v2__row {
+    container-type: inline-size;
+    container-name: wic-row;
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .wic-v2__row-viewport {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-inline: contain;
+  }
+  .wic-v2__row-viewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  .wic-v2__row-track {
+    display: flex;
+    gap: 24px;
+    width: max-content;
+    padding: 6px 4px 12px;
+  }
+
+  .wic-v2__video-card {
+    flex: 0 0 340px;
+    width: 340px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    border-radius: 14px;
+    background: var(--color-surface);
+    box-shadow: 0 8px 18px rgba(5, 26, 58, 0.1);
+    overflow: hidden;
+    transition: transform 0.24s ease, box-shadow 0.24s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wic-v2__video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 34px rgba(5, 26, 58, 0.16);
+    }
+  }
+
+  .wic-v2__video {
     position: relative;
     width: 100%;
     aspect-ratio: 16 / 9;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
-    background: var(--color-bg-tint);
+    background: var(--mp-navy);
   }
-
-  .wic-video iframe {
+  .wic-v2__video iframe {
     position: absolute;
     inset: 0;
     width: 100%;
@@ -273,29 +760,205 @@ const wicPlaylistUrl = 'https://www.youtube.com/playlist?list=PLW02oRYi4wae-awNW
     border: 0;
   }
 
-  .wic-video-caption {
-    margin-top: var(--space-2);
+  .wic-v2__video-caption {
+    margin: 0;
+    padding: 0.85rem 1rem;
     text-align: center;
     font-weight: 600;
     color: var(--color-muted);
   }
 
-  /* Meme recette visuelle que .about-v2__impact-partner-cta (HomeContent.astro) :
-     lien discret en accent cyan + fleche, jamais un bouton plein. */
-  .wic-cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    margin-top: var(--space-4);
-    padding-bottom: 0.15rem;
-    color: var(--bopa-cyan);
-    font-size: 0.95rem;
-    font-weight: 700;
-    text-decoration: none;
-    border-bottom: 1px solid var(--bopa-cyan);
+  @container wic-row (max-width: 804px) {
+    .wic-v2__video-card {
+      flex-basis: 280px;
+      width: 280px;
+    }
   }
 
-  .wic-cta:hover {
-    opacity: 0.8;
+  .wic-v2__nav {
+    flex: 0 0 clamp(64px, 5vw, 88px);
+    width: clamp(64px, 5vw, 88px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.4rem, 1vw, 0.75rem);
+  }
+  .wic-v2__nav-btn {
+    appearance: none;
+    border: 0;
+    background: none;
+    padding: 0.3rem;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    color: var(--bopa-cyan);
+    cursor: pointer;
+    opacity: 1;
+    transform: translateX(0);
+    transition: opacity 200ms ease, transform 200ms ease, color 180ms ease;
+  }
+  .wic-v2__nav-btn[hidden] {
+    display: none;
+  }
+  .wic-v2__nav-btn.is-arrow-hidden {
+    opacity: 0;
+    pointer-events: none;
+    cursor: default;
+  }
+  .wic-v2__nav-btn--prev.is-arrow-hidden { transform: translateX(-10px); }
+  .wic-v2__nav-btn--next.is-arrow-hidden { transform: translateX(10px); }
+  .wic-v2__nav-btn :global(svg) {
+    width: clamp(26px, 2vw, 34px);
+    height: clamp(26px, 2vw, 34px);
+  }
+  .wic-v2__nav-btn:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
+    outline-offset: 4px;
+    border-radius: 10px;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wic-v2__nav-btn:not(:disabled):hover {
+      color: var(--color-accent);
+    }
+    .wic-v2__nav-btn--prev:not(:disabled):hover { transform: translateX(-4px); }
+    .wic-v2__nav-btn--next:not(:disabled):hover { transform: translateX(4px); }
+  }
+
+  /* CTA final - meme carte navy a motif de points que /nos_innovations/
+     (.innovations-v2__cta-inner). */
+  .wic-v2__cta {
+    padding: 0 0 clamp(60px, 8vw, 100px);
+  }
+  .wic-v2__cta-inner {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 26px;
+    min-height: 154px;
+    padding: 30px 42px;
+    border-radius: 14px;
+    overflow: hidden;
+    background-color: var(--mp-navy);
+    background-image:
+      radial-gradient(circle at 77% 18%, color-mix(in srgb, var(--bopa-cyan) 22%, transparent) 0 2px, transparent 2.5px),
+      radial-gradient(circle at 86% 72%, color-mix(in srgb, var(--bopa-cyan) 20%, transparent) 0 2px, transparent 2.5px);
+    color: #fff;
+  }
+  .wic-v2__cta-icon {
+    display: grid;
+    place-items: center;
+    width: 72px;
+    height: 72px;
+    border: 1.5px solid var(--color-accent);
+    border-radius: 50%;
+    color: var(--bopa-cyan);
+  }
+  .wic-v2__cta-icon svg {
+    width: 40px;
+    height: 40px;
+    stroke: currentColor;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .wic-v2__cta-copy h2 {
+    margin: 0 0 10px;
+    max-width: none;
+    color: #fff;
+    font-size: clamp(1.55rem, 2vw, 2.1rem);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+  }
+  .wic-v2__cta-copy p {
+    max-width: 720px;
+    margin: 0;
+    color: #e7eff9;
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+  .wic-v2__cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    min-height: 52px;
+    padding: 12px 26px;
+    border-radius: 7px;
+    background: var(--bopa-cyan);
+    border: 1px solid var(--bopa-cyan);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 650;
+    white-space: nowrap;
+    transition: transform 0.28s ease, background-color 0.28s ease, box-shadow 0.28s ease;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .wic-v2__cta-button:hover {
+      background: var(--color-accent);
+      border-color: var(--color-accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35);
+    }
+  }
+
+  @media (max-width: 1180px) {
+    .wic-v2__split,
+    .wic-v2__split--reverse {
+      grid-template-columns: 1fr;
+    }
+    .wic-v2__split-visual {
+      order: -1;
+    }
+    .wic-v2__hero h1 {
+      max-width: none;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .wic-v2__container {
+      width: min(calc(100% - 32px), 1320px);
+    }
+    .wic-v2__hero {
+      padding-top: 32px;
+    }
+    .wic-v2__section {
+      padding: 44px 0;
+    }
+    .wic-v2__callout-card {
+      flex-direction: column;
+      text-align: center;
+    }
+    .wic-v2__cta-inner {
+      grid-template-columns: auto 1fr;
+      padding: 28px 24px;
+    }
+    .wic-v2__cta-button {
+      grid-column: 1 / -1;
+      justify-content: center;
+    }
+    .wic-v2__nav {
+      display: none;
+    }
+    .wic-v2__row-viewport {
+      scrollbar-width: thin;
+      padding-bottom: 8px;
+    }
+    .wic-v2__row-viewport::-webkit-scrollbar {
+      display: block;
+    }
+    .wic-v2__row-track {
+      padding-bottom: 0;
+    }
+    .wic-v2__video-card {
+      flex-basis: 260px;
+      width: 260px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wic-v2__nav-btn,
+    .wic-v2__video-card,
+    .wic-v2__cta-button {
+      transition: none;
+    }
   }
 </style>
