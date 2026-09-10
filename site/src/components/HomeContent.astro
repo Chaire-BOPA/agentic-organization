@@ -1263,7 +1263,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           {isEn ? (
             <>
               Born from a partnership between three institutions, the BOPA Chair relies
-              on their foundations to support fundraising and help advance its mission.
+              on their foundations to support fundraising efforts and help fulfill its missions.
             </>
           ) : (
             <>
@@ -1350,23 +1350,26 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <h3 id="accompany-title">{isEn ? 'They work alongside us' : 'Ils nous accompagnent'}</h3>
           <span class="bopa-support__rule" aria-hidden="true"></span>
         </div>
-        <p class="bopa-support__accompany-intro">
-          {isEn ? (
-            <>
-              We are also fortunate to work with expert organizations that are deeply committed to our
-              mission and contribute their time, expertise and/or equipment. Their involvement plays
-              an important role in making the BOPA Chair what it is today, and we sincerely thank
-              them for their support.
-            </>
-          ) : (
-            <>
-              Nous avons également la chance d’avoir à nos côtés des structures expertes dans leurs domaines et
-              pleinement investies dans nos missions, qui mettent à notre disposition du temps, de l’expertise
-              et/ou du matériel. Leur implication contribue largement à faire de la Chaire BOPA ce qu’elle est
-              aujourd’hui et nous les en remercions sincèrement.
-            </>
-          )}
-        </p>
+        {isEn ? (
+          <>
+            <p class="bopa-support__accompany-intro">
+              We are also fortunate to work alongside expert organizations and institutions that are
+              deeply committed to our mission. They contribute their time, expertise, and/or equipment
+              to help us bring our projects to life.
+            </p>
+            <p class="bopa-support__accompany-intro bopa-support__accompany-intro--second">
+              Their involvement plays a major role in making BOPA what it is today, and we are truly
+              grateful for their support.
+            </p>
+          </>
+        ) : (
+          <p class="bopa-support__accompany-intro">
+            Nous avons également la chance d’avoir à nos côtés des structures expertes dans leurs domaines et
+            pleinement investies dans nos missions, qui mettent à notre disposition du temps, de l’expertise
+            et/ou du matériel. Leur implication contribue largement à faire de la Chaire BOPA ce qu’elle est
+            aujourd’hui et nous les en remercions sincèrement.
+          </p>
+        )}
         <div class="bopa-support__grid bopa-support__grid--four">
           {accompanyLogos.map((logo) => {
             const brand = logo.src.match(/logo-([a-z-]+)\.png$/)?.[1];
@@ -3949,6 +3952,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     text-align: left;
     font-size: clamp(1rem, 1.15vw, 1.05rem);
     line-height: 1.6;
+  }
+
+  /* EN uniquement : ce texte est passé en deux paragraphes (demande
+     owner, 2026-09-10) - petit espace entre les deux. */
+  .bopa-support__accompany-intro--second {
+    margin-top: 0.9em;
   }
 
   /* Toute la largeur utile du container HOME, plus le max-width éditorial
