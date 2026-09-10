@@ -101,7 +101,12 @@ export const phases = [
     en: { label: 'Intraoperative', tagline: 'Better vision, better decisions, better surgery' },
     projects: [
       {
-        image: '/images/projets-v2/bopcam.png',
+        // Visuel remplace le 2026-09-10 (photo du dispositif reel fournie
+        // par l'owner via source/inbox, remplace l'ancien PNG). Cadrage
+        // natif proche du ratio de la carte (1374x1145), aucun object-
+        // position necessaire. Ancien visuel archive en bopcam-v1.png.
+        // Original : source/brand/assets/projets-v2/bopcam.png.
+        image: '/images/projets-v2/bopcam.jpg',
         fr: {
           name: 'BOPCAM',
           description: 'Un dispositif « made in BOPA » pour filmer au plus près les mains et les gestes du chirurgien en chirurgie ouverte.',
