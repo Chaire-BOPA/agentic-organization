@@ -4,8 +4,9 @@
 // Base.astro for nav/footer, and in PublicationsContent/BoptechContent/
 // InnovationsContent). index.astro/en/index.astro are now thin shells that
 // just render this component with lang="fr"/"en".
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { createHash } from 'node:crypto';
 
 interface Props {
   lang?: 'fr' | 'en';
@@ -76,6 +77,19 @@ const team = (isEn ? [
 ]).map((person) => {
   const slug = slugify(person.name);
   const photoFile = teamPhotoFiles.find((file) => file.replace(/\.[^.]+$/, '') === slug);
+  // ?v=<content hash> so a re-uploaded photo (same filename) actually
+  // refreshes in browsers and on the CDN - without it, an owner who
+  // swaps someone's headshot keeps seeing the old one until a hard
+  // reload. Stable while the file is unchanged, so it never busts a
+  // cache needlessly.
+  let photo = null;
+  if (photoFile) {
+    const hash = createHash('sha1')
+      .update(readFileSync(join(process.cwd(), 'public', 'images', 'team-photos', photoFile)))
+      .digest('hex')
+      .slice(0, 8);
+    photo = `/images/team-photos/${photoFile}?v=${hash}`;
+  }
   return {
     ...person,
     initials: person.name
@@ -84,7 +98,7 @@ const team = (isEn ? [
       .map((word) => word[0])
       .join('')
       .toUpperCase(),
-    photo: photoFile ? `/images/team-photos/${photoFile}` : null,
+    photo,
   };
 });
 
