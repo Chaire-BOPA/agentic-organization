@@ -1088,28 +1088,25 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           aria-roledescription={isEn ? 'carousel' : 'carrousel'}
           aria-label={isEn ? 'The BOPA team in action - photo gallery' : "L'équipe BOPA en action - galerie photo"}
         >
-          <div class="about-v2__action-viewport" data-action-viewport tabindex="0">
-            <div class="about-v2__action-track" data-action-track>
-              {actionPhotos.map((photo, i) => (
-                <figure
-                  class="about-v2__action-slide"
-                  data-action-slide
-                  role="group"
-                  aria-roledescription={isEn ? 'slide' : 'diapositive'}
-                  aria-label={`${i + 1} / ${actionPhotos.length}`}
-                >
-                  <div class="about-v2__action-frame">
-                    <img
-                      src={photo.src}
-                      alt={photo.caption}
-                      width={photo.w}
-                      height={photo.h}
-                      loading={i === 0 ? 'eager' : 'lazy'}
-                    />
-                  </div>
-                </figure>
-              ))}
-            </div>
+          <div class="about-v2__action-stage" data-action-stage tabindex="0">
+            {actionPhotos.map((photo, i) => (
+              <figure
+                class="about-v2__action-slide"
+                data-action-slide
+                role="group"
+                aria-roledescription={isEn ? 'slide' : 'diapositive'}
+                aria-label={`${i + 1} / ${actionPhotos.length}`}
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.caption}
+                  width={photo.w}
+                  height={photo.h}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                  draggable="false"
+                />
+              </figure>
+            ))}
           </div>
 
           <button type="button" class="about-v2__action-nav about-v2__action-nav--prev" data-action-prev aria-label={isEn ? 'Previous photo' : 'Photo précédente'}>
@@ -1118,25 +1115,26 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           <button type="button" class="about-v2__action-nav about-v2__action-nav--next" data-action-next aria-label={isEn ? 'Next photo' : 'Photo suivante'}>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
+        </div>
 
-          <div class="about-v2__action-meta">
-            <p class="about-v2__action-caption" data-action-caption aria-live="polite">{actionPhotos[0].caption}</p>
-            <div class="about-v2__action-controls">
-              <span class="about-v2__action-counter" data-action-counter>{`01 / ${String(actionPhotos.length).padStart(2, '0')}`}</span>
-              <div class="about-v2__action-progress">
-                <div class="about-v2__action-progress-bar" data-action-progress-bar></div>
-              </div>
-            </div>
+        <p class="about-v2__action-caption" data-action-caption aria-live="polite">{actionPhotos[0].caption}</p>
+        <div class="about-v2__action-controls">
+          <span class="about-v2__action-counter" data-action-counter>{`01 / ${String(actionPhotos.length).padStart(2, '0')}`}</span>
+          <div class="about-v2__action-progress">
+            <div class="about-v2__action-progress-bar" data-action-progress-bar></div>
           </div>
         </div>
 
-        <p class="about-v2__action-thanks">
-          {isEn ? (
-            <>Our warmest thanks to the entire BOPA community, without whom we could not move forward!</>
-          ) : (
-            <>De très chaleureux remerciements à l'ensemble de la communauté BOPA, sans qui nous ne pourrions pas avancer !</>
-          )}
-        </p>
+        <div class="about-v2__action-thanks">
+          <span class="about-v2__action-thanks-icon" set:html={ecoConclusionIcon} />
+          <p>
+            {isEn ? (
+              <>Our warmest thanks to the entire BOPA community, without whom we could not move forward!</>
+            ) : (
+              <>De très chaleureux remerciements à l'ensemble de la communauté BOPA, sans qui nous ne pourrions pas avancer !</>
+            )}
+          </p>
+        </div>
       </div>
     </div>
   </section>
@@ -1861,124 +1859,103 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   </script>
 
   <script>
-    // Carrousel "L'equipe BOPA en action" (pack "Equipe-en-action-
-    // Carrousel-12-Photos-V1", 2026-09-10). Slides centrees (scroll-snap-
-    // align:center, pas start comme le rail "Nos innovations") : la slide
-    // "active" est celle dont le centre est le plus proche du centre du
-    // viewport, recalculee au scroll (rAF) plutot que par index fixe -
-    // fonctionne aussi bien apres un clic fleche qu'apres un
-    // drag/swipe libre. Drag souris ajoute en plus du scroll natif
-    // (trackpad/tactile deja geres nativement par overflow-x:auto) : les
-    // navigateurs ne proposent pas de drag-to-scroll au clic-glisser pour
-    // un simple conteneur overflow, seul le tactile/trackpad marche sans
-    // JS - pointer events, uniquement pour pointerType 'mouse' (le
-    // tactile/stylet gardent le scroll natif intact).
+    // Carrousel "L'equipe BOPA en action" (pack "WIC-Carrousel-Focus-
+    // Exact-Modele-V1", 2026-09-10 - remplace le rail a scroll natif de
+    // la V1) : carrousel "focus superpose" pilote par un index actif
+    // (jamais par une position de scroll) - chaque slide recoit un
+    // transform/opacity/z-index calcules a partir de sa distance a la
+    // slide active (delta = index - activeIndex), transitionnes en CSS
+    // (transform+opacity) pour l'effet translation+echelle+fondu demande.
+    // Piloter par index plutot que par scrollLeft rend aussi le drag/
+    // swipe plus simple : un seul seuil de distance decide prev/next,
+    // jamais de calcul de position de scroll.
     const actionRoot = document.querySelector('[data-action-carousel]');
     if (actionRoot && !actionRoot.hasAttribute('data-action-ready')) {
       actionRoot.setAttribute('data-action-ready', 'true');
 
-      const viewport = actionRoot.querySelector<HTMLElement>('[data-action-viewport]');
-      const track = actionRoot.querySelector<HTMLElement>('[data-action-track]');
+      const stage = actionRoot.querySelector<HTMLElement>('[data-action-stage]');
       const prev = actionRoot.querySelector<HTMLButtonElement>('[data-action-prev]');
       const next = actionRoot.querySelector<HTMLButtonElement>('[data-action-next]');
-      const captionEl = actionRoot.querySelector<HTMLElement>('[data-action-caption]');
-      const counterEl = actionRoot.querySelector<HTMLElement>('[data-action-counter]');
-      const progressBar = actionRoot.querySelector<HTMLElement>('[data-action-progress-bar]');
+      const captionEl = document.querySelector<HTMLElement>('[data-action-caption]');
+      const counterEl = document.querySelector<HTMLElement>('[data-action-counter]');
+      const progressBar = document.querySelector<HTMLElement>('[data-action-progress-bar]');
 
-      if (viewport && track && prev && next && captionEl && counterEl && progressBar) {
-        const getSlides = () => Array.from(track.querySelectorAll<HTMLElement>('[data-action-slide]'));
-        const captions = getSlides().map((slide) => slide.querySelector('img')?.getAttribute('alt') || '');
-        const total = getSlides().length;
+      if (stage && prev && next && captionEl && counterEl && progressBar) {
+        const slides = Array.from(stage.querySelectorAll<HTMLElement>('[data-action-slide]'));
+        const captions = slides.map((slide) => slide.querySelector('img')?.getAttribute('alt') || '');
+        const total = slides.length;
         const pad = (n: number) => String(n).padStart(2, '0');
 
-        const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const scrollBehavior = () => (reducedMotion() ? 'auto' : 'smooth');
-
-        const nearestActiveIndex = () => {
-          const slides = getSlides();
-          const viewportCenter = viewport.scrollLeft + viewport.clientWidth / 2;
-          let best = 0;
-          let bestDist = Infinity;
-          slides.forEach((slide, i) => {
-            const dist = Math.abs((slide.offsetLeft + slide.offsetWidth / 2) - viewportCenter);
-            if (dist < bestDist) { bestDist = dist; best = i; }
-          });
-          return best;
-        };
+        // Profondeurs : 0 = active, 1 = voisine proche, 2 = voisine
+        // lointaine (bord du cadre), au-dela = masquee (opacite 0) mais
+        // gardee positionnee pour pouvoir re-apparaitre en fondu plutot
+        // que de sauter. Decalages en clamp() pour rester proportionnes
+        // du mobile au grand desktop, comme le reste du site.
+        const OFFSET = ['0px', 'clamp(150px, 19vw, 250px)', 'clamp(260px, 32vw, 420px)', 'clamp(340px, 40vw, 520px)'];
+        const SCALE = [1, 0.72, 0.48, 0.48];
+        const OPACITY = [1, 0.85, 0.32, 0];
 
         let activeIndex = 0;
+        const layout = () => {
+          slides.forEach((slide, i) => {
+            const delta = i - activeIndex;
+            const dist = Math.min(Math.abs(delta), 3);
+            const dir = Math.sign(delta);
+            const offsetExpr = dir === 0 ? '0px' : `calc(${dir} * ${OFFSET[dist]})`;
+            slide.style.transform = `translate(-50%, -50%) translateX(${offsetExpr}) scale(${SCALE[dist]})`;
+            slide.style.opacity = String(OPACITY[dist]);
+            slide.style.zIndex = String(100 - dist);
+            slide.style.pointerEvents = dist === 0 ? 'auto' : 'none';
+            slide.classList.toggle('is-active', dist === 0);
+          });
+        };
+
         const render = () => {
           captionEl.textContent = captions[activeIndex] || '';
           counterEl.textContent = `${pad(activeIndex + 1)} / ${pad(total)}`;
           progressBar.style.width = `${((activeIndex + 1) / total) * 100}%`;
           prev.disabled = activeIndex <= 0;
           next.disabled = activeIndex >= total - 1;
+          layout();
         };
         render();
 
         const goTo = (index: number) => {
-          const slides = getSlides();
-          const clamped = Math.max(0, Math.min(total - 1, index));
-          const target = slides[clamped];
-          if (!target) return;
-          viewport.scrollTo({
-            left: target.offsetLeft + target.offsetWidth / 2 - viewport.clientWidth / 2,
-            behavior: scrollBehavior(),
-          });
+          activeIndex = Math.max(0, Math.min(total - 1, index));
+          render();
         };
 
-        prev.addEventListener('click', () => goTo(nearestActiveIndex() - 1));
-        next.addEventListener('click', () => goTo(nearestActiveIndex() + 1));
+        prev.addEventListener('click', () => goTo(activeIndex - 1));
+        next.addEventListener('click', () => goTo(activeIndex + 1));
 
-        viewport.addEventListener('keydown', (event) => {
-          if (event.key === 'ArrowRight') { event.preventDefault(); goTo(nearestActiveIndex() + 1); }
-          if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(nearestActiveIndex() - 1); }
+        stage.addEventListener('keydown', (event) => {
+          if (event.key === 'ArrowRight') { event.preventDefault(); goTo(activeIndex + 1); }
+          if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(activeIndex - 1); }
         });
 
-        let scrollRaf = 0;
-        viewport.addEventListener('scroll', () => {
-          cancelAnimationFrame(scrollRaf);
-          scrollRaf = requestAnimationFrame(() => {
-            const idx = nearestActiveIndex();
-            if (idx !== activeIndex) { activeIndex = idx; render(); }
-          });
-        }, { passive: true });
-
-        // Drag-to-scroll souris uniquement (voir commentaire d'entete) -
-        // seuil de 4px avant de considerer que c'est un vrai drag, pour ne
-        // jamais gener un simple clic.
+        // Drag/swipe (souris + tactile + stylet, un seul mecanisme -
+        // plus de scroll natif a laisser au tactile ici, tout est en
+        // transform) : seuil de distance simple, pas de suivi du doigt
+        // en direct (garde le code court, le fondu/echelle CSS fait deja
+        // l'essentiel du ressenti "vivant").
         let dragging = false;
         let dragStartX = 0;
-        let dragStartScroll = 0;
-        viewport.addEventListener('pointerdown', (event) => {
-          if (event.pointerType !== 'mouse') return;
+        const THRESHOLD = 40;
+        stage.addEventListener('pointerdown', (event) => {
           dragging = true;
           dragStartX = event.clientX;
-          dragStartScroll = viewport.scrollLeft;
-          viewport.classList.add('is-dragging');
-          viewport.setPointerCapture(event.pointerId);
-        });
-        viewport.addEventListener('pointermove', (event) => {
-          if (!dragging) return;
-          viewport.scrollLeft = dragStartScroll - (event.clientX - dragStartX);
+          stage.setPointerCapture(event.pointerId);
         });
         const endDrag = (event: PointerEvent) => {
           if (!dragging) return;
           dragging = false;
-          viewport.classList.remove('is-dragging');
-          if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
-          const idx = nearestActiveIndex();
-          activeIndex = idx;
-          goTo(idx);
+          if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+          const delta = event.clientX - dragStartX;
+          if (delta <= -THRESHOLD) goTo(activeIndex + 1);
+          else if (delta >= THRESHOLD) goTo(activeIndex - 1);
         };
-        viewport.addEventListener('pointerup', endDrag);
-        viewport.addEventListener('pointercancel', endDrag);
-
-        let actionResizeTimer: ReturnType<typeof setTimeout>;
-        window.addEventListener('resize', () => {
-          clearTimeout(actionResizeTimer);
-          actionResizeTimer = setTimeout(() => goTo(activeIndex), 150);
-        });
+        stage.addEventListener('pointerup', endDrag);
+        stage.addEventListener('pointercancel', endDrag);
       }
     }
   </script>
@@ -2397,6 +2374,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   .about-v2__action-band {
     background: oklch(from var(--color-accent) 0.905 0.038 h);
     padding: clamp(1.75rem, 3vw, 2.5rem) 0 clamp(2.5rem, 4vw, 3.5rem);
+    /* Les voisines lointaines du carrousel debordent volontairement au-
+       dela des marges du container (owner : "debordement possible au-
+       dela des marges, c'est voulu") - ce overflow-x cantonne ce debord
+       a la largeur de l'ecran plutot que de creer un scroll horizontal
+       de page ; l'overflow vertical normal du contenu n'est pas affecte. */
+    overflow-x: hidden;
   }
 
   .about-v2__action-marker {
@@ -2427,77 +2410,58 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     line-height: 1.15;
   }
 
-  /* Carrousel : photo active dominante et centree, voisines partiellement
-     visibles - le padding-inline (pas de marge sur les slides) sur le
-     viewport est ce qui permet a la 1ere/derniere slide d'atteindre elle
-     aussi une position centree (scroll-snap-align:center sur chaque
-     slide). --action-active-w pilote a la fois la largeur de slide et ce
-     padding, une seule source pour les deux. */
+  /* Carrousel "focus superpose" (pack "WIC-Carrousel-Focus-Exact-Modele-
+     V1", 2026-09-10, remplace le rail a scroll natif de la V1 sur la
+     reference visuelle validee du pack) : photo active large et nette au
+     centre, voisines plus petites superposees derriere de part et
+     d'autre, debordant volontairement au-dela des marges du container,
+     s'estompant en fondu vers les bords - jamais de cadre/bordure/aplat
+     bleu nuit autour des photos, chaque photo garde son propre ratio
+     naturel (hauteur commune, largeur automatique). Piloté par un index
+     actif (JS applique transform/opacity/z-index par slide selon sa
+     distance a l'index actif), plus par une position de scroll. */
   .about-v2__action-carousel {
     position: relative;
-    --action-active-w: min(640px, 78vw);
   }
 
-  .about-v2__action-viewport {
-    overflow-x: auto;
-    overflow-y: hidden;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    overscroll-behavior-inline: contain;
-    padding-inline: calc((100% - var(--action-active-w)) / 2);
-    cursor: grab;
+  .about-v2__action-stage {
+    position: relative;
+    height: clamp(230px, 28vw, 400px);
+    margin: 0 auto;
     touch-action: pan-y;
+    cursor: grab;
   }
-  .about-v2__action-viewport:active {
+  .about-v2__action-stage:active {
     cursor: grabbing;
   }
-  .about-v2__action-viewport.is-dragging {
-    scroll-snap-type: none;
-  }
-  .about-v2__action-viewport::-webkit-scrollbar {
-    display: none;
-  }
-  .about-v2__action-viewport:focus-visible {
+  .about-v2__action-stage:focus-visible {
     outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
-    outline-offset: 4px;
-  }
-
-  .about-v2__action-track {
-    display: flex;
-    gap: 1.5rem;
-    width: max-content;
+    outline-offset: 6px;
   }
 
   .about-v2__action-slide {
-    flex: 0 0 var(--action-active-w);
-    width: var(--action-active-w);
+    position: absolute;
+    top: 50%;
+    left: 50%;
     margin: 0;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
-  }
-
-  /* Cadre a ratio fixe (4/3, le format le plus frequent parmi les 12
-     photos) + object-fit:contain (jamais cover) : aucune photo n'est
-     jamais coupee, quel que soit son format d'origine (paysage, portrait,
-     capture TV tres large) - conforme a la consigne explicite "ne pas
-     forcer un crop destructif unique". Fond bleu nuit derriere l'image
-     (meme famille que le fond des cartes projets) pour que le
-     letterboxing/pillarboxing des formats non-4/3 reste elegant plutot
-     que blanc/vide. */
-  .about-v2__action-frame {
-    aspect-ratio: 4 / 3;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    background: var(--mp-navy, #071f46);
-    box-shadow: 0 20px 40px -20px rgba(4, 35, 56, 0.25);
-  }
-  .about-v2__action-frame img {
-    width: 100%;
     height: 100%;
-    object-fit: contain;
+    width: auto;
+    transition: transform 460ms cubic-bezier(.22, .61, .36, 1), opacity 420ms ease;
+    will-change: transform, opacity;
+  }
+  .about-v2__action-slide img {
     display: block;
+    height: 100%;
+    width: auto;
+    max-width: none;
     -webkit-user-drag: none;
     user-select: none;
+  }
+  /* Seule exception a "aucun cadre" : une ombre tres douce sous la photo
+     active, pour qu'elle "domine immediatement la composition" (owner)
+     sans pour autant devenir un cadre visible. */
+  .about-v2__action-slide.is-active img {
+    box-shadow: 0 24px 48px -20px rgba(4, 35, 56, 0.35);
   }
 
   .about-v2__action-nav {
@@ -2515,6 +2479,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     place-items: center;
     color: var(--color-navy);
     cursor: pointer;
+    z-index: 110;
     transition: opacity 200ms ease, color 180ms ease, box-shadow 180ms ease;
   }
   .about-v2__action-nav svg {
@@ -2522,10 +2487,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     height: 1.35rem;
   }
   .about-v2__action-nav--prev {
-    left: clamp(0.25rem, 2vw, 1.5rem);
+    left: clamp(0.25rem, 6vw, 4rem);
   }
   .about-v2__action-nav--next {
-    right: clamp(0.25rem, 2vw, 1.5rem);
+    right: clamp(0.25rem, 6vw, 4rem);
   }
   .about-v2__action-nav:disabled {
     opacity: 0;
@@ -2542,35 +2507,34 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     outline-offset: 2px;
   }
 
-  .about-v2__action-meta {
-    max-width: var(--action-active-w);
-    margin: 1.1rem auto 0;
-    text-align: center;
-  }
+  /* Legende/compteur/progression : petits et resserres, colles a la
+     photo (owner : "sous la photo... legende collee a l'image ; compteur
+     + progression resserres juste dessous"). */
   .about-v2__action-caption {
-    margin: 0;
-    min-height: 1.55em;
-    color: var(--color-navy);
-    font-weight: 600;
-    font-size: 1rem;
-    line-height: 1.4;
+    margin: 0.5rem 0 0;
+    min-height: 1.4em;
+    text-align: center;
+    color: var(--color-muted);
+    font-weight: 500;
+    font-size: 0.85rem;
+    line-height: 1.3;
   }
   .about-v2__action-controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    margin-top: 0.6rem;
+    gap: 0.6rem;
+    margin-top: 0.3rem;
   }
   .about-v2__action-counter {
     font-variant-numeric: tabular-nums;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     font-weight: 600;
     color: var(--color-muted);
     letter-spacing: 0.02em;
   }
   .about-v2__action-progress {
-    width: 6rem;
+    width: 5rem;
     height: 3px;
     border-radius: 999px;
     background: rgba(8, 31, 74, 0.14);
@@ -2583,36 +2547,63 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     transition: width 220ms ease;
   }
 
-  /* Texte de cloture : sobre et chaleureux, jamais une carte ni un CTA
-     (consigne explicite du pack) - un simple paragraphe centre, comme
-     .about-v2__chaire-lede mais plus discret. */
+  /* Remerciement : encadre blanc a fin contour cyan (seul element du
+     bloc a garder des coins arrondis/une bordure - exception explicite
+     du pack), gras/semibold, jamais italique. Meme recette que
+     .about-v2__eco-conclusion (icone rosette identique, ecoConclusionIcon)
+     plutot qu'une nouvelle iconographie. */
   .about-v2__action-thanks {
-    max-width: 40rem;
-    margin: clamp(2rem, 3.5vw, 2.75rem) auto 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    max-width: 46rem;
+    margin: 1.25rem auto 0;
+    padding: 1rem 1.6rem;
+    background: #fff;
+    border: 1px solid rgba(45, 185, 227, 0.35);
+    border-radius: 14px;
+  }
+  .about-v2__action-thanks-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--bopa-cyan);
+  }
+  .about-v2__action-thanks-icon :global(svg) {
+    width: 1.85rem;
+    height: 1.85rem;
+  }
+  .about-v2__action-thanks p {
+    flex: 1;
+    margin: 0;
+    color: var(--color-navy);
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.5;
     text-align: center;
-    color: var(--about-ink);
-    font-size: 0.98rem;
-    font-style: italic;
-    line-height: 1.6;
   }
 
   @media (max-width: 760px) {
-    .about-v2__action-carousel {
-      --action-active-w: min(420px, 84vw);
+    .about-v2__action-stage {
+      height: clamp(190px, 62vw, 260px);
     }
     .about-v2__action-nav {
       display: none;
     }
-    .about-v2__action-viewport {
-      scrollbar-width: thin;
-      padding-bottom: 0.5rem;
+    .about-v2__action-thanks {
+      flex-direction: column;
+      text-align: center;
+      padding: 1.1rem 1.25rem;
     }
-    .about-v2__action-viewport::-webkit-scrollbar {
-      display: block;
+    .about-v2__action-thanks p {
+      text-align: center;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .about-v2__action-slide,
     .about-v2__action-nav,
     .about-v2__action-progress-bar {
       transition: none;
