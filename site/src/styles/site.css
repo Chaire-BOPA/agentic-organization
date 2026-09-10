@@ -360,6 +360,42 @@ button {
   line-height: 1.8;
 }
 
+/* "Nous trouver" : la petite carte cliquable (OpenStreetMap statique,
+   ouvre le lieu Google Maps au clic) est posée À GAUCHE de l'adresse,
+   jamais dessous - pour que le bord droit de l'adresse reste calé pile
+   sur la borne droite du footer (voir .site-footer__grid, dernière
+   colonne en max-content). */
+.site-footer__find {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.site-footer__map {
+  flex: 0 0 auto;
+  display: block;
+  width: 88px;
+  line-height: 0;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-line);
+}
+
+.site-footer__map img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Sur téléphone (footer déjà en 1 colonne), la carte à côté de l'adresse
+   rétrécirait "12 avenue Paul Vaillant-Couturier" au point de la couper
+   en deux (ligne que l'owner garde entière, cf. .site-footer__contact) -
+   on passe la carte AU-DESSUS de l'adresse à ce seul palier. "Pas
+   dessous" valait pour la vue bureau/tablette où elle tient à côté. */
+@media (max-width: 40rem) {
+  .site-footer__find { flex-wrap: wrap; }
+}
+
 .site-footer__bottom {
   display: flex;
   align-items: center;
@@ -395,7 +431,16 @@ button {
    est désormais var(--text-sm) (0.875rem, plus petite que ces 0.92rem),
    donc ce correctif est devenu inutile - la nouvelle taille tient déjà
    confortablement à cette largeur sans cran supplémentaire. */
-@media (max-width: 1320px) {
+/* Bascule 4→2 colonnes remontée de 1320px à 1440px (2026-09-10) : la
+   colonne "Nous trouver" porte désormais une petite carte à gauche de
+   l'adresse (voir .site-footer__find), donc la rangée à 4 colonnes -
+   déjà "pile au plancher" pour Navigation et la marque à sa largeur
+   maxi, cf. commentaire ci-dessus - manquait ~120px et faisait wrapper
+   "LE BLOC OPÉRATOIRE" du wordmark. Le palier 2x2 donne à chaque colonne
+   ~575px : la carte + l'adresse y tiennent large. "mieux vaut passer en
+   2 colonnes plus tôt que de pincer le texte" (règle déjà posée le
+   2026-08-29). */
+@media (max-width: 1440px) {
   .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 

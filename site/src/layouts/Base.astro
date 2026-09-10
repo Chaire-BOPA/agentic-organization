@@ -257,11 +257,28 @@ const enAlternateUrl = new URL(enPath, Astro.site);
 
           <div class="site-footer__column">
             <p class="site-footer__heading">{isEn ? 'Find us' : 'Nous trouver'}</p>
-            <p class="site-footer__contact">
-              Hôpital Paul-Brousse<br />
-              12 avenue Paul Vaillant-Couturier<br />
-              94804 Villejuif Cedex
-            </p>
+            <div class="site-footer__find">
+              <a
+                class="site-footer__map"
+                href="https://maps.app.goo.gl/EvdYGmGeGgyCQzkE8"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={isEn ? 'Open the location in Google Maps' : 'Ouvrir le lieu dans Google Maps'}
+              >
+                <img
+                  src="/images/graphics/footer-map-villejuif.jpg"
+                  alt=""
+                  width="320"
+                  height="240"
+                  loading="lazy"
+                />
+              </a>
+              <p class="site-footer__contact">
+                Hôpital Paul-Brousse<br />
+                12 avenue Paul Vaillant-Couturier<br />
+                94804 Villejuif Cedex
+              </p>
+            </div>
           </div>
         </div>
 
