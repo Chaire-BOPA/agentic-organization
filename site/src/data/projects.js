@@ -165,29 +165,28 @@ export const phases = [
         image: '/images/projets-v2/henri.jpg',
         fr: {
           name: 'Henri',
-          description: "Un assistant vocal pour accompagner le chirurgien pendant l'intervention, sans interrompre son geste.",
+          description: 'Un chatbot qui permet au chirurgien de disposer, à la demande, des informations clés du patient juste avant l\'incision.',
         },
         en: {
           name: 'Henri',
-          description: 'A voice assistant that supports the surgeon during the procedure, without interrupting their hands.',
+          description: "A chatbot that gives the surgeon on-demand access to the patient's key information right before the incision.",
         },
       },
       {
         // Ajoute 2026-09-09 a la demande de l'owner : carte placeholder,
-        // juste le nom au depart (pas de visuel ni de description), meme
-        // principe que FluoGuide avant d'avoir son texte. Nom propre,
-        // inchange FR/EN (comme Henri, Goldfinger, BOPCAM). Visuel ajoute
-        // le 2026-09-10 (illustration fournie par l'owner via
-        // source/inbox) ; la description reste vide, non demandee.
-        // Original : source/brand/assets/projets-v2/jacky.png.
+        // juste le nom au depart. Visuel ajoute le 2026-09-10 (illustration
+        // fournie par l'owner via source/inbox). Description ajoutee le
+        // 2026-09-10 (texte FR fourni par l'owner ; traduction EN humaine,
+        // voir voice.md). Nom propre, inchange FR/EN (comme Henri,
+        // Goldfinger, BOPCAM). Original : source/brand/assets/projets-v2/jacky.png.
         image: '/images/projets-v2/jacky.jpg',
         fr: {
           name: 'Jacky',
-          description: '',
+          description: 'Un chatbot qui interroge le chirurgien aux moments clés pour générer un compte rendu opératoire standardisé.',
         },
         en: {
           name: 'Jacky',
-          description: '',
+          description: 'A chatbot that prompts the surgeon at key moments to generate a standardized operative report.',
         },
       },
       {
