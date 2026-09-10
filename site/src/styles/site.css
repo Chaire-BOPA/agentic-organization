@@ -1936,6 +1936,18 @@ p {
   text-align: center;
 }
 
+/* "Six mois"/"10 %" (et EN "Six months"/"10%") en semi-bold uniquement
+   (owner, 2026-09-10) - un premier essai en cyan a ete explicitement
+   ecarte ("je prefere finalement ne pas utiliser le cyan... conserve le
+   blanc du texte actuel") : color:inherit reprend le blanc a 88% deja en
+   place ci-dessus, seul le poids de police (600, jamais le 700 par
+   defaut de <strong>) cree l'accroche - un traitement volontairement
+   sobre pour une donnee de mortalite. */
+.bopa-mission-v2__intro strong {
+  font-weight: 600;
+  color: inherit;
+}
+
 .bopa-mission-v2__timeline {
   position: relative;
   display: grid;
