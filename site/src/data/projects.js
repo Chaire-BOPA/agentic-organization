@@ -277,11 +277,11 @@ export const phases = [
         // 6-Visuels-Projets-V1"). Original : source/brand/assets/projets-v2/ressenti-chirurgien.png.
         image: '/images/projets-v2/ressenti-chirurgien.jpg',
         fr: {
-          name: 'Le ressenti du chirurgien face aux résultats cliniques',
+          name: 'MedPercept',
           description: 'Comprendre comment le chirurgien perçoit les résultats de ses patients et comment cette perception influence sa pratique.',
         },
         en: {
-          name: 'How surgeons experience clinical outcomes',
+          name: 'MedPercept',
           description: "Understanding how surgeons perceive their patients' outcomes and how that perception shapes their practice.",
         },
       },
