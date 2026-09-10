@@ -299,7 +299,7 @@ const actionPhotos = [
   { file: '11-fete-de-la-science.jpeg', w: 1600, h: 1200,
     fr: 'La fête de la science à la Chaire BOPA !',
     en: 'Science Festival at the BOPA Chair!' },
-  { file: '12-journal-televise-09-25.jpeg', w: 1356, h: 610,
+  { file: '12-journal-televise-09-25.jpeg', w: 1015, h: 526,
     fr: 'La Chaire BOPA au journal télévisé, 09/25',
     en: 'The BOPA Chair on the evening news, 09/25' },
 ].map((photo) => ({
@@ -313,6 +313,13 @@ const actionPhotos = [
 // que ecoIcons ci-dessus.
 const ecoConclusionIcon =
   '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="9.5" r="5.5" stroke="currentColor" stroke-width="1.6"/><path d="M9 14l-1.6 6.5 4.6-2.3 4.6 2.3L15 14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.6 9.5l1.7 1.7 3.1-3.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+// Encadré de remerciement, sous-section 04 (owner, 2026-09-10 : la
+// rosette de conclusion ne convient pas ici, il faut un picto qui
+// évoque le remerciement) - cœur en contour, même convention 24x24/
+// stroke=1.6/currentColor que les autres icônes de la page.
+const actionThanksIcon =
+  '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20.2s-7.2-4.4-9.6-8.7C1 8.2 2.6 4.6 6.2 4.6c2 0 3.6 1.2 4.1 2.4.5-1.2 2.1-2.4 4.1-2.4 3.6 0 5.2 3.6 3.6 6.9-2.4 4.3-9.6 8.7-9.6 8.7z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
 // Déposée une fois dans public/photos/centre-hepato-biliaire.(jpg|png|webp),
 // la vraie photo apparaît ici automatiquement - même mécanisme que
@@ -1131,7 +1138,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         <p class="about-v2__action-caption" data-action-caption aria-live="polite">{actionPhotos[0].caption}</p>
 
         <p class="about-v2__action-thanks">
-          <span class="about-v2__action-thanks-icon" set:html={ecoConclusionIcon} />
+          <span class="about-v2__action-thanks-icon" set:html={actionThanksIcon} />
           <span class="about-v2__action-thanks-text">
             {isEn ? (
               <>Our warmest thanks to the entire BOPA community, without whom we could not move forward!</>
@@ -1902,7 +1909,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         // restent ceux deja valides).
         const OFFSET = ['0px', 'clamp(150px, 19vw, 250px)', 'clamp(260px, 32vw, 420px)', 'clamp(340px, 40vw, 520px)'];
         const SCALE = [1, 0.82, 0.68, 0.68];
-        const OPACITY = [1, 0.6, 0.22, 0];
+        const OPACITY = [1, 0.45, 0.12, 0];
 
         let activeIndex = 0;
         const layout = () => {
@@ -2427,7 +2434,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    margin-bottom: clamp(1rem, 1.6vw, 1.35rem);
+    margin-bottom: clamp(1.25rem, 2vw, 1.6rem);
   }
   .about-v2__action-number {
     color: var(--bopa-cyan);
@@ -3124,20 +3131,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     gap: clamp(1.5rem, 3vw, 2rem);
     margin-top: clamp(1.5rem, 2vw, 1.75rem);
   }
-  /* Fond blanc pur + liseré fin (2026-08-28, pack "correctifs compacts
-     V3", couleur passée de doré à bleu le 2026-09-10 à la demande de
-     l'owner - le doré du Médico-économique a lui-même été retiré des
-     cartes /nos_innovations/ entre-temps). --color-accent (#03529c) est
-     le bleu déjà utilisé pour le texte "à toutes celles et ceux qui...
-     rendent cette aventure possible" (section Nous soutenir) - même
-     teinte demandée explicitement ici, restreinte au contour extérieur
-     de ces 2 cartes ; le reste du contenu (pictos/checks/accents/liens/
-     séparateurs) reste cyan, aucun fond bleu, aucune ombre. */
+  /* Fond blanc pur + liseré fin (couleur repassée au gris clair standard
+     le 2026-09-10 à la demande de l'owner - "j'aime pas" le bleu marine
+     essayé précédemment - même liseré exact que les cartes des 3
+     fondations partenaires, .support-partner-card / var(--color-line)). */
   .about-v2__impact-card {
     display: flex;
     flex-direction: column;
     background: #fff;
-    border: 1px solid var(--color-accent);
+    border: 1px solid var(--color-line);
     border-radius: 1rem;
     padding: clamp(1.15rem, 1.8vw, 1.4rem) clamp(1.5rem, 2.6vw, 1.9rem) clamp(1.4rem, 2.2vw, 1.65rem);
   }
