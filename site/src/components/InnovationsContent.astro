@@ -139,7 +139,12 @@ const chevronRightBig =
                       </div>
                       <div class="bopa-project-card__body">
                         <h3>{project[lang].name}</h3>
-                        <p>{project[lang].description}</p>
+                        {/* set:html so a description in projects.js can carry
+                           inline <strong> emphasis (owner-authored, trusted -
+                           no user input reaches this data file). Plain-text
+                           descriptions render identically. */}
+                        <p set:html={project[lang].description} />
+
                         {project.action && (
                           <a
                             class="innovations-v2__card-action"

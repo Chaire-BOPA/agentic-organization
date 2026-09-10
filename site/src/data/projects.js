@@ -49,7 +49,7 @@ export const phases = [
         },
         en: {
           name: 'LiverSight',
-          description: 'Software developed by BOPA to facilitate communication between surgeon and patient before liver surgery, helping the patient better understand the procedure and take an active role in their own care.',
+          description: 'Software developed by BOPA to <strong>improve communication between surgeons and patients</strong> before liver surgery, helping patients understand their procedure and <strong>take an active role in their care</strong>.',
         },
       },
       {
@@ -66,7 +66,7 @@ export const phases = [
         },
         en: {
           name: 'PancreasSight',
-          description: 'Software developed by BOPA to facilitate communication between surgeon and patient before pancreatic surgery, helping the patient better understand the procedure and take an active role in their own care.',
+          description: 'Software developed by BOPA to <strong>improve communication between surgeons and patients</strong> before pancreatic surgery, helping patients understand their procedure and <strong>take an active role in their care</strong>.',
         },
       },
       {
@@ -80,7 +80,7 @@ export const phases = [
         },
         en: {
           name: 'LiverMatch',
-          description: 'Developing new tools to better assess the situation of patients awaiting transplantation and support medical decision-making.',
+          description: 'Developing new tools to <strong>better assess patients awaiting transplantation</strong> and provide clinicians with better insights to support <strong>medical decision-making</strong>.',
         },
       },
       {
@@ -97,7 +97,7 @@ export const phases = [
         },
         en: {
           name: 'Metatron',
-          description: 'Developing an AI tool to support therapeutic decision-making for patients with colorectal cancer liver metastases.',
+          description: 'Developing an AI-powered tool to <strong>support therapeutic decision-making</strong> for patients with <strong>colorectal cancer liver metastases</strong>.',
         },
       },
     ],
