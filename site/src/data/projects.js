@@ -12,6 +12,14 @@
 // `en` key yet (e.g. a newly-added FR project awaiting translation)
 // simply never renders on the EN page - InnovationsContent.astro skips
 // it - never invent/guess its English text.
+//
+// Heads up: the phase `tagline`s here feed the per-category labels, but
+// the same 3 pre/per/post taglines ALSO exist as a hand-written copy in
+// InnovationsContent.astro's `.innovations-v2__journey` timeline block
+// (with a <br/> line break baked in). A "change a phase tagline"
+// request means editing BOTH places - this file for the label, the
+// journey block for the timeline. The medico-eco phase has no journey
+// entry, so it's this file only.
 export const phases = [
   {
     id: 'preoperatoire',
