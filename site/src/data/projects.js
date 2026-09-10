@@ -243,12 +243,14 @@ export const phases = [
     en: { label: 'Postoperative', tagline: 'Better follow-up for better recovery' },
     projects: [
       {
-        // Visuel remplace 2026-09-09 (meme pack que LiverMatch ci-dessus) -
-        // nouveau fichier distinct (colette-innovations.jpg) : l'ancien
-        // colette.png reste utilise tel quel par la Home (HomeContent.astro,
-        // rail "Nos innovations" phares), hors perimetre explicite de cette
-        // passe (page /nos_innovations/ uniquement), jamais touche. Original :
-        // source/brand/assets/projets-v2/colette-innovations-original.jpeg.
+        // Visuel remplace le 2026-09-10 (nouvelle photo fournie par
+        // l'owner via source/inbox). Cadrage natif proche du ratio de la
+        // carte (1374x1145), aucun object-position necessaire. Ancien
+        // visuel archive en colette-innovations-v1.jpeg. La Home
+        // (HomeContent.astro, rail "Nos innovations" phares) garde
+        // volontairement l'ancien colette.png, hors perimetre de cette
+        // passe (page /nos_innovations/ uniquement), jamais touche.
+        // Original : source/brand/assets/projets-v2/colette-innovations.png.
         image: '/images/projets-v2/colette-innovations.jpg',
         fr: {
           name: 'Colette',
