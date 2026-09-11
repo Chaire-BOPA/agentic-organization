@@ -2445,20 +2445,13 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     display: block;
   }
 
-  /* Sous-section 04 "L'equipe BOPA en action" (pack "Equipe-en-action-
-     Carrousel-12-Photos-V1", 2026-09-10) - fond bleu pale IDENTIQUE a la
-     sous-section 02 (owner : "reutilise exactement le fond/token deja
-     present ... ne cree surtout pas une nouvelle nuance de bleu"). Meme
-     formule EXACTE que --eco-bg (plus haut, .about-v2__eco), redeclaree
-     ici a l'identique plutot que deplacee : --eco-bg est une variable CSS
-     scopee a .about-v2__eco (pas un token partage a la racine), donc un
-     enfant de .about-v2__team-band ne peut pas la lire directement (les
-     custom properties ne traversent pas les scopes de selecteurs freres) -
-     redeclarer la meme formule (fonction pure de --color-accent, un vrai
-     token racine) donne un resultat rigoureusement identique sans toucher
-     a la sous-section 02. */
+  /* Sous-section 04 "L'equipe BOPA en action" - fond bleu pastel
+     IDENTIQUE a la sous-section 02 : meme token racine partage
+     var(--color-about-pastel-bg) (owner, 2026-09-11 - bleu pastel plus
+     doux que l'ancienne formule oklch, remplacee dans les 2
+     sous-sections a la fois pour rester rigoureusement identiques). */
   .about-v2__action-band {
-    background: oklch(from var(--color-accent) 0.905 0.038 h);
+    background: var(--color-about-pastel-bg);
     /* Padding-top aligne exactement sur celui de la sous-section 03
        (.about-v2__team, clamp(1.1rem, 2vw, 1.5rem)) - owner : meme
        espace en haut de sous-section que "L'equipe operationnelle". */
@@ -3427,8 +3420,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      public/photos/), coins très légèrement arrondis (10px), pas de
      surcouche ni grosse ombre, légende discrète sous l'image. */
   .about-v2__eco {
-    --eco-bg: oklch(from var(--color-accent) 0.905 0.038 h);
-    background: var(--eco-bg);
+    /* Bleu pastel doux (owner, 2026-09-11), meme token racine partage
+       que la sous-section 04 (.about-v2__action-band) - remplace
+       l'ancienne formule oklch, jugee trop soutenue. */
+    background: var(--color-about-pastel-bg);
     padding: clamp(1.1rem, 2vw, 1.5rem) 0 clamp(1.25rem, 2vw, 1.75rem);
   }
   .about-v2__eco-grid {
