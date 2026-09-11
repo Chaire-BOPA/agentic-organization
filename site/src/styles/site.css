@@ -209,22 +209,29 @@ button {
      blocs compacts au lieu de colonnes flexibles etirees ; l'espace
      ainsi libere est absorbe par la seule colonne encore en `fr`
      (la marque, 1.45fr - grandir SA colonne ne deplace pas le logo,
-     aligne a gauche dedans, ca ajoute juste du blanc a sa droite : c'est
-     exactement l'espace logo->Navigation, volontairement le plus large).
+     aligne a gauche dedans, ca ajoute juste du blanc a sa droite).
      3 "colonnes-espaceurs" explicites remplacent le `gap` uniforme pour
      que logo->Navigation reste le plus large tandis que Navigation->Nous
-     suivre = Nous suivre->Nous trouver (meme valeur X, agrandie le
-     2026-09-11 - owner : "beaucoup trop colles", plus de respiration -
-     grandir X reduit d'autant la colonne marque en 1.45fr, qui absorbe
-     la difference sans deplacer le logo ni "Nous trouver", et fait
-     naturellement glisser Navigation vers la gauche). */
+     suivre = Nous suivre->Nous trouver (meme valeur X). Correction plus
+     franche du 2026-09-11 (deuxieme passage, owner : "encore beaucoup
+     trop tasse a droite") : X agrandi nettement (48px -> ~96px, gap
+     visible = valeur de sa propre colonne-espaceur, verifie en direct)
+     pour que Navigation utilise une vraie part de la zone vide apres le
+     logo - grandir X reduit d'autant la colonne marque en 1.45fr, qui
+     absorbe la difference sans deplacer le logo ni "Nous trouver", et
+     fait glisser Navigation franchement vers la gauche. La 1ere
+     colonne-espaceur (logo->Navigation) est agrandie a son tour pour
+     rester visiblement la plus large des trois (~110-120px) : elle ne
+     deplace ni le logo ni Navigation (elle est prise sur le blanc
+     invisible de la colonne marque, purement esthetique), donc peut
+     grandir librement. */
   grid-template-columns:
     minmax(250px, 1.45fr)
-    clamp(2rem, 4vw, 4rem)
+    clamp(3rem, 7.5vw, 9rem)
     max-content
-    clamp(2rem, 3vw, 3rem)
+    clamp(4rem, 6vw, 6rem)
     max-content
-    clamp(2rem, 3vw, 3rem)
+    clamp(4rem, 6vw, 6rem)
     max-content;
   column-gap: 0;
   row-gap: clamp(2rem, 4vw, 4rem);
@@ -303,10 +310,13 @@ button {
   /* Colonnes resserrees sur leur contenu reel (owner, 2026-09-11 :
      "rapprocher nettement... pour que Navigation soit percu comme un
      seul bloc compact") plutot que forcees a largeur egale - fini le
-     blanc invisible avant l'ecart de 12px. Repris aux anciennes valeurs
-     (1fr egaux + 0.75rem) au palier mobile 1 colonne ci-dessous. */
+     blanc invisible avant l'ecart de 12px. Leger re-ecartement (deuxieme
+     passage, meme jour, owner : "un peu trop collees" - toujours
+     clairement un seul bloc, on ne revient pas au grand ecartement
+     d'origine) : 0.4rem -> 0.85rem. Repris aux anciennes valeurs (1fr
+     egaux + 0.75rem) au palier mobile 1 colonne ci-dessous. */
   grid-template-columns: repeat(2, max-content);
-  gap: 0 0.4rem;
+  gap: 0 0.85rem;
 }
 
 /* Rythme vertical des ancres calé sur l'interligne de l'adresse (owner,
