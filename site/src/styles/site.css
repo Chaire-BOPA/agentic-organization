@@ -220,6 +220,19 @@ button {
   align-items: start;
 }
 
+/* Le logo a un déport supplémentaire de var(--space-3) en plus du
+   padding de container (.site-footer__brand .wordmark, margin-left) -
+   sans ce même déport à droite, "Nous trouver" ne peut s'aligner que
+   sur le bord du padding (var(--space-4) seul), pas sur le "bord gauche
+   du B" (padding + space-3) que l'owner prend comme référence pour la
+   marge droite (owner, 2026-09-11 - mesuré au pixel près via Range sur
+   le mot "Couturier", pas sur le bord de la boîte conteneur, qui
+   masquait l'écart : ~32px de droite contre 48px de gauche). Repris à
+   zéro au palier mobile 1 colonne ci-dessous. */
+.site-footer__grid > :last-child {
+  margin-right: var(--space-3);
+}
+
 /* Bloc marque du footer : reprend EXACTEMENT l'agencement du header
    (pack "Footer-Pleine-Largeur-Header-Mirror-V2", 2026-08-29) - logo et
    texte ne partageaient pas encore ces règles côté footer (seul
@@ -461,9 +474,12 @@ button {
   .site-footer__grid { grid-template-columns: 1fr; gap: 2rem; }
   /* Repasse en 1 colonne pleine largeur : annule le justify-self:end du
      palier 2x2 ci-dessus, sinon "Nous trouver" resterait collé à droite
-     au lieu de suivre la pleine largeur comme les 3 autres colonnes. */
+     au lieu de suivre la pleine largeur comme les 3 autres colonnes.
+     Annule aussi le margin-right (déport pour égaler le bord gauche du
+     logo) - non pertinent une fois pleine largeur. */
   .site-footer__grid > :last-child {
     justify-self: stretch;
+    margin-right: 0;
   }
   .site-footer__bottom { flex-direction: column; align-items: flex-start; }
 }
