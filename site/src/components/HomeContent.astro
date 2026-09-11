@@ -434,9 +434,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       <p class="bopa-eyebrow">{isEn ? 'Our mission' : 'Notre mission'}</p>
       <h2 id="mission-title">{isEn ? 'Advancing surgery through digital innovation' : 'Améliorer la chirurgie, grâce au numérique'}</h2>
       <p class="bopa-mission-v2__intro">
+        <strong>
+          {isEn
+            ? 'Six months after liver transplantation or major hepatectomy, the mortality rate is around 10%.'
+            : 'Six mois après une transplantation hépatique ou une hépatectomie majeure, le taux de mortalité avoisine les 10 %.'}
+        </strong>
+      </p>
+      <p class="bopa-mission-v2__intro">
         {isEn ? (
           <>
-            <strong>Six months after liver transplantation or major hepatectomy, the mortality rate is around 10%.</strong><br /><br />
             To address this major clinical
             challenge, we develop and integrate innovative technologies at every stage of the
             surgical pathway: to better prepare for surgery, enhance the safety of surgical
@@ -444,7 +450,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           </>
         ) : (
           <>
-            <strong>Six mois après une transplantation hépatique ou une hépatectomie majeure, le taux de mortalité avoisine les 10 %.</strong><br /><br />
             Pour répondre à cet
             enjeu clinique majeur, nous développons et intégrons des technologies innovantes à
             chaque étape du parcours chirurgical : mieux préparer l'intervention, renforcer la
