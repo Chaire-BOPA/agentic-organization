@@ -224,14 +224,15 @@ button {
      rester visiblement la plus large des trois (~110-120px) : elle ne
      deplace ni le logo ni Navigation (elle est prise sur le blanc
      invisible de la colonne marque, purement esthetique), donc peut
-     grandir librement. */
+     grandir librement. Troisieme passage, meme jour (owner : "espace
+     encore un peu plus") : X repasse de ~96px a ~112px. */
   grid-template-columns:
     minmax(250px, 1.45fr)
     clamp(3rem, 7.5vw, 9rem)
     max-content
-    clamp(4rem, 6vw, 6rem)
+    clamp(4.5rem, 7vw, 7rem)
     max-content
-    clamp(4rem, 6vw, 6rem)
+    clamp(4.5rem, 7vw, 7rem)
     max-content;
   column-gap: 0;
   row-gap: clamp(2rem, 4vw, 4rem);
@@ -313,10 +314,11 @@ button {
      blanc invisible avant l'ecart de 12px. Leger re-ecartement (deuxieme
      passage, meme jour, owner : "un peu trop collees" - toujours
      clairement un seul bloc, on ne revient pas au grand ecartement
-     d'origine) : 0.4rem -> 0.85rem. Repris aux anciennes valeurs (1fr
-     egaux + 0.75rem) au palier mobile 1 colonne ci-dessous. */
+     d'origine) : 0.4rem -> 0.85rem, puis (troisieme passage, meme jour,
+     owner : "espace encore un peu plus") -> 1.1rem. Repris aux anciennes
+     valeurs (1fr egaux + 0.75rem) au palier mobile 1 colonne ci-dessous. */
   grid-template-columns: repeat(2, max-content);
-  gap: 0 0.85rem;
+  gap: 0 1.1rem;
 }
 
 /* Rythme vertical des ancres calé sur l'interligne de l'adresse (owner,
