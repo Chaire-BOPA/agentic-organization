@@ -1125,6 +1125,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
                 role="group"
                 aria-roledescription={isEn ? 'slide' : 'diapositive'}
                 aria-label={`${i + 1} / ${actionPhotos.length}`}
+                style={`--photo-ratio: ${(photo.w / photo.h).toFixed(4)};`}
               >
                 <img
                   src={photo.src}
@@ -2676,6 +2677,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   @media (max-width: 760px) {
     .about-v2__action-stage {
       height: clamp(190px, 62vw, 260px);
+    }
+    /* Filet de securite mobile uniquement (owner, 2026-09-11 - signale sur
+       la photo "Presenter, expliquer, echanger..." en 16:9, plus large que
+       le format habituel ~4:3) : chaque photo garde sa hauteur commune ET
+       son ratio naturel (width:auto), mais une photo sensiblement plus
+       large que 4:3 (1.333) peut alors deborder de l'ecran a ce palier -
+       les coins arrondis et les photos floues voisines disparaissent hors
+       cadre. On plafonne la hauteur des seules photos plus larges que ce
+       ratio de reference pour que leur largeur ne depasse jamais celle
+       d'une photo 4:3 normale (le seul format deja verifie sans debord) ;
+       les photos plus etroites (portrait, carre, 4:3) ne sont pas
+       affectees (min() choisit alors 100%, valeur inchangee). */
+    .about-v2__action-slide {
+      height: min(100%, calc(100% * 1.333 / var(--photo-ratio, 1.333)));
     }
     /* Meme compensation de debord que la regle desktop, mais avec la
        formule de hauteur du stage mobile ci-dessus. */
