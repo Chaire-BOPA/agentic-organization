@@ -225,14 +225,17 @@ button {
      deplace ni le logo ni Navigation (elle est prise sur le blanc
      invisible de la colonne marque, purement esthetique), donc peut
      grandir librement. Troisieme passage, meme jour (owner : "espace
-     encore un peu plus") : X repasse de ~96px a ~112px. */
+     encore un peu plus") : X repasse de ~96px a ~112px. Quatrieme
+     passage, meme jour (owner : "espace encore plus") : X repasse de
+     ~112px a ~128px, et logo->Navigation grandit avec (120px -> ~143px)
+     pour rester le plus large des trois. */
   grid-template-columns:
     minmax(250px, 1.45fr)
-    clamp(3rem, 7.5vw, 9rem)
+    clamp(4rem, 9vw, 10rem)
     max-content
-    clamp(4.5rem, 7vw, 7rem)
+    clamp(5rem, 8vw, 8rem)
     max-content
-    clamp(4.5rem, 7vw, 7rem)
+    clamp(5rem, 8vw, 8rem)
     max-content;
   column-gap: 0;
   row-gap: clamp(2rem, 4vw, 4rem);
