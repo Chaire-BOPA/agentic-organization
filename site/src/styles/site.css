@@ -1998,7 +1998,7 @@ p {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  margin-top: 1.45rem;
+  margin-top: 1.85rem;
 }
 
 /* Frise harmonisée à l'identique de /nos_innovations/ (2026-08-27,
