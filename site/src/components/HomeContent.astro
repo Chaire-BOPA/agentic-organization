@@ -1148,6 +1148,32 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
 
         <p class="about-v2__action-caption" data-action-caption aria-live="polite">{actionPhotos[0].caption}</p>
 
+        <div
+          class="about-v2__lightbox"
+          data-action-lightbox
+          role="dialog"
+          aria-modal="true"
+          aria-label={isEn ? 'Photo, full screen view' : 'Photo en plein écran'}
+          hidden
+        >
+          <button type="button" class="about-v2__lightbox-close" data-lightbox-close aria-label={isEn ? 'Close' : 'Fermer'}>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </button>
+          <button type="button" class="about-v2__lightbox-nav about-v2__lightbox-nav--prev" data-lightbox-prev aria-label={isEn ? 'Previous photo' : 'Photo précédente'}>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button type="button" class="about-v2__lightbox-nav about-v2__lightbox-nav--next" data-lightbox-next aria-label={isEn ? 'Next photo' : 'Photo suivante'}>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l7 7-7 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="about-v2__lightbox-stage">
+            <img data-lightbox-img src="" alt="" draggable="false" />
+          </div>
+          <div class="about-v2__lightbox-meta">
+            <p class="about-v2__lightbox-caption" data-lightbox-caption></p>
+            <span class="about-v2__lightbox-counter" data-lightbox-counter></span>
+          </div>
+        </div>
+
         <p class="about-v2__action-thanks">
           <span class="about-v2__action-thanks-icon" set:html={actionThanksIcon} />
           <span class="about-v2__action-thanks-text">
@@ -1903,26 +1929,35 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       const prev = actionRoot.querySelector<HTMLButtonElement>('[data-action-prev]');
       const next = actionRoot.querySelector<HTMLButtonElement>('[data-action-next]');
       const captionEl = document.querySelector<HTMLElement>('[data-action-caption]');
+      const lightbox = document.querySelector<HTMLElement>('[data-action-lightbox]');
+      const lightboxImg = document.querySelector<HTMLImageElement>('[data-lightbox-img]');
+      const lightboxCaption = document.querySelector<HTMLElement>('[data-lightbox-caption]');
+      const lightboxCounter = document.querySelector<HTMLElement>('[data-lightbox-counter]');
+      const lightboxClose = document.querySelector<HTMLButtonElement>('[data-lightbox-close]');
+      const lightboxPrev = document.querySelector<HTMLButtonElement>('[data-lightbox-prev]');
+      const lightboxNext = document.querySelector<HTMLButtonElement>('[data-lightbox-next]');
 
       if (stage && prev && next && captionEl) {
         const slides = Array.from(stage.querySelectorAll<HTMLElement>('[data-action-slide]'));
         const captions = slides.map((slide) => slide.querySelector('img')?.getAttribute('alt') || '');
         const total = slides.length;
         const mod = (n: number) => ((n % total) + total) % total;
+        let openLightbox: (index: number) => void = () => {};
 
         // Profondeurs : 0 = active, 1 = voisine proche, 2 = voisine
         // lointaine (bord du cadre), au-dela = masquee (opacite 0) mais
         // gardee positionnee pour pouvoir re-apparaitre en fondu plutot
         // que de sauter. Decalages en clamp() pour rester proportionnes
         // du mobile au grand desktop, comme le reste du site (pack
-        // "Carrousel-Premium-Depth-Focus-V2", 2026-09-11 : rendu "focus
-        // photographique en profondeur" - scale/opacite/flou tres marques,
-        // la centrale devient le seul vrai point focal ; positions/offsets
-        // inchanges).
+        // "Carrousel-Premium-Correctifs-Focus-Lightbox-V3", 2026-09-11 :
+        // centrale encore agrandie - scale 1.18, donc volontairement plus
+        // grande que le stage qui la contient, meme logique de debordement
+        // assume que les voisines qui debordent deja horizontalement - et
+        // +-1 encore plus floutees, sans toucher a leur taille/opacite).
         const OFFSET = ['0px', 'clamp(150px, 19vw, 250px)', 'clamp(260px, 32vw, 420px)', 'clamp(340px, 40vw, 520px)'];
-        const SCALE = [1, 0.6, 0.42, 0.42];
+        const SCALE = [1.18, 0.6, 0.42, 0.42];
         const OPACITY = [1, 0.35, 0.1, 0];
-        const BLUR = [0, 3, 6, 6];
+        const BLUR = [0, 5.5, 6, 6];
         const Z_INDEX = [30, 20, 10, 0];
 
         let activeIndex = 0;
@@ -1940,10 +1975,10 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             slide.style.opacity = String(OPACITY[dist]);
             slide.style.filter = `blur(${BLUR[dist]}px)`;
             slide.style.zIndex = String(Z_INDEX[dist]);
-            // Cliquables : centrale + les 2 niveaux de voisines visibles
-            // (pack : "clic direct sur une photo laterale -> devient
-            // centrale"), jamais les rangs invisibles au-dela.
-            slide.style.pointerEvents = dist <= 2 ? 'auto' : 'none';
+            // Seule la centrale est cliquable (pack V3 : les voisines
+            // deviennent purement visuelles - la boucle infinie reste
+            // pilotee par les fleches/le swipe, plus par un clic lateral).
+            slide.style.pointerEvents = dist === 0 ? 'auto' : 'none';
             slide.classList.toggle('is-active', dist === 0);
           });
         };
@@ -1996,15 +2031,13 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(currentTarget() - 1); }
         });
 
-        // Clic direct sur une photo laterale (-1/-2/+1/+2) : elle devient
-        // centrale avec exactement la meme animation que via les flèches
-        // (pack "Carrousel-Premium-Depth-Focus-V2") - jamais au survol.
+        // Clic sur la photo centrale uniquement (pack V3 : les voisines ne
+        // sont plus cliquables, pointer-events:none les exclut deja de
+        // event.target) - ouvre la lightbox plein ecran.
         stage.addEventListener('click', (event) => {
           const slideEl = (event.target as HTMLElement).closest<HTMLElement>('[data-action-slide]');
-          if (!slideEl) return;
-          const idx = slides.indexOf(slideEl);
-          if (idx === -1) return;
-          goTo(idx);
+          if (!slideEl || !slideEl.classList.contains('is-active')) return;
+          openLightbox(activeIndex);
         });
 
         // Drag/swipe (souris + tactile + stylet, un seul mecanisme -
@@ -2030,6 +2063,94 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         };
         stage.addEventListener('pointerup', endDrag);
         stage.addEventListener('pointercancel', endDrag);
+
+        // Lightbox plein ecran (pack "Carrousel-Premium-Correctifs-Focus-
+        // Lightbox-V3", 2026-09-11) : s'ouvre sur la photo centrale, se
+        // navigue independamment (boucle infinie, fleches/clavier/swipe),
+        // et resynchronise le carrousel sur sa photo courante a la
+        // fermeture plutot que de revenir a la photo 1.
+        if (lightbox && lightboxImg && lightboxCaption && lightboxCounter && lightboxClose && lightboxPrev && lightboxNext) {
+          // Deplace la lightbox en enfant direct de <body> : sinon son
+          // z-index reste confine au contexte d'empilement local de
+          // .wrap.about-v2__action (position:relative + z-index:2), et le
+          // header (position:sticky, z-index:10) continue de s'afficher
+          // par-dessus malgre le z-index:1000 de la lightbox elle-meme.
+          document.body.appendChild(lightbox);
+
+          const pad = (n: number) => String(n).padStart(2, '0');
+          let lightboxIndex = 0;
+          let lastFocused: HTMLElement | null = null;
+
+          const renderLightbox = () => {
+            const img = slides[lightboxIndex]?.querySelector('img');
+            lightboxImg.src = img?.getAttribute('src') || '';
+            lightboxImg.alt = captions[lightboxIndex] || '';
+            lightboxCaption.textContent = captions[lightboxIndex] || '';
+            lightboxCounter.textContent = `${pad(lightboxIndex + 1)} / ${pad(total)}`;
+          };
+
+          const lightboxGoTo = (index: number) => {
+            lightboxIndex = mod(index);
+            renderLightbox();
+          };
+
+          openLightbox = (index: number) => {
+            lightboxIndex = mod(index);
+            lastFocused = document.activeElement as HTMLElement | null;
+            renderLightbox();
+            lightbox.hidden = false;
+            document.body.style.overflow = 'hidden';
+            lightboxClose.focus();
+          };
+
+          const closeLightbox = () => {
+            if (lightbox.hidden) return;
+            lightbox.hidden = true;
+            document.body.style.overflow = '';
+            // Ne jamais revenir a la photo 1 : le carrousel adopte la
+            // photo affichee dans la lightbox au moment de la fermeture.
+            if (lightboxIndex !== activeIndex) {
+              activeIndex = lightboxIndex;
+              render();
+            }
+            (lastFocused || stage).focus();
+          };
+
+          lightboxClose.addEventListener('click', closeLightbox);
+          lightboxPrev.addEventListener('click', () => lightboxGoTo(lightboxIndex - 1));
+          lightboxNext.addEventListener('click', () => lightboxGoTo(lightboxIndex + 1));
+
+          lightbox.addEventListener('click', (event) => {
+            if (event.target === lightbox) closeLightbox();
+          });
+
+          document.addEventListener('keydown', (event) => {
+            if (lightbox.hidden) return;
+            if (event.key === 'Escape') closeLightbox();
+            if (event.key === 'ArrowRight') { event.preventDefault(); lightboxGoTo(lightboxIndex + 1); }
+            if (event.key === 'ArrowLeft') { event.preventDefault(); lightboxGoTo(lightboxIndex - 1); }
+          });
+
+          let lbDragging = false;
+          let lbDragStartX = 0;
+          const LB_THRESHOLD = 40;
+          const lbStage = lightbox.querySelector<HTMLElement>('.about-v2__lightbox-stage');
+          lbStage?.addEventListener('pointerdown', (event) => {
+            lbDragging = true;
+            lbDragStartX = event.clientX;
+            lbStage.setPointerCapture(event.pointerId);
+          });
+          const endLbDrag = (event: PointerEvent) => {
+            if (!lbDragging) return;
+            lbDragging = false;
+            if (lbStage?.hasPointerCapture(event.pointerId)) lbStage.releasePointerCapture(event.pointerId);
+            const delta = event.clientX - lbDragStartX;
+            if (delta <= -LB_THRESHOLD) lightboxGoTo(lightboxIndex + 1);
+            else if (delta >= LB_THRESHOLD) lightboxGoTo(lightboxIndex - 1);
+          };
+          lbStage?.addEventListener('pointerup', endLbDrag);
+          lbStage?.addEventListener('pointercancel', endLbDrag);
+        }
       }
     }
   </script>
@@ -2506,10 +2627,6 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     height: clamp(230px, 28vw, 400px);
     margin: 0 auto;
     touch-action: pan-y;
-    cursor: grab;
-  }
-  .about-v2__action-stage:active {
-    cursor: grabbing;
   }
   .about-v2__action-stage:focus-visible {
     outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 35%, transparent);
@@ -2526,8 +2643,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     transition: transform 580ms cubic-bezier(0.22, 1, 0.36, 1), opacity 580ms cubic-bezier(0.22, 1, 0.36, 1), filter 580ms cubic-bezier(0.22, 1, 0.36, 1);
     will-change: transform, opacity, filter;
   }
-  .about-v2__action-slide:not(.is-active) {
-    cursor: pointer;
+  /* Seule la centrale est cliquable (pack V3) : elle seule affiche un
+     curseur (zoom-in, ouverture de la lightbox) - les voisines restent
+     purement visuelles, aucun cursor:pointer/grab dessus. */
+  .about-v2__action-slide.is-active {
+    cursor: zoom-in;
   }
   /* Bords arrondis (pack "Carrousel-Premium-Depth-Focus-V2", 2026-09-11 :
      le carrousel s'aligne desormais sur le langage du reste du site) -
@@ -2662,6 +2782,117 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     .about-v2__action-slide,
     .about-v2__action-nav {
       transition: none;
+    }
+  }
+
+  /* Lightbox plein ecran (pack "Carrousel-Premium-Correctifs-Focus-
+     Lightbox-V3", 2026-09-11) : sobre et premium a dessein - fond bleu
+     nuit BOPA (meme token que le reste du site, --mp-navy-deep), image
+     seule en ratio naturel, aucune carte/miniature/effet de profondeur. */
+  .about-v2__lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: clamp(1.5rem, 5vw, 3rem);
+    background: var(--mp-navy-deep, #041a3b);
+  }
+  .about-v2__lightbox-stage {
+    position: relative;
+    width: 100%;
+    max-width: 1400px;
+    height: min(80vh, 100% - 4rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: pan-y;
+  }
+  .about-v2__lightbox-stage img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    -webkit-user-drag: none;
+    user-select: none;
+  }
+  .about-v2__lightbox-meta {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.75);
+  }
+  .about-v2__lightbox-caption {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+  .about-v2__lightbox-counter {
+    display: block;
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.5);
+  }
+  .about-v2__lightbox-close,
+  .about-v2__lightbox-nav {
+    appearance: none;
+    border: 0;
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    transition: background-color 180ms ease;
+  }
+  .about-v2__lightbox-close:hover,
+  .about-v2__lightbox-nav:hover {
+    background: rgba(255, 255, 255, 0.16);
+  }
+  .about-v2__lightbox-close:focus-visible,
+  .about-v2__lightbox-nav:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--bopa-cyan) 55%, transparent);
+    outline-offset: 2px;
+  }
+  .about-v2__lightbox-close {
+    position: absolute;
+    top: clamp(1rem, 3vw, 1.75rem);
+    right: clamp(1rem, 3vw, 1.75rem);
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .about-v2__lightbox-close svg {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+  .about-v2__lightbox-nav {
+    position: absolute;
+    top: 50%;
+    translate: 0 -50%;
+    width: 3rem;
+    height: 3rem;
+  }
+  .about-v2__lightbox-nav svg {
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+  .about-v2__lightbox-nav--prev {
+    left: clamp(0.5rem, 3vw, 2rem);
+  }
+  .about-v2__lightbox-nav--next {
+    right: clamp(0.5rem, 3vw, 2rem);
+  }
+
+  @media (max-width: 760px) {
+    .about-v2__lightbox-nav {
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+    .about-v2__lightbox-stage {
+      height: min(70vh, 100% - 6rem);
     }
   }
 
