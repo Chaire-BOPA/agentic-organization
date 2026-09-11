@@ -212,15 +212,19 @@ button {
      aligne a gauche dedans, ca ajoute juste du blanc a sa droite : c'est
      exactement l'espace logo->Navigation, volontairement le plus large).
      3 "colonnes-espaceurs" explicites remplacent le `gap` uniforme pour
-     que logo->Navigation reste large tandis que Navigation->Nous suivre
-     = Nous suivre->Nous trouver (meme valeur, resserree). */
+     que logo->Navigation reste le plus large tandis que Navigation->Nous
+     suivre = Nous suivre->Nous trouver (meme valeur X, agrandie le
+     2026-09-11 - owner : "beaucoup trop colles", plus de respiration -
+     grandir X reduit d'autant la colonne marque en 1.45fr, qui absorbe
+     la difference sans deplacer le logo ni "Nous trouver", et fait
+     naturellement glisser Navigation vers la gauche). */
   grid-template-columns:
     minmax(250px, 1.45fr)
     clamp(2rem, 4vw, 4rem)
     max-content
-    clamp(1.25rem, 2vw, 2rem)
+    clamp(2rem, 3vw, 3rem)
     max-content
-    clamp(1.25rem, 2vw, 2rem)
+    clamp(2rem, 3vw, 3rem)
     max-content;
   column-gap: 0;
   row-gap: clamp(2rem, 4vw, 4rem);
