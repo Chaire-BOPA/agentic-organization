@@ -318,10 +318,12 @@ button {
      passage, meme jour, owner : "un peu trop collees" - toujours
      clairement un seul bloc, on ne revient pas au grand ecartement
      d'origine) : 0.4rem -> 0.85rem, puis (troisieme passage, meme jour,
-     owner : "espace encore un peu plus") -> 1.1rem. Repris aux anciennes
-     valeurs (1fr egaux + 0.75rem) au palier mobile 1 colonne ci-dessous. */
+     owner : "espace encore un peu plus") -> 1.1rem, puis (quatrieme
+     passage, meme jour, owner : "espace un peu" les deux colonnes) ->
+     1.4rem. Repris aux anciennes valeurs (1fr egaux + 0.75rem) au palier
+     mobile 1 colonne ci-dessous. */
   grid-template-columns: repeat(2, max-content);
-  gap: 0 1.1rem;
+  gap: 0 1.4rem;
 }
 
 /* Rythme vertical des ancres calé sur l'interligne de l'adresse (owner,
