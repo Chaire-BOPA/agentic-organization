@@ -201,24 +201,35 @@ button {
 
 .site-footer__grid {
   display: grid;
-  /* La colonne Navigation a besoin de plus de place que les deux
-     colonnes courtes voisines pour que ses 2 sous-colonnes de 3 ancres
-     ne wrappent jamais sur "Les innovations BOPA"/"Qui sommes-nous ?"
-     (owner, 2026-08-29 - mesuré : 165px/151px de large en une ligne,
-     contre 117px alloués avant ce correctif). Nous suivre cède la place
-     qu'elle n'utilisait pas (LinkedIn/YouTube tient confortablement dans
-     une colonne plus étroite).
-     Nous trouver (dernière colonne) passée en `max-content` (owner,
-     2026-08-29, troisième passage) - elle ne doit plus prendre une part
-     flexible de l'espace mais exactement la largeur de sa ligne
-     d'adresse la plus longue, pour que son bord droit (donc le
-     caractère le plus à droite de l'adresse) tombe pile sur la borne
-     droite du footer - les 3 autres colonnes (déjà en fr) absorbent
-     automatiquement tout le reste de la largeur disponible. */
-  grid-template-columns: minmax(250px, 1.45fr) minmax(356px, 1.2fr) minmax(105px, .4fr) max-content;
-  gap: clamp(2rem, 4vw, 4rem);
+  /* Logo et "Nous trouver" sont les deux ancres FIGEES de la composition
+     (owner, 2026-09-11) : la 1ere colonne (marque) et la derniere
+     (max-content, deja ancree a droite - voir plus bas) restent
+     inchangees a l'identique. Navigation et Nous suivre passent en
+     `max-content` (comme "Nous trouver" deja) pour se lire comme des
+     blocs compacts au lieu de colonnes flexibles etirees ; l'espace
+     ainsi libere est absorbe par la seule colonne encore en `fr`
+     (la marque, 1.45fr - grandir SA colonne ne deplace pas le logo,
+     aligne a gauche dedans, ca ajoute juste du blanc a sa droite : c'est
+     exactement l'espace logo->Navigation, volontairement le plus large).
+     3 "colonnes-espaceurs" explicites remplacent le `gap` uniforme pour
+     que logo->Navigation reste large tandis que Navigation->Nous suivre
+     = Nous suivre->Nous trouver (meme valeur, resserree). */
+  grid-template-columns:
+    minmax(250px, 1.45fr)
+    clamp(2rem, 4vw, 4rem)
+    max-content
+    clamp(1.25rem, 2vw, 2rem)
+    max-content
+    clamp(1.25rem, 2vw, 2rem)
+    max-content;
+  column-gap: 0;
+  row-gap: clamp(2rem, 4vw, 4rem);
   align-items: start;
 }
+.site-footer__grid > :nth-child(1) { grid-column: 1; }
+.site-footer__grid > :nth-child(2) { grid-column: 3; }
+.site-footer__grid > :nth-child(3) { grid-column: 5; }
+.site-footer__grid > :nth-child(4) { grid-column: 7; }
 
 /* Le logo a un déport supplémentaire de var(--space-3) en plus du
    padding de container (.site-footer__brand .wordmark, margin-left) -
@@ -285,11 +296,13 @@ button {
    "Footer-Pleine-Largeur-Header-Mirror-V2", 2026-08-29). */
 .site-footer__nav-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  /* Écart entre les 2 sous-colonnes resserré à 1rem (owner, 2026-08-29) :
-     à 768px (palier tablette 2x2), 1.5rem laissait juste 5px de moins que
-     "Les innovations BOPA" n'a besoin pour tenir sur une ligne. */
-  gap: 0 0.75rem;
+  /* Colonnes resserrees sur leur contenu reel (owner, 2026-09-11 :
+     "rapprocher nettement... pour que Navigation soit percu comme un
+     seul bloc compact") plutot que forcees a largeur egale - fini le
+     blanc invisible avant l'ecart de 12px. Repris aux anciennes valeurs
+     (1fr egaux + 0.75rem) au palier mobile 1 colonne ci-dessous. */
+  grid-template-columns: repeat(2, max-content);
+  gap: 0 0.4rem;
 }
 
 /* Rythme vertical des ancres calé sur l'interligne de l'adresse (owner,
@@ -457,7 +470,21 @@ button {
    2 colonnes plus tôt que de pincer le texte" (règle déjà posée le
    2026-08-29). */
 @media (max-width: 1440px) {
-  .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site-footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    /* Le palier 4 colonnes remplace le `gap` uniforme par des colonnes-
+       espaceurs explicites (voir regle de base) : restaure un gap
+       classique ici, et annule le placement explicite grid-column (1/
+       3/5/7, sans objet sur une grille a seulement 2 colonnes) pour
+       revenir a l'auto-placement 2x2 normal. */
+    column-gap: clamp(2rem, 4vw, 4rem);
+  }
+  .site-footer__grid > :nth-child(1),
+  .site-footer__grid > :nth-child(2),
+  .site-footer__grid > :nth-child(3),
+  .site-footer__grid > :nth-child(4) {
+    grid-column: auto;
+  }
   /* Au palier 2x2, "Nous trouver" occupe toute la largeur de sa cellule
      (~575px) alors que son contenu (carte + adresse) est bien plus
      étroit et reste collé à gauche par défaut - ça laissait un grand
@@ -480,6 +507,13 @@ button {
   .site-footer__grid > :last-child {
     justify-self: stretch;
     margin-right: 0;
+  }
+  /* Navigation reprend ses 2 sous-colonnes egales d'origine (owner :
+     mobile 100% gele - le resserrement "bloc compact" est reserve au
+     desktop/tablette ci-dessus). */
+  .site-footer__nav-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 0.75rem;
   }
   .site-footer__bottom { flex-direction: column; align-items: flex-start; }
 }
