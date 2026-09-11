@@ -267,41 +267,41 @@ const ecoPoints = isEn ? [
 // destructif : le cadre du carrousel utilise object-fit:contain, pas cover.
 const actionPhotos = [
   { file: '01-reflexion-soignants-ingenieurs.jpeg', w: 2048, h: 1536,
-    fr: 'Réflexion entre soignants et ingénieurs',
-    en: 'Healthcare professionals and engineers thinking together' },
+    fr: 'Quand soignants et ingénieurs imaginent ensemble',
+    en: 'When healthcare professionals and engineers imagine together' },
   { file: '02-pancreassight-work-in-progress.jpeg', w: 2048, h: 1536,
     fr: 'PancreasSight, work in progress',
     en: 'PancreasSight, work in progress' },
   { file: '03-bopcam-on-avance.jpeg', w: 1536, h: 2048,
-    fr: 'BOPCAM, on avance !',
-    en: 'BOPCAM, moving forward!' },
+    fr: 'BOPCAM, pour être au cœur du bloc',
+    en: 'BOPCAM, to be at the heart of the operating room' },
   { file: '04-inmachina-cest-parti.jpeg', w: 2000, h: 1500,
-    fr: 'InMachina, c’est parti !',
-    en: 'InMachina, here we go!' },
+    fr: 'InMachina, la recherche prend vie',
+    en: 'InMachina, research comes to life' },
   { file: '05-silence-ca-tourne.jpeg', w: 2048, h: 1536,
     fr: 'Silence, ça tourne !',
     en: 'Quiet on set!' },
   { file: '06-partage.jpeg', w: 2048, h: 1152,
-    fr: 'La Chaire BOPA, c’est aussi le partage',
-    en: 'The BOPA Chair is also about sharing' },
+    fr: 'Présenter, expliquer, échanger : aussi les missions de la Chaire BOPA',
+    en: "Presenting, explaining, exchanging: also part of the BOPA Chair's mission" },
   { file: '07-workshop-wic-2025.jpeg', w: 2048, h: 1536,
     fr: 'Un workshop au WIC 2025',
     en: 'A workshop at WIC 2025' },
   { file: '08-force-du-collectif.jpeg', w: 2048, h: 1536,
-    fr: 'La force du collectif',
-    en: 'The strength of the collective' },
+    fr: 'Croiser les regards pour faire naître les idées',
+    en: 'Bringing perspectives together to spark new ideas' },
   { file: '09-communaute-bopa.jpeg', w: 1600, h: 1200,
-    fr: 'La communauté BOPA, aussi en dehors du bloc',
-    en: 'The BOPA community, beyond the operating room' },
+    fr: 'Des projets, mais aussi des moments partagés',
+    en: 'Projects, but also shared moments' },
   { file: '10-wic-encore-et-toujours.jpeg', w: 2048, h: 1536,
-    fr: 'Le WIC, encore et toujours',
-    en: 'WIC, again and always' },
+    fr: 'Le WIC, là où les idées se rencontrent',
+    en: 'WIC, where ideas meet' },
   { file: '11-fete-de-la-science.jpeg', w: 1600, h: 1200,
     fr: 'La fête de la science à la Chaire BOPA !',
     en: 'Science Festival at the BOPA Chair!' },
   { file: '12-journal-televise-09-25.jpeg', w: 1015, h: 526,
-    fr: 'La Chaire BOPA au journal télévisé, 09/25',
-    en: 'The BOPA Chair on the evening news, 09/25' },
+    fr: 'La Chaire BOPA au journal télévisé',
+    en: 'The BOPA Chair on the evening news' },
 ].map((photo) => ({
   ...photo,
   src: `/images/equipe-en-action/${photo.file}`,
@@ -1950,8 +1950,29 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
           });
         };
 
+        // Legende unique sous la photo centrale (pack "Carrousel-Legendes-
+        // V5", 2026-09-11) : changement de texte via un leger fondu
+        // opacite seule (~180ms), jamais au premier rendu (le texte
+        // correct est deja dans le HTML statique, pas de flash).
+        const CAPTION_FADE_MS = 180;
+        let captionFadeTimer: ReturnType<typeof setTimeout> | null = null;
+        let captionReady = false;
+        const setCaption = (text: string) => {
+          if (!captionReady) {
+            captionEl.textContent = text;
+            captionReady = true;
+            return;
+          }
+          if (captionFadeTimer) clearTimeout(captionFadeTimer);
+          captionEl.style.opacity = '0';
+          captionFadeTimer = setTimeout(() => {
+            captionEl.textContent = text;
+            captionEl.style.opacity = '1';
+          }, CAPTION_FADE_MS);
+        };
+
         const render = () => {
-          captionEl.textContent = captions[activeIndex] || '';
+          setCaption(captions[activeIndex] || '');
           layout();
         };
         render();
@@ -2591,16 +2612,27 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     outline-offset: 2px;
   }
 
-  /* Legende : petite et resserree, collee a la photo. Compteur/jauge
-     x/12 retires (owner, 2026-09-10). */
+  /* Legende unique sous la photo centrale (pack "Carrousel-Legendes-V5",
+     2026-09-11) : editoriale, legere, discrete - jamais de fond/cadre/
+     puce, ne doit pas attirer l'oeil plus que la photo. Fondu opacite
+     seul au changement (JS), aucune translation/mouvement vertical. */
   .about-v2__action-caption {
-    margin: 0.5rem 0 0;
-    min-height: 1.4em;
+    /* La photo active deborde de clamp(230px,28vw,400px)*0.09 sous le
+       stage (scale 1.18 centre verticalement) - sans cette compensation
+       la legende se retrouve masquee sous la photo au lieu d'etre juste
+       en dessous (owner, 2026-09-11 : "relativement proche... pas un
+       grand espace vide"). Meme formule que le correctif marqueur ->
+       photo (au-dessus du carrousel). */
+    margin: calc(clamp(230px, 28vw, 400px) * 0.09 + 10px) 0 0;
+    min-height: 1.3em;
     text-align: center;
-    color: var(--color-muted-light);
+    color: var(--color-muted);
+    font-style: italic;
     font-weight: 400;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     line-height: 1.3;
+    opacity: 1;
+    transition: opacity 180ms ease;
   }
   /* Remerciement : encadre blanc (owner, 2026-09-10), sous le carrousel/
      la legende, assez colle. Largeur ajustee au texte (fit-content) et
@@ -2656,6 +2688,9 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
        formule de hauteur du stage mobile ci-dessus. */
     .about-v2__action-marker {
       margin-bottom: calc(clamp(190px, 62vw, 260px) * 0.09 + 27px);
+    }
+    .about-v2__action-caption {
+      margin-top: calc(clamp(190px, 62vw, 260px) * 0.09 + 10px);
     }
     .about-v2__action-nav {
       display: none;
