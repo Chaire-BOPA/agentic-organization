@@ -2790,16 +2790,24 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
      nuit BOPA (meme token que le reste du site, --mp-navy-deep), image
      seule en ratio naturel, aucune carte/miniature/effet de profondeur. */
   .about-v2__lightbox {
+    /* display:none par defaut : l'attribut [hidden] seul ne suffit pas a
+       masquer l'element une fois qu'une regle auteur lui donne un
+       display explicite (l'origine "auteur" l'emporte toujours sur la
+       regle UA [hidden]{display:none}, quelle que soit la specificite) -
+       d'ou le bug "boite bloquee a l'ouverture, impossible a fermer". */
     position: fixed;
     inset: 0;
     z-index: 1000;
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 1rem;
     padding: clamp(1.5rem, 5vw, 3rem);
     background: var(--mp-navy-deep, #041a3b);
+  }
+  .about-v2__lightbox:not([hidden]) {
+    display: flex;
   }
   .about-v2__lightbox-stage {
     position: relative;
