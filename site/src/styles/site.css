@@ -1530,9 +1530,19 @@ button {
   transition: transform 0.28s ease, box-shadow 0.28s ease, background-color 0.28s ease;
 }
 
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(4, 82, 156, 0.3);
+/* Scope au survol reel (owner, 2026-09-11 - meme symptome persistant sur
+   "Decouvrir nos projets" apres un retour navigateur mobile : cette regle
+   generique n'etait pas couverte par le premier correctif, qui ne visait
+   que .btn-outline-premium:hover/.btn-filled-premium:hover - elle
+   ecrasait quand meme leur box-shadow (contour blanc en inset) au toucher
+   colle, sans poser de bleu sombre puisque celui-la etait deja corrige :
+   d'ou un bouton "presque normal" mais sans contour). Meme cause, meme
+   remede que plus haut. */
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 24px rgba(4, 82, 156, 0.3);
+  }
 }
 
 .btn.btn-outline {
