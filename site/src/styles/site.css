@@ -367,7 +367,10 @@ button {
    colonne en max-content). */
 .site-footer__find {
   display: flex;
-  align-items: flex-start;
+  /* Centree verticalement sur les 3 lignes d'adresse plutot qu'alignee
+     sur leur haut (owner, 2026-09-11 : la vignette Maps "parait trop
+     haute" par rapport au bloc adresse). */
+  align-items: center;
   gap: 0.85rem;
 }
 
@@ -442,10 +445,26 @@ button {
    2026-08-29). */
 @media (max-width: 1440px) {
   .site-footer__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  /* Au palier 2x2, "Nous trouver" occupe toute la largeur de sa cellule
+     (~575px) alors que son contenu (carte + adresse) est bien plus
+     étroit et reste collé à gauche par défaut - ça laissait un grand
+     vide à droite au lieu du bord droit symétrique au bord gauche du
+     logo (owner, 2026-09-11). `justify-self:end` fait porter la cellule
+     à la largeur réelle de son contenu et la colle au bord droit de la
+     grille, comme au palier 4 colonnes (colonne max-content). */
+  .site-footer__grid > :last-child {
+    justify-self: end;
+  }
 }
 
 @media (max-width: 640px) {
   .site-footer__grid { grid-template-columns: 1fr; gap: 2rem; }
+  /* Repasse en 1 colonne pleine largeur : annule le justify-self:end du
+     palier 2x2 ci-dessus, sinon "Nous trouver" resterait collé à droite
+     au lieu de suivre la pleine largeur comme les 3 autres colonnes. */
+  .site-footer__grid > :last-child {
+    justify-self: stretch;
+  }
   .site-footer__bottom { flex-direction: column; align-items: flex-start; }
 }
 
