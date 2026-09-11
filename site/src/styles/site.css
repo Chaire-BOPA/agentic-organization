@@ -1560,11 +1560,6 @@ button {
   box-shadow: inset 0 0 0 2px #fff;
 }
 
-.btn-outline-premium:hover {
-  background: var(--color-accent);
-  box-shadow: inset 0 0 0 2px var(--color-accent);
-}
-
 /* Plein bleu premium au repos (le CTA le plus visible du site) ; se
    fonce encore au survol avec une ombre diffuse discrète. Repointed to
    --bopa-cyan 2026-08-27 for full harmonization (owner's explicit call,
@@ -1575,9 +1570,24 @@ button {
   box-shadow: none;
 }
 
-.btn-filled-premium:hover {
-  background: var(--bopa-blue-1);
-  box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35);
+/* Hover scopé aux vrais dispositifs à survol (owner, 2026-09-11 - "quand
+   on clique dessus [les boutons du Hero] et qu'on revient sur la page, le
+   bouton reste comme étant cliqué") : même cause déjà corrigée ailleurs
+   pour .bopa-projects-v2__cta (voir plus bas) - les navigateurs tactiles
+   appliquent :hover au toucher et ne le lèvent qu'au toucher suivant
+   ailleurs, ce qui restait visible après un retour BFCache. `(hover:
+   hover)` exclut ces deux règles des écrans tactiles purs ; le survol
+   souris desktop est inchangé. */
+@media (hover: hover) {
+  .btn-outline-premium:hover {
+    background: var(--color-accent);
+    box-shadow: inset 0 0 0 2px var(--color-accent);
+  }
+
+  .btn-filled-premium:hover {
+    background: var(--bopa-blue-1);
+    box-shadow: 0 8px 20px rgba(3, 82, 156, 0.35);
+  }
 }
 
 .btn-row {
