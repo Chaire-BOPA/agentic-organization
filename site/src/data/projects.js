@@ -239,11 +239,11 @@ export const phases = [
         image: '/images/projets-v2/charge-cognitive-chirurgien.jpg',
         imagePosition: 'center top',
         fr: {
-          name: 'CogniSurg',
+          name: 'A.C.H.I.L.L.E.',
           description: 'Mieux comprendre la charge mentale du chirurgien et ses liens avec les erreurs et événements indésirables, pour contribuer à sécuriser le geste chirurgical.',
         },
         en: {
-          name: 'CogniSurg',
+          name: 'A.C.H.I.L.L.E.',
           description: "Understanding the surgeon's <strong>mental workload and its links to errors and adverse events</strong>, with the goal of making surgery safer.",
         },
       },
