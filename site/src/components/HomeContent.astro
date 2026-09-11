@@ -2584,7 +2584,13 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     display: flex;
     align-items: center;
     gap: 1.25rem;
-    margin-bottom: clamp(1.6rem, 2.4vw, 2rem);
+    /* La photo active deborde de clamp(230px,28vw,400px)*0.09 au-dessus
+       du stage (scale 1.18 centre sur l'axe vertical) : on compense ce
+       debord dans la marge pour que l'espace visible titre -> photo
+       reste egal a celui entre le bas de la photo et l'encadre de
+       remerciement (owner, 2026-09-11), au lieu de juste espacer le
+       conteneur du stage. */
+    margin-bottom: calc(clamp(230px, 28vw, 400px) * 0.09 + 27px);
   }
   .about-v2__action-number {
     color: var(--bopa-cyan);
@@ -2732,7 +2738,7 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     margin: clamp(1.5rem, 2.4vw, 2rem) auto 0;
     padding: 0.85rem 1.5rem;
     background: #fff;
-    border: 1px solid rgba(45, 185, 227, 0.35);
+    border: 1px solid var(--color-line);
     border-radius: 14px;
     color: var(--color-navy);
     font-weight: 700;
@@ -2768,6 +2774,11 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
   @media (max-width: 760px) {
     .about-v2__action-stage {
       height: clamp(190px, 62vw, 260px);
+    }
+    /* Meme compensation de debord que la regle desktop, mais avec la
+       formule de hauteur du stage mobile ci-dessus. */
+    .about-v2__action-marker {
+      margin-bottom: calc(clamp(190px, 62vw, 260px) * 0.09 + 27px);
     }
     .about-v2__action-nav {
       display: none;
