@@ -593,15 +593,20 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
       <h2 id="bopa-vision-v4-title">{isEn ? <>From innovation to progress</> : <>De l'innovation au progrès</>}</h2>
 
       <p class="bopa-vision-v4__intro">
+        <strong>
+          {isEn
+            ? "Our ambition is not to innovate for innovation's sake, but to turn innovation into progress for everyone."
+            : "Notre ambition n'est pas d'innover pour innover, mais de transformer l'innovation en progrès pour tous."}
+        </strong>
+      </p>
+      <p class="bopa-vision-v4__intro">
         {isEn ? (
           <>
-            <strong>Our ambition is not to innovate for innovation's sake, but to turn innovation into progress for everyone.</strong><br /><br />
             However effective it may be, an innovation only transforms practice if it can truly be adopted and deployed.
             BOPA builds its projects around three essential conditions to take innovation from prototype to shared progress.
           </>
         ) : (
           <>
-            <strong>Notre ambition n'est pas d'innover pour innover, mais de transformer l'innovation en progrès pour tous.</strong><br /><br />
             Une innovation, aussi performante soit-elle, ne transforme les pratiques que si elle peut être réellement adoptée et déployée.
             BOPA développe ses projets autour de trois conditions essentielles pour faire passer l'innovation du prototype au progrès partagé.
           </>
