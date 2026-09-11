@@ -1914,12 +1914,15 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         // gardee positionnee pour pouvoir re-apparaitre en fondu plutot
         // que de sauter. Decalages en clamp() pour rester proportionnes
         // du mobile au grand desktop, comme le reste du site (pack
-        // "Carrousel-Infinite-Animation-Precision-V1", 2026-09-10 : seuls
-        // les scales/opacites changent ici, la composition/les offsets
-        // restent ceux deja valides).
+        // "Carrousel-Premium-Depth-Focus-V2", 2026-09-11 : rendu "focus
+        // photographique en profondeur" - scale/opacite/flou tres marques,
+        // la centrale devient le seul vrai point focal ; positions/offsets
+        // inchanges).
         const OFFSET = ['0px', 'clamp(150px, 19vw, 250px)', 'clamp(260px, 32vw, 420px)', 'clamp(340px, 40vw, 520px)'];
-        const SCALE = [1, 0.82, 0.68, 0.68];
-        const OPACITY = [1, 0.45, 0.12, 0];
+        const SCALE = [1, 0.6, 0.42, 0.42];
+        const OPACITY = [1, 0.35, 0.1, 0];
+        const BLUR = [0, 3, 6, 6];
+        const Z_INDEX = [30, 20, 10, 0];
 
         let activeIndex = 0;
         const layout = () => {
@@ -1934,8 +1937,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
             const offsetExpr = dir === 0 ? '0px' : `calc(${dir} * ${OFFSET[dist]})`;
             slide.style.transform = `translate(-50%, -50%) translateX(${offsetExpr}) scale(${SCALE[dist]})`;
             slide.style.opacity = String(OPACITY[dist]);
-            slide.style.zIndex = String(100 - dist);
-            slide.style.pointerEvents = dist === 0 ? 'auto' : 'none';
+            slide.style.filter = `blur(${BLUR[dist]}px)`;
+            slide.style.zIndex = String(Z_INDEX[dist]);
+            // Cliquables : centrale + les 2 niveaux de voisines visibles
+            // (pack : "clic direct sur une photo laterale -> devient
+            // centrale"), jamais les rangs invisibles au-dela.
+            slide.style.pointerEvents = dist <= 2 ? 'auto' : 'none';
             slide.classList.toggle('is-active', dist === 0);
           });
         };
@@ -1947,12 +1954,12 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         render();
 
         // Boucle reellement infinie (flèches toujours actives, jamais de
-        // saut) + verrou anti-empilement : une transition (~480ms) doit
+        // saut) + verrou anti-empilement : une transition (~580ms) doit
         // finir proprement avant qu'une autre ne parte ; un clic pendant
         // la transition en cours est mis en file (un seul, le plus recent
         // ecrase le precedent) plutot que de lancer une 2e animation en
         // parallele.
-        const ANIM_MS = 480;
+        const ANIM_MS = 580;
         let animating = false;
         let pendingTarget: number | null = null;
 
@@ -1986,6 +1993,17 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
         stage.addEventListener('keydown', (event) => {
           if (event.key === 'ArrowRight') { event.preventDefault(); goTo(currentTarget() + 1); }
           if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(currentTarget() - 1); }
+        });
+
+        // Clic direct sur une photo laterale (-1/-2/+1/+2) : elle devient
+        // centrale avec exactement la meme animation que via les flèches
+        // (pack "Carrousel-Premium-Depth-Focus-V2") - jamais au survol.
+        stage.addEventListener('click', (event) => {
+          const slideEl = (event.target as HTMLElement).closest<HTMLElement>('[data-action-slide]');
+          if (!slideEl) return;
+          const idx = slides.indexOf(slideEl);
+          if (idx === -1) return;
+          goTo(idx);
         });
 
         // Drag/swipe (souris + tactile + stylet, un seul mecanisme -
@@ -2504,20 +2522,28 @@ const chbPhoto = chbPhotoFile ? `/photos/${chbPhotoFile}` : null;
     margin: 0;
     height: 100%;
     width: auto;
-    transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1), opacity 480ms cubic-bezier(0.22, 1, 0.36, 1);
-    will-change: transform, opacity;
+    transition: transform 580ms cubic-bezier(0.22, 1, 0.36, 1), opacity 580ms cubic-bezier(0.22, 1, 0.36, 1), filter 580ms cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity, filter;
   }
+  .about-v2__action-slide:not(.is-active) {
+    cursor: pointer;
+  }
+  /* Bords arrondis (pack "Carrousel-Premium-Depth-Focus-V2", 2026-09-11 :
+     le carrousel s'aligne desormais sur le langage du reste du site) -
+     meme rayon EXACT que .bopa-project-card (regle d'or des coins de
+     carte), jamais une valeur inventee. */
   .about-v2__action-slide img {
     display: block;
     height: 100%;
     width: auto;
     max-width: none;
+    border-radius: 14px;
     -webkit-user-drag: none;
     user-select: none;
   }
-  /* Seule exception a "aucun cadre" : une ombre tres douce sous la photo
-     active, pour qu'elle "domine immediatement la composition" (owner)
-     sans pour autant devenir un cadre visible. */
+  /* Seule exception au reste ("aucune bordure/aplat ajoute") : une ombre
+     tres douce sous la photo active, pour qu'elle "domine immediatement
+     la composition" (owner) sans devenir un cadre visible. */
   .about-v2__action-slide.is-active img {
     box-shadow: 0 24px 48px -20px rgba(4, 35, 56, 0.35);
   }
